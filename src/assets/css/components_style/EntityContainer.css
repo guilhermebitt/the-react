@@ -1,0 +1,16 @@
+.entity-container {
+    display: flex;
+    flex-direction: column;
+    height: 80%;
+    width: 25%;
+    padding: 1rem;
+}
+
+img {
+    max-width: fill;
+}
+
+h2 {
+    font-size: 1rem;
+    margin: 0.5rem 0;
+}

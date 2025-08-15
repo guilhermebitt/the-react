@@ -1,0 +1,31 @@
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+}
+
+h1 {
+    width: 100%;
+    margin: 5px;
+}
+
+.x-section {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.x-section.top {
+    max-height: 8%;
+}
+
+.x-section.middle {
+    max-height: 70%;
+}
+
+.x-section.bottom {
+    max-height: 22%;
+}

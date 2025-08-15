@@ -1,0 +1,9 @@
+{
+  "name": "Player",
+  "img": "/assets/images/the_witcher.jpg",
+  "stats": {
+    "health": 100,
+    "attack": 10,
+    "defense": 5
+  }
+}

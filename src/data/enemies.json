@@ -1,0 +1,20 @@
+{
+  "goblin": {
+    "name": "Goblin",
+    "img": "/assets/images/the_witcher.jpg",
+    "stats": {
+      "health": 100,
+      "attack": 10,
+      "defense": 5
+    }
+  },
+  "troll": {
+    "name": "Troll",
+    "img": "/assets/images/the_witcher.jpg",
+    "stats": {
+      "health": 80,
+      "attack": 15,
+      "defense": 8
+    }
+  }
+}

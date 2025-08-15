@@ -1,0 +1,8 @@
+div.action-buttons-container {
+  display: grid;
+  width: 25%;
+  grid: 50px 50px / 50% 50%;
+  justify-content: space-around;
+  padding: 1rem;
+}
+
