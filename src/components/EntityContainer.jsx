@@ -1,15 +1,23 @@
-import '../assets/css/components_style/EntityContainer.css';
-
-// Requirements
+// Dependencies
 import { useEffect } from 'react';
 
-function EntityContainer(props) {
+// Components
+import Stats from "./Stats";
 
-  return <div className="entity-container">
-    {/* Renders entity here */}
-    <h2>{props.entity?.name}</h2>
-    <img src={props.entity?.img} alt="entity image" />
-  </div>;
+// Stylesheet
+import '../assets/css/components_style/EntityContainer.css';
+
+
+
+function EntityContainer({entity}) {
+
+  return (
+    <div className="entity-container">
+      <h2>{entity?.name}</h2>
+      <img src={entity?.img} alt="entity image" />
+      <Stats entity={entity} />
+    </div>
+  );
 }
 
 export default EntityContainer;

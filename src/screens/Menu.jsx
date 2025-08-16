@@ -3,7 +3,7 @@ import '../assets/css/screens_style/menus.css';
 
 function Menu() {
   return (
-    <main>
+    <main id='menu'>
       <h1>The</h1>
       <Link to="/game">
         <button>Play</button>

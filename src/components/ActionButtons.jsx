@@ -8,8 +8,8 @@ function ActionButtons(props) {
   <div className="action-buttons-container">
     <button onClick={props.attack}>Attack</button>
     <button onClick={props.sendMsg}>Message</button>
-    <button>Use Item</button>
-    <button>Run</button>
+    <button onClick={null}>Use Item</button>
+    <button onClick={props.run}>Run</button>
   </div>
   );
 }

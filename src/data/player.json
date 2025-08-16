@@ -2,8 +2,12 @@
   "name": "Player",
   "img": "/assets/images/the_witcher.jpg",
   "stats": {
+    "maxHealth": 100,
     "health": 100,
+    "maxStamina": 100,
+    "stamina": 100,
     "attack": 10,
-    "defense": 5
+    "defense": 5,
+    "money": 0
   }
 }

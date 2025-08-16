@@ -1,11 +1,12 @@
 // Data
 import playerData from '../data/player.json' with { type: 'json' };
 import enemiesData from '../data/enemies.json' with { type: 'json' };
+import gameData from '../data/game.json' with { type: 'json' };
 
 // Dependencies
 import { useEffect } from 'react';
 import { useLocalStorage } from 'usehooks-ts';
-import { attack, phrase } from '../scripts/playerActions.js';
+import { attack, phrase, turnHandler } from '../scripts/functions.js';
 
 // Components
 import EntityContainer from '../components/EntityContainer';
@@ -19,18 +20,16 @@ import '../assets/css/screens_style/Game.css';
 
 function Game() {
 
-  const enemyData = enemiesData['goblin']; // Assuming you want the first enemy for now
+  const enemyData = enemiesData['goblin'];
 
-  const [player, setPlayer] = useLocalStorage('player', playerData);
+  // Setting the localStorage
+  const [player] = useLocalStorage('player', playerData);
   const [enemy, setEnemy] = useLocalStorage('enemy', enemyData);
+  const [currentTurn, setCurrentTurn] = useLocalStorage('currentTurn', gameData.currentTurn);
   const [terminalText, setTerminalText] = useLocalStorage('terminalText', []);
 
-  useEffect(() => {
-    console.log(player.stats.health);
-  }, [player.stats.health]);
-
   return (
-    <main>
+    <main id='game'>
       {/* TOP SECTION */}
       <section className='x-section top'>
         <h1>The</h1>
@@ -48,7 +47,11 @@ function Game() {
 
       {/* BOTTOM OPTIONS AND INVENTORY */}
       <section className='x-section bottom'>
-        <ActionButtons attack={() => attack(setPlayer)} sendMsg={() => phrase(setTerminalText,'p', 'Hi! ')} />
+        <ActionButtons 
+          attack={() => attack(setEnemy, currentTurn)} 
+          sendMsg={() => phrase(setTerminalText, 'p', 'Hi! ')}
+          run={() => turnHandler(setCurrentTurn, 'enemy')}
+        />
         <OptionButtons />
       </section>
     </main>
