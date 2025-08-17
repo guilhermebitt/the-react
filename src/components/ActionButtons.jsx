@@ -1,5 +1,5 @@
 // Stylesheet
-import '../assets/css/components_style/buttons.css';
+import '../assets/css/components_style/ActionButtons.css';
 
 
 

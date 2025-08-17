@@ -13,19 +13,14 @@ function Stats({entity}) {
   const [staminaPercent, setStaminaPercent] = useState(100);
 
   useEffect(() => {
-    console.log(entity?.stats?.maxHealth);
     setHealthPercent(calcPercent(entity?.stats?.health, entity?.stats?.maxHealth));
   }, [entity?.stats.health]);
 
   useEffect(() => {
-    console.log(entity?.stats?.maxStamina);
     setStaminaPercent(calcPercent(entity?.stats?.stamina, entity?.stats?.maxStamina));
   }, [entity?.stats.stamina]);
 
-  const calcPercent = (hp, maxHp) => {
-    console.log(hp, maxHp);
-    return (hp / maxHp) * 100;
-  }
+  const calcPercent = (hp, maxHp) => (hp / maxHp) * 100;
 
   return (
     <div className="stats-container">

@@ -26,3 +26,6 @@ build/
 
 # Vite specific
 .vite/
+
+# Other files
+todo.md

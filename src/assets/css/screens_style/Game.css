@@ -25,17 +25,8 @@ h1 {
 }
 
 .x-section.top {
+    position: relative;
     max-height: 10%;
-}
-
-.x-section.top>* {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: rgb(0, 0, 0, 0.3);
-    border-radius: 5px;
-    margin: 0px;
-    height: 100%;
 }
 
 .x-section.middle {

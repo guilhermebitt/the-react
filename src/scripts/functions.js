@@ -13,9 +13,9 @@ export function attack(setEnemy, currentTurn) {
 }
 
 // Function to send a message to the terminal
-export function phrase(setTerminalText, tag, text) {
-  const msg = `<${tag}>${text}</${tag}>`;
-  if (text) setTerminalText(prev => [...prev, msg]);
+export function phrase(setTerminalText, tag, text, className) {
+  const msg = `<${tag} className="${className ? className : "default-msg"}">${text}</${tag}>`;
+  if (text) setTerminalText(prev => [msg, ...prev]);
 }
 
 // Function to handle turn changes

@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom';
-import '../assets/css/components_style/buttons.css';
+import '../assets/css/components_style/OptionButtons.css';
 
 
 
 function OptionButtons() {
   return (
-  <div className="action-buttons-container">
+  <div className="options-menu-container">
     <button>Mute</button>
     <button>Log</button>
     <Link to="/settings">

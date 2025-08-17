@@ -13,9 +13,12 @@ import EntityContainer from '../components/EntityContainer';
 import ActionButtons from '../components/ActionButtons.jsx';
 import OptionButtons from '../components/OptionButtons.jsx';
 import Terminal from '../components/Terminal.jsx';
+import Header from '../components/Header.jsx';
 
 // Stylesheet
 import '../assets/css/screens_style/Game.css';
+import { current } from 'immer';
+
 
 
 function Game() {
@@ -26,13 +29,28 @@ function Game() {
   const [player] = useLocalStorage('player', playerData);
   const [enemy, setEnemy] = useLocalStorage('enemy', enemyData);
   const [currentTurn, setCurrentTurn] = useLocalStorage('currentTurn', gameData.currentTurn);
-  const [terminalText, setTerminalText] = useLocalStorage('terminalText', []);
+  const [,setTerminalText] = useLocalStorage('terminalText', []);
+
+  // Handling enemy's turn
+  useEffect(() => {
+    // Defining a timer (this will stay here 
+    // just to remember how to do it)
+    const timer = setTimeout(() => {
+      if (currentTurn === "enemy") {
+        setCurrentTurn("player");
+        phrase(setTerminalText, 'p', 'Its your turn!')
+      };
+    }, 1000); // 1 second
+
+    // Cleaning the timer
+    return () => clearTimeout(timer);
+  }, [currentTurn]);
 
   return (
     <main id='game'>
       {/* TOP SECTION */}
       <section className='x-section top'>
-        <h1>The</h1>
+        <Header />
       </section>
 
       {/* GAME CONTENT */}
@@ -49,10 +67,9 @@ function Game() {
       <section className='x-section bottom'>
         <ActionButtons 
           attack={() => attack(setEnemy, currentTurn)} 
-          sendMsg={() => phrase(setTerminalText, 'p', 'Hi! ')}
+          sendMsg={() => phrase(setTerminalText, 'p', 'Hi!')}
           run={() => turnHandler(setCurrentTurn, 'enemy')}
         />
-        <OptionButtons />
       </section>
     </main>
   );
