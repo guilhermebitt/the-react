@@ -1,6 +1,6 @@
 {
   "name": "Player",
-  "img": "/assets/images/the_witcher.jpg",
+  "img": "/assets/entities/the_player.png",
   "stats": {
     "maxHealth": 100,
     "health": 100,
