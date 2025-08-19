@@ -4,12 +4,12 @@
   "currentAnim": "standBy",
   "animations": {
     "standBy": [{
-      "0": "/assets/entities/the_hero_up.png",
-      "1": "/assets/entities/the_hero_down.png"
-    }, 1000, true],
+        "0": "/assets/entities/player/player0.png",
+        "1": "/assets/entities/player/player1.png"
+      }, 1000, true],
     "hurt": [{
-      "0": "/assets/images/potion.png",
-      "1": "/assets/images/the_witcher.jpg"
+      "0": "/assets/entities/goblin/goblin0.png",
+        "1": "/assets/entities/goblin/goblin1.png"
     }, 300, false]
   },
   "stats": {
@@ -20,5 +20,6 @@
     "attack": 10,
     "defense": 5,
     "money": 0
-  }
+  },
+  "actions": 2
 }

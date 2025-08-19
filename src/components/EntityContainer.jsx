@@ -37,11 +37,11 @@ function EntityContainer({entityData}) {
 
     if (resetAnim) {
       setEntity(produce(draft => {
-      draft.currentAnim = 'standBy';
-      }))
-
+        draft.currentAnim = 'standBy';
+        }));
       setResetAnim(false);
     }
+
   }, [gameTick]);
 
 
@@ -70,7 +70,10 @@ function EntityContainer({entityData}) {
       setFrame(animationFrames[index]);
 
       if (!loop && index === animationFrames.length - 1) {
-        setResetAnim(true);
+        // Timer to keep the last frame for at least the frameDuration
+        const timer = setTimeout(() => {
+          setResetAnim(true);
+        }, frameDuration);
         clearInterval(interval);
       }
     }, frameDuration);
