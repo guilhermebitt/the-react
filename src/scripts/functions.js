@@ -19,6 +19,15 @@ export function phrase(setTerminalText, tag, text, className) {
 }
 
 // Function to handle turn changes
-export function turnHandler(setCurrentTurn, turn) {
-  setCurrentTurn(turn);
+export function turnHandler(setGame, turn) {
+  setGame(produce(draft => {
+      draft.currentTurn = turn;
+  }));
+}
+
+// Changing the player animation
+export function changeAnim(setPlayer, anim) {
+  setPlayer(produce(draft => {
+      draft.currentAnim = anim;
+  }));
 }

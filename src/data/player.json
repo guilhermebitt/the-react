@@ -1,6 +1,17 @@
 {
   "name": "Player",
-  "img": "/assets/entities/the_player.png",
+  "img": "/assets/entities/the_hero_up.png",
+  "currentAnim": "standBy",
+  "animations": {
+    "standBy": [{
+      "0": "/assets/entities/the_hero_up.png",
+      "1": "/assets/entities/the_hero_down.png"
+    }, 1000, true],
+    "hurt": [{
+      "0": "/assets/images/potion.png",
+      "1": "/assets/images/the_witcher.jpg"
+    }, 300, false]
+  },
   "stats": {
     "maxHealth": 100,
     "health": 100,

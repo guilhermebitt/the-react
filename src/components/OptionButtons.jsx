@@ -1,4 +1,7 @@
+// Dependencies
 import { Link } from 'react-router-dom';
+
+// Stylesheet
 import '../assets/css/components_style/OptionButtons.css';
 
 

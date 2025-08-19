@@ -1,6 +1,5 @@
 // Dependencies
 import { useEffect, useState } from "react";
-import { useLocalStorage } from "usehooks-ts";
 
 // Stylesheets
 import '../assets/css/components_style/Stats.css';
