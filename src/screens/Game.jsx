@@ -1,12 +1,13 @@
 // Data
-import playerData from '../data/player.json' with { type: 'json' };
-import enemiesData from '../data/enemies.json' with { type: 'json' };
-import gameData from '../data/game.json' with { type: 'json' };
+import playerJson from '../data/player.json' with { type: 'json' };
+import enemiesJson from '../data/enemies.json' with { type: 'json' };
+import gameJson from '../data/game.json' with { type: 'json' };
 
 // Dependencies
 import { useEffect } from 'react';
 import { useLocalStorage } from 'usehooks-ts';
-import { attack, phrase, turnHandler, changeAnim } from '../scripts/functions.js';
+import { phrase, turnHandler } from '../scripts/functions.js';
+import { Entity } from '../scripts/entities.js';
 import { produce } from "immer";
 
 // Components
@@ -21,28 +22,29 @@ import '../assets/css/screens_style/Game.css';
 
 
 function Game() {
-
-  const enemyData = enemiesData['goblin'];
-
   // Setting the localStorage
-  const [player, setPlayer] = useLocalStorage('player', playerData);
-  const [enemy, setEnemy] = useLocalStorage('enemy', enemyData);
-  const [game, setGame] = useLocalStorage('game', gameData);
+  const [playerData, setPlayerData] = useLocalStorage('player', playerJson);
+  const [enemyData, setEnemyData] = useLocalStorage('enemy', enemiesJson['goblin']);
+  const [game, setGame] = useLocalStorage('game', gameJson);
   const [, setTerminalText] = useLocalStorage('terminalText', []);
   const [, setGameTick] = useLocalStorage('gameTick', 0);
+
+  // Setting entities
+  const player = new Entity(playerData, setPlayerData);
+  const enemy = new Entity(enemyData, setEnemyData);
 
   // Load Game:
   useEffect(() => {
     // setting the gameTickSpeed
     const tickTime = game.gameTickSpeed; // default is 1000
-    setPlayer(produce(draft => {
-      draft.animations.standBy[1] = tickTime;
-      console.log(draft.standBy)
-    }));
-    setEnemy(produce(draft => {
+    /*
+    player.setData(produce(draft => {
       draft.animations.standBy[1] = tickTime;
     }));
-
+    enemy.setData(produce(draft => {
+      draft.animations.standBy[1] = tickTime;
+    }));
+    */
     const intervalId = setInterval(() => {
       setGameTick(prev => prev + 1);
     }, tickTime);
@@ -74,7 +76,7 @@ function Game() {
     return () => clearTimeout(timer);
   }, [game.currentTurn]);
 
-  return (
+  return (player) && (
     <main id='game'>
       {/* TOP SECTION */}
       <section className='x-section top'>
@@ -83,19 +85,18 @@ function Game() {
 
       {/* GAME CONTENT */}
       <section className='x-section middle'>
-        <EntityContainer entity={player} />
+        <EntityContainer entityData={player} />
 
         <Terminal />
 
-        <EntityContainer entity={enemy} />
-
+        <EntityContainer entityData={enemy} />
       </section>
 
       {/* ACTION BUTTONS */}
       <section className='x-section bottom'>
         <ActionButtons 
-          attack={() => attack(setEnemy, game.currentTurn)} 
-          changeAnim={() => changeAnim(setPlayer, "hurt")}
+          attack={() => game.currentTurn === 'player' && player.attack(enemy, 1)} 
+          changeAnim={() => player.changeAnim('hurt')} 
           sendMsg={() => phrase(setTerminalText, 'p', 'Hi!')}
           run={() => turnHandler(setGame, 'enemy')}
         />

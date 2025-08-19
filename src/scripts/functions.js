@@ -4,11 +4,12 @@ import { produce } from "immer";
 
 
 // Function to reduce enemy's life
-export function attack(setEnemy, currentTurn) {
+export function attack(enemy, setEnemy, currentTurn) {
   if (currentTurn === "player") {
-    setEnemy(produce(draft => {
+    /*setEnemy(produce(draft => {
       draft.stats.health -= 1;
-    }));
+    }));*/
+    setEnemy(enemy.takeDamage(1));
   }
 }
 
@@ -21,13 +22,6 @@ export function phrase(setTerminalText, tag, text, className) {
 // Function to handle turn changes
 export function turnHandler(setGame, turn) {
   setGame(produce(draft => {
-      draft.currentTurn = turn;
-  }));
-}
-
-// Changing the player animation
-export function changeAnim(setPlayer, anim) {
-  setPlayer(produce(draft => {
-      draft.currentAnim = anim;
+    draft.currentTurn = turn;
   }));
 }

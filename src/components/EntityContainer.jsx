@@ -11,7 +11,10 @@ import '../assets/css/components_style/EntityContainer.css';
 
 
 
-function EntityContainer({entity}) {
+function EntityContainer({entityData}) {
+  const entity = entityData.data;
+  const setEntity = entityData.setData;
+
   // Getting useStates
   const [frame, setFrame] = useState(entity?.img);
   const [loop, setLoop] = useState(true);
@@ -33,13 +36,9 @@ function EntityContainer({entity}) {
     !startAnim && setStartAnim(true);
 
     if (resetAnim) {
-      entity?.name === "Player" ?
-      setPlayer(produce(draft => {
+      setEntity(produce(draft => {
       draft.currentAnim = 'standBy';
-      })) :
-      setEnemy(produce(draft => {
-      draft.currentAnim = 'standBy';
-      }));
+      }))
 
       setResetAnim(false);
     }
