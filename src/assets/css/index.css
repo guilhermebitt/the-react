@@ -1,5 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Tiny5&display=swap');
+
 :root {
-    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    font-family: Tiny5, system-ui, Avenir, Helvetica, Arial, sans-serif;
     line-height: 1.5;
     font-weight: 400;
 
@@ -12,9 +14,17 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
+button {
+  font-family: 'Tiny5' !important;
+}
+
 a {
   display: contents;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
   padding: 0;
   margin: 0;
-  text-decoration: none;
 }

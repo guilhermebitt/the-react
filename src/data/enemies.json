@@ -1,9 +1,23 @@
 {
   "goblin": {
     "name": "Goblin",
-    "img": "/assets/images/the_witcher.jpg",
+    "img": "/assets/entities/the_hero_up.png",
+    "currentAnim": "standBy",
+    "animations": {
+      "standBy": [{
+        "0": "/assets/entities/the_hero_up.png",
+        "1": "/assets/entities/the_hero_down.png"
+      }, 1000, true],
+      "hurt": [{
+        "0": "/assets/images/the_witcher.jpg",
+        "1": "/assets/entities/the_hero_down.png"
+      }, 1000, false]
+    },
     "stats": {
+      "maxHealth": 100,
       "health": 100,
+      "maxStamina": 100,
+      "stamina": 100,
       "attack": 10,
       "defense": 5
     }
@@ -12,7 +26,10 @@
     "name": "Troll",
     "img": "/assets/images/the_witcher.jpg",
     "stats": {
+      "maxHealth": 80,
       "health": 80,
+      "maxStamina": 100,
+      "stamina": 100,
       "attack": 15,
       "defense": 8
     }

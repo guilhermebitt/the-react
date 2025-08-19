@@ -1,9 +1,24 @@
 {
   "name": "Player",
-  "img": "/assets/images/the_witcher.jpg",
+  "img": "/assets/entities/the_hero_up.png",
+  "currentAnim": "standBy",
+  "animations": {
+    "standBy": [{
+      "0": "/assets/entities/the_hero_up.png",
+      "1": "/assets/entities/the_hero_down.png"
+    }, 1000, true],
+    "hurt": [{
+      "0": "/assets/images/potion.png",
+      "1": "/assets/images/the_witcher.jpg"
+    }, 300, false]
+  },
   "stats": {
+    "maxHealth": 100,
     "health": 100,
+    "maxStamina": 100,
+    "stamina": 100,
     "attack": 10,
-    "defense": 5
+    "defense": 5,
+    "money": 0
   }
 }

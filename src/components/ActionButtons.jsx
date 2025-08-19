@@ -1,5 +1,5 @@
 // Stylesheet
-import '../assets/css/components_style/buttons.css';
+import '../assets/css/components_style/ActionButtons.css';
 
 
 
@@ -8,8 +8,8 @@ function ActionButtons(props) {
   <div className="action-buttons-container">
     <button onClick={props.attack}>Attack</button>
     <button onClick={props.sendMsg}>Message</button>
-    <button>Use Item</button>
-    <button>Run</button>
+    <button onClick={props.changeAnim}>Change Animation</button>
+    <button onClick={props.run}>Run</button>
   </div>
   );
 }

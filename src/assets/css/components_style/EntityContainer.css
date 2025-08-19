@@ -1,16 +1,20 @@
 .entity-container {
+    background-color: rgb(0, 0, 0, 0.3);
+    border-radius: 5px;
     display: flex;
     flex-direction: column;
-    height: 80%;
+    align-self: flex-start;
+    min-height: 100%;
+    height: fit-content;
     width: 25%;
-    padding: 1rem;
+    padding: 0.5rem;
 }
 
 img {
-    max-width: fill;
+    width: fill;
 }
 
 h2 {
     font-size: 1rem;
-    margin: 0.5rem 0;
+    margin: 0.25rem 0;
 }

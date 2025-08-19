@@ -1,3 +1,5 @@
 {
-  "phase": 0
+  "currentTurn": "none",
+  "phase": 0,
+  "gameTickSpeed": 1000
 }

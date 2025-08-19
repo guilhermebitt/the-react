@@ -1,0 +1,11 @@
+div.action-buttons-container {
+  background-color: rgb(0, 0, 0, 0.3);
+  border-radius: 5px;
+  display: grid;
+  width: 25%;
+  height: 100%;
+  grid: 50% 50% / 50% 50%;
+  justify-content: space-around;
+  padding: 0.5rem;
+}
+
