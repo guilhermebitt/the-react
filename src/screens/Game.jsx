@@ -19,9 +19,10 @@ import Header from '../components/Header.jsx';
 // Stylesheet
 import '../assets/css/screens_style/Game.css';
 
-
-
 function Game() {
+  // Load audios
+  const gameMusic = new Audio('./assets/sounds/musics/the_music.ogg');
+
   // Setting the localStorage
   const [playerData, setPlayerData] = useLocalStorage('player', playerJson);
   const [enemyData, setEnemyData] = useLocalStorage('enemy', enemiesJson['goblin']);
@@ -33,7 +34,7 @@ function Game() {
   const player = new Entities.Entity(playerData, setPlayerData);
   const enemy = new Entities.Goblin(enemyData, setEnemyData);
 
-  // Load Game:
+  // On game load:
   useEffect(() => {
     // setting the gameTickSpeed
     const tickTime = game.gameTickSpeed; // default is 1000
@@ -45,14 +46,10 @@ function Game() {
       draft.animations.standBy[1] = tickTime;
     }));
     
+    // Updating gameTick
     const intervalId = setInterval(() => {
       setGameTick(prev => prev + 1);
     }, tickTime);
-
-    // changing the currentTurn to Player (temporary?)
-    setGame(produce(draft => {
-      draft.currentTurn = "player";
-    }));
 
     return () => {
       clearInterval(intervalId);

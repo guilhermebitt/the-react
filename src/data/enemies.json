@@ -8,7 +8,7 @@
       "standBy": [{
         "0": "/assets/entities/goblin/goblin0.png",
         "1": "/assets/entities/goblin/goblin1.png"
-      }, 1000, true]
+      }, 1000]
     },
     "stats": {
       "maxHealth": 100,

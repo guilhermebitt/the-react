@@ -1,13 +1,25 @@
+@keyframes moveStars {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 70px -70px;
+  }
+}
+
 * {
     box-sizing: border-box;
 }
 
 main#game {
-    position: relative;
-    background-image: url('./assets/images/background_teste.jpg');
-    background-size: cover;
-    background-position: center;
+    position: absolute;
+    height: inherit;
+    width: inherit;
+    background-color: #222228;
+    background-image: url('./assets/images/star-solid-full.svg');
+    background-size: 70px;
     overflow: hidden;
+    animation: moveStars 7s linear infinite;
 }
 
 h1 {
@@ -22,6 +34,7 @@ h1 {
     align-items: center;
     justify-content: space-between;
     padding: 5px;
+    background-color: rgb(0, 0, 0, 0.8);;
 }
 
 .x-section.top {

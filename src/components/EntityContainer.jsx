@@ -17,71 +17,61 @@ function EntityContainer({entityData}) {
 
   // Getting useStates
   const [frame, setFrame] = useState(entity?.img);
-  const [loop, setLoop] = useState(true);
-  const [resetAnim, setResetAnim] = useState(false);
-  const [startAnim, setStartAnim] = useState(false);
+  const [, setStandBy] = useState(true);
+  const [animIndex, setAnimIndex] = useState(0);  // !!! Attention: animation only will be sync if both components starts at same moment
 
-  // Setting the entities and getting the gameTick (for reset the animation loop)
-  const [, setPlayer] = useLocalStorage('player');
-  const [, setEnemy] = useLocalStorage('enemy');
-  const [animIndex, setAnimIndex] = useLocalStorage('animIndex', 0);
+  // Game tick
   const [gameTick] = useLocalStorage('gameTick');
 
-
+  // Checks if the animation changed
+  useEffect(() => {
+    if (entity?.currentAnim !== 'standBy') {
+      setStandBy(false);
+      runAnim();
+    }
+  }, [entity?.currentAnim]);
 
   // Game tick useEffect
   useEffect(() => {
-    setAnimIndex(gameTick % 2);
-
-    !startAnim && setStartAnim(true);
-
-    if (resetAnim) {
-      setEntity(produce(draft => {
-        draft.currentAnim = 'standBy';
-        }));
-      setResetAnim(false);
-    }
-
-  }, [gameTick]);
-
-
-
-  // Controlling the entity animation
-  useEffect(() => {
-    // checks if there is the animation and wait to sync with gameTick
-    if (!entity?.animations?.[entity?.currentAnim] || !startAnim) return;
-
-    // Setting a variable to the animation
-    // It consists in:
+    // Setting a variable to the animation. It consists in:
     // anim[0] -> Object: animation frames
     // anim[1] -> Int: Animation duration
-    // anim[2] -> Boolean: Repeatable
+    const anim = entity?.animations[entity?.currentAnim];
+    const animationFrames = Object.values(anim[0]);
+
+    // Updates the entity's image if the animation is standBy
+    if (entity?.currentAnim === 'standBy') {
+      setFrame(animationFrames[animIndex]);
+    }
+    // Updates the index
+    const nexIndex = animIndex < (animationFrames.length - 1) ? animIndex + 1 : 0;
+    setAnimIndex(nexIndex);
+  }, [gameTick]);
+
+  function runAnim() {
     const anim = entity?.animations[entity?.currentAnim];
     const animationFrames = Object.values(anim[0]);
     const frameDuration = anim[1];
-    setLoop(anim[2]);
 
-    let index = animIndex;
-    //if (entity?.currentAnim === 'standBy') index = animIndex;
-    setFrame(animationFrames[index]); // sets the first frame
+    // Set the first frame and changes the index to next frames
+    setFrame(animationFrames[0]);
+    let index = 1;
 
     const interval = setInterval(() => {
-      index = (index + 1) % animationFrames.length;
-      setFrame(animationFrames[index]);
-
-      if (!loop && index === animationFrames.length - 1) {
-        // Timer to keep the last frame for at least the frameDuration
-        const timer = setTimeout(() => {
-          setResetAnim(true);
-        }, frameDuration);
+      // When the animation get to the last frame
+      if (index === animationFrames.length) {
+        setEntity(produce(draft => {
+          draft.currentAnim = 'standBy';
+        }));
+        setStandBy(true)
         clearInterval(interval);
+      } else {
+        setFrame(animationFrames[index]);
+        console.log('sete', index);
+        index = index + 1;
       }
     }, frameDuration);
-
-    return () => clearInterval(interval);
-  }, [entity?.currentAnim, loop, startAnim]);
-
-
+  }
 
   // Returning the Component
   return (
