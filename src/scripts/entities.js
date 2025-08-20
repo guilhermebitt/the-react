@@ -1,3 +1,4 @@
+// Dependencies
 import { produce } from "immer";
 
 export class Entity {
@@ -7,20 +8,25 @@ export class Entity {
   }
 
   attack(entity, dmg) {
-    entity.take_damage(dmg);
+    entity.takeDamage(dmg);
   }
-  
-  take_damage(amount) {
-    console.log('ouch!')
+
+  takeDamage(amount) {
     this.setData(produce(draft => {
       draft.stats.health -= amount;
     }));
   }
 
+  // Temporary - just to check animations
   changeAnim(anim) {
     this.setData(produce(draft => {
       draft.currentAnim = anim;
   }));
   }
+}
 
+export class Goblin extends Entity {
+  constructor(entity, setEntity) {
+    super(entity, setEntity)
+  }
 }

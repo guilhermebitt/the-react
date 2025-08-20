@@ -61,8 +61,8 @@ function EntityContainer({entityData}) {
     const frameDuration = anim[1];
     setLoop(anim[2]);
 
-    let index = 0;
-    if (entity?.currentAnim === 'standBy') index = animIndex;
+    let index = animIndex;
+    //if (entity?.currentAnim === 'standBy') index = animIndex;
     setFrame(animationFrames[index]); // sets the first frame
 
     const interval = setInterval(() => {

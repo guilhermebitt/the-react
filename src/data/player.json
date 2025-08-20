@@ -1,4 +1,5 @@
 {
+  "entityType": "player",
   "name": "Player",
   "img": "/assets/entities/the_hero_up.png",
   "currentAnim": "standBy",

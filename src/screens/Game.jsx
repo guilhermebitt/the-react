@@ -7,7 +7,7 @@ import gameJson from '../data/game.json' with { type: 'json' };
 import { useEffect } from 'react';
 import { useLocalStorage } from 'usehooks-ts';
 import { phrase, turnHandler } from '../scripts/functions.js';
-import { Entity } from '../scripts/entities.js';
+import * as Entities from '../scripts/entities.js';
 import { produce } from "immer";
 
 // Components
@@ -30,21 +30,21 @@ function Game() {
   const [, setGameTick] = useLocalStorage('gameTick', 0);
 
   // Setting entities
-  const player = new Entity(playerData, setPlayerData);
-  const enemy = new Entity(enemyData, setEnemyData);
+  const player = new Entities.Entity(playerData, setPlayerData);
+  const enemy = new Entities.Goblin(enemyData, setEnemyData);
 
   // Load Game:
   useEffect(() => {
     // setting the gameTickSpeed
     const tickTime = game.gameTickSpeed; // default is 1000
-    /*
+    
     player.setData(produce(draft => {
       draft.animations.standBy[1] = tickTime;
     }));
     enemy.setData(produce(draft => {
       draft.animations.standBy[1] = tickTime;
     }));
-    */
+    
     const intervalId = setInterval(() => {
       setGameTick(prev => prev + 1);
     }, tickTime);
@@ -59,21 +59,11 @@ function Game() {
     };
   }, []);
 
-  // Handling enemy's turn
+  // Handling turn changes
   useEffect(() => {
-    // Defining a timer (this will stay here 
-    // just to remember how to do it)
-    const timer = setTimeout(() => {
-      if (game.currentTurn === "enemy") {
-        setGame(produce(draft => {
-          draft.currentTurn = "player";
-        }));
-        phrase(setTerminalText, 'p', 'Its your turn!')
-      };
-    }, 1000); // 1 second
-
-    // Cleaning the timer
-    return () => clearTimeout(timer);
+    if (game.currentTurn === "enemy") {
+      const action = enemy.turn;
+    };
   }, [game.currentTurn]);
 
   return (player) && (

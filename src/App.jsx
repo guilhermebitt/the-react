@@ -34,7 +34,6 @@ function AppRoutes() {
 
   // change the lastScreen after going to another page
   useEffect(() => {
-    console.log(prevLocationRef.current, location.pathname)
     setLastScreen(prevLocationRef.current);
     prevLocationRef.current = location.pathname;
   }, [location])

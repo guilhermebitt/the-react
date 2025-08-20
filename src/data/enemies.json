@@ -1,5 +1,6 @@
 {
   "goblin": {
+    "entityType": "enemy",
     "name": "Goblin",
     "img": "/assets/entities/goblin/goblin0.png",
     "currentAnim": "standBy",

@@ -11,9 +11,10 @@
 
 .terminal-line {
     text-align: left;
+    width: 100%;
 }
 
-.terminal-line > p {
+.terminal-line > * {
     display: inline;
 }
 
