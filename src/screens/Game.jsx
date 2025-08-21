@@ -2,6 +2,7 @@
 import playerJson from '../data/player.json' with { type: 'json' };
 import enemiesJson from '../data/enemies.json' with { type: 'json' };
 import gameJson from '../data/game.json' with { type: 'json' };
+import settingsJson from '../data/settings.json' with { type: 'json' };
 
 // Dependencies
 import { useEffect } from 'react';
@@ -27,6 +28,7 @@ function Game() {
   const [playerData, setPlayerData] = useLocalStorage('player', playerJson);
   const [enemyData, setEnemyData] = useLocalStorage('enemy', enemiesJson['goblin']);
   const [game, setGame] = useLocalStorage('game', gameJson);
+  const [settings] = useLocalStorage('settings', settingsJson);
   const [, setTerminalText] = useLocalStorage('terminalText', []);
   const [, setGameTick] = useLocalStorage('gameTick', 0);
 

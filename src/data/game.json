@@ -1,5 +1,6 @@
 {
   "currentTurn": "player",
   "phase": 0,
-  "gameTickSpeed": 1000
+  "gameTickSpeed": 1000,
+  "baseHitChance": 0.9
 }

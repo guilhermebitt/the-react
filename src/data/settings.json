@@ -1,4 +1,5 @@
 {
-  "volume": 0,
+  "muted": false,
+  "musicVolume": 0,
   "lastScreen": "menu"
 }

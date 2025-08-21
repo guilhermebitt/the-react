@@ -9,9 +9,6 @@ import { clearStorage } from '../scripts/functions';
 // Stylesheet
 import '../assets/css/screens_style/menus.css';
 
-
-
-
 function Menu() {
   const [currentTurn, setCurrentTurn] = useLocalStorage('currentTurn', gameData.currentTurn);
 

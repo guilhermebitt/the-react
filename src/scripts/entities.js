@@ -1,5 +1,6 @@
 // Dependencies
 import { produce } from "immer";
+import gameData from '../data/game.json' with { type: 'json' };
 import Chance from "chance";
 var chance = new Chance();
 
@@ -9,14 +10,34 @@ export class Entity {
     this.setData = setEntity;
   }
 
+  // Chance to hit an enemy (0 - 1)
+  hitChance(target) {
+    const baseHit = gameData.baseHitChance;
+    const attackerAccuracy = this.data.stats.accuracy ?? 0;
+    const defenderEvasion = target.data.stats.evasion ?? 0;
+    return Math.min(1, Math.max(0, baseHit + attackerAccuracy - defenderEvasion));
+  }
+
   // Attack to entity
-  attack(entity, dmg) {
-    // basically, if you don't pass the dmg value to the function, it will be the entity strength
+  attack(target, dmg) {
+    if (chance.floating({ min: 0, max: 1 }) > this.hitChance(target)) {
+      // Miss
+      return "Errou!";
+    }
+
+    // Hit
+    // basically, if you don't pass the dmg value to the function, it will be the entity attack
     dmg = dmg ?? this.data.stats.attack;
 
-    entity.takeDamage(dmg);
+    // Checking if the entity crit
+    let mod = 0;
+    const crited = (chance.floating({min: 0, max: 1}) < this.data.stats.critChance);
+    crited ? mod = this.data.stats.crit : mod = 1;
+    const finalDmg = Math.max(0, (dmg * mod));
+    
+    let msg = crited ? "Critou!" : "Acertou!";
 
-    const msg = chance.integer({ min: -1, max: 1 })
+    target.takeDamage(finalDmg);
 
     return msg;
   }
