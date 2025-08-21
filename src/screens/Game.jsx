@@ -6,7 +6,7 @@ import gameJson from '../data/game.json' with { type: 'json' };
 // Dependencies
 import { useEffect } from 'react';
 import { useLocalStorage } from 'usehooks-ts';
-import { phrase, turnHandler } from '../scripts/functions.js';
+import * as funcs from '../scripts/functions.js';
 import * as Entities from '../scripts/entities.js';
 import { produce } from "immer";
 
@@ -33,6 +33,9 @@ function Game() {
   // Setting entities
   const player = new Entities.Entity(playerData, setPlayerData);
   const enemy = new Entities.Goblin(enemyData, setEnemyData);
+
+  // Initializing funcs
+  funcs.init(setTerminalText, setGame);
 
   // On game load:
   useEffect(() => {
@@ -78,7 +81,12 @@ function Game() {
     };
   }, [game.currentTurn]);
 
-  return (player) && (
+  function doAttack() {
+    const result = player.attack(enemy);
+    funcs.phrase(result);
+  }
+
+  return (
     <main id='game'>
       {/* TOP SECTION */}
       <section className='x-section top'>
@@ -97,10 +105,10 @@ function Game() {
       {/* ACTION BUTTONS */}
       <section className='x-section bottom'>
         <ActionButtons 
-          attack={() => game.currentTurn === 'player' && player.attack(enemy, 1)} 
+          attack={() => game.currentTurn === 'player' && doAttack()} 
           changeAnim={() => player.changeAnim('hurt')} 
-          sendMsg={() => phrase(setTerminalText, 'p', 'Hi!')}
-          run={() => turnHandler(setGame, 'enemy')}
+          sendMsg={() => funcs.phrase('Hi!')}
+          run={() => funcs.turnHandler('enemy')}
         />
       </section>
     </main>

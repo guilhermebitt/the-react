@@ -18,6 +18,8 @@
       "attack": 10,
       "defense": 5
     },
-    "actions": 2
+    "actions": 2,
+    "loot": {
+    }
   }
 }

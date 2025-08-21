@@ -20,6 +20,10 @@
     "stamina": 100,
     "attack": 10,
     "defense": 5,
+    "crit": 2,
+    "critChance": 0.1,
+    "accuracy": 0.9,
+    "evasion": 0.05,
     "money": 0
   },
   "actions": 2

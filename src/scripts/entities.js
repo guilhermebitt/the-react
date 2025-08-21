@@ -1,5 +1,7 @@
 // Dependencies
 import { produce } from "immer";
+import Chance from "chance";
+var chance = new Chance();
 
 export class Entity {
   constructor(entity, setEntity) {
@@ -7,12 +9,19 @@ export class Entity {
     this.setData = setEntity;
   }
 
-  // Attack to entity?
+  // Attack to entity
   attack(entity, dmg) {
+    // basically, if you don't pass the dmg value to the function, it will be the entity strength
+    dmg = dmg ?? this.data.stats.attack;
+
     entity.takeDamage(dmg);
+
+    const msg = chance.integer({ min: -1, max: 1 })
+
+    return msg;
   }
 
-  // Recieve damage
+  // Receive damage
   takeDamage(amount) {
     this.setData(produce(draft => {
       // Guarantee that the stats exists
