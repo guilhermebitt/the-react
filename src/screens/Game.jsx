@@ -56,6 +56,21 @@ function Game() {
     };
   }, []);
 
+  // Game Music
+  useEffect(() => {
+    gameMusic.loop = true;   // para repetir em loop
+    gameMusic.volume = 0.5;  // volume de 0 a 1
+    gameMusic.muted;
+    gameMusic.play().catch(err => {
+      console.log("Autoplay bloqueado pelo navegador:", err);
+    });
+
+    return () => {
+      gameMusic.pause();
+      gameMusic.currentTime = 0; // reset
+    };
+  }, []);
+
   // Handling turn changes
   useEffect(() => {
     if (game.currentTurn === "enemy") {

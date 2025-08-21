@@ -5,12 +5,12 @@
   "currentAnim": "standBy",
   "animations": {
     "standBy": [{
-        "0": "/assets/entities/player/player0.png",
-        "1": "/assets/entities/player/player1.png"
-      }, 1000],
+      "0": "/assets/entities/player/player0.png",
+      "1": "/assets/entities/player/player1.png"
+    }, 1000],
     "hurt": [{
       "0": "/assets/entities/goblin/goblin0.png",
-        "1": "/assets/entities/goblin/goblin1.png"
+      "1": "/assets/entities/goblin/goblin1.png"
     }, 300]
   },
   "stats": {

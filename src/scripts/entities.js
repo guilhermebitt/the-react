@@ -21,7 +21,7 @@ export class Entity {
   changeAnim(anim) {
     this.setData(produce(draft => {
       draft.currentAnim = anim;
-  }));
+    }));
   }
 }
 
