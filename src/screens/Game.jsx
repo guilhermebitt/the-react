@@ -5,7 +5,7 @@ import gameJson from '../data/game.json' with { type: 'json' };
 import settingsJson from '../data/settings.json' with { type: 'json' };
 
 // Dependencies
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useLocalStorage } from 'usehooks-ts';
 import * as funcs from '../scripts/functions.js';
 import * as Entities from '../scripts/entities.js';
@@ -21,8 +21,7 @@ import Header from '../components/Header.jsx';
 import '../assets/css/screens_style/Game.css';
 
 function Game() {
-  // Load audios
-  const gameMusic = new Audio('./assets/sounds/musics/the_music.ogg');
+  const gameMusicRef = useRef(null);
 
   // Setting the localStorage
   const [playerData, setPlayerData] = useLocalStorage('player', playerJson);
@@ -41,6 +40,7 @@ function Game() {
 
   // On game load:
   useEffect(() => {
+    // ----- TICK SPEED -----
     // setting the gameTickSpeed
     const tickTime = game.gameTickSpeed; // default is 1000
     
@@ -56,25 +56,31 @@ function Game() {
       setGameTick(prev => prev + 1);
     }, tickTime);
 
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, []);
 
-  // Game Music
-  useEffect(() => {
+    // ----- GAME MUSIC -----
+    // Loading music
+    const gameMusic = new Audio('./assets/sounds/musics/the_music.ogg');
     gameMusic.loop = true;   // para repetir em loop
     gameMusic.volume = 0.5;  // volume de 0 a 1
     gameMusic.muted;
     gameMusic.play().catch(err => {
       console.log("Autoplay bloqueado pelo navegador:", err);
     });
+    gameMusicRef.current = gameMusic
+
 
     return () => {
+      clearInterval(intervalId);
       gameMusic.pause();
       gameMusic.currentTime = 0; // reset
+      gameMusicRef.current = null;
     };
   }, []);
+
+  // Mute/Unmute game music
+  useEffect(() => {
+    gameMusicRef.current.muted = settings.muted;
+  }, [settings]);
 
   // Handling turn changes
   useEffect(() => {

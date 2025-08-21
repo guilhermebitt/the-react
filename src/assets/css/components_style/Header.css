@@ -11,18 +11,22 @@ header {
   padding: 5px;
 }
 
-header>button#gear {
+header button.icon-btn {
   display: contents;
+  height: 100%;
   cursor: pointer;
   background-color: rgba(51, 51, 51, 0);
   border: none;
 }
 
 header #gear-icon {
-  height: 1.5rem;
-  position: absolute;
+  height: 100%;
   width: 1.5rem;
-  right: 3%;
+  color: rgba(255, 255, 255, 0.87);
+}
+header #music-icon {
+  height: 70%;
+  width: auto;
   color: rgba(255, 255, 255, 0.87);
 }
 
@@ -32,6 +36,15 @@ div#options {
   right: 3%;
   width: fit-content;
   height: fit-content;
+}
+
+div.h-btn-container {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  height: 2rem;
+  right: 3%;
+  gap: 15px;
 }
 
 /* Just to make the gear rotate*/
@@ -44,3 +57,4 @@ div#options {
   transition: transform 0.3s ease;
   transform: rotate(0deg);
 }
+
