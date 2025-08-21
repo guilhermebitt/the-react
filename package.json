@@ -42,7 +42,8 @@
       {
         "files": [
           "*.jsx",
-          "*.json"
+          "*.json",
+          "*.css"
         ],
         "options": {
           "tabWidth": 2

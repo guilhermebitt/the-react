@@ -15,3 +15,14 @@ export function turnHandler(setGame, turn) {
     draft.currentTurn = turn;
   }));
 }
+
+// Cleaning the localStorage
+export function clearStorage(toKeep) {
+  const storageKeys = Object.keys(localStorage);  // saving the keys before remove since the length of storages changes
+
+  storageKeys.forEach(key => {
+    if (!toKeep.includes(key)) {
+      localStorage.removeItem(key);
+    }
+  })
+}

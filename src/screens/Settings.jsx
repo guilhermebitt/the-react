@@ -18,12 +18,14 @@ function Settings() {
   });
 
   return (
-    <main>
-      <h1>Settings</h1>
-      <button>Option1</button>
-      <Link to={lastScreen}>
-        <button>Back</button>
-      </Link>
+    <main className='menus'>
+      <section>
+        <h1>Settings</h1>
+        <button className='menus' >Option1</button>
+        <Link to={lastScreen}>
+          <button className='menus' >Back</button>
+        </Link>
+      </section>
     </main>
   );
 }

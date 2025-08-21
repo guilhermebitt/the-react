@@ -14,7 +14,7 @@ function OptionButtons() {
     <Link to="/settings">
       <button>Settings</button>
     </Link>
-    <Link to="/">
+    <Link to="/menu">
       <button>Menu</button>
     </Link>
   </div>
