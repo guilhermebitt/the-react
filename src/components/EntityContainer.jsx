@@ -3,9 +3,6 @@ import { useEffect, useState } from 'react';
 import { useLocalStorage } from 'usehooks-ts';
 import { produce } from "immer";
 
-// Components
-import Stats from "./Stats";
-
 // Stylesheet
 import '../assets/css/components_style/EntityContainer.css';
 
@@ -77,7 +74,6 @@ function EntityContainer({entityData}) {
     <div className="entity-container">
       <h2>{entity?.name}</h2>
       <img src={frame} alt="entity image" />
-      <Stats entity={entity} />
     </div>
   );
 }

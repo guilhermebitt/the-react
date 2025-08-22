@@ -21,6 +21,7 @@ import EntityContainer from '../components/EntityContainer';
 import ActionButtons from '../components/ActionButtons.jsx';
 import Terminal from '../components/Terminal.jsx';
 import Header from '../components/Header.jsx';
+import Stats from '../components/Stats.jsx';
 
 // Stylesheet
 import '../assets/css/screens_style/Game.css';
@@ -106,13 +107,18 @@ function Game() {
         <Header />
       </section>
 
-      {/* GAME CONTENT */}
+      {/* MAP SECTION */}
       <section className='x-section middle'>
         <EntityContainer entityData={player} />
+      </section>
+
+      {/* STATS AND TERMINAL */}
+      <section className='x-section middle'>
+        <Stats entity={player.data} />
 
         <Terminal />
 
-        <EntityContainer entityData={enemy} />
+        <Stats entity={enemy.data} />
       </section>
 
       {/* ACTION BUTTONS */}
