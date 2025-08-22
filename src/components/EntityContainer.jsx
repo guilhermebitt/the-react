@@ -73,7 +73,7 @@ function EntityContainer({entityData}) {
   return (
     <div className="entity-container">
       <h2>{entity?.name}</h2>
-      <img src={frame} alt="entity image" />
+      {/*<img src={frame} alt="entity image" />*/}
     </div>
   );
 }

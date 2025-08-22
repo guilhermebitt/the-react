@@ -108,17 +108,15 @@ function Game() {
       </section>
 
       {/* MAP SECTION */}
-      <section className='x-section middle'>
+      <section className='x-section map'>
         <EntityContainer entityData={player} />
       </section>
 
       {/* STATS AND TERMINAL */}
-      <section className='x-section middle'>
+      <section className='x-section statistics'>
         <Stats entity={player.data} />
 
         <Terminal />
-
-        <Stats entity={enemy.data} />
       </section>
 
       {/* ACTION BUTTONS */}
