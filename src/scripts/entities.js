@@ -6,6 +6,7 @@ export class Entity {
     this.data = entity;
     this.setData = setEntity;
   }
+  
   // Generates a random number
   random(max, min=0) {
     const array = new Uint32Array(1);

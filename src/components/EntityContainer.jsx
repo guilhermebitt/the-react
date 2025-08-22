@@ -72,6 +72,7 @@ function EntityContainer({entityData}) {
   // Returning the Component
   return (
     <div className="entity-container">
+      <img src="" alt="game map" id="map" />
       {/*<h2>{entity?.name}</h2>
       <img src={frame} alt="entity image" />*/}
     </div>
