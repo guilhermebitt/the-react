@@ -16,13 +16,13 @@
       "maxStamina": 100,
       "stamina": 100,
       "attack": 10,
-    "strength": 1,
-    "defense": 5,
-    "constitution": 1,
-    "crit": 2,
-    "critChance": 0.1,
-    "accuracy": 0.9,
-    "evasion": 0.05
+      "strength": 1,
+      "defense": 5,
+      "constitution": 1,
+      "crit": 2,
+      "critChance": 10,
+      "accuracy": 90,
+      "evasion": 10
     },
     "actions": 2,
     "loot": {

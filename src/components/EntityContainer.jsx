@@ -67,7 +67,6 @@ function EntityContainer({entityData}) {
         clearInterval(interval);
       } else {
         setFrame(animationFrames[index]);
-        console.log('sete', index);
         index = index + 1;
       }
     }, frameDuration);

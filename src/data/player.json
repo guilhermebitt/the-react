@@ -23,9 +23,9 @@
     "defense": 5,
     "constitution": 1,
     "crit": 2,
-    "critChance": 0.1,
-    "accuracy": 0.9,
-    "evasion": 0.05,
+    "critChance": 10,
+    "accuracy": 90,
+    "evasion": 10,
     "money": 0
   },
   "actions": 2
