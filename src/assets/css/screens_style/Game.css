@@ -47,12 +47,13 @@ h1 {
 }
 
 .x-section.statistics {
-  max-height: 30%;
+  max-height: 35%;
+  gap: 10px;
 }
 
 
 .x-section.bottom {
-  max-height: 20%;
+  max-height: 15%;
 }
 
 .x-section.bottom > div {

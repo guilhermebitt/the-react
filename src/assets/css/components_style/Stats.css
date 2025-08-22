@@ -1,5 +1,25 @@
 div.stats-container {
     width: 50%;
+    height: 100%;
+    border: white solid 1px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem;
+}
+
+div.bar-container {
+    display: flex;
+    align-items: center;
+    height: 15%;
+    h4 {
+        width: 20%;
+        text-align: left;
+    }
+    img {
+        height: 100%;
+        width: fit-content;
+    }
 }
 
 div.bar-bg {
@@ -39,20 +59,21 @@ div.bar-bg > p {
 div.stats {
     display: flex;
     flex-flow: column wrap;
-    justify-content: space-around;
+    align-content: start;
     width: 100%;
-    gap: 5px;
+    height: 70%;
 }
 
 div.stat-holder {
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    width: 100%;
+    width: 50%;
+    height: 33%;
     gap: 5px;
 }
 
-div.stat-holder>img {
+div.stats img {
     width: 30px;
 }
 
