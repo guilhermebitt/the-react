@@ -18,7 +18,7 @@ import { produce } from "immer";
 
 // Components
 import MapContainer from '../components/MapContainer.jsx';
-import EntityContainer from '../components/MapContainer.jsx';
+import EntityContainer from '../components/EntityContainer.jsx';
 import ActionButtons from '../components/ActionButtons.jsx';
 import Terminal from '../components/Terminal.jsx';
 import Header from '../components/Header.jsx';
@@ -32,7 +32,7 @@ function Game() {
 
   // Setting the localStorage
   const [playerData, setPlayerData] = useLocalStorage('player', playerJson);
-  const [enemiesData, setEnemiesData] = useLocalStorage('enemies', [enemiesJson['goblin'], enemiesJson['goblin']]);
+  const [enemiesData, setEnemiesData] = useLocalStorage('enemies', [enemiesJson['goblin'], enemiesJson['goblin'], enemiesJson['goblin']]);
   const [game, setGame] = useLocalStorage('game', gameJson);
   const [settings] = useLocalStorage('settings', settingsJson);
   const [, setTerminalText] = useLocalStorage('terminalText', []);
@@ -112,7 +112,7 @@ function Game() {
 
       {/* MAP SECTION */}
       <section className='x-section map'>
-        <EntityContainer entityData={player} />
+        <MapContainer player={player} enemies={enemies} />
       </section>
 
       {/* STATS AND TERMINAL */}
