@@ -19,6 +19,7 @@ function EntityContainer({entityData}) {
   const [frame, setFrame] = useState(entity?.img);
   const [, setStandBy] = useState(true);
   const [animIndex, setAnimIndex] = useState(0);  // !!! Attention: animation only will be sync if both components starts at same moment
+  const [standByIndex, setStandByIndex] = useState(0);
 
   // Game tick
   const [gameTick] = useLocalStorage('gameTick');
@@ -41,11 +42,12 @@ function EntityContainer({entityData}) {
 
     // Updates the entity's image if the animation is standBy
     if (entity?.currentAnim === 'standBy') {
-      setFrame(animationFrames[animIndex]);
+      setFrame(animationFrames[standByIndex]);
     }
     // Updates the index
-    const nexIndex = animIndex < (animationFrames.length - 1) ? animIndex + 1 : 0;
-    setAnimIndex(nexIndex);
+    // Unfortunately, the standBy animation NEEDS to have only 2 frames, otherwise I'll need to change this (1).
+    const nexIndex = standByIndex < (1) ? standByIndex + 1 : 0;
+    setStandByIndex(nexIndex);
   }, [gameTick]);
 
   function runAnim() {
@@ -63,7 +65,7 @@ function EntityContainer({entityData}) {
         setEntity(produce(draft => {
           draft.currentAnim = 'standBy';
         }));
-        setStandBy(true)
+        setStandBy(true);
         clearInterval(interval);
       } else {
         setFrame(animationFrames[index]);

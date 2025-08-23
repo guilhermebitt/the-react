@@ -33,6 +33,9 @@ export class Entity {
     const attack = this.data.stats.attack;
     const strength = this.data.stats.strength;
 
+    // Executing animation
+    if (this.data.animations.atk) this.data.currentAnim = 'atk';
+
     // Crit
     (this.random(100) > this.data.stats.critChance) ?
     crit = 1 :
