@@ -25,7 +25,7 @@ function Stats({entity}) {
     <div className="stats-container">
       {/* HEALTH BAR */}
       <div className="bar-container">
-        <h4>Health</h4>
+        <img src="./assets/hud/heart.png" alt="" />
         <div className="bar-bg">
           <p>{entity?.stats?.health}/{entity?.stats?.maxHealth}</p>
           <div
@@ -38,7 +38,7 @@ function Stats({entity}) {
       </div>
       {/* STAMINA BAR */}
       <div className="bar-container">
-        <h4>Stamina</h4>
+        <img src="./assets/hud/stamina.png" alt="" />
         <div className="bar-bg">
           <p>{entity?.stats?.stamina}/{entity?.stats?.maxStamina}</p>
           <div

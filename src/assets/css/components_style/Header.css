@@ -36,6 +36,7 @@ div#options {
   right: 3%;
   width: fit-content;
   height: fit-content;
+  z-index: 10;
 }
 
 div.h-btn-container {

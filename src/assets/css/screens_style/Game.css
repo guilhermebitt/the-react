@@ -42,12 +42,18 @@ h1 {
   max-height: 10%;
 }
 
-.x-section.middle {
-  max-height: 70%;
+.x-section.map {
+  max-height: 40%;
 }
 
+.x-section.statistics {
+  max-height: 35%;
+  gap: 10px;
+}
+
+
 .x-section.bottom {
-  max-height: 20%;
+  max-height: 15%;
 }
 
 .x-section.bottom > div {

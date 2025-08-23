@@ -4,9 +4,8 @@
     display: flex;
     flex-direction: column-reverse;
     height: 100%;
-    width: 100%;
+    width: 50%;
     overflow-y: auto;
-    margin: 0.5rem;
     padding: 0rem 1rem;
 }
 
@@ -20,5 +19,5 @@
 }
 
 .terminal-line::before {
-    content: "| ";
+    content: "> ";
 }

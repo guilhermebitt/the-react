@@ -1,32 +1,40 @@
+// Data
+import gameJson from '../data/game.json' with { type: 'json' };
+
 // Dependencies
 import { useEffect, useState } from 'react';
 import { useLocalStorage } from 'usehooks-ts';
+import { faGear, faVolumeHigh, faVolumeMute } from '@fortawesome/free-solid-svg-icons';
 import { produce } from "immer";
 
 // Components
-import Stats from "./Stats";
+import HealthBar from './HealthBar';
 
 // Stylesheet
 import '../assets/css/components_style/EntityContainer.css';
 
 
 
-function EntityContainer({entityData}) {
+function EntityContainer({entityData, id}) {
   const entity = entityData.data;
   const setEntity = entityData.setData;
 
   // Getting useStates
   const [frame, setFrame] = useState(entity?.img);
   const [, setStandBy] = useState(true);
+  const [isDead, setIsDead] = useState(false);
+  const [selected, setSelected] = useState(false);
   const [animIndex, setAnimIndex] = useState(0);  // !!! Attention: animation only will be sync if both components starts at same moment
   const [standByIndex, setStandByIndex] = useState(0);
 
-  // Game tick
+  // Loading Game Storage
+  const [game, setGame] = useLocalStorage('game', gameJson);
   const [gameTick] = useLocalStorage('gameTick');
+  const [, setEnemiesData] = useLocalStorage('enemies');
 
   // Checks if the animation changed
   useEffect(() => {
-    if (entity?.currentAnim !== 'standBy') {
+    if (entity?.currentAnim && entity?.currentAnim !== 'standBy') {
       setStandBy(false);
       runAnim();
     }
@@ -50,6 +58,26 @@ function EntityContainer({entityData}) {
     setStandByIndex(nexIndex);
   }, [gameTick]);
 
+  // Game useEffect
+  useEffect(() => {
+    (game.target === id) ? setSelected(true) : setSelected(false);
+    if (game.currentTurn === 'enemies' && typeof (game.target) === 'number') {
+      setSelected(false)
+      setGame(produce(draft => {
+        draft.target = NaN;
+      }));
+    };
+  }, [game]);
+
+  // Entity useEffect
+  useEffect(() => {
+  if (entityData?.isDead && entityData.isDead() === true) {
+    setEntity(draft => {
+      if (draft) draft.currentAnim = 'death';
+    });
+  }
+}, [entity?.stats?.health]);
+  
   function runAnim() {
     const anim = entity?.animations[entity?.currentAnim];
     const animationFrames = Object.values(anim[0]);
@@ -62,10 +90,12 @@ function EntityContainer({entityData}) {
     const interval = setInterval(() => {
       // When the animation get to the last frame
       if (index === animationFrames.length) {
-        setEntity(produce(draft => {
-          draft.currentAnim = 'standBy';
-        }));
-        setStandBy(true);
+        if (entity?.currentAnim !== 'death') {
+          setEntity(draft => {
+            draft.currentAnim = 'standBy';
+          });
+          setStandBy(true);
+        }
         clearInterval(interval);
       } else {
         setFrame(animationFrames[index]);
@@ -74,14 +104,26 @@ function EntityContainer({entityData}) {
     }, frameDuration);
   }
 
+  function selectTarget() {
+    if (game.currentTurn === 'player' && typeof entity?.id === 'number') {
+      setGame(produce(draft => {
+        draft.target = entity?.id;
+      }));
+    }
+  }
+
   // Returning the Component
-  return (
-    <div className="entity-container">
-      <h2>{entity?.name}</h2>
-      <img src={frame} alt="entity image" />
-      <Stats entity={entity} />
-    </div>
-  );
+  if (!isDead) {
+    return (
+      <div id={`enemy${id+1}`} className={`entity-container ${selected ? 'selected' : ''}`}>
+        <h2>{entity?.name}</h2>
+        {entity?.entityType !== 'player' && <HealthBar entity={entity}/>}
+        <img src={frame} alt="entity image" onClick={selectTarget}/>
+        <div className='shadow'></div>
+        <div className='selectedArrow'>▼</div>
+      </div>
+    );
+  }
 }
 
 export default EntityContainer;

@@ -8,13 +8,20 @@
       "standBy": [{
         "0": "/assets/entities/goblin/goblin0.png",
         "1": "/assets/entities/goblin/goblin1.png"
-      }, 1000]
+      }, 1000],
+      "death": [{
+        "0": "/assets/entities/death/death0.png",
+        "1": "/assets/entities/death/death1.png",
+        "2": "/assets/entities/death/death2.png",
+        "3": "/assets/entities/death/death3.png",
+        "4": "/assets/entities/death/death4.png"
+      }, 100]
     },
     "stats": {
-      "maxHealth": 100,
-      "health": 100,
-      "maxStamina": 100,
-      "stamina": 100,
+      "maxHealth": 20,
+      "health": 20,
+      "maxStamina": 20,
+      "stamina": 20,
       "attack": 10,
       "strength": 1,
       "defense": 5,
