@@ -1,24 +1,47 @@
 {
+  "entityType": "player",
   "name": "Player",
-  "img": "/assets/entities/the_hero_up.png",
+  "img": "/assets/entities/player/hero0.png",
   "currentAnim": "standBy",
   "animations": {
     "standBy": [{
-      "0": "/assets/entities/the_hero_up.png",
-      "1": "/assets/entities/the_hero_down.png"
-    }, 1000, true],
-    "hurt": [{
-      "0": "/assets/images/potion.png",
-      "1": "/assets/images/the_witcher.jpg"
-    }, 300, false]
+      "0": "/assets/entities/player/hero0.png",
+      "1": "/assets/entities/player/hero1.png"
+    }, 1000],
+    "atk": [{
+      "0": "/assets/entities/player/hero_atk0.png",
+      "1": "/assets/entities/player/hero_atk1.png",
+      "2": "/assets/entities/player/hero_atk2.png",
+      "3": "/assets/entities/player/hero_atk1.png",
+      "4": "/assets/entities/player/hero_atk0.png",
+      "5": "/assets/entities/player/hero0.png"
+<<<<<<< HEAD
+    }, 100]
+=======
+    }, 100],
+    "death": [{
+        "0": "/assets/entities/death/death0.png",
+        "1": "/assets/entities/death/death1.png",
+        "2": "/assets/entities/death/death2.png",
+        "3": "/assets/entities/death/death3.png",
+        "4": "/assets/entities/death/death4.png"
+      }, 1000]
+>>>>>>> map
   },
   "stats": {
-    "maxHealth": 100,
-    "health": 100,
-    "maxStamina": 100,
-    "stamina": 100,
+    "maxHealth": 20,
+    "health": 20,
+    "maxStamina": 20,
+    "stamina": 20,
     "attack": 10,
+    "strength": 1,
     "defense": 5,
+    "constitution": 1,
+    "crit": 2,
+    "critChance": 10,
+    "accuracy": 100,
+    "evasion": 10,
     "money": 0
-  }
+  },
+  "actions": 2
 }

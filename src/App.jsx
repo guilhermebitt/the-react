@@ -1,6 +1,5 @@
 // Dependencies
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useRef } from 'react';
 import { useLocalStorage } from 'usehooks-ts';
 
@@ -24,7 +23,7 @@ function App() {
 }
 
 function AppRoutes() {
-
+  const navigate = useNavigate();
   const location = useLocation();
 
   const [lastScreen, setLastScreen] = useLocalStorage('lastScreen', '/');
@@ -34,14 +33,20 @@ function AppRoutes() {
 
   // change the lastScreen after going to another page
   useEffect(() => {
-    console.log(prevLocationRef.current, location.pathname)
     setLastScreen(prevLocationRef.current);
     prevLocationRef.current = location.pathname;
   }, [location])
 
+  // when the user refreshes the page, the game back to /menu
+  useEffect(() => {
+    if (location.pathname !== "/menu") {
+      navigate("/menu", { replace: true });
+    }
+  }, []); // <- só na montagem
+
   return (
     <Routes>
-      <Route index element={<Menu />} />
+      <Route path="/menu" element={<Menu />} />
       <Route path="/game" element={<Game />} />
       <Route path="/settings" element={<Settings />} />
     </Routes>

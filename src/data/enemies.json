@@ -1,37 +1,38 @@
 {
   "goblin": {
+    "entityType": "enemy",
     "name": "Goblin",
-    "img": "/assets/entities/the_hero_up.png",
+    "img": "/assets/entities/goblin/goblin0.png",
     "currentAnim": "standBy",
     "animations": {
       "standBy": [{
-        "0": "/assets/entities/the_hero_up.png",
-        "1": "/assets/entities/the_hero_down.png"
-      }, 1000, true],
-      "hurt": [{
-        "0": "/assets/images/the_witcher.jpg",
-        "1": "/assets/entities/the_hero_down.png"
-      }, 1000, false]
+        "0": "/assets/entities/goblin/goblin0.png",
+        "1": "/assets/entities/goblin/goblin1.png"
+      }, 1000],
+      "death": [{
+        "0": "/assets/entities/death/death0.png",
+        "1": "/assets/entities/death/death1.png",
+        "2": "/assets/entities/death/death2.png",
+        "3": "/assets/entities/death/death3.png",
+        "4": "/assets/entities/death/death4.png"
+      }, 100]
     },
     "stats": {
-      "maxHealth": 100,
-      "health": 100,
-      "maxStamina": 100,
-      "stamina": 100,
+      "maxHealth": 20,
+      "health": 20,
+      "maxStamina": 20,
+      "stamina": 20,
       "attack": 10,
-      "defense": 5
-    }
-  },
-  "troll": {
-    "name": "Troll",
-    "img": "/assets/images/the_witcher.jpg",
-    "stats": {
-      "maxHealth": 80,
-      "health": 80,
-      "maxStamina": 100,
-      "stamina": 100,
-      "attack": 15,
-      "defense": 8
+      "strength": 1,
+      "defense": 5,
+      "constitution": 1,
+      "crit": 2,
+      "critChance": 10,
+      "accuracy": 90,
+      "evasion": 10
+    },
+    "actions": 2,
+    "loot": {
     }
   }
 }

@@ -1,20 +1,59 @@
 .entity-container {
-    background-color: rgb(0, 0, 0, 0.3);
-    border-radius: 5px;
-    display: flex;
-    flex-direction: column;
-    align-self: flex-start;
-    min-height: 100%;
-    height: fit-content;
-    width: 25%;
-    padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-self: flex-start;
+  height: 100%;
 }
 
-img {
-    width: fill;
+.entity-container img {
+  height: 65%;
+  z-index: 1;
 }
 
 h2 {
-    font-size: 1rem;
-    margin: 0.25rem 0;
+  height: 15%;
+  font-size: 1rem;
+  margin: 0px !important;
+}
+
+div.shadow {
+  transform: translateY(-50%);
+  width: 100%;
+  height: 10%;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(ellipse, rgba(0,0,0,0.4), transparent);
+}
+
+.turn div.shadow {
+  background: radial-gradient(ellipse, #11e03066, transparent);
+}
+
+.turn h2 {
+  color: #11e030;
+}
+
+.selectedArrow{
+  display: none;
+  position: absolute;
+  top: -1.25rem;
+  width: 100%;
+  height: fit-content;
+  animation: selectedArrow 2s ease-in-out infinite;
+}
+
+.selected .selectedArrow{
+  display: block;
+}
+
+@keyframes selectedArrow {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  150% {
+    transform: translateY(0);
+  }
 }

@@ -13,6 +13,7 @@
     "@fortawesome/fontawesome-svg-core": "^7.0.0",
     "@fortawesome/free-solid-svg-icons": "^7.0.0",
     "@fortawesome/react-fontawesome": "^0.2.3",
+    "chance": "^1.1.13",
     "html2canvas": "^1.4.1",
     "immer": "^10.1.1",
     "react": "^18.3.1",
@@ -42,7 +43,8 @@
       {
         "files": [
           "*.jsx",
-          "*.json"
+          "*.json",
+          "*.css"
         ],
         "options": {
           "tabWidth": 2

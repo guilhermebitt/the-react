@@ -7,14 +7,16 @@ import '../assets/css/components_style/OptionButtons.css';
 
 
 function OptionButtons() {
+
+  
+
   return (
   <div className="options-menu-container">
-    <button>Mute</button>
     <button>Log</button>
     <Link to="/settings">
       <button>Settings</button>
     </Link>
-    <Link to="/">
+    <Link to="/menu">
       <button>Menu</button>
     </Link>
   </div>

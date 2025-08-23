@@ -25,7 +25,7 @@ function Stats({entity}) {
     <div className="stats-container">
       {/* HEALTH BAR */}
       <div className="bar-container">
-        <h4>Health</h4>
+        <img src="./assets/hud/heart.png" alt="" />
         <div className="bar-bg">
           <p>{entity?.stats?.health}/{entity?.stats?.maxHealth}</p>
           <div
@@ -38,7 +38,7 @@ function Stats({entity}) {
       </div>
       {/* STAMINA BAR */}
       <div className="bar-container">
-        <h4>Stamina</h4>
+        <img src="./assets/hud/stamina.png" alt="" />
         <div className="bar-bg">
           <p>{entity?.stats?.stamina}/{entity?.stats?.maxStamina}</p>
           <div
@@ -53,11 +53,11 @@ function Stats({entity}) {
       <div className="stats">
         <div className="stat-holder">
           <img src="./assets/hud/sword.png" alt="" />
-          <p>Attack: <span>{entity?.stats?.attack}</span></p>
+          <p>Atk | Str: <span>{entity?.stats?.attack} | {entity?.stats?.strength}</span></p>
         </div>
         <div className="stat-holder">
           <img src="./assets/hud/shield.png" alt="" />
-          <p>Defense: <span>{entity?.stats?.defense}</span></p>
+          <p>Def | Con: <span>{entity?.stats?.defense} | {entity?.stats?.constitution}</span></p>
         </div>
         {
         entity?.name === "Player" && 
