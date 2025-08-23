@@ -3,14 +3,17 @@ import { useEffect, useState } from 'react';
 import { useLocalStorage } from 'usehooks-ts';
 import { produce } from "immer";
 
+// Components
+import EntityContainer from './EntityContainer.jsx';
+
 // Stylesheet
-import '../assets/css/components_style/EntityContainer.css';
+import '../assets/css/components_style/MapContainer.css';
 
 
 
-function EntityContainer({entityData}) {
-  const entity = entityData.data;
-  const setEntity = entityData.setData;
+function MapContainer({player, enemies}) {
+  // Renaming the variables
+  const entities = [player, ...enemies];
 
   // Getting useStates
   const [frame, setFrame] = useState(entity?.img);

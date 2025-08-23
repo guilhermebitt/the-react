@@ -17,7 +17,8 @@ import * as Entities from '../scripts/entities.js';
 import { produce } from "immer";
 
 // Components
-import EntityContainer from '../components/EntityContainer';
+import MapContainer from '../components/MapContainer.jsx';
+import EntityContainer from '../components/MapContainer.jsx';
 import ActionButtons from '../components/ActionButtons.jsx';
 import Terminal from '../components/Terminal.jsx';
 import Header from '../components/Header.jsx';
@@ -31,15 +32,24 @@ function Game() {
 
   // Setting the localStorage
   const [playerData, setPlayerData] = useLocalStorage('player', playerJson);
-  const [enemyData, setEnemyData] = useLocalStorage('enemy', enemiesJson['goblin']);
+  const [enemiesData, setEnemiesData] = useLocalStorage('enemies', [enemiesJson['goblin'], enemiesJson['goblin']]);
   const [game, setGame] = useLocalStorage('game', gameJson);
   const [settings] = useLocalStorage('settings', settingsJson);
   const [, setTerminalText] = useLocalStorage('terminalText', []);
   const [, setGameTick] = useLocalStorage('gameTick', 0);
 
-  // Setting entities
+  // Setting player
   const player = new Entities.Player(playerData, setPlayerData);
-  const enemy = new Entities.Goblin(enemyData, setEnemyData);
+
+  // Settings enemies
+  const enemies = enemiesData.map((enemy, index) => {
+    const setEnemyData = (recipe) => {  // creates a setter that updates the enemy by the index
+      setEnemiesData(prev => produce(prev, draft => {
+        recipe(draft[index]); // applies only to the current enemy
+      }));
+    };
+    return new Entities[enemy.name](enemy, setEnemyData);  // gets the correct class from the enemy name
+  });
 
   // Initializing funcs
   funcs.init(setTerminalText, setGame);
@@ -53,7 +63,7 @@ function Game() {
     player.setData(produce(draft => {
       draft.animations.standBy[1] = tickTime;
     }));
-    enemy.setData(produce(draft => {
+    enemies[0].setData(produce(draft => {
       draft.animations.standBy[1] = tickTime;
     }));
     
@@ -88,15 +98,8 @@ function Game() {
     gameMusicRef.current.muted = settings.muted;
   }, [settings]);
 
-  // Handling turn changes
-  useEffect(() => {
-    if (game.currentTurn === "enemy") {
-      const action = enemy.turn;
-    };
-  }, [game.currentTurn]);
-
   function doAttack() {
-    const result = player.attack(enemy);
+    const result = player.attack(enemies[0]);
     funcs.phrase(result);
   }
 
@@ -125,7 +128,7 @@ function Game() {
           attack={() => game.currentTurn === 'player' && doAttack()} 
           changeAnim={() => player.changeAnim('hurt')} 
           sendMsg={() => funcs.phrase('Hi!')}
-          run={() => funcs.turnHandler('enemy')}
+          run={() => funcs.turnHandler('enemies')}
         />
       </section>
     </main>
