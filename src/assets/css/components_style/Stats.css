@@ -42,7 +42,7 @@ div.stm.fill {
     display: block;
     width: 100%;
     height: 11px;
-    background-color: rgb(229, 190, 14);
+    background-color: rgb(213, 176, 8);
     transition: width 0.5s ease-in;
 }
 

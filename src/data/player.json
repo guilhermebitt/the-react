@@ -18,10 +18,10 @@
     }, 100]
   },
   "stats": {
-    "maxHealth": 100,
-    "health": 100,
-    "maxStamina": 100,
-    "stamina": 100,
+    "maxHealth": 20,
+    "health": 20,
+    "maxStamina": 20,
+    "stamina": 20,
     "attack": 10,
     "strength": 1,
     "defense": 5,

@@ -37,8 +37,8 @@ div.enemies-side {
 }
 
 div.enemies-side>div#enemy1 {
-  transform: translateY(-10px) translateX(10px);
+  transform: translateY(-20px);
 }
 div.enemies-side>div#enemy3 {
-  transform: translateY(-10px) translateX(-10px);
+  transform: translateY(-20px);
 }

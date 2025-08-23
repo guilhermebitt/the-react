@@ -38,7 +38,7 @@ function Stats({entity}) {
       </div>
       {/* STAMINA BAR */}
       <div className="bar-container">
-        <img src="./assets/hud/mana.png" alt="" />
+        <img src="./assets/hud/stamina.png" alt="" />
         <div className="bar-bg">
           <p>{entity?.stats?.stamina}/{entity?.stats?.maxStamina}</p>
           <div

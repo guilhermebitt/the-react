@@ -1,10 +1,17 @@
+// Data
+import gameJson from '../data/game.json' with { type: 'json' };
+
 // Dependencies
 import { useEffect, useState } from 'react';
 import { useLocalStorage } from 'usehooks-ts';
 import { produce } from "immer";
 
+// Components
+import HealthBar from './HealthBar';
+
 // Stylesheet
 import '../assets/css/components_style/EntityContainer.css';
+import Game from '../screens/Game';
 
 
 
@@ -18,8 +25,9 @@ function EntityContainer({entityData, id}) {
   const [animIndex, setAnimIndex] = useState(0);  // !!! Attention: animation only will be sync if both components starts at same moment
   const [standByIndex, setStandByIndex] = useState(0);
 
-  // Game tick
+  // Loading Game Storage
   const [gameTick] = useLocalStorage('gameTick');
+  const [game, setGame] = useLocalStorage('game', gameJson);
 
   // Checks if the animation changed
   useEffect(() => {
@@ -71,12 +79,21 @@ function EntityContainer({entityData, id}) {
     }, frameDuration);
   }
 
+  function selectTarget(targetId) {
+    if (game.currentTurn === 'player' && typeof targetId === 'number') {
+      setGame(produce(draft => {
+        draft.target = targetId;
+      }));
+    }
+  }
+
   // Returning the Component
   return (
     <div id={`enemy${id+1}`} className="entity-container">
       <h2>{entity?.name}</h2>
-      <img src={frame} alt="entity image" />
-      <div></div>
+      {entity?.entityType !== 'player' && <HealthBar entity={entity}/>}
+      <img src={frame} alt="entity image" onClick={() => selectTarget(id)}/>
+      <div className='shadow'></div>
     </div>
   );
 }

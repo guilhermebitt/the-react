@@ -72,7 +72,6 @@ function Game() {
       setGameTick(prev => prev + 1);
     }, tickTime);
 
-
     // ----- GAME MUSIC -----
     // Loading music
     const gameMusic = new Audio('./assets/sounds/musics/the_music.ogg');
@@ -99,7 +98,8 @@ function Game() {
   }, [settings]);
 
   function doAttack() {
-    const result = player.attack(enemies[0]);
+    if (typeof game.target !== 'number') return funcs.phrase('Select a target!');
+    const result = player.attack(enemies[game.target]);  // this function executes an attack and return a phrase
     funcs.phrase(result);
   }
 

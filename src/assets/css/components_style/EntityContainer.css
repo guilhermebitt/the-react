@@ -3,7 +3,19 @@
     flex-direction: column;
     align-self: flex-start;
     height: 100%;
-    div {
+}
+
+img {
+    height: 65%;
+}
+
+h2 {
+    height: 15%;
+    font-size: 1rem;
+    margin: 0px !important;
+}
+
+div.shadow {
         transform: translateY(-50%);
         width: 100%;               /* largura da sombra */
         height: 10%;             /* altura da sombra */
@@ -11,14 +23,3 @@
         border-radius: 50%;
         pointer-events: none;     /* não atrapalha clique */
     }
-}
-
-img {
-    height: 80%;
-}
-
-h2 {
-    height: 10%;
-    font-size: 1rem;
-    margin: 0px !important;
-}

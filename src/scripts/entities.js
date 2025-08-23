@@ -1,5 +1,6 @@
-// Dependencies
-import { produce } from "immer";
+// IMPORTANT!!!
+// when settings the entity data (setData), do NOT use produce.
+// Instead, use only draft!
 
 export class Entity {
   constructor(entity, setEntity) {
@@ -34,6 +35,9 @@ export class Entity {
     const attack = this.data.stats.attack;
     const strength = this.data.stats.strength;
 
+    // Executing animation
+    if (this.data.animations.atk) this.data.currentAnim = 'atk';
+
     // Crit
     (this.random(100) > this.data.stats.critChance) ?
     crit = 1 :
@@ -63,13 +67,13 @@ export class Entity {
 
   // Receive damage
   takeDamage(amount) {
-    this.setData(produce(draft => {
+    this.setData(draft => {
       // Guarantee that the stats exists
       if (!draft.stats) draft.stats = { health: 0 };
 
       // Reduce the health, never below 0
       draft.stats.health = Math.max(0, (draft.stats.health || 0) - amount);
-    }));
+    });
   }
 
   // Verify if its dead
@@ -91,15 +95,6 @@ export class Player extends Entity {
       : `You landed a critical hit! dealing ${dmg} points of damage!`;
 
     return msg;
-  }
-
-
-  // Change anim manually (if needed)
-  changeAnim(anim) {
-
-    this.setData(produce(draft => {
-      draft.currentAnim = anim;
-    }));
   }
 }
 
