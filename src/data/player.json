@@ -15,9 +15,6 @@
       "3": "/assets/entities/player/hero_atk1.png",
       "4": "/assets/entities/player/hero_atk0.png",
       "5": "/assets/entities/player/hero0.png"
-<<<<<<< HEAD
-    }, 100]
-=======
     }, 100],
     "death": [{
         "0": "/assets/entities/death/death0.png",
@@ -26,7 +23,6 @@
         "3": "/assets/entities/death/death3.png",
         "4": "/assets/entities/death/death4.png"
       }, 1000]
->>>>>>> map
   },
   "stats": {
     "maxHealth": 20,
