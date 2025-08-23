@@ -10,6 +10,7 @@ Além de treinar conceitos da biblioteca, também estou praticando organização
 O projeto ainda está em andamento, mas já é possível testá-lo e tem como foco ser uma experiência de aprendizado e diversão.  
 
 ## 🚀 Como instalar e rodar
+Se quiser testar o jogo pela web (não recomendo), basta acessar o link: [The - React](//the-react-orpin.vercel.app/menu)
 Se quiser testar o jogo na sua máquina, siga os passos:
 **(não se esqueça que será necessário possuir o node/npm instalado)**
 
