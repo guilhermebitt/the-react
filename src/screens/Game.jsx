@@ -27,6 +27,8 @@ import Stats from '../components/Stats.jsx';
 // Stylesheet
 import '../assets/css/screens_style/Game.css';
 
+
+
 function Game() {
   const gameMusicRef = useRef(null);
 
@@ -39,7 +41,12 @@ function Game() {
   const [, setGameTick] = useLocalStorage('gameTick', 0);
 
   // Setting player
-  const player = new Entities.Player(playerData, setPlayerData);
+  const setSafePlayerData = (recipe) => {
+    setPlayerData(prev => produce(prev, draft => {
+      recipe(draft);
+    }));
+  };
+  const player = new Entities.Player(playerData, setSafePlayerData);
 
   // Settings enemies
   const enemies = enemiesData.map((enemy, index) => {
@@ -56,16 +63,24 @@ function Game() {
 
   // On game load:
   useEffect(() => {
+    // Applying an id for each enemy in enemies list
+    enemies.forEach((enemy, index) => {
+      enemy.setData(draft => draft.id = index)
+    })
+
     // ----- TICK SPEED -----
     // setting the gameTickSpeed
     const tickTime = game.gameTickSpeed; // default is 1000
     
     player.setData(produce(draft => {
       draft.animations.standBy[1] = tickTime;
+      draft.currentAnim = 'standBy';  // for some reason the player was starting with the atk animation (???)
     }));
-    enemies[0].setData(produce(draft => {
-      draft.animations.standBy[1] = tickTime;
-    }));
+    enemies.forEach((enemy) => {
+      enemy.setData(draft => {
+        draft.animations.standBy[1] = tickTime;
+      });
+    })
     
     // Updating gameTick
     const intervalId = setInterval(() => {
@@ -83,7 +98,6 @@ function Game() {
     });
     gameMusicRef.current = gameMusic
 
-
     return () => {
       clearInterval(intervalId);
       gameMusic.pause();
@@ -99,8 +113,9 @@ function Game() {
 
   function doAttack() {
     if (typeof game.target !== 'number') return funcs.phrase('Select a target!');
+    if (enemies[game.target]?.data?.currentAnim === 'death') return funcs.phrase('This enemy is dead');
     const result = player.attack(enemies[game.target]);  // this function executes an attack and return a phrase
-    funcs.phrase(result);
+    funcs.phrase((result));
   }
 
   return (

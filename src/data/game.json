@@ -2,5 +2,5 @@
   "currentTurn": "player",
   "target": null,
   "phase": 0,
-  "gameTickSpeed": 1000
+  "gameTickSpeed": 500
 }

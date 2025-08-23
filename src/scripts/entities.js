@@ -37,6 +37,7 @@ export class Entity {
 
     // Executing animation
     if (this.data.animations.atk) this.data.currentAnim = 'atk';
+    
 
     // Crit
     (this.random(100) > this.data.stats.critChance) ?
