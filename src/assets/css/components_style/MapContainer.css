@@ -23,14 +23,22 @@ h2 {
 
 div.player-side {
   position: absolute;
+  height: 60%;
   left: 100px;
-  height: 100%;
+  bottom: 20px;
 }
 
 div.enemies-side {
   position: absolute;
   display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 1rem; /* espaçamento entre inimigos */
+  height: 60%;
+  right: 100px;
+  bottom: 20px;
+}
+
+div.enemies-side>div#enemy1 {
+  transform: translateY(-10px) translateX(10px);
+}
+div.enemies-side>div#enemy3 {
+  transform: translateY(-10px) translateX(-10px);
 }

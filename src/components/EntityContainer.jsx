@@ -8,7 +8,7 @@ import '../assets/css/components_style/EntityContainer.css';
 
 
 
-function EntityContainer({entityData}) {
+function EntityContainer({entityData, id}) {
   const entity = entityData.data;
   const setEntity = entityData.setData;
 
@@ -71,7 +71,7 @@ function EntityContainer({entityData}) {
 
   // Returning the Component
   return (
-    <div className="entity-container">
+    <div id={`enemy${id+1}`} className="entity-container">
       <h2>{entity?.name}</h2>
       <img src={frame} alt="entity image" />
     </div>
