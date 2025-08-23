@@ -16,7 +16,7 @@ main#game {
   height: inherit;
   width: inherit;
   background-color: #222228;
-  background-image: url('./assets/images/star-solid-full.svg');
+  background-image: url('/assets/images/star-solid-full.svg');
   background-size: 70px;
   overflow: hidden;
   animation: moveStars 7s linear infinite;
