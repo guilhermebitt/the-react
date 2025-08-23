@@ -3,10 +3,18 @@
     flex-direction: column;
     align-self: flex-start;
     height: 100%;
+    div {
+        transform: translateY(-50%);
+        width: 100%;               /* largura da sombra */
+        height: 10%;             /* altura da sombra */
+        background: radial-gradient(ellipse, rgba(0,0,0,0.4), transparent);
+        border-radius: 50%;
+        pointer-events: none;     /* não atrapalha clique */
+    }
 }
 
 img {
-    height: 90%;
+    height: 80%;
 }
 
 h2 {

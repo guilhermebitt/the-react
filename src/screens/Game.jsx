@@ -126,7 +126,7 @@ function Game() {
       <section className='x-section bottom'>
         <ActionButtons 
           attack={() => game.currentTurn === 'player' && doAttack()} 
-          changeAnim={() => player.changeAnim('hurt')} 
+          changeAnim={(null)} 
           sendMsg={() => funcs.phrase('Hi!')}
           run={() => funcs.turnHandler('enemies')}
         />

@@ -19,5 +19,5 @@
 }
 
 .terminal-line::before {
-    content: "| ";
+    content: "> ";
 }

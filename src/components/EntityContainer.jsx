@@ -74,6 +74,7 @@ function EntityContainer({entityData, id}) {
     <div id={`enemy${id+1}`} className="entity-container">
       <h2>{entity?.name}</h2>
       <img src={frame} alt="entity image" />
+      <div></div>
     </div>
   );
 }
