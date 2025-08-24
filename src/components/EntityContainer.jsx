@@ -4,7 +4,7 @@ import gameJson from '../data/game.json' with { type: 'json' };
 // Dependencies
 import { useEffect, useState } from 'react';
 import { useLocalStorage } from 'usehooks-ts';
-import { faGear, faVolumeHigh, faVolumeMute } from '@fortawesome/free-solid-svg-icons';
+import * as funcs from '../scripts/functions.js';
 import { produce } from "immer";
 
 // Components
@@ -15,19 +15,7 @@ import '../assets/css/components_style/EntityContainer.css';
 
 
 
-// Custom interval to execute a callback when cleaned
-function setIntervalOnClean(callback, delay, onCleanup) {
-  const interval = setInterval(callback, delay);
-
-  return () => { // function that cleans the interval
-    clearInterval(interval);
-    if (onCleanup) onCleanup(); // this will be executed on cleanup
-  };
-}
-
-
-
-function EntityContainer({ entityData }) {
+function EntityContainer({ entityData, player }) {
   const entity = entityData.data;
   const setEntity = entityData.setData;
 
@@ -39,26 +27,54 @@ function EntityContainer({ entityData }) {
 
   // Loading Game Storage
   const [game, setGame] = useLocalStorage('game', gameJson);
+  const [, setTerminalText] = useLocalStorage('terminalText', []);
   const [gameTick] = useLocalStorage('gameTick');
+  const [enemiesData] = useLocalStorage('enemies');
+
+  // Initializing funcs
+    funcs.init(setTerminalText, setGame);
 
   // Code for enemies turn
   useEffect(() => {
-    // Conditions to skip
-    if (game.currentTurn !== 'enemies' || entityData?.isDead() || entity?.entityType !== 'enemy') return;
+    // --- Conditions to skip ---
+    // This guarantee that the code will only be executed if its the enemy's turn
+    if (game.currentTurn !== 'enemies' || game.specificEnemyTurn !== entity?.id) return;
+    // --------------------------
 
-    // Code for the enemies turn (for today i'm done)
-  }, [game.currentTurn]);
+    // --- Processing the enemy's turn ---
+    (async () => {
+      // Start of the enemy's turn
+      if (!entityData?.isDead()) {  // executes only if the enemy is not dead
+        await enemyTurn(entityData);
+      }
 
+      // Ending of the enemy's turn.
+      if (game.specificEnemyTurn >= enemiesData.length - 1 && game.currentTurn !== 'none') {
+        setGame(produce(draft => {
+          draft.specificEnemyTurn = null;
+          draft.currentTurn = 'player';
+        }));
+        funcs.phrase('Its your turn!');
+      } else {
+        setGame(produce(draft => {
+          draft.specificEnemyTurn = game.specificEnemyTurn + 1;
+        }));
+      }
+    })();  // the '()' is to call the async function!
+    // -------------------------------------
+
+  }, [game.specificEnemyTurn]);
+  // --- END OF USE EFFECT ---
 
   // Checks if the animation changed
   useEffect(() => {
     // Conditions to skip
     if (entity?.currentAnim === 'standBy') return;
 
-
     setStandBy(false);
     runAnim();
   }, [entity?.currentAnim]);
+  // --- END OF USE EFFECT ---
 
 
   // Game tick useEffect
@@ -82,6 +98,7 @@ function EntityContainer({ entityData }) {
       setFrame(animationFrames[standByIndex]);
     }
   }, [gameTick]);
+  // --- END OF USE EFFECT ---
 
 
   // Game useEffect
@@ -103,6 +120,32 @@ function EntityContainer({ entityData }) {
     });
   }
 }, [entity?.stats?.health]);
+// --- END OF USE EFFECT ---
+
+  function enemyTurn(enemy) {
+    return new Promise(resolve => {
+      // CODE FOR THE ENEMY'S TURN
+      const turn = enemy?.handleTurn(player);
+      
+      if (turn.actionType === 'atk') {
+        var { attackMsg, killed } = turn.action;
+        funcs.phrase(`${turn.msg}. ${attackMsg}`);
+        if (killed) {
+          funcs.phrase('You died.');
+          setGame(produce(draft => {
+            draft.specificEnemyTurn = null;
+            draft.currentTurn = 'none';
+          }));
+        }
+      };
+
+      // Timer to skip the current enemy turn
+      const timer = setTimeout(() => {
+        resolve();  // resolving the promise!
+        clearTimeout(timer);
+      }, turn.timeToWait);
+    });
+  }
   
   function runAnim() {
     const anim = entity?.animations[entity?.currentAnim];

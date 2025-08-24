@@ -114,22 +114,30 @@ function Game() {
       gameMusicRef.current = null;
     };
   }, []);
+  // --- END OF USE EFFECT ---
 
+  // Check if it's the player turn
+  useEffect(() => {
+    if (game.currentTurn !== 'player') return;
+    player.setData(draft => draft.actionsLeft = player.data.actions);  // resets the actionsLeft of the player
+
+  }, [game.currentTurn])
   // Mute/Unmute game music
   useEffect(() => {
     gameMusicRef.current.muted = settings.muted;
   }, [settings]);
+  // --- END OF USE EFFECT ---
+  // -------------------------
 
   // --- MAIN FUNCTIONS ---
-
   function doAttack() {
     // Conditions
     if (typeof game.target !== 'number') return funcs.phrase('Select a target!');
     if (player.data.actionsLeft <= 0) return funcs.phrase('You do not have actions left!');
     if (enemies[game.target]?.data?.currentAnim === 'death') return funcs.phrase('This enemy is dead.');
 
-    const result = player.attack(enemies[game.target]);  // this function executes an attack and return a phrase
-    funcs.phrase((result));  // showing the result of the attack
+    const { attackMsg } = player.attack(enemies[game.target]);  // this function executes an attack and return a phrase
+    funcs.phrase(attackMsg);  // showing the result of the attack
     player.setData(draft => {  // reducing player action
       draft.actionsLeft -= 1;
     });
@@ -184,7 +192,7 @@ function Game() {
           attack={() => game.currentTurn === 'player' && doAttack()} 
           changeAnim={(null)} 
           sendMsg={() => funcs.phrase('Hi!')}
-          endTurn={() => confirmScreen(
+          endTurn={() => game.currentTurn === 'player' && confirmScreen(
             () => {funcs.endTurn('enemies')}
           )}
         />

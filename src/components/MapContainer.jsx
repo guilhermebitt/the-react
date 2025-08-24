@@ -23,7 +23,7 @@ function MapContainer({player, enemies}) {
       {/* Enemies on the right */}
       <div className="enemies-side">
         {enemies.map((enemy, index) => (
-          <EntityContainer key={enemy?.data?.id || index} entityData={enemy} id={enemy.data.id}/>
+          <EntityContainer key={enemy?.data?.id || index} entityData={enemy} id={enemy.data.id} player={player}/>
         ))}
       </div>
     </div>

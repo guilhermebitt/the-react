@@ -30,12 +30,13 @@ export class Entity {
   attack(target) {
     if (this.random(100) > this.hitChance(target)) {
       // Entity Missed
-      return "The attack missed.";
+      return { attackMsg: "The attack missed.", killed: false };
     }
 
     // Entity Hit
     let dmg = 0;
     let crit = 0;
+    let killed = false;
     const attack = this.data.stats.attack;
     const strength = this.data.stats.strength;
 
@@ -62,8 +63,9 @@ export class Entity {
 
     // Reducing the enemy's life
     target.takeDamage(dmg);
+    if ((target?.data?.stats?.health - dmg) <= 0) killed = true;  // Getting the future state of the target
 
-    return attackMsg;
+    return {attackMsg, killed};
   }
 
   getAttackMessage(dmg, crit) {
@@ -115,17 +117,29 @@ export class Goblin extends Entity {
 
   handleTurn(target) {
     const chance = this.random(100)  // generates a number between 0 and 100
-    let msg = '';
+    let turn = {};
 
     if (chance < 10) {  // 10% - Attack
-      msg = this.attack(target);
+      turn.action = this.attack(target);
+      turn.msg = 'The enemy tries to attack you';
+      turn.actionType = 'atk'
     } else 
     if (chance < 50) {  // 40% - Attack
-      msg = this.attack(target);
+      turn.action = this.attack(target);
+      turn.msg = 'The enemy tries to attack you';
+      turn.actionType = 'atk'
     } else
     if (chance <= 100) {  // 50% - Attack
-      msg = this.attack(target);
+      turn.action = this.attack(target);
+      turn.msg = 'The enemy tries to attack you';
+      turn.actionType = 'atk'
     }
-    return msg;
+
+    // Calculating the time of the enemy's turn
+    const anim = this.data.animations[turn.actionType];
+    const animationFrames = Object.values(anim[0]);
+    turn.timeToWait = anim[1] * animationFrames.length;
+
+    return turn;
   }
 }
