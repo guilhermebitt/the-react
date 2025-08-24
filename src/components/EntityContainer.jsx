@@ -1,8 +1,9 @@
 // Data
 import gameJson from '../data/game.json' with { type: 'json' };
+import settingsJson from '../data/settings.json' with { type: 'json' };
 
 // Dependencies
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useLocalStorage } from 'usehooks-ts';
 import * as funcs from '../scripts/functions.js';
 import { produce } from "immer";
@@ -16,6 +17,7 @@ import '../assets/css/components_style/EntityContainer.css';
 
 
 function EntityContainer({ entityData, player }) {
+  const hitSoundRef = useRef(null);
   const entity = entityData.data;
   const setEntity = entityData.setData;
 
@@ -25,15 +27,33 @@ function EntityContainer({ entityData, player }) {
   const [selected, setSelected] = useState(false);
   const [standByIndex, setStandByIndex] = useState(0);
   const [damage, setDamage] = useState([[]]);
+  const [hit, setHit] = useState(false);
 
   // Loading Game Storage
   const [game, setGame] = useLocalStorage('game', gameJson);
   const [, setTerminalText] = useLocalStorage('terminalText', []);
   const [gameTick] = useLocalStorage('gameTick');
   const [enemiesData] = useLocalStorage('enemies');
+  const [settings] = useLocalStorage('settings', settingsJson);
 
   // Initializing funcs
-    funcs.init(setTerminalText, setGame);
+  funcs.init(setTerminalText, setGame);
+
+  // On component first load
+  useEffect(() => {
+    // ----- GAME MUSIC -----
+    // Loading music
+    const hitSound = new Audio('/assets/sounds/misc/hit_sound.ogg');
+    hitSound.volume = settings.volume;  // volume, from 0 to 1
+    hitSound.muted;
+    hitSoundRef.current = hitSound;
+
+    return () => {
+      hitSound.pause();
+      hitSound.currentTime = 0; // reset
+      hitSoundRef.current = null;
+    };
+  }, [])
 
   // Code for enemies turn
   useEffect(() => {
@@ -121,8 +141,29 @@ function EntityContainer({ entityData, player }) {
 
   // Entity LIFE useEffect
   useEffect(() => {
-    if (entity?.dmgTaken > 0) setDamage(prev => [...prev, [entity?.dmgTaken, entity?.dmgWasCrit]]);
+    if (!entity?.dmgTaken) return;
 
+    
+    
+
+    if (entity?.dmgTaken > 0) setDamage(prev => [...prev, [entity?.dmgTaken, entity?.dmgWasCrit]]);
+    if (entity?.dmgTaken === 'Missed') setDamage(prev => [...prev, ["Missed", false]]);
+
+    if (entity?.dmgTaken !== 'Missed') {
+      // Running the Hit Animation and Sound FX
+      setHit(true);
+      setTimeout(() => {
+        setHit(false);
+        clearTimeout();
+      }, 1000)
+
+      hitSoundRef.current.play().catch(err => {
+        console.log("Autoplay bloqueado pelo navegador:", err);
+      });
+      // ---------------------------------------
+    }
+
+    // Checking if the enemy died
     if (entityData?.isDead && entityData.isDead() === true) {
       setEntity(draft => {
         if (draft) draft.currentAnim = 'death';
@@ -134,7 +175,7 @@ function EntityContainer({ entityData, player }) {
       draft.dmgWasCrit = false;
     })
 
-  }, [entity?.stats?.health]);
+  }, [entity?.dmgTaken]);
   // --- END OF USE EFFECT ---
 
   function enemyTurn(enemy) {
@@ -143,10 +184,13 @@ function EntityContainer({ entityData, player }) {
       const turn = enemy?.handleTurn(player);
       
       if (turn.actionType === 'atk') {
-        var { attackMsg, killed, dmg } = turn.action;
+        var { attackMsg, killed, timeToWait } = turn.action;
         funcs.phrase(`${turn.msg}. ${attackMsg}`);
+
+        // Verifying if the player died
         if (killed) {
           funcs.phrase('You died.');
+          setGame(produce(draft => {draft.currentMusic = '/assets/sounds/musics/you_died.ogg'}))
         }
       };
 
@@ -154,7 +198,7 @@ function EntityContainer({ entityData, player }) {
       const timer = setTimeout(() => {
         resolve(killed);  // resolving the promise!
         clearTimeout(timer);
-      }, turn.timeToWait);
+      }, timeToWait);
     });
   }
   
@@ -197,7 +241,7 @@ function EntityContainer({ entityData, player }) {
     <div id={`enemy${entity?.id+1}`} className={`entity-container ${selected ? 'selected' : ''} ${game.specificEnemyTurn === entity?.id ? 'turn' : ''}`}>
       <h2>{entity?.name}</h2>
       {entity?.entityType !== 'player' && <HealthBar entity={entity}/>}
-      <img src={frame} alt="entity image" onClick={selectTarget}/>
+      <img src={frame} alt="entity image" onClick={selectTarget} className={hit ? 'hit' : ''}/>
       <div className='shadow'></div>
       <div className='selectedArrow'>▼</div>
       {damage.length > 0 && damage.map((dmg, index) => (

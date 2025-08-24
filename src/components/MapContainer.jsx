@@ -6,7 +6,7 @@ import '../assets/css/components_style/MapContainer.css';
 
 
 
-function MapContainer({player, enemies}) {
+function MapContainer({player, enemies }) {
   // Passing the entities to a variable
   const entities = [player, ...enemies];
 

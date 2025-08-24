@@ -3,5 +3,6 @@
   "specificEnemyTurn": "player",
   "target": null,
   "phase": 0,
-  "gameTickSpeed": 500
+  "gameTickSpeed": 500,
+  "currentMusic" : "/assets/sounds/musics/the_music.ogg"
 }

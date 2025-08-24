@@ -32,6 +32,7 @@ import '../assets/css/screens_style/Game.css';
 function Game() {
   // React Hooks
   const gameMusicRef = useRef(null);
+  const [loading, setLoading] = useState(true);
   const [confirmDialog, setConfirmDialog] = useState({
     visible: false,
     message: 'Are you sure?',
@@ -98,14 +99,17 @@ function Game() {
 
     // ----- GAME MUSIC -----
     // Loading music
-    const gameMusic = new Audio('./assets/sounds/musics/the_music.ogg');
+    const gameMusic = new Audio('/assets/sounds/musics/the_music.ogg');
     gameMusic.loop = true;   // to loop the music
-    gameMusic.volume = 0.5;  // volume, from 0 to 1
+    gameMusic.volume = settings.musicVolume;  // volume, from 0 to 1
     gameMusic.muted;
     gameMusic.play().catch(err => {
       console.log("Autoplay bloqueado pelo navegador:", err);
     });
     gameMusicRef.current = gameMusic
+
+    // Finished loading
+    setLoading(false);
 
     return () => {
       clearInterval(gameTickInterval);
@@ -116,18 +120,42 @@ function Game() {
   }, []);
   // --- END OF USE EFFECT ---
 
+
   // Check if it's the player turn
   useEffect(() => {
-    if (game.currentTurn !== 'player') return;
+    if (loading) return;
+
+    if (game.specificEnemyTurn !== 'player') return;
     player.setData(draft => draft.actionsLeft = player.data.actions);  // resets the actionsLeft of the player
 
-  }, [game.currentTurn])
+  }, [game.specificEnemyTurn])
+  // --- END OF USE EFFECT ---
+
+
   // Mute/Unmute game music
   useEffect(() => {
+    if (loading) return;
+
     gameMusicRef.current.muted = settings.muted;
   }, [settings]);
   // --- END OF USE EFFECT ---
   // -------------------------
+
+
+  // Changing game music
+  useEffect(() => {
+    if (loading) return;
+
+    const gameMusic = gameMusicRef.current;
+    gameMusic.currentTime = 0;
+    gameMusic.loop = false;
+    gameMusic.src = game.currentMusic;
+    gameMusic.play()
+    gameMusicRef.current = gameMusic;
+
+  }, [game.currentMusic]);
+  // -------------------
+
 
   // --- MAIN FUNCTIONS ---
   function doAttack() {
@@ -136,7 +164,18 @@ function Game() {
     if (player.data.actionsLeft <= 0) return funcs.phrase('You do not have actions left!');
     if (enemies[game.target]?.data?.currentAnim === 'death') return funcs.phrase('This enemy is dead.');
 
-    const { attackMsg } = player.attack(enemies[game.target]);  // this function executes an attack and return a phrase
+    const { attackMsg, timeToWait } = player.attack(enemies[game.target]);  // this function executes an attack and return some data
+
+    // Changing the turn 
+    const lastTurn = game.currentTurn;
+    setGame(produce(draft => {draft.currentTurn = 'onAction'}));
+
+    setTimeout(() => {
+      setGame(produce(draft => {draft.currentTurn = lastTurn}));
+    }, timeToWait + 500);
+    // ------------------
+
+
     funcs.phrase(attackMsg);  // showing the result of the attack
     player.setData(draft => {  // reducing player action
       draft.actionsLeft -= 1;
