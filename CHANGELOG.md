@@ -1,3 +1,10 @@
+# [1.0.0-beta.4](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.3...v1.0.0-beta.4) (2025-08-24)
+
+
+### Features
+
+* improved turns and enemies, death music and much more (I don't remember the other things)) ([f74f964](https://github.com/guilhermebitt/the-react/commit/f74f9646f8605677cdbb0f6bc9b52841d8768f41))
+
 # [1.0.0-beta.3](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.2...v1.0.0-beta.3) (2025-08-24)
 
 
