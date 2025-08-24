@@ -1,3 +1,10 @@
+# [1.0.0-beta.2](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.1...v1.0.0-beta.2) (2025-08-24)
+
+
+### Bug Fixes
+
+* when the last enemy kills the player, the turn maintain as 'none'. ([5ca1eb9](https://github.com/guilhermebitt/the-react/commit/5ca1eb9830cfe98a82c1c3f5a8c1d0f6662cf263))
+
 # 1.0.0-beta.1 (2025-08-24)
 
 
