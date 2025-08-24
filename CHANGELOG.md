@@ -1,3 +1,10 @@
+# [1.0.0-beta.3](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.2...v1.0.0-beta.3) (2025-08-24)
+
+
+### Features
+
+* damage now appears in the entity container ([25d12fa](https://github.com/guilhermebitt/the-react/commit/25d12fa270be680519acc5a0c1a37b8897f38be4))
+
 # [1.0.0-beta.2](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.1...v1.0.0-beta.2) (2025-08-24)
 
 
