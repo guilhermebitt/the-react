@@ -6,6 +6,7 @@ body {
 }
 
 #root {
+    position: relative;
     width: 800px;
     height: 600px;
     overflow: hidden;
