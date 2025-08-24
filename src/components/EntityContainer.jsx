@@ -45,11 +45,11 @@ function EntityContainer({ entityData, player }) {
     (async () => {
       // Start of the enemy's turn
       if (!entityData?.isDead()) {  // executes only if the enemy is not dead
-        await enemyTurn(entityData);
+        var playerIsDead = await enemyTurn(entityData);
       }
 
       // Ending of the enemy's turn.
-      if (game.specificEnemyTurn >= enemiesData.length - 1 && game.currentTurn !== 'none') {
+      if ((game.specificEnemyTurn >= enemiesData.length - 1) && (!playerIsDead)) {
         setGame(produce(draft => {
           draft.specificEnemyTurn = null;
           draft.currentTurn = 'player';
@@ -60,6 +60,7 @@ function EntityContainer({ entityData, player }) {
           draft.specificEnemyTurn = game.specificEnemyTurn + 1;
         }));
       }
+
     })();  // the '()' is to call the async function!
     // -------------------------------------
 
@@ -141,7 +142,7 @@ function EntityContainer({ entityData, player }) {
 
       // Timer to skip the current enemy turn
       const timer = setTimeout(() => {
-        resolve();  // resolving the promise!
+        resolve(killed);  // resolving the promise!
         clearTimeout(timer);
       }, turn.timeToWait);
     });
