@@ -24,6 +24,7 @@ function EntityContainer({ entityData, player }) {
   const [standBy, setStandBy] = useState(true);
   const [selected, setSelected] = useState(false);
   const [standByIndex, setStandByIndex] = useState(0);
+  const [damage, setDamage] = useState([[]]);
 
   // Loading Game Storage
   const [game, setGame] = useLocalStorage('game', gameJson);
@@ -49,9 +50,15 @@ function EntityContainer({ entityData, player }) {
       }
 
       // Ending of the enemy's turn.
+      if (playerIsDead) {
+        setGame(produce(draft => {
+          draft.specificEnemyTurn = 'none';
+          draft.currentTurn = 'none';
+        }));
+      } else
       if ((game.specificEnemyTurn >= enemiesData.length - 1) && (!playerIsDead)) {
         setGame(produce(draft => {
-          draft.specificEnemyTurn = null;
+          draft.specificEnemyTurn = 'player';
           draft.currentTurn = 'player';
         }));
         funcs.phrase('Its your turn!');
@@ -101,7 +108,6 @@ function EntityContainer({ entityData, player }) {
   }, [gameTick]);
   // --- END OF USE EFFECT ---
 
-
   // Game useEffect
   useEffect(() => {
     (game.target === entity?.id) ? setSelected(true) : setSelected(false);
@@ -113,15 +119,23 @@ function EntityContainer({ entityData, player }) {
     };
   }, [game]);
 
-  // Entity useEffect
+  // Entity LIFE useEffect
   useEffect(() => {
-  if (entityData?.isDead && entityData.isDead() === true) {
-    setEntity(draft => {
-      if (draft) draft.currentAnim = 'death';
-    });
-  }
-}, [entity?.stats?.health]);
-// --- END OF USE EFFECT ---
+    if (entity?.dmgTaken > 0) setDamage(prev => [...prev, [entity?.dmgTaken, entity?.dmgWasCrit]]);
+
+    if (entityData?.isDead && entityData.isDead() === true) {
+      setEntity(draft => {
+        if (draft) draft.currentAnim = 'death';
+      });
+    }
+
+    entityData.setData(draft => {
+      draft.dmgTaken = 0;
+      draft.dmgWasCrit = false;
+    })
+
+  }, [entity?.stats?.health]);
+  // --- END OF USE EFFECT ---
 
   function enemyTurn(enemy) {
     return new Promise(resolve => {
@@ -129,14 +143,10 @@ function EntityContainer({ entityData, player }) {
       const turn = enemy?.handleTurn(player);
       
       if (turn.actionType === 'atk') {
-        var { attackMsg, killed } = turn.action;
+        var { attackMsg, killed, dmg } = turn.action;
         funcs.phrase(`${turn.msg}. ${attackMsg}`);
         if (killed) {
           funcs.phrase('You died.');
-          setGame(produce(draft => {
-            draft.specificEnemyTurn = null;
-            draft.currentTurn = 'none';
-          }));
         }
       };
 
@@ -184,12 +194,15 @@ function EntityContainer({ entityData, player }) {
 
   // Returning the Component
   return (
-    <div id={`enemy${entity?.id+1}`} className={`entity-container ${selected ? 'selected' : ''}`}>
+    <div id={`enemy${entity?.id+1}`} className={`entity-container ${selected ? 'selected' : ''} ${game.specificEnemyTurn === entity?.id ? 'turn' : ''}`}>
       <h2>{entity?.name}</h2>
       {entity?.entityType !== 'player' && <HealthBar entity={entity}/>}
       <img src={frame} alt="entity image" onClick={selectTarget}/>
       <div className='shadow'></div>
       <div className='selectedArrow'>▼</div>
+      {damage.length > 0 && damage.map((dmg, index) => (
+        <div key={index} className={`damage ${dmg[1] === true ? 'crit' : ''}`}>{dmg[0]}</div>
+      ))}
     </div>
   );
 }

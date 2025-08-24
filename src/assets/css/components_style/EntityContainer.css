@@ -46,6 +46,43 @@ div.shadow {
   display: block;
 }
 
+div.damage {
+  display: block;
+  position: absolute;
+  opacity: 0;
+  top: -1.25rem;
+  right: 0px;
+  width: 100%;
+  text-align: right;
+  height: fit-content;
+  animation: takeDamage 1s ease-in 1;
+  font-size: 1rem;
+  text-shadow: 
+    -1px -1px 0 #000000,
+    1px -1px 0 #000000,
+    -1px 1px 0 #000000,
+    1px 1px 0 #000000;
+}
+
+div.damage.crit {
+  display: block;
+  position: absolute;
+  opacity: 0;
+  top: -1.25rem;
+  right: 0px;
+  width: 100%;
+  text-align: right;
+  height: fit-content;
+  animation: takeDamage 1s ease-in 1;
+  font-size: 1.25rem;
+  color: rgb(230, 73, 73);
+  text-shadow: 
+    -1px -1px 0 #000000,
+    1px -1px 0 #000000,
+    -1px 1px 0 #000000,
+    1px 1px 0 #000000;
+}
+
 @keyframes selectedArrow {
   0% {
     transform: translateY(0);
@@ -53,7 +90,18 @@ div.shadow {
   50% {
     transform: translateY(-10px);
   }
-  150% {
+  100% {
     transform: translateY(0);
+  }
+}
+
+@keyframes takeDamage {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-10px);
+    opacity: 0;
   }
 }

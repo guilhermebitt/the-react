@@ -2,7 +2,7 @@
 import ReactDOM from 'react-dom/client';
 
 // Components
-import Footer from './components/Footer';
+import VersionBadge from './components/VersionBadge.jsx';
 
 // Screens
 import App from './App';
@@ -15,6 +15,6 @@ import './assets/css/index.css';
 ReactDOM.createRoot(document.getElementById('root')).render(
   <>
     <App />
-    <Footer />
+    <VersionBadge />
   </>
 );

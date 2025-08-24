@@ -61,11 +61,14 @@ export class Entity {
     // Generating final message
     const attackMsg = this.getAttackMessage(dmg, crit);
 
+    // Telling the target that the damage was crit
+    crit > 1 ? target.setData(draft => draft.dmgWasCrit = true) : target.setData(draft => draft.dmgWasCrit = false)
+
     // Reducing the enemy's life
     target.takeDamage(dmg);
     if ((target?.data?.stats?.health - dmg) <= 0) killed = true;  // Getting the future state of the target
 
-    return {attackMsg, killed};
+    return {attackMsg, killed, dmg};
   }
 
   getAttackMessage(dmg, crit) {
@@ -85,6 +88,7 @@ export class Entity {
       // Reduce the health, never below 0
       draft.stats.health = Math.max(0, (draft.stats.health || 0) - amount);
     });
+    this.setData(draft => draft.dmgTaken = amount);
   }
 
   // Verify if its dead

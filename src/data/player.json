@@ -1,4 +1,5 @@
 {
+  "id": "player",
   "entityType": "player",
   "name": "Player",
   "img": "/assets/entities/player/hero0.png",

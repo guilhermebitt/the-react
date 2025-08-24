@@ -2,11 +2,11 @@
 import version from '../version.js';
 
 // Stylesheets
-import '../assets/css/components_style/Footer.css';
+import '../assets/css/components_style/VersionBadge.css';
 
 
 
-function Footer() {
+function VersionBadge() {
   const isBeta = version.includes('beta');
   return (
     <footer style={{
@@ -17,4 +17,4 @@ function Footer() {
   );
 };
 
-export default Footer;
+export default VersionBadge;
