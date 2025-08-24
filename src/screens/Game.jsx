@@ -10,7 +10,7 @@ import gameJson from '../data/game.json' with { type: 'json' };
 import settingsJson from '../data/settings.json' with { type: 'json' };
 
 // Dependencies
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useLocalStorage } from 'usehooks-ts';
 import * as funcs from '../scripts/functions.js';
 import * as Entities from '../scripts/entities.js';
@@ -18,11 +18,11 @@ import { produce } from "immer";
 
 // Components
 import MapContainer from '../components/MapContainer.jsx';
-import EntityContainer from '../components/EntityContainer.jsx';
 import ActionButtons from '../components/ActionButtons.jsx';
 import Terminal from '../components/Terminal.jsx';
 import Header from '../components/Header.jsx';
 import Stats from '../components/Stats.jsx';
+import ConfirmDialog from '../components/ConfirmDialog.jsx';
 
 // Stylesheet
 import '../assets/css/screens_style/Game.css';
@@ -30,7 +30,14 @@ import '../assets/css/screens_style/Game.css';
 
 
 function Game() {
+  // React Hooks
   const gameMusicRef = useRef(null);
+  const [confirmDialog, setConfirmDialog] = useState({
+    visible: false,
+    message: 'Are you sure?',
+    onConfirm: null,
+    onCancel: null
+  });
 
   // Setting the localStorage
   const [playerData, setPlayerData] = useLocalStorage('player', playerJson);
@@ -46,6 +53,7 @@ function Game() {
       recipe(draft);
     }));
   };
+
   const player = new Entities.Player(playerData, setSafePlayerData);
 
   // Settings enemies
@@ -61,6 +69,8 @@ function Game() {
   // Initializing funcs
   funcs.init(setTerminalText, setGame);
 
+
+  // --- USE EFFECTS --- 
   // On game load:
   useEffect(() => {
     // Applying an id for each enemy in enemies list
@@ -72,9 +82,8 @@ function Game() {
     // setting the gameTickSpeed
     const tickTime = game.gameTickSpeed; // default is 1000
     
-    player.setData(produce(draft => {
+    player.setData((draft => {
       draft.animations.standBy[1] = tickTime;
-      draft.currentAnim = 'standBy';  // for some reason the player was starting with the atk animation (???)
     }));
     enemies.forEach((enemy) => {
       enemy.setData(draft => {
@@ -83,15 +92,15 @@ function Game() {
     })
     
     // Updating gameTick
-    const intervalId = setInterval(() => {
+    const gameTickInterval = setInterval(() => {
       setGameTick(prev => prev + 1);
     }, tickTime);
 
     // ----- GAME MUSIC -----
     // Loading music
     const gameMusic = new Audio('./assets/sounds/musics/the_music.ogg');
-    gameMusic.loop = true;   // para repetir em loop
-    gameMusic.volume = 0.5;  // volume de 0 a 1
+    gameMusic.loop = true;   // to loop the music
+    gameMusic.volume = 0.5;  // volume, from 0 to 1
     gameMusic.muted;
     gameMusic.play().catch(err => {
       console.log("Autoplay bloqueado pelo navegador:", err);
@@ -99,7 +108,7 @@ function Game() {
     gameMusicRef.current = gameMusic
 
     return () => {
-      clearInterval(intervalId);
+      clearInterval(gameTickInterval);
       gameMusic.pause();
       gameMusic.currentTime = 0; // reset
       gameMusicRef.current = null;
@@ -111,15 +120,47 @@ function Game() {
     gameMusicRef.current.muted = settings.muted;
   }, [settings]);
 
+  // --- MAIN FUNCTIONS ---
+
   function doAttack() {
+    // Conditions
     if (typeof game.target !== 'number') return funcs.phrase('Select a target!');
-    if (enemies[game.target]?.data?.currentAnim === 'death') return funcs.phrase('This enemy is dead');
+    if (player.data.actionsLeft <= 0) return funcs.phrase('You do not have actions left!');
+    if (enemies[game.target]?.data?.currentAnim === 'death') return funcs.phrase('This enemy is dead.');
+
     const result = player.attack(enemies[game.target]);  // this function executes an attack and return a phrase
-    funcs.phrase((result));
+    funcs.phrase((result));  // showing the result of the attack
+    player.setData(draft => {  // reducing player action
+      draft.actionsLeft -= 1;
+    });
   }
 
+  function confirmScreen(onConfirm, onCancel, msg='Are you sure?') {
+    setConfirmDialog({
+      visible: true,
+      message: msg,
+      onConfirm: onConfirm || (() => {}),
+      onCancel: onCancel || (() => setConfirmDialog(prev => ({ ...prev, visible: false }))),
+    });
+  }
+
+  // -- RETURNING THE GAME ---
   return (
     <main id='game'>
+      {/* CONFIRM DIALOG */}
+      <ConfirmDialog 
+        visible={confirmDialog.visible}
+        message={confirmDialog.message}
+        onConfirm={() => {
+          confirmDialog.onConfirm?.();
+          setConfirmDialog(prev => {return{...prev, visible: false}});
+        }}
+        onCancel={() => {
+          confirmDialog.onCancel?.();
+          setConfirmDialog(prev => {return{...prev, visible: false}});
+        }}
+      />
+
       {/* TOP SECTION */}
       <section className='x-section top'>
         <Header />
@@ -143,7 +184,9 @@ function Game() {
           attack={() => game.currentTurn === 'player' && doAttack()} 
           changeAnim={(null)} 
           sendMsg={() => funcs.phrase('Hi!')}
-          run={() => funcs.turnHandler('enemies')}
+          endTurn={() => confirmScreen(
+            () => {funcs.endTurn('enemies')}
+          )}
         />
       </section>
     </main>

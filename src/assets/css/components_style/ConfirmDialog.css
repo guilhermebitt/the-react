@@ -1,0 +1,58 @@
+div.confirm-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+div.confirm-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  background-color: #161618;
+  border: white solid 1px;
+  border-radius: 5px;
+  width: 256px;
+  min-height: 128px;
+  padding: 0.5rem;
+}
+
+div.confirm-box.animated {
+  animation: lookHere 0.2s linear 4;
+}
+
+@keyframes lookHere {
+  from {
+    border-color: white;
+    opacity: 1;
+  }
+  to {
+    border-color: rgb(103, 103, 103);
+    opacity: 0.5;
+  }
+}
+
+div.confirm-box div.buttons {
+  display: flex;
+  justify-content: space-between;
+  width: 60%;
+}
+
+div.buttons button {
+  border: white solid 1px;
+  border-radius: 5px;
+  min-width: 50px;
+  padding: 0.25rem;
+}
+
+div.buttons button:hover {
+  cursor: pointer;
+  transform: translateY(-1px);
+}

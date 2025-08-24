@@ -15,13 +15,18 @@
         "2": "/assets/entities/death/death2.png",
         "3": "/assets/entities/death/death3.png",
         "4": "/assets/entities/death/death4.png"
-      }, 100]
+      }, 100],
+      "atk": [{
+        "0": "/assets/entities/death/death0.png",
+        "1": "/assets/entities/death/death1.png",
+        "2": "/assets/entities/death/death2.png",
+        "3": "/assets/entities/death/death3.png",
+        "4": "/assets/entities/death/death4.png"
+      }, 500]
     },
     "stats": {
-      "maxHealth": 20,
-      "health": 20,
-      "maxStamina": 20,
-      "stamina": 20,
+      "maxHealth": 10,
+      "health": 10,
       "attack": 10,
       "strength": 1,
       "defense": 5,

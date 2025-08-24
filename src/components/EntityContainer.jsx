@@ -15,33 +15,62 @@ import '../assets/css/components_style/EntityContainer.css';
 
 
 
-function EntityContainer({entityData, id}) {
+// Custom interval to execute a callback when cleaned
+function setIntervalOnClean(callback, delay, onCleanup) {
+  const interval = setInterval(callback, delay);
+
+  return () => { // function that cleans the interval
+    clearInterval(interval);
+    if (onCleanup) onCleanup(); // this will be executed on cleanup
+  };
+}
+
+
+
+function EntityContainer({ entityData }) {
   const entity = entityData.data;
   const setEntity = entityData.setData;
 
   // Getting useStates
   const [frame, setFrame] = useState(entity?.img);
-  const [, setStandBy] = useState(true);
-  const [isDead, setIsDead] = useState(false);
+  const [standBy, setStandBy] = useState(true);
   const [selected, setSelected] = useState(false);
-  const [animIndex, setAnimIndex] = useState(0);  // !!! Attention: animation only will be sync if both components starts at same moment
   const [standByIndex, setStandByIndex] = useState(0);
 
   // Loading Game Storage
   const [game, setGame] = useLocalStorage('game', gameJson);
   const [gameTick] = useLocalStorage('gameTick');
-  const [, setEnemiesData] = useLocalStorage('enemies');
+
+  // Code for enemies turn
+  useEffect(() => {
+    // Conditions to skip
+    if (game.currentTurn !== 'enemies' || entityData?.isDead() || entity?.entityType !== 'enemy') return;
+
+    // Code for the enemies turn (for today i'm done)
+  }, [game.currentTurn]);
+
 
   // Checks if the animation changed
   useEffect(() => {
-    if (entity?.currentAnim && entity?.currentAnim !== 'standBy') {
-      setStandBy(false);
-      runAnim();
-    }
+    // Conditions to skip
+    if (entity?.currentAnim === 'standBy') return;
+
+
+    setStandBy(false);
+    runAnim();
   }, [entity?.currentAnim]);
+
 
   // Game tick useEffect
   useEffect(() => {
+    // Updates the index
+    // Unfortunately, the standBy animation NEEDS to have only 2 frames, otherwise I'll need to change this (1).
+    const nexIndex = standByIndex < (1) ? standByIndex + 1 : 0;
+    setStandByIndex(nexIndex);
+
+    // Conditions to continue
+    if (!standBy) return;
+
     // Setting a variable to the animation. It consists in:
     // anim[0] -> Object: animation frames
     // anim[1] -> Int: Animation duration
@@ -52,15 +81,12 @@ function EntityContainer({entityData, id}) {
     if (entity?.currentAnim === 'standBy') {
       setFrame(animationFrames[standByIndex]);
     }
-    // Updates the index
-    // Unfortunately, the standBy animation NEEDS to have only 2 frames, otherwise I'll need to change this (1).
-    const nexIndex = standByIndex < (1) ? standByIndex + 1 : 0;
-    setStandByIndex(nexIndex);
   }, [gameTick]);
+
 
   // Game useEffect
   useEffect(() => {
-    (game.target === id) ? setSelected(true) : setSelected(false);
+    (game.target === entity?.id) ? setSelected(true) : setSelected(false);
     if (game.currentTurn === 'enemies' && typeof (game.target) === 'number') {
       setSelected(false)
       setGame(produce(draft => {
@@ -113,17 +139,15 @@ function EntityContainer({entityData, id}) {
   }
 
   // Returning the Component
-  if (!isDead) {
-    return (
-      <div id={`enemy${id+1}`} className={`entity-container ${selected ? 'selected' : ''}`}>
-        <h2>{entity?.name}</h2>
-        {entity?.entityType !== 'player' && <HealthBar entity={entity}/>}
-        <img src={frame} alt="entity image" onClick={selectTarget}/>
-        <div className='shadow'></div>
-        <div className='selectedArrow'>▼</div>
-      </div>
-    );
-  }
+  return (
+    <div id={`enemy${entity?.id+1}`} className={`entity-container ${selected ? 'selected' : ''}`}>
+      <h2>{entity?.name}</h2>
+      {entity?.entityType !== 'player' && <HealthBar entity={entity}/>}
+      <img src={frame} alt="entity image" onClick={selectTarget}/>
+      <div className='shadow'></div>
+      <div className='selectedArrow'>▼</div>
+    </div>
+  );
 }
 
 export default EntityContainer;

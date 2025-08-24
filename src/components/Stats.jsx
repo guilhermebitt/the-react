@@ -53,11 +53,11 @@ function Stats({entity}) {
       <div className="stats">
         <div className="stat-holder">
           <img src="./assets/hud/sword.png" alt="" />
-          <p>Atk | Str: <span>{entity?.stats?.attack} | {entity?.stats?.strength}</span></p>
+          <p>Str | Atk: <span>{entity?.stats?.strength} | {entity?.stats?.attack}</span></p>
         </div>
         <div className="stat-holder">
           <img src="./assets/hud/shield.png" alt="" />
-          <p>Def | Con: <span>{entity?.stats?.defense} | {entity?.stats?.constitution}</span></p>
+          <p>Con | Def: <span>{entity?.stats?.constitution} | {entity?.stats?.defense}</span></p>
         </div>
         {
         entity?.name === "Player" && 

@@ -22,13 +22,13 @@
         "2": "/assets/entities/death/death2.png",
         "3": "/assets/entities/death/death3.png",
         "4": "/assets/entities/death/death4.png"
-      }, 1000]
+      }, 100]
   },
   "stats": {
-    "maxHealth": 20,
-    "health": 20,
-    "maxStamina": 20,
-    "stamina": 20,
+    "maxHealth": 10,
+    "health": 10,
+    "maxStamina": 10,
+    "stamina": 10,
     "attack": 10,
     "strength": 1,
     "defense": 5,
@@ -39,5 +39,6 @@
     "evasion": 10,
     "money": 0
   },
-  "actions": 2
+  "actions": 2,
+  "actionsLeft": 200
 }

@@ -1,5 +1,6 @@
 {
   "currentTurn": "player",
+  "specificEnemyTurn": null,
   "target": null,
   "phase": 0,
   "gameTickSpeed": 500

@@ -9,7 +9,7 @@ function ActionButtons(props) {
     <button onClick={props.attack}>Attack</button>
     <button onClick={props.sendMsg}>Message</button>
     <button onClick={props.changeAnim}>Change Animation</button>
-    <button onClick={props.run}>Run</button>
+    <button onClick={props.endTurn}>End Turn</button>
   </div>
   );
 }

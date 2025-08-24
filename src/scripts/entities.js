@@ -15,6 +15,10 @@ export class Entity {
     return min + (array[0] % ((max + 1) - min));
   }
 
+  handleTurn() {
+    return;
+  }
+
   // Chance to hit an enemy (0 - 1)
   hitChance(target) {
     const attackerAccuracy = this.data.stats.accuracy ?? 0;
@@ -36,8 +40,12 @@ export class Entity {
     const strength = this.data.stats.strength;
 
     // Executing animation
-    if (this.data.animations.atk) this.data.currentAnim = 'atk';
-    
+    if (this.data.animations.atk) {
+    this.setData((draft => {
+      draft.currentAnim = 'atk';
+    }));
+    };
+
 
     // Crit
     (this.random(100) > this.data.stats.critChance) ?
@@ -103,5 +111,21 @@ export class Player extends Entity {
 export class Goblin extends Entity {
   constructor(entity, setEntity) {
     super(entity, setEntity);
+  }
+
+  handleTurn(target) {
+    const chance = this.random(100)  // generates a number between 0 and 100
+    let msg = '';
+
+    if (chance < 10) {  // 10% - Attack
+      msg = this.attack(target);
+    } else 
+    if (chance < 50) {  // 40% - Attack
+      msg = this.attack(target);
+    } else
+    if (chance <= 100) {  // 50% - Attack
+      msg = this.attack(target);
+    }
+    return msg;
   }
 }

@@ -36,10 +36,11 @@ export function phrase(text, tag="p", className="default-msg") {
 }
 
 // Function to handle turn changes
-export function turnHandler(turn) {
+export function endTurn() {
   if (!game) return;
   game(produce(draft => {
-    draft.currentTurn = turn;
+    draft.currentTurn = 'enemies';
+    draft.specificEnemyTurn = 0;
   }));
 }
 
