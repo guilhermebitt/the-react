@@ -76,17 +76,17 @@ function EntityContainer({ entityData, player }) {
           draft.currentTurn = 'none';
         }));
       } else
-      if ((game.specificEnemyTurn >= enemiesData.length - 1) && (!playerIsDead)) {
-        setGame(produce(draft => {
-          draft.specificEnemyTurn = 'player';
-          draft.currentTurn = 'player';
-        }));
-        funcs.phrase('Its your turn!');
-      } else {
-        setGame(produce(draft => {
-          draft.specificEnemyTurn = game.specificEnemyTurn + 1;
-        }));
-      }
+        if ((game.specificEnemyTurn >= enemiesData.length - 1) && (!playerIsDead)) {
+          setGame(produce(draft => {
+            draft.specificEnemyTurn = 'player';
+            draft.currentTurn = 'player';
+          }));
+          funcs.phrase('Its your turn!');
+        } else {
+          setGame(produce(draft => {
+            draft.specificEnemyTurn = game.specificEnemyTurn + 1;
+          }));
+        }
 
     })();  // the '()' is to call the async function!
     // -------------------------------------
@@ -179,7 +179,7 @@ function EntityContainer({ entityData, player }) {
     return new Promise(resolve => {
       // CODE FOR THE ENEMY'S TURN
       const turn = enemy?.handleTurn(player);
-      
+
       if (turn.actionType === 'atk') {
         var { attackMsg, killed, timeToWait } = turn.action;
         funcs.phrase(`${turn.msg}. ${attackMsg}`);
@@ -187,7 +187,7 @@ function EntityContainer({ entityData, player }) {
         // Verifying if the player died
         if (killed) {
           funcs.phrase('You died.');
-          setGame(produce(draft => {draft.currentMusic = '/assets/sounds/musics/you_died.ogg'}))
+          setGame(produce(draft => { draft.currentMusic = '/assets/sounds/musics/you_died.ogg' }))
         }
       };
 
@@ -198,7 +198,7 @@ function EntityContainer({ entityData, player }) {
       }, timeToWait);
     });
   }
-  
+
   function runAnim() {
     const anim = entity?.animations[entity?.currentAnim];
     const animationFrames = Object.values(anim[0]);
@@ -235,16 +235,29 @@ function EntityContainer({ entityData, player }) {
 
   // Returning the Component
   return (
-    <div id={`enemy${entity?.id+1}`} className={`entity-container ${selected ? 'selected' : ''} ${game.specificEnemyTurn === entity?.id ? 'turn' : ''}`}>
-      <h2>{entity?.name}</h2>
-      {entity?.entityType !== 'player' && <HealthBar entity={entity}/>}
-      <img src={frame} alt="entity image" onClick={selectTarget} className={hit ? 'hit' : ''}/>
-      <div className='shadow'></div>
-      <div className='selectedArrow'>▼</div>
-      {damage.length > 0 && damage.map((dmg, index) => (
-        <div key={index} className={`damage ${dmg[1] === true ? 'crit' : ''}`}>{dmg[0]}</div>
-      ))}
-    </div>
+    <>
+      {/* Code to toggle both the selected and the turn class */}
+      <div id={`enemy${entity?.id + 1}`} className={
+          `entity-container ${selected ? 'selected' : ''} 
+        ${game.specificEnemyTurn === entity?.id ? 'turn' : ''}`}>
+
+        {/* Name and health bar */}
+        <h2>{entity?.name}</h2>
+        {entity?.entityType !== 'player' && <HealthBar entity={entity} />}
+
+        {/* Image and control of the hit animation */}
+        <img src={frame} alt="entity image" onClick={selectTarget} className={hit ? 'hit' : ''} />
+
+        {/* Extra div (those ones are displayed as "none" by default) */}
+        <div className='shadow'></div>
+        <div className='selectedArrow'>▼</div>
+
+        {/* Code to show the damage dealt */}
+        {damage.length > 0 && damage.map((dmg, index) => (
+          <div key={index} className={`damage ${dmg[1] === true ? 'crit' : ''}`}>{dmg[0]}</div>
+        ))}
+      </div>
+    </>
   );
 }
 

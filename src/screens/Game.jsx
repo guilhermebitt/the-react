@@ -1,7 +1,7 @@
 // COLLAPSE ALL: CONTROL + K + CONTROL + 0
-//# COLLAPSE CLASSES: CONTROL + K + CONTROL + 1
-//# COLLAPSE METHODS: CONTROL + K + CONTROL + 2
-//UNCOLLAPSE ALL: CONTROL+ K + CONTROL + J
+// COLLAPSE CLASSES: CONTROL + K + CONTROL + 1
+// COLLAPSE METHODS: CONTROL + K + CONTROL + 2
+// UNCOLLAPSE ALL: CONTROL+ K + CONTROL + J
 
 // Data
 import playerJson from '../data/player.json' with { type: 'json' };
@@ -128,7 +128,7 @@ function Game() {
     if (game.specificEnemyTurn !== 'player') return;
     player.setData(draft => draft.actionsLeft = player.data.actions);  // resets the actionsLeft of the player
 
-  }, [game.specificEnemyTurn])
+  }, [game.specificEnemyTurn]);
   // --- END OF USE EFFECT ---
 
 

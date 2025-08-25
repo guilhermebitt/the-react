@@ -1,6 +1,8 @@
 // IMPORTANT!!!
 // when settings the entity data (setData), do NOT use produce.
-// Instead, use only draft!
+// Instead, use only draft!17
+
+
 
 export class Entity {
   constructor(entity, setEntity) {
@@ -43,9 +45,9 @@ export class Entity {
 
     // Executing animation
     if (this.data.animations.atk) {
-    this.setData((draft => {
-      draft.currentAnim = 'atk';
-    }));
+      this.setData((draft => {
+        draft.currentAnim = 'atk';
+      }));
     };
 
     // Crit
@@ -76,11 +78,10 @@ export class Entity {
     return {attackMsg, killed, dmg, timeToWait};
   }
 
-  getAttackMessage(realDmg, crit, pureDmg, dmgRed) {
+  getAttackMessage(realDmg, crit) {
     let msg = crit === 1  
-      ? `The attack hit, dealing ${realDmg} points of damage. (${pureDmg} - ${dmgRed})`
-      : `Critical hit! The attack deals ${realDmg} points of damage! (${pureDmg} - ${dmgRed})`;
-
+      ? `The attack hit, dealing ${realDmg} points of damage.`
+      : `Critical hit! The attack deals ${realDmg} points of damage!`;
     return msg;
   }
 
@@ -100,8 +101,13 @@ export class Entity {
 
   // Receive damage
   takeDamage(amount) {
-    const dmgRed = this.calcDamageReduction();
-    const realDmg = Math.max(0, (amount - dmgRed));
+    // The max damage that can be reduced is half of the damage
+    // The '-0.01' is used to guarantee that, if the number is 2.5, the round will round it to the number below (e.g. round(2.5) = 2)
+    const dmgRed = Math.min(this.calcDamageReduction(), Math.round((amount / 2) - 0.01));  
+    const realDmg = Math.max(1, (amount - dmgRed));  // The min damage that will be done if the attacker hits, is 1
+
+    // Debugging
+    console.log ('Damage: ', amount, 'Reduction: ', dmgRed, 'Real Damage', realDmg);
 
     this.setData(draft => {
       // Guarantee that the stats exists
@@ -128,11 +134,10 @@ export class Player extends Entity {
   }
 
   // Generating player attack message
-  getAttackMessage(realDmg, crit, pureDmg, dmgRed) {
+  getAttackMessage(realDmg, crit) {
     let msg = crit === 1  
-      ? `You landed a hit, dealing ${realDmg} points of damage. (${pureDmg} - ${dmgRed})`
-      : `You landed a critical hit! dealing ${realDmg} points of damage! (${pureDmg} - ${dmgRed})`;
-
+      ? `You landed a hit, dealing ${realDmg} points of damage.`
+      : `You landed a critical hit! dealing ${realDmg} points of damage!`;
     return msg;
   }
 }
