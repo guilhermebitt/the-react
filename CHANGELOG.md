@@ -1,3 +1,15 @@
+# [1.0.0-beta.6](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.5...v1.0.0-beta.6) (2025-08-25)
+
+
+### Bug Fixes
+
+* oops... ([164828b](https://github.com/guilhermebitt/the-react/commit/164828b3717d3f17092b894c978f70a466c031af))
+
+
+### Features
+
+* new defense sistem ([7df60e6](https://github.com/guilhermebitt/the-react/commit/7df60e6b693565f93fbfcff2be9558f3e6ca1e4f))
+
 # [1.0.0-beta.5](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.4...v1.0.0-beta.5) (2025-08-25)
 
 
