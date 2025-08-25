@@ -58,15 +58,15 @@ export class Entity {
       dmg += this.random(attack, 1);  // 1 -> attack
     }
 
+    // Reducing the enemy's life
+    const { dmgRed, realDmg } = target.takeDamage(dmg);
+    if ((target?.data?.stats?.health - realDmg) <= 0) killed = true;  // Getting the future state of the target
+
     // Generating final message
-    const attackMsg = this.getAttackMessage(dmg, crit);
+    const attackMsg = this.getAttackMessage(realDmg, crit, dmg, dmgRed);
 
     // Telling the target that the damage was crit
     crit > 1 ? target.setData(draft => draft.dmgWasCrit = true) : target.setData(draft => draft.dmgWasCrit = false)
-
-    // Reducing the enemy's life
-    target.takeDamage(dmg);
-    if ((target?.data?.stats?.health - dmg) <= 0) killed = true;  // Getting the future state of the target
 
     // Calculating the time of the action
     const anim = this.data.animations['atk'];
@@ -76,24 +76,43 @@ export class Entity {
     return {attackMsg, killed, dmg, timeToWait};
   }
 
-  getAttackMessage(dmg, crit) {
+  getAttackMessage(realDmg, crit, pureDmg, dmgRed) {
     let msg = crit === 1  
-      ? `The attack hit, dealing ${dmg} points of damage.`
-      : `Critical hit! The attack deals ${dmg} points of damage!`;
+      ? `The attack hit, dealing ${realDmg} points of damage. (${pureDmg} - ${dmgRed})`
+      : `Critical hit! The attack deals ${realDmg} points of damage! (${pureDmg} - ${dmgRed})`;
 
     return msg;
   }
 
+  calcDamageReduction() {
+    // This function can be used later for effectiveness (e.g. Water is super effectiveness against Fire)
+    const constitution = this?.data?.stats?.constitution;
+    const defense = this?.data?.stats?.defense;
+    let damageReduction = 0;
+
+    // Generating damage reduction
+    for (let i = 0; i < constitution; i++) {
+      damageReduction += this.random(defense, 1);  // 1 -> defense
+    }
+
+    return damageReduction;
+  }
+
   // Receive damage
   takeDamage(amount) {
+    const dmgRed = this.calcDamageReduction();
+    const realDmg = Math.max(0, (amount - dmgRed));
+
     this.setData(draft => {
       // Guarantee that the stats exists
       if (!draft.stats) draft.stats = { health: 0 };
 
       // Reduce the health, never below 0
-      draft.stats.health = Math.max(0, (draft.stats.health || 0) - amount);
+      draft.stats.health = Math.max(0, (draft.stats.health || 0) - realDmg);
     });
-    this.setData(draft => draft.dmgTaken = amount);
+    this.setData(draft => draft.dmgTaken = realDmg);
+
+    return { dmgRed, realDmg };
   }
 
   // Verify if its dead
@@ -109,10 +128,10 @@ export class Player extends Entity {
   }
 
   // Generating player attack message
-  getAttackMessage(dmg, crit) {
+  getAttackMessage(realDmg, crit, pureDmg, dmgRed) {
     let msg = crit === 1  
-      ? `You landed a hit, dealing ${dmg} points of damage.`
-      : `You landed a critical hit! dealing ${dmg} points of damage!`;
+      ? `You landed a hit, dealing ${realDmg} points of damage. (${pureDmg} - ${dmgRed})`
+      : `You landed a critical hit! dealing ${realDmg} points of damage! (${pureDmg} - ${dmgRed})`;
 
     return msg;
   }

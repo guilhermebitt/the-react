@@ -143,10 +143,7 @@ function EntityContainer({ entityData, player }) {
   useEffect(() => {
     if (!entity?.dmgTaken) return;
 
-    
-    
-
-    if (entity?.dmgTaken > 0) setDamage(prev => [...prev, [entity?.dmgTaken, entity?.dmgWasCrit]]);
+    if (entity?.dmgTaken >= 0) setDamage(prev => [...prev, [entity?.dmgTaken, entity?.dmgWasCrit]]);
     if (entity?.dmgTaken === 'Missed') setDamage(prev => [...prev, ["Missed", false]]);
 
     if (entity?.dmgTaken !== 'Missed') {
