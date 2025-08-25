@@ -1,3 +1,10 @@
+# [1.0.0-beta.5](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.4...v1.0.0-beta.5) (2025-08-25)
+
+
+### Features
+
+* defense is now included to the damage calculation ([16a2e5f](https://github.com/guilhermebitt/the-react/commit/16a2e5fb3404dc1852d1a173121b6ce443ce3517))
+
 # [1.0.0-beta.4](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.3...v1.0.0-beta.4) (2025-08-24)
 
 
