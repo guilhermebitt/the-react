@@ -40,9 +40,12 @@ function Game() {
     onCancel: null
   });
 
+  // Creating enemies
+  const snake = createEntityObj('snake');
+
   // Setting the localStorage
   const [playerData, setPlayerData] = useLocalStorage('player', playerJson);
-  const [enemiesData, setEnemiesData] = useLocalStorage('enemies', [enemiesJson['goblin'], enemiesJson['goblin'], enemiesJson['goblin']]);
+  const [enemiesData, setEnemiesData] = useLocalStorage('enemies', [snake, snake, snake]);
   const [game, setGame] = useLocalStorage('game', gameJson);
   const [settings] = useLocalStorage('settings', settingsJson);
   const [, setTerminalText] = useLocalStorage('terminalText', []);
@@ -189,6 +192,19 @@ function Game() {
       onConfirm: onConfirm || (() => {}),
       onCancel: onCancel || (() => setConfirmDialog(prev => ({ ...prev, visible: false }))),
     });
+  }
+
+  function createEntityObj(name) {
+    const entity = new Object({
+      ...enemiesJson['commonProperties'],
+      ...enemiesJson[name],
+      "animations": {
+        ...enemiesJson[name]['animations'],
+        ...enemiesJson['deathAnimation']
+      }
+    });
+    
+    return entity;
   }
 
   // -- RETURNING THE GAME ---

@@ -1,9 +1,10 @@
 // IMPORTANT!!!
 // when settings the entity data (setData), do NOT use produce.
-// Instead, use only draft!17
+// Instead, use only draft!
 
 
 
+// --------- ENTITIES ---------
 export class Entity {
   constructor(entity, setEntity) {
     this.data = entity;
@@ -30,11 +31,18 @@ export class Entity {
 
   // Attack to entity
   attack(target) {
+    // Executing animation
+    if (this.data.animations.atk) {
+      this.setData((draft => {
+      draft.currentAnim = 'atk';
+    }))};
+
+    // Rest of the action
     if (this.random(100) > this.hitChance(target)) {
       // Entity Missed
       target.setData(draft => draft.dmgTaken = "Missed");
       return { attackMsg: "The attack missed.", killed: false, dmg: "Missed", timeToWait: 1000};
-    }
+    };
 
     // Entity Hit
     let dmg = 0;
@@ -42,13 +50,6 @@ export class Entity {
     let killed = false;
     const attack = this.data.stats.attack;
     const strength = this.data.stats.strength;
-
-    // Executing animation
-    if (this.data.animations.atk) {
-      this.setData((draft => {
-        draft.currentAnim = 'atk';
-      }));
-    };
 
     // Crit
     (this.random(100) > this.data.stats.critChance) ?
@@ -73,7 +74,7 @@ export class Entity {
     // Calculating the time of the action
     const anim = this.data.animations['atk'];
     const animationFrames = Object.values(anim[0]);
-    const timeToWait = anim[1] * animationFrames.length;
+    const timeToWait = (anim[1] * animationFrames.length) + 500;  // Adding more 0.5s on the end of the animation
 
     return {attackMsg, killed, dmg, timeToWait};
   }
@@ -142,8 +143,8 @@ export class Player extends Entity {
   }
 }
 
-// --- GOBLIN ---
-export class Goblin extends Entity {
+// --- ENEMY ---
+export class Enemy extends Entity {
   constructor(entity, setEntity) {
     super(entity, setEntity);
   }
@@ -152,17 +153,7 @@ export class Goblin extends Entity {
     const chance = this.random(100)  // generates a number between 0 and 100
     let turn = {};
 
-    if (chance < 10) {  // 10% - Attack
-      turn.action = this.attack(target);
-      turn.msg = 'The enemy tries to attack you';
-      turn.actionType = 'atk'
-    } else 
-    if (chance < 50) {  // 40% - Attack
-      turn.action = this.attack(target);
-      turn.msg = 'The enemy tries to attack you';
-      turn.actionType = 'atk'
-    } else
-    if (chance <= 100) {  // 50% - Attack
+    if (chance >= 0) {  // 100% Attack
       turn.action = this.attack(target);
       turn.msg = 'The enemy tries to attack you';
       turn.actionType = 'atk'
@@ -171,3 +162,22 @@ export class Goblin extends Entity {
     return turn;
   }
 }
+// ----------------------------
+
+
+
+// --------- ENEMIES ---------
+// --- GOBLIN ---
+export class Goblin extends Enemy {
+  constructor(entity, setEntity) {
+    super(entity, setEntity);
+  }
+}
+
+// --- SNAKE ---
+export class Snake extends Enemy {
+  constructor(entity, setEntity) {
+    super(entity, setEntity);
+  }
+}
+// ---------------------------
