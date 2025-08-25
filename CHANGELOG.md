@@ -1,3 +1,10 @@
+# [1.0.0-beta.7](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.6...v1.0.0-beta.7) (2025-08-25)
+
+
+### Features
+
+* new enemy 'Snake' ([517938a](https://github.com/guilhermebitt/the-react/commit/517938ab3a86602116d8793779361b4698f6038e))
+
 # [1.0.0-beta.6](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.5...v1.0.0-beta.6) (2025-08-25)
 
 
