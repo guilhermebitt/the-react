@@ -1,3 +1,11 @@
+# [1.0.0-beta.9](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.8...v1.0.0-beta.9) (2025-08-27)
+
+
+### Bug Fixes
+
+* another error ([47d63a3](https://github.com/guilhermebitt/the-react/commit/47d63a3aed90c407da147349108edb097bcf814d))
+* idk wtf happend, but the entities images desappeared, so I reset the commit ([3f8da0d](https://github.com/guilhermebitt/the-react/commit/3f8da0d937b13f12fae55a80f66f20bcea631269))
+
 # [1.0.0-beta.8](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.7...v1.0.0-beta.8) (2025-08-27)
 
 
