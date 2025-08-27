@@ -74,7 +74,7 @@ export class Entity {
     // Calculating the time of the action
     const anim = this.data.animations['atk'];
     const animationFrames = Object.values(anim[0]);
-    const timeToWait = (anim[1] * animationFrames.length) + 500;  // Adding more 0.5s on the end of the animation
+    const timeToWait = (anim[1] * animationFrames.length);
 
     return {attackMsg, killed, dmg, timeToWait};
   }
