@@ -53,7 +53,10 @@ function EntityContainer({ entityData, player }) {
       hitSound.currentTime = 0; // reset
       hitSoundRef.current = null;
     };
-  }, [])
+  }, []);
+
+  // --- END OF USE EFFECT ---
+
 
   // Code for enemies turn
   useEffect(() => {
@@ -92,7 +95,9 @@ function EntityContainer({ entityData, player }) {
     // -------------------------------------
 
   }, [game.specificEnemyTurn]);
+
   // --- END OF USE EFFECT ---
+
 
   // Checks if the animation changed
   useEffect(() => {
@@ -102,6 +107,7 @@ function EntityContainer({ entityData, player }) {
     setStandBy(false);
     runAnim();
   }, [entity?.currentAnim]);
+
   // --- END OF USE EFFECT ---
 
 
@@ -109,7 +115,7 @@ function EntityContainer({ entityData, player }) {
   useEffect(() => {
     // Updates the index
     // Unfortunately, the standBy animation NEEDS to have only 2 frames, otherwise I'll need to change this (1).
-    const nexIndex = standByIndex < (1) ? standByIndex + 1 : 0;
+    const nexIndex = standByIndex < (entity?.animations['standBy']?.length) ? standByIndex + 1 : 0;
     setStandByIndex(nexIndex);
 
     // Conditions to continue
@@ -126,7 +132,9 @@ function EntityContainer({ entityData, player }) {
       setFrame(animationFrames[standByIndex]);
     }
   }, [gameTick]);
+
   // --- END OF USE EFFECT ---
+
 
   // Game useEffect
   useEffect(() => {
@@ -138,6 +146,9 @@ function EntityContainer({ entityData, player }) {
       }));
     };
   }, [game]);
+
+  // --- END OF USE EFFECT ---
+
 
   // Entity LIFE useEffect
   useEffect(() => {
@@ -173,7 +184,9 @@ function EntityContainer({ entityData, player }) {
     })
 
   }, [entity?.dmgTaken]);
+
   // --- END OF USE EFFECT ---
+
 
   function enemyTurn(enemy) {
     return new Promise(resolve => {
@@ -195,7 +208,7 @@ function EntityContainer({ entityData, player }) {
       const timer = setTimeout(() => {
         resolve(killed);  // resolving the promise!
         clearTimeout(timer);
-      }, timeToWait + 250);  // Time before the enemy end its turn
+      }, timeToWait + 250);  // more 250ms to the enemy's actions
     });
   }
 
