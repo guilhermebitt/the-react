@@ -175,7 +175,7 @@ function Game() {
 
     setTimeout(() => {
       setGame(produce(draft => {draft.currentTurn = lastTurn}));
-    }, timeToWait + 500);
+    }, timeToWait);
     // ------------------
 
 

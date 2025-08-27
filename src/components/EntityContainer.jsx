@@ -195,7 +195,7 @@ function EntityContainer({ entityData, player }) {
       const timer = setTimeout(() => {
         resolve(killed);  // resolving the promise!
         clearTimeout(timer);
-      }, timeToWait);
+      }, timeToWait + 250);  // Time before the enemy end its turn
     });
   }
 
