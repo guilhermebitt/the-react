@@ -1,3 +1,10 @@
+# [1.0.0-beta.10](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.9...v1.0.0-beta.10) (2025-08-27)
+
+
+### Features
+
+* started to change the gameTick sistem and animation (new hooks) ([4d3f3b6](https://github.com/guilhermebitt/the-react/commit/4d3f3b64cce0913071fbc61e2046ddfd2fba7e0e))
+
 # [1.0.0-beta.9](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.8...v1.0.0-beta.9) (2025-08-27)
 
 
