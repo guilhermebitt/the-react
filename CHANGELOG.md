@@ -1,3 +1,10 @@
+# [1.0.0-beta.8](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.7...v1.0.0-beta.8) (2025-08-27)
+
+
+### Bug Fixes
+
+* changed the delay to player animations ([2db9a0f](https://github.com/guilhermebitt/the-react/commit/2db9a0fa0a8718d6ab420c1d8aba1f38e8e5ca9b))
+
 # [1.0.0-beta.7](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.6...v1.0.0-beta.7) (2025-08-25)
 
 
