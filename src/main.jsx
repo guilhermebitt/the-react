@@ -2,7 +2,7 @@
 import ReactDOM from 'react-dom/client';
 
 // Components
-import VersionBadge from './components/VersionBadge.jsx';
+import VersionBadge from './components/common/VersionBadge.jsx';
 
 // Screens
 import App from './App';

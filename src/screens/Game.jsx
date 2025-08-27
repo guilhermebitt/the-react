@@ -12,17 +12,20 @@ import settingsJson from '../data/settings.json' with { type: 'json' };
 // Dependencies
 import { useEffect, useRef, useState } from 'react';
 import { useLocalStorage } from 'usehooks-ts';
-import * as funcs from '../scripts/functions.js';
-import * as Entities from '../scripts/entities.js';
+import * as funcs from '../utils/functions.js';
+import * as Entities from '../utils/entities.js';
 import { produce } from "immer";
 
 // Components
-import MapContainer from '../components/MapContainer.jsx';
-import ActionButtons from '../components/ActionButtons.jsx';
-import Terminal from '../components/Terminal.jsx';
-import Header from '../components/Header.jsx';
-import Stats from '../components/Stats.jsx';
-import ConfirmDialog from '../components/ConfirmDialog.jsx';
+import MapContainer from '../components/game/MapContainer.jsx';
+import ActionButtons from '../components/common/ActionButtons.jsx';
+import Terminal from '../components/game/Terminal.jsx';
+import Header from '../components/game/Header.jsx';
+import Stats from '../components/ui/Stats.jsx';
+import ConfirmDialog from '../components/common/ConfirmDialog.jsx';
+
+// Hooks
+import useGameTick from '../hooks/useGameTick.js';
 
 // Stylesheet
 import '../assets/css/screens_style/Game.css';
@@ -49,7 +52,6 @@ function Game() {
   const [game, setGame] = useLocalStorage('game', gameJson);
   const [settings] = useLocalStorage('settings', settingsJson);
   const [, setTerminalText] = useLocalStorage('terminalText', []);
-  const [, setGameTick] = useLocalStorage('gameTick', 0);
 
   // Setting player
   const setSafePlayerData = (recipe) => {
@@ -73,32 +75,26 @@ function Game() {
   // Initializing funcs
   funcs.init(setTerminalText, setGame);
 
+  // Starting the gameTick
+  useGameTick();
 
   // --- USE EFFECTS --- 
   // On game load:
   useEffect(() => {
+
     // Applying an id for each enemy in enemies list
     enemies.forEach((enemy, index) => {
       enemy.setData(draft => draft.id = index)
     })
-
-    // ----- TICK SPEED -----
-    // setting the gameTickSpeed
-    const tickTime = game.gameTickSpeed; // default is 1000
     
     player.setData((draft => {
-      draft.animations.standBy[1] = tickTime;
+      draft.animations.standBy[1] = game.tickSpeed;
     }));
     enemies.forEach((enemy) => {
       enemy.setData(draft => {
-        draft.animations.standBy[1] = tickTime;
+        draft.animations.standBy[1] = game.tickSpeed;
       });
     })
-    
-    // Updating gameTick
-    const gameTickInterval = setInterval(() => {
-      setGameTick(prev => prev + 1);
-    }, tickTime);
 
     // ----- GAME MUSIC -----
     // Loading music
@@ -115,7 +111,6 @@ function Game() {
     setLoading(false);
 
     return () => {
-      clearInterval(gameTickInterval);
       gameMusic.pause();
       gameMusic.currentTime = 0; // reset
       gameMusicRef.current = null;
@@ -211,7 +206,7 @@ function Game() {
   return (
     <main id='game'>
       {/* CONFIRM DIALOG */}
-      <ConfirmDialog 
+     <ConfirmDialog 
         visible={confirmDialog.visible}
         message={confirmDialog.message}
         onConfirm={() => {
@@ -223,24 +218,24 @@ function Game() {
           setConfirmDialog(prev => {return{...prev, visible: false}});
         }}
       />
-
+  
       {/* TOP SECTION */}
       <section className='x-section top'>
         <Header />
       </section>
-
+  
       {/* MAP SECTION */}
       <section className='x-section map'>
         <MapContainer player={player} enemies={enemies} />
       </section>
-
+  
       {/* STATS AND TERMINAL */}
       <section className='x-section statistics'>
         <Stats entity={player.data} />
 
         <Terminal />
       </section>
-
+  
       {/* ACTION BUTTONS */}
       <section className='x-section bottom'>
         <ActionButtons 

@@ -1,5 +1,5 @@
 // Data
-import settingsJson from '../data/settings.json' with { type: 'json' };
+import settingsJson from '../../data/settings.json' with { type: 'json' };
 
 // Dependencies
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -9,10 +9,10 @@ import { useLocalStorage } from 'usehooks-ts';
 import { produce } from "immer";
 
 // Components
-import OptionButtons from './OptionButtons';
+import OptionButtons from '../common/OptionButtons';
 
 // Stylesheets
-import '../assets/css/components_style/Header.css';
+import '../../assets/css/components_style/Header.css';
 
 
 

@@ -1,18 +1,18 @@
 // Data
-import gameJson from '../data/game.json' with { type: 'json' };
-import settingsJson from '../data/settings.json' with { type: 'json' };
+import gameJson from '../../data/game.json' with { type: 'json' };
+import settingsJson from '../../data/settings.json' with { type: 'json' };
 
 // Dependencies
 import { useEffect, useState, useRef } from 'react';
 import { useLocalStorage } from 'usehooks-ts';
-import * as funcs from '../scripts/functions.js';
+import * as funcs from '../../utils/functions.js';
 import { produce } from "immer";
 
 // Components
-import HealthBar from './HealthBar';
+import HealthBar from '../ui/HealthBar.jsx';
 
 // Stylesheet
-import '../assets/css/components_style/EntityContainer.css';
+import '../../assets/css/components_style/EntityContainer.css';
 
 
 
@@ -21,6 +21,12 @@ function EntityContainer({ entityData, player }) {
   const entity = entityData.data;
   const setEntity = entityData.setData;
 
+  // Loading Game Storage
+  const [game, setGame] = useLocalStorage('game', gameJson);
+  const [, setTerminalText] = useLocalStorage('terminalText', []);
+  const [enemiesData] = useLocalStorage('enemies');
+  const [settings] = useLocalStorage('settings', settingsJson);
+
   // Getting useStates
   const [frame, setFrame] = useState(entity?.img);
   const [standBy, setStandBy] = useState(true);
@@ -28,13 +34,6 @@ function EntityContainer({ entityData, player }) {
   const [standByIndex, setStandByIndex] = useState(0);
   const [damage, setDamage] = useState([[]]);
   const [hit, setHit] = useState(false);
-
-  // Loading Game Storage
-  const [game, setGame] = useLocalStorage('game', gameJson);
-  const [, setTerminalText] = useLocalStorage('terminalText', []);
-  const [gameTick] = useLocalStorage('gameTick');
-  const [enemiesData] = useLocalStorage('enemies');
-  const [settings] = useLocalStorage('settings', settingsJson);
 
   // Initializing funcs
   funcs.init(setTerminalText, setGame);
@@ -131,7 +130,7 @@ function EntityContainer({ entityData, player }) {
     if (entity?.currentAnim === 'standBy') {
       setFrame(animationFrames[standByIndex]);
     }
-  }, [gameTick]);
+  }, [game.gameTick]);
 
   // --- END OF USE EFFECT ---
 
@@ -218,7 +217,6 @@ function EntityContainer({ entityData, player }) {
     const frameDuration = anim[1];
 
     // Set the first frame and changes the index to next frames
-    debugger;
     setFrame(animationFrames[0]);
     let index = 1;
 

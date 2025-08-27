@@ -1,8 +1,8 @@
 // Dependencies
-import version from '../version.js';
+import version from '../../utils/version.js';
 
 // Stylesheets
-import '../assets/css/components_style/VersionBadge.css';
+import '../../assets/css/components_style/VersionBadge.css';
 
 
 

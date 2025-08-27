@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useLocalStorage } from "usehooks-ts";
 
 // Stylesheets
-import '../assets/css/components_style/Terminal.css';
+import '../../assets/css/components_style/Terminal.css';
 
 
 function Terminal() {

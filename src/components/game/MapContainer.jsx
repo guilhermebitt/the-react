@@ -2,7 +2,7 @@
 import EntityContainer from './EntityContainer.jsx';
 
 // Stylesheet
-import '../assets/css/components_style/MapContainer.css';
+import '../../assets/css/components_style/MapContainer.css';
 
 
 

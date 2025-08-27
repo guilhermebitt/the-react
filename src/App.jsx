@@ -9,7 +9,7 @@ import Settings from './screens/Settings.jsx';
 import Game from './screens/Game.jsx';
 
 // Stylesheet
-import './App.css';
+import './assets/css/App.css';
 
 
 

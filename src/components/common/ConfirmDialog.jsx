@@ -2,7 +2,7 @@
 import { useState } from 'react';
 
 // Stylesheet
-import '../assets/css/components_style/ConfirmDialog.css';
+import '../../assets/css/components_style/ConfirmDialog.css';
 
 
 

@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 
 // Stylesheets
-import '../assets/css/components_style/Stats.css';
+import '../../assets/css/components_style/Stats.css';
 
 
 

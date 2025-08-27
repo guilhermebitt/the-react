@@ -4,7 +4,7 @@ import gameData from '../data/game.json' with { type: 'json' };
 // Dependencies
 import { Link } from 'react-router-dom';
 import { useLocalStorage } from 'usehooks-ts';
-import { clearStorage } from '../scripts/functions';
+import { clearStorage } from '../utils/functions';
 
 // Stylesheet
 import '../assets/css/screens_style/menus.css';
