@@ -115,7 +115,7 @@ function EntityContainer({ entityData, player }) {
   useEffect(() => {
     // Updates the index
     // Unfortunately, the standBy animation NEEDS to have only 2 frames, otherwise I'll need to change this (1).
-    const nexIndex = standByIndex < (entity?.animations['standBy']?.length) ? standByIndex + 1 : 0;
+    const nexIndex = standByIndex < (entity?.animations['standBy']?.length - 1) ? standByIndex + 1 : 0;
     setStandByIndex(nexIndex);
 
     // Conditions to continue
@@ -218,6 +218,7 @@ function EntityContainer({ entityData, player }) {
     const frameDuration = anim[1];
 
     // Set the first frame and changes the index to next frames
+    debugger;
     setFrame(animationFrames[0]);
     let index = 1;
 
