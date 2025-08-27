@@ -3,6 +3,8 @@
 // COLLAPSE METHODS: CONTROL + K + CONTROL + 2
 // UNCOLLAPSE ALL: CONTROL+ K + CONTROL + J
 
+
+
 // Data
 import playerJson from '../data/player.json' with { type: 'json' };
 import enemiesJson from '../data/enemies.json' with { type: 'json' };

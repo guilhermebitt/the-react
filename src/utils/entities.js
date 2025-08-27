@@ -181,3 +181,6 @@ export class Snake extends Enemy {
   }
 }
 // ---------------------------
+
+
+
