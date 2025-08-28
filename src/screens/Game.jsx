@@ -25,6 +25,7 @@ import Terminal from '../components/game/Terminal.jsx';
 import Header from '../components/game/Header.jsx';
 import Stats from '../components/ui/Stats.jsx';
 import ConfirmDialog from '../components/common/ConfirmDialog.jsx';
+import Loading from '../components/common/Loading.jsx';
 
 // Hooks
 import useGameTick from '../hooks/useGameTick.js';
@@ -38,6 +39,7 @@ function Game() {
   // React Hooks
   const gameMusicRef = useRef(null);
   const [loading, setLoading] = useState(true);
+  const [loadingCounter, setLoadingCounter] = useState(1);  // This number refers to the number of loading assets
   const [confirmDialog, setConfirmDialog] = useState({
     visible: false,
     message: 'Are you sure?',
@@ -81,6 +83,14 @@ function Game() {
   useGameTick();
 
   // --- USE EFFECTS --- 
+
+  // Loading Effect
+  useEffect(() => {
+    if (loadingCounter === 0) {
+      setLoading(false);
+    }
+  }, [loadingCounter])
+
   // On game load:
   useEffect(() => {
 
@@ -101,21 +111,23 @@ function Game() {
     // ----- GAME MUSIC -----
     // Loading music
     const gameMusic = new Audio('/assets/sounds/musics/the_music.ogg');
-    gameMusic.loop = true;   // to loop the music
-    gameMusic.volume = settings.musicVolume;  // volume, from 0 to 1
-    gameMusic.muted;
-    gameMusic.play().catch(err => {
-      console.log("Autoplay bloqueado pelo navegador:", err);
-    });
-    gameMusicRef.current = gameMusic
 
-    // Finished loading
-    setLoading(false);
+    const handleReady = () => {
+      setLoadingCounter(prev => prev - 1);
+      gameMusic.play().catch(err => console.warn("Erro ao tocar:", err));
+      gameMusic.loop = true;   // to loop the music
+      gameMusic.volume = settings.musicVolume;  // volume, from 0 to 1
+    }
+
+    gameMusic.addEventListener("canplaythrough", handleReady, { once: true });
+
+    gameMusicRef.current = gameMusic;
 
     return () => {
       gameMusic.pause();
       gameMusic.currentTime = 0; // reset
       gameMusicRef.current = null;
+      gameMusic.removeEventListener("canplaythrough", handleReady);
     };
   }, []);
   // --- END OF USE EFFECT ---
@@ -205,6 +217,7 @@ function Game() {
   }
 
   // -- RETURNING THE GAME ---
+  if (loading) return <Loading />
   return (
     <main id={styles['game']}>
       {/* CONFIRM DIALOG */}
