@@ -54,7 +54,6 @@ function EntityContainer({ entityData, player }) {
     };
   }, []);
 
-  // --- END OF USE EFFECT ---
 
 
   // Code for enemies turn
@@ -95,7 +94,6 @@ function EntityContainer({ entityData, player }) {
 
   }, [game.specificEnemyTurn]);
 
-  // --- END OF USE EFFECT ---
 
 
   // Checks if the animation changed
@@ -107,24 +105,20 @@ function EntityContainer({ entityData, player }) {
     runAnim();
   }, [entity?.currentAnim]);
 
-  // --- END OF USE EFFECT ---
 
 
   // Game tick useEffect
   useEffect(() => {
     // Updates the index
-    // Unfortunately, the standBy animation NEEDS to have only 2 frames, otherwise I'll need to change this (1).
-    const nexIndex = standByIndex < (entity?.animations['standBy']?.length - 1) ? standByIndex + 1 : 0;
+    const nexIndex = standByIndex < (entity?.animations['standBy']?.frames?.length - 1) ? standByIndex + 1 : 0;
     setStandByIndex(nexIndex);
 
     // Conditions to continue
     if (!standBy) return;
 
-    // Setting a variable to the animation. It consists in:
-    // anim[0] -> Object: animation frames
-    // anim[1] -> Int: Animation duration
+    // Setting a variable to the animation.
     const anim = entity?.animations[entity?.currentAnim];
-    const animationFrames = Object.values(anim[0]);
+    const animationFrames = anim.frames;
 
     // Updates the entity's image if the animation is standBy
     if (entity?.currentAnim === 'standBy') {
@@ -132,7 +126,6 @@ function EntityContainer({ entityData, player }) {
     }
   }, [game.gameTick]);
 
-  // --- END OF USE EFFECT ---
 
 
   // Game useEffect
@@ -146,7 +139,6 @@ function EntityContainer({ entityData, player }) {
     };
   }, [game]);
 
-  // --- END OF USE EFFECT ---
 
 
   // Entity LIFE useEffect
@@ -184,9 +176,10 @@ function EntityContainer({ entityData, player }) {
 
   }, [entity?.dmgTaken]);
 
-  // --- END OF USE EFFECT ---
 
 
+
+  // ----- FUNCTIONS -----
   function enemyTurn(enemy) {
     return new Promise(resolve => {
       // CODE FOR THE ENEMY'S TURN
@@ -213,8 +206,8 @@ function EntityContainer({ entityData, player }) {
 
   function runAnim() {
     const anim = entity?.animations[entity?.currentAnim];
-    const animationFrames = Object.values(anim[0]);
-    const frameDuration = anim[1];
+    const animationFrames = anim.frames;
+    const frameDuration = anim.duration;
 
     // Set the first frame and changes the index to next frames
     setFrame(animationFrames[0]);
@@ -244,6 +237,9 @@ function EntityContainer({ entityData, player }) {
       }));
     }
   }
+
+
+
 
   // Returning the Component
   return (

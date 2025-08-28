@@ -16,6 +16,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useLocalStorage } from 'usehooks-ts';
 import * as funcs from '../utils/functions.js';
 import * as Entities from '../utils/entities.js';
+import { getEntitiesAssets } from '../utils/loadAssets.js';
 import { produce } from "immer";
 
 // Components
@@ -93,6 +94,7 @@ function Game() {
 
   // On game load:
   useEffect(() => {
+    getEntitiesAssets(enemies);
 
     // Applying an id for each enemy in enemies list
     enemies.forEach((enemy, index) => {

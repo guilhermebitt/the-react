@@ -6,30 +6,29 @@
   },
 
   "deathAnimation": {
-  "death": [{
-    "0": "/assets/entities/death/death0.png",
-    "1": "/assets/entities/death/death1.png",
-    "2": "/assets/entities/death/death2.png",
-    "3": "/assets/entities/death/death3.png",
-    "4": "/assets/entities/death/death4.png"
-  }, 100]
-    },
+    "death": {
+      "frames": [
+      "/assets/entities/death/death0.png",
+      "/assets/entities/death/death1.png",
+      "/assets/entities/death/death2.png",
+      "/assets/entities/death/death3.png",
+      "/assets/entities/death/death4.png"
+      ],
+      "duration": 100
+    }
+  },
 
   "goblin": {
     "name": "Goblin",
     "img": "/assets/entities/goblin/goblin0.png",
     "animations": {
-      "standBy": [{
-        "0": "/assets/entities/goblin/goblin0.png",
-        "1": "/assets/entities/goblin/goblin1.png"
-      }, 1000],
-      "atk": [{
-        "0": "/assets/entities/death/death0.png",
-        "1": "/assets/entities/death/death1.png",
-        "2": "/assets/entities/death/death2.png",
-        "3": "/assets/entities/death/death3.png",
-        "4": "/assets/entities/death/death4.png"
-      }, 300]
+      "standBy": {
+        "frames": [
+          "/assets/entities/goblin/goblin0.png",
+          "/assets/entities/goblin/goblin1.png"
+        ],
+        "duration": 1000
+      }
     },
     "stats": {
       "maxHealth": 10,
@@ -51,18 +50,24 @@
     "name": "Snake",
     "img": "/assets/entities/snake/snake0.png",
     "animations": {
-      "standBy": [{
-        "0": "/assets/entities/snake/snake0.png",
-        "1": "/assets/entities/snake/snake1.png"
-      }, 1000],
-      "atk": [{
-        "0": "/assets/entities/snake/snake_atk0.png",
-        "1": "/assets/entities/snake/snake_atk1.png",
-        "2": "/assets/entities/snake/snake_atk2.png",
-        "3": "/assets/entities/snake/snake_atk1.png",
-        "4": "/assets/entities/snake/snake_atk0.png",
-        "5": "/assets/entities/snake/snake0.png"
-      }, 100]
+      "standBy": {
+        "frames": [
+          "/assets/entities/snake/snake0.png",
+          "/assets/entities/snake/snake1.png"
+        ],
+        "duration": 1000
+      },
+      "atk": {
+        "frames": [
+          "/assets/entities/snake/snake_atk0.png",
+          "/assets/entities/snake/snake_atk1.png",
+          "/assets/entities/snake/snake_atk2.png",
+          "/assets/entities/snake/snake_atk1.png",
+          "/assets/entities/snake/snake_atk0.png",
+          "/assets/entities/snake/snake0.png"
+        ],
+        "duration": 100
+      }
     },
     "stats": {
       "maxHealth": 10,
