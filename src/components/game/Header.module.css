@@ -54,7 +54,7 @@ div.h-btn-container {
   transform: rotate(-180deg);
 }
 
-.no-rotate {
+.noRotate {
   transition: transform 0.3s ease;
   transform: rotate(0deg);
 }

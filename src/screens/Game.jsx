@@ -30,7 +30,7 @@ import ConfirmDialog from '../components/common/ConfirmDialog.jsx';
 import useGameTick from '../hooks/useGameTick.js';
 
 // Stylesheet
-import '../assets/css/screens_style/Game.css';
+import styles from'./Game.module.css';
 
 
 
@@ -206,7 +206,7 @@ function Game() {
 
   // -- RETURNING THE GAME ---
   return (
-    <main id='game'>
+    <main id={styles['game']}>
       {/* CONFIRM DIALOG */}
      <ConfirmDialog 
         visible={confirmDialog.visible}
@@ -222,24 +222,24 @@ function Game() {
       />
   
       {/* TOP SECTION */}
-      <section className='x-section top'>
+      <section className={`${styles['x-section']} ${styles['top']}`}>
         <Header />
       </section>
   
       {/* MAP SECTION */}
-      <section className='x-section map'>
+      <section className={`${styles['x-section']} ${styles['map']}`}>
         <MapContainer player={player} enemies={enemies} />
       </section>
   
       {/* STATS AND TERMINAL */}
-      <section className='x-section statistics'>
+      <section className={`${styles['x-section']} ${styles['statistics']}`}>
         <Stats entity={player.data} />
 
         <Terminal />
       </section>
   
       {/* ACTION BUTTONS */}
-      <section className='x-section bottom'>
+      <section className={`${styles['x-section']} ${styles['bottom']}`}>
         <ActionButtons 
           attack={() => game.currentTurn === 'player' && doAttack()} 
           changeAnim={(null)} 

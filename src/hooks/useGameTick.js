@@ -12,28 +12,25 @@ function useGameTick() {
   const [game, setGame] = useLocalStorage('game', gameJson);
   const [tick, setTick] = useState(game.gameTick || 0);
 
-  // Updating gameTick
+  // 1. Updates the tick interval
   useEffect(() => {
     const tickSpeed = game.tickSpeed || 500;
 
-    // Updating gameTick
     const gameTickInterval = setInterval(() => {
-      setTick(prevTick => {
-        const newTick = (prevTick === 0 ? 1 : 0);
-
-        // Updates the gameTick too
-        setGame(produce(draft => {
-          draft.gameTick = newTick;
-        }));
-
-        return newTick;
-      });
+      setTick(prevTick => (prevTick === 0 ? 1 : 0));
     }, tickSpeed);
 
     return () => {
       clearInterval(gameTickInterval);
     };
-  }, [game.tickSpeed, setGame]);
+  }, [game.tickSpeed]);
+
+  // 2. Reacts to the change
+  useEffect(() => {
+    setGame(produce(draft => {
+      draft.gameTick = tick;
+    }));
+  }, [tick, setGame]);
 
 }
 

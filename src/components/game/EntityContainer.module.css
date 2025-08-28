@@ -1,16 +1,26 @@
-.entity-container {
+.entityContainer {
   display: flex;
   flex-direction: column;
   align-self: flex-start;
   height: 100%;
 }
 
-.entity-container img {
+.entityContainer img {
   height: 65%;
   z-index: 1;
 }
 
-.entity-container img.hit {
+.enemy1 {
+  transform: translateY(-20px) translateX(-25%);
+}
+.enemy2 {
+  transform: translateY(0px)translateX(0%);
+}
+.enemy3 {
+  transform: translateY(-20px)translateX(25%);
+}
+
+.entityContainer img.hit {
   animation: takeDamage 1s ease 1;
 }
 

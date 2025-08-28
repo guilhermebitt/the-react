@@ -12,7 +12,7 @@ import { produce } from "immer";
 import HealthBar from '../ui/HealthBar.jsx';
 
 // Stylesheet
-import '../../assets/css/components_style/EntityContainer.css';
+import styles from './EntityContainer.module.css';
 
 
 
@@ -249,24 +249,24 @@ function EntityContainer({ entityData, player }) {
   return (
     <>
       {/* Code to toggle both the selected and the turn class */}
-      <div id={`enemy${entity?.id + 1}`} className={
-          `entity-container ${selected ? 'selected' : ''} 
-        ${game.specificEnemyTurn === entity?.id ? 'turn' : ''}`}>
+      <div className={
+          `${styles[`enemy${entity?.id + 1}`]} ${styles.entityContainer} ${selected ? styles.selected : ''} 
+        ${game.specificEnemyTurn === entity?.id ? styles.turn : ''}`}>
 
         {/* Name and health bar */}
         <h2>{entity?.name}</h2>
         {entity?.entityType !== 'player' && <HealthBar entity={entity} />}
 
         {/* Image and control of the hit animation */}
-        <img src={frame} alt="entity image" onClick={selectTarget} className={hit ? 'hit' : ''} />
+        <img src={frame} alt="entity image" onClick={selectTarget} className={hit ? styles.hit : ''} />
 
         {/* Extra div (those ones are displayed as "none" by default) */}
-        <div className='shadow'></div>
-        <div className='selectedArrow'>▼</div>
+        <div className={styles.shadow}></div>
+        <div className={styles.selectedArrow}>▼</div>
 
         {/* Code to show the damage dealt */}
         {damage.length > 0 && damage.map((dmg, index) => (
-          <div key={index} className={`damage ${dmg[1] === true ? 'crit' : ''}`}>{dmg[0]}</div>
+          <div key={index} className={`${styles.damage} ${dmg[1] === true ? styles.crit : ''}`}>{dmg[0]}</div>
         ))}
       </div>
     </>

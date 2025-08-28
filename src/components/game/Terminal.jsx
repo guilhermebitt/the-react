@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useLocalStorage } from "usehooks-ts";
 
 // Stylesheets
-import '../../assets/css/components_style/Terminal.css';
+import styles from './Terminal.module.css';
 
 
 function Terminal() {
@@ -23,11 +23,11 @@ function Terminal() {
     }, [terminalText]);
 
     return (
-        <div className="terminal">
+        <div className={styles.terminal}>
             {(Array.isArray(terminalText) ? terminalText : []).map((html, index) => (
                 <div
                     key={index}
-                    className="terminal-line"
+                    className={styles.terminalLine}
                     dangerouslySetInnerHTML={{ __html: html }}
                 />
             ))}

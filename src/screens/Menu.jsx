@@ -7,7 +7,7 @@ import { useLocalStorage } from 'usehooks-ts';
 import { clearStorage } from '../utils/functions';
 
 // Stylesheet
-import '../assets/css/screens_style/menus.css';
+import styles from './menus.module.css';
 
 function Menu() {
   const [currentTurn, setCurrentTurn] = useLocalStorage('currentTurn', gameData.currentTurn);
@@ -16,16 +16,16 @@ function Menu() {
   const keysToKeep = ['lastScreen', 'settings'];  // these keys won't be removed
 
   return (
-    <main className='menus'>
+    <main className={styles['menus']}>
       <section>
         <h1>The</h1>
         <Link to="/game">
-          <button className='menus' onClick={handlePlay}>Play</button>
+          <button className={styles['menus']} onClick={handlePlay}>Play</button>
         </Link>
         <Link to="/settings">
-          <button className='menus' >Settings</button>
+          <button className={styles['menus']} >Settings</button>
         </Link>
-        <button className='menus clear' onClick={() => clearStorage(keysToKeep)}>Clear all data (temporary)</button>
+        <button className={`${styles['menus']} ${styles['clear']}`} onClick={() => clearStorage(keysToKeep)}>Clear all data (temporary)</button>
       </section>
       
     </main>

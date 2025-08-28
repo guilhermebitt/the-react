@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 
 // Stylesheets
-import '../../assets/css/components_style/Stats.css';
+import styles from './Stats.module.css';
 
 
 
@@ -22,14 +22,14 @@ function Stats({entity}) {
   const calcPercent = (hp, maxHp) => (hp / maxHp) * 100;
 
   return (
-    <div className="stats-container">
+    <div className={styles["stats-container"]}>
       {/* HEALTH BAR */}
-      <div className="bar-container">
+      <div className={styles["bar-container"]}>
         <img src="./assets/hud/heart.png" alt="" />
-        <div className="bar-bg">
+        <div className={styles["bar-bg"]}>
           <p>{entity?.stats?.health}/{entity?.stats?.maxHealth}</p>
           <div
-            className="hp fill"
+            className={`${styles["hp"]} ${styles["fill"]}`}
             style={{
               width: `${healthPercent}%`
             }}
@@ -37,12 +37,12 @@ function Stats({entity}) {
         </div>
       </div>
       {/* STAMINA BAR */}
-      <div className="bar-container">
+      <div className={styles["bar-container"]}>
         <img src="./assets/hud/stamina.png" alt="" />
-        <div className="bar-bg">
+        <div className={styles["bar-bg"]}>
           <p>{entity?.stats?.stamina}/{entity?.stats?.maxStamina}</p>
           <div
-            className="stm fill"
+            className={`${styles["stm"]} ${styles["fill"]}`}
             style={{
               width: `${staminaPercent}%`
             }}
@@ -50,18 +50,18 @@ function Stats({entity}) {
         </div>
       </div>
       {/* PLAYER STATS */}
-      <div className="stats">
-        <div className="stat-holder">
+      <div className={styles["stats"]}>
+        <div className={styles["stat-holder"]}>
           <img src="./assets/hud/sword.png" alt="" />
           <p>Str | Atk: <span>{entity?.stats?.strength} | {entity?.stats?.attack}</span></p>
         </div>
-        <div className="stat-holder">
+        <div className={styles["stat-holder"]}>
           <img src="./assets/hud/shield.png" alt="" />
           <p>Con | Def: <span>{entity?.stats?.constitution} | {entity?.stats?.defense}</span></p>
         </div>
         {
         entity?.name === "Player" && 
-        <div className="stat-holder">
+        <div className={styles["stat-holder"]}>
           <img src="./assets/hud/coin.png" alt="" />
           <p>Money: <span>{entity?.stats?.money}</span></p>
         </div>

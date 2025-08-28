@@ -2,7 +2,7 @@
 import { Link } from 'react-router-dom';
 
 // Stylesheet
-import '../../assets/css/components_style/OptionButtons.css';
+import styles from './OptionButtons.module.css';
 
 
 
@@ -11,7 +11,7 @@ function OptionButtons() {
   
 
   return (
-  <div className="options-menu-container">
+  <div className={styles["options-menu-container"]}>
     <button>Log</button>
     <Link to="/settings">
       <button>Settings</button>

@@ -2,7 +2,7 @@
 import version from '../../utils/version.js';
 
 // Stylesheets
-import '../../assets/css/components_style/VersionBadge.css';
+import styles from './VersionBadge.module.css';
 
 
 

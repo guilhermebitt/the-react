@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 
 // Stylesheets
-import '../../assets/css/components_style/Stats.css';
+import styles from './Stats.module.css';
 
 
 
@@ -17,11 +17,11 @@ function HealthBar({entity}) {
   const calcPercent = (hp, maxHp) => (hp / maxHp) * 100;
 
   return (
-    <div className="bar-container">
-      <div className="bar-bg">
+    <div className={styles["bar-container"]}>
+      <div className={styles["bar-bg"]}>
         <p>{entity?.stats?.health}/{entity?.stats?.maxHealth}</p>
         <div
-          className="hp fill"
+          className={`${styles["hp"]} ${styles["fill"]}`}
           style={{
             width: `${healthPercent}%`
           }}

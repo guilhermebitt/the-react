@@ -12,7 +12,7 @@ import { produce } from "immer";
 import OptionButtons from '../common/OptionButtons';
 
 // Stylesheets
-import '../../assets/css/components_style/Header.css';
+import styles from './Header.module.css';
 
 
 
@@ -44,16 +44,29 @@ function Header() {
       <h1>The</h1>
       {/* SETTINGS BUTTON LOGIC */}
       {showOptions && (
-        <div id="options">
+        <div id={styles.options}>
           <OptionButtons />
         </div>
       )}
-      <div className="h-btn-container">
-        <button onClick={mute} className="icon-btn"><FontAwesomeIcon id="music-icon" icon={volumeIcon} /></button>
-        <button onClick={handleOptions} className="icon-btn"><FontAwesomeIcon id="gear-icon" className={showOptions ? "rotate" : "no-rotate"}  icon={faGear} /></button>
+      <div className={styles["h-btn-container"]}>
+        <button 
+          onClick={mute} 
+          className={styles["icon-btn"]}>
+            <FontAwesomeIcon 
+              id={styles["music-icon"]} 
+              icon={volumeIcon} />
+        </button>
+        <button 
+          onClick={handleOptions} 
+          className={styles["icon-btn"]}>
+            <FontAwesomeIcon 
+            id={styles["gear-icon"]}
+            className={showOptions ? styles.rotate : styles.noRotate} 
+            icon={faGear} />
+        </button>
       </div>
       {showOptions && (
-        <div id="options">
+        <div id={styles.options}>
           <OptionButtons />
         </div>
       )}

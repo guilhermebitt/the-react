@@ -2,7 +2,7 @@
 import { useState } from 'react';
 
 // Stylesheet
-import '../../assets/css/components_style/ConfirmDialog.css';
+import styles from './ConfirmDialog.module.css';
 
 
 
@@ -23,13 +23,18 @@ function ConfirmDialog({ visible, message, onConfirm, onCancel }) {
   };
 
   return (
-    <div className="confirm-backdrop" onClick={handleClickOutside}>
-      <div className={`confirm-box ${animated ? 'animated' : ''}`} onClick={handleBoxClick}>
+    <div className={styles["confirm-backdrop"]} onClick={handleClickOutside}>
+      <div
+        className={`${styles["confirm-box"]} ${animated ? styles.animated : ''}`} 
+        onClick={handleBoxClick}>
+          
         <p>{message}</p>
-        <div className="buttons">
+
+        <div className={styles.buttons}>
           <button onClick={onConfirm}>Yes</button>
           <button onClick={onCancel}>No</button>
         </div>
+
       </div>
     </div>
   );

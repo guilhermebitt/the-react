@@ -9,15 +9,15 @@
     padding: 0rem 1rem;
 }
 
-.terminal-line {
+.terminalLine {
     text-align: left;
     width: 100%;
 }
 
-.terminal-line > * {
+.terminalLine > * {
     display: inline;
 }
 
-.terminal-line::before {
+.terminalLine::before {
     content: "> ";
 }

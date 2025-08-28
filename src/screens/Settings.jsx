@@ -4,7 +4,9 @@ import { useLocalStorage } from 'usehooks-ts';
 import { useEffect } from 'react';
 
 // Stylesheet
-import '../assets/css/screens_style/menus.css';
+import styles from './menus.module.css';
+
+
 
 function Settings() {
 
@@ -18,12 +20,12 @@ function Settings() {
   });
 
   return (
-    <main className='menus'>
+    <main className={styles['menus']}>
       <section>
         <h1>Settings</h1>
-        <button className='menus' >Option1</button>
+        <button className={styles['menus']}>Option1</button>
         <Link to={lastScreen}>
-          <button className='menus' >Back</button>
+          <button className={styles['menus']}>Back</button>
         </Link>
       </section>
     </main>

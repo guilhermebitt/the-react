@@ -2,7 +2,7 @@
 import EntityContainer from './EntityContainer.jsx';
 
 // Stylesheet
-import '../../assets/css/components_style/MapContainer.css';
+import styles from './MapContainer.module.css';
 
 
 
@@ -12,16 +12,16 @@ function MapContainer({player, enemies }) {
 
   // Returning the Component
   return (
-    <div className="map-container">
+    <div className={styles.mapContainer}>
 
       <img src="./assets/scenarios/wild_forest.jpg" alt="game map" id="map" />
       {/* Player on the left */}
-      <div className="player-side">
+      <div className={styles.playerSide}>
         <EntityContainer entityData={player} />
       </div>
 
       {/* Enemies on the right */}
-      <div className="enemies-side">
+      <div className={styles.enemiesSide}>
         {enemies.map((enemy, index) => (
           <EntityContainer key={enemy?.data?.id || index} entityData={enemy} id={enemy.data.id} player={player}/>
         ))}
