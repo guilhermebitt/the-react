@@ -1,3 +1,10 @@
+# [1.0.0-beta.11](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.10...v1.0.0-beta.11) (2025-08-28)
+
+
+### Bug Fixes
+
+* version div was fixed ([17d9544](https://github.com/guilhermebitt/the-react/commit/17d95444158b7ba7b6f970523db89caf1816ef64))
+
 # [1.0.0-beta.10](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.9...v1.0.0-beta.10) (2025-08-27)
 
 
