@@ -1,3 +1,10 @@
+# [1.0.0-beta.12](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.11...v1.0.0-beta.12) (2025-08-29)
+
+
+### Features
+
+* new loading system ([a232a08](https://github.com/guilhermebitt/the-react/commit/a232a08ba1ed5857ece301a5c0856ebf9e290770))
+
 # [1.0.0-beta.11](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.10...v1.0.0-beta.11) (2025-08-28)
 
 
