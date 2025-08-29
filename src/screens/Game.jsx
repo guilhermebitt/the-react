@@ -14,6 +14,7 @@ import maps from '../data/maps.json' with { type: 'json' };
 
 // Dependencies
 import { useEffect, useRef, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useLocalStorage } from 'usehooks-ts';
 import * as funcs from '../utils/functions.js';
 import * as Entities from '../utils/entities.js';
@@ -48,15 +49,16 @@ function Game() {
 
   // Creating enemies
   const snake = createEntityObj('snake');
-  const goblin = createEntityObj('goblin');
 
   // Setting the localStorage
   const [playerData, setPlayerData] = useLocalStorage('player', playerJson);
-  const [enemiesData, setEnemiesData] = useLocalStorage('enemies', [snake, snake, goblin]);
+  const [enemiesData, setEnemiesData] = useLocalStorage('enemies', [snake, snake, snake]);
   const [game, setGame] = useLocalStorage('game', gameJson);
   const [settings] = useLocalStorage('settings', settingsJson);
   const [loading, setLoading] = useLocalStorage('loading', true);
   const [, setTerminalText] = useLocalStorage('terminalText', []);
+
+  const location = useLocation();
 
   // Setting player
   const setSafePlayerData = (recipe) => {
@@ -92,6 +94,7 @@ function Game() {
       enemy.setData(draft => draft.id = index)
     })
     
+    // Changing the animations tickSpeed to fit with the game tick
     player.setData((draft => {
       draft.animations.standBy[1] = game.tickSpeed;
     }));
@@ -100,31 +103,20 @@ function Game() {
         draft.animations.standBy[1] = game.tickSpeed;
       });
     })
+
+    // Loading GameMusic
+    const gameMusic = new Audio(game.currentMusic);
+    startMusic(gameMusic);
+
+    // Defining that the player already started the game
+    setGame(produce(draft => {draft.firstLoad = true}));
+
+    return () => {
+      deconstructGame();
+      setLoading(true);
+    };
+    
   }, [loading]);
-
-
-  // Game Music
-  useEffect(() => {
-  if (loading) return;
-
-  const gameMusic = new Audio('/assets/sounds/musics/the_music.ogg');
-  gameMusic.loop = true;
-  gameMusic.volume = settings.musicVolume;
-
-  const handleReady = () => {
-    gameMusic.play().catch(err => console.warn("Erro ao tocar música:", err));
-  };
-
-  gameMusic.addEventListener("canplaythrough", handleReady, { once: true });
-  gameMusicRef.current = gameMusic;
-
-  return () => {
-    gameMusic.pause();
-    gameMusic.currentTime = 0;
-    gameMusicRef.current = null;
-    gameMusic.removeEventListener("canplaythrough", handleReady);
-  };
-}, [loading, settings.musicVolume]);
 
 
   // Changing game music
@@ -208,6 +200,25 @@ function Game() {
 
   function getCurrentMap() {
     return maps[game.currentMap];
+  }
+
+  function handleReady(music) {
+    music.play().catch(err => console.warn("Erro ao tocar música:", err));
+  }
+
+  function startMusic(music) {
+    music.loop = true;
+    music.volume = settings.musicVolume;
+
+    music.addEventListener("canplaythrough", () => handleReady(music), { once: true });
+    gameMusicRef.current = music;
+  }
+
+  function deconstructGame() {
+    gameMusicRef.current.pause();
+    gameMusicRef.current.currentTime = 0;
+    gameMusicRef.current.removeEventListener("canplaythrough", handleReady);
+    gameMusicRef.current = null;
   }
 
   // -- RETURNING THE GAME ---
