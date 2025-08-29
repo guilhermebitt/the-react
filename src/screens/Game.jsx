@@ -34,12 +34,10 @@ chore: tarefas de manutenção, dependências, configs, etc.
 import playerJson from '../data/player.json' with { type: 'json' };
 import enemiesJson from '../data/enemies.json' with { type: 'json' };
 import gameJson from '../data/game.json' with { type: 'json' };
-import settingsJson from '../data/settings.json' with { type: 'json' };
 import maps from '../data/maps.json' with { type: 'json' };
 
 // Dependencies
 import { useEffect, useRef, useState } from 'react';
-import { useLocation } from 'react-router-dom';
 import { useLocalStorage } from 'usehooks-ts';
 import * as funcs from '../utils/functions.js';
 import * as Entities from '../utils/entities.js';
@@ -55,7 +53,6 @@ import ConfirmDialog from '../components/common/ConfirmDialog.jsx';
 import Loading from '../components/common/Loading.jsx';
 
 // Hooks
-import useGameTick from '../hooks/useGameTick.js';  // This one will became obsolete
 import { useGame } from '../hooks/useGame.js';
 
 // Stylesheet
@@ -66,7 +63,6 @@ import styles from'./Game.module.css';
 function Game() {
   // React Hooks
   const { tick, audio } = useGame();
-  const gameMusicRef = useRef(null);
   const [confirmDialog, setConfirmDialog] = useState({
     visible: false,
     message: 'Are you sure?',
@@ -81,11 +77,8 @@ function Game() {
   const [playerData, setPlayerData] = useLocalStorage('player', playerJson);
   const [enemiesData, setEnemiesData] = useLocalStorage('enemies', [snake, snake, snake]);
   const [game, setGame] = useLocalStorage('game', gameJson);
-  const [settings] = useLocalStorage('settings', settingsJson);
   const [loading, setLoading] = useLocalStorage('loading', true);
   const [, setTerminalText] = useLocalStorage('terminalText', []);
-
-  const location = useLocation();
 
   // Setting player
   const setSafePlayerData = (recipe) => {
@@ -109,19 +102,13 @@ function Game() {
   // Initializing funcs
   funcs.init(setTerminalText, setGame);
 
-  // Starting the gameTick
-  useGameTick();
-
-  // Game Tick
-  useEffect(() => {
-    if (loading) return;
-
-    // console.log(tick);
-  }, [tick]);
-
   // On game load:
   useEffect(() => {
     if (loading) return;
+    
+    // Starting game music
+    audio.playMusic(game.currentMusic);
+
     // Applying an id for each enemy in enemies list
     enemies.forEach((enemy, index) => {
       enemy.setData(draft => draft.id = index)
@@ -137,41 +124,14 @@ function Game() {
       });
     })
 
-    // Loading GameMusic
-    const gameMusic = new Audio(game.currentMusic);
-    startMusic(gameMusic);
-
     // Defining that the player already started the game
     setGame(produce(draft => {draft.firstLoad = true}));
 
     return () => {
-      deconstructGame();
       setLoading(true);
     };
     
   }, [loading]);
-
-
-  // Changing game music
-  useEffect(() => {
-    if (loading) return;
-
-    const gameMusic = gameMusicRef.current;
-    gameMusic.currentTime = 0;
-    gameMusic.loop = false;
-    gameMusic.src = game.currentMusic;
-    gameMusic.play()
-    gameMusicRef.current = gameMusic;
-
-  }, [game.currentMusic]);
-
-
-  // Mute/Unmute game music
-  useEffect(() => {
-    if (loading) return;
-
-    gameMusicRef.current.muted = settings.muted;
-  }, [settings, loading]);
 
 
   // Check if it's the player turn
@@ -233,25 +193,6 @@ function Game() {
 
   function getCurrentMap() {
     return maps[game.currentMap];
-  }
-
-  function handleReady(music) {
-    music.play().catch(err => console.warn("Erro ao tocar música:", err));
-  }
-
-  function startMusic(music) {
-    music.loop = true;
-    music.volume = settings.musicVolume;
-
-    music.addEventListener("canplaythrough", () => handleReady(music), { once: true });
-    gameMusicRef.current = music;
-  }
-
-  function deconstructGame() {
-    gameMusicRef.current.pause();
-    gameMusicRef.current.currentTime = 0;
-    gameMusicRef.current.removeEventListener("canplaythrough", handleReady);
-    gameMusicRef.current = null;
   }
 
   // -- RETURNING THE GAME ---

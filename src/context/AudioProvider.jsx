@@ -1,4 +1,3 @@
-
 // Data
 import settings from '../data/settings.json' with { type: json };
 
@@ -31,8 +30,18 @@ export function AudioProvider({ children }) {
     audio.currentTime = 0;
   };
 
+  const isPlaying = () => {
+    const audio = audioRef.current;
+    return (
+      audio.currentTime > 0 && 
+      !audio.paused && 
+      !audio.ended && 
+      audio.readyState > 2
+    );
+  }
+
   return (
-    <AudioContext.Provider value={{ playMusic, stopMusic, muted, setMuted, musicVolume, setMusicVolume }}>
+    <AudioContext.Provider value={{ playMusic, stopMusic, isPlaying, muted, setMuted, musicVolume, setMusicVolume }}>
       {children}
     </AudioContext.Provider>
   );

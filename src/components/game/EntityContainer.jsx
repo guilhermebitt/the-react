@@ -11,6 +11,9 @@ import { produce } from "immer";
 // Components
 import HealthBar from '../ui/HealthBar.jsx';
 
+// Hooks
+import { useGame } from '../../hooks/useGame.js';
+
 // Stylesheet
 import styles from './EntityContainer.module.css';
 
@@ -20,6 +23,9 @@ function EntityContainer({ entityData, player }) {
   const hitSoundRef = useRef(null);
   const entity = entityData.data;
   const setEntity = entityData.setData;
+
+  // Contexts
+  const { tick } = useGame();
 
   // Loading Game Storage
   const [game, setGame] = useLocalStorage('game', gameJson);
@@ -124,7 +130,7 @@ function EntityContainer({ entityData, player }) {
     if (entity?.currentAnim === 'standBy') {
       setFrame(animationFrames[standByIndex]);
     }
-  }, [game.gameTick]);
+  }, [tick]);
 
 
 

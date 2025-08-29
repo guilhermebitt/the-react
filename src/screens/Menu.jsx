@@ -2,15 +2,27 @@
 import gameData from '../data/game.json' with { type: 'json' };
 
 // Dependencies
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useLocalStorage } from 'usehooks-ts';
 import { clearStorage } from '../utils/functions';
 
+// Hooks
+import { useGame } from '../hooks/useGame';
+
 // Stylesheet
 import styles from './menus.module.css';
 
+
+
 function Menu() {
   const [currentTurn, setCurrentTurn] = useLocalStorage('currentTurn', gameData.currentTurn);
+  const { audio } = useGame();
+
+  // Stop the music if its playing
+  useEffect(() => {
+    if (audio.isPlaying()) audio.stopMusic();
+  }, []);
 
   const handlePlay = () => currentTurn === "none" && setCurrentTurn('player');
   const keysToKeep = ['lastScreen', 'settings'];  // these keys won't be removed

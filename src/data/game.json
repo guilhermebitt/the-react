@@ -4,6 +4,5 @@
   "target": null,
   "currentMap": "wildForest",
   "tickSpeed": 500,
-  "gameTick": 0,
   "currentMusic" : "/assets/sounds/musics/the_music.ogg"
 }

@@ -1,5 +1,5 @@
 // Data
-import game from '../data/game.json' with { type: json }
+import game from '../data/game.json' with { type: 'json' }
 
 // Dependencies
 import { createContext, useContext, useEffect, useState } from "react";
