@@ -3,6 +3,31 @@
 // COLLAPSE METHODS: CONTROL + K + CONTROL + 2
 // UNCOLLAPSE ALL: CONTROL+ K + CONTROL + J
 
+/*
+feat: uma nova funcionalidade
+👉 Ex: feat(game): adiciona sistema de inventário
+
+fix: correção de bug
+👉 Ex: fix(ui): corrige alinhamento do botão
+
+docs: mudanças apenas na documentação
+👉 Ex: docs(readme): adiciona instruções de instalação
+
+style: mudanças de formatação, sem alterar lógica
+👉 Ex: style(css): aplica padrão de indentação
+
+refactor: mudanças internas no código que não alteram comportamento
+👉 Ex: refactor(api): simplifica função de busca
+
+perf: melhoria de performance
+👉 Ex: perf(render): otimiza renderização dos sprites
+
+test: adição ou modificação de testes
+👉 Ex: test(user): adiciona testes para cadastro
+
+chore: tarefas de manutenção, dependências, configs, etc.
+👉 Ex: chore(deps): atualiza eslint para v9
+*/
 
 
 // Data
