@@ -10,13 +10,13 @@ import playerJson from '../data/player.json' with { type: 'json' };
 import enemiesJson from '../data/enemies.json' with { type: 'json' };
 import gameJson from '../data/game.json' with { type: 'json' };
 import settingsJson from '../data/settings.json' with { type: 'json' };
+import maps from '../data/maps.json' with { type: 'json' };
 
 // Dependencies
 import { useEffect, useRef, useState } from 'react';
 import { useLocalStorage } from 'usehooks-ts';
 import * as funcs from '../utils/functions.js';
 import * as Entities from '../utils/entities.js';
-import { getEntitiesAssets } from '../utils/loadAssets.js';
 import { produce } from "immer";
 
 // Components
@@ -39,8 +39,6 @@ import styles from'./Game.module.css';
 function Game() {
   // React Hooks
   const gameMusicRef = useRef(null);
-  const [loading, setLoading] = useState(true);
-  const [loadingCounter, setLoadingCounter] = useState(1);  // This number refers to the number of loading assets
   const [confirmDialog, setConfirmDialog] = useState({
     visible: false,
     message: 'Are you sure?',
@@ -50,12 +48,14 @@ function Game() {
 
   // Creating enemies
   const snake = createEntityObj('snake');
+  const goblin = createEntityObj('goblin');
 
   // Setting the localStorage
   const [playerData, setPlayerData] = useLocalStorage('player', playerJson);
-  const [enemiesData, setEnemiesData] = useLocalStorage('enemies', [snake, snake, snake]);
+  const [enemiesData, setEnemiesData] = useLocalStorage('enemies', [snake, snake, goblin]);
   const [game, setGame] = useLocalStorage('game', gameJson);
   const [settings] = useLocalStorage('settings', settingsJson);
+  const [loading, setLoading] = useLocalStorage('loading', true);
   const [, setTerminalText] = useLocalStorage('terminalText', []);
 
   // Setting player
@@ -83,19 +83,10 @@ function Game() {
   // Starting the gameTick
   useGameTick();
 
-  // --- USE EFFECTS --- 
-
-  // Loading Effect
-  useEffect(() => {
-    if (loadingCounter === 0) {
-      setLoading(false);
-    }
-  }, [loadingCounter])
 
   // On game load:
   useEffect(() => {
-    getEntitiesAssets(enemies);
-
+    if (loading) return;
     // Applying an id for each enemy in enemies list
     enemies.forEach((enemy, index) => {
       enemy.setData(draft => draft.id = index)
@@ -109,51 +100,31 @@ function Game() {
         draft.animations.standBy[1] = game.tickSpeed;
       });
     })
-
-    // ----- GAME MUSIC -----
-    // Loading music
-    const gameMusic = new Audio('/assets/sounds/musics/the_music.ogg');
-
-    const handleReady = () => {
-      setLoadingCounter(prev => prev - 1);
-      gameMusic.play().catch(err => console.warn("Erro ao tocar:", err));
-      gameMusic.loop = true;   // to loop the music
-      gameMusic.volume = settings.musicVolume;  // volume, from 0 to 1
-    }
-
-    gameMusic.addEventListener("canplaythrough", handleReady, { once: true });
-
-    gameMusicRef.current = gameMusic;
-
-    return () => {
-      gameMusic.pause();
-      gameMusic.currentTime = 0; // reset
-      gameMusicRef.current = null;
-      gameMusic.removeEventListener("canplaythrough", handleReady);
-    };
-  }, []);
-  // --- END OF USE EFFECT ---
+  }, [loading]);
 
 
-  // Check if it's the player turn
+  // Game Music
   useEffect(() => {
-    if (loading) return;
+  if (loading) return;
 
-    if (game.specificEnemyTurn !== 'player') return;
-    player.setData(draft => draft.actionsLeft = player.data.actions);  // resets the actionsLeft of the player
+  const gameMusic = new Audio('/assets/sounds/musics/the_music.ogg');
+  gameMusic.loop = true;
+  gameMusic.volume = settings.musicVolume;
 
-  }, [game.specificEnemyTurn]);
-  // --- END OF USE EFFECT ---
+  const handleReady = () => {
+    gameMusic.play().catch(err => console.warn("Erro ao tocar música:", err));
+  };
 
+  gameMusic.addEventListener("canplaythrough", handleReady, { once: true });
+  gameMusicRef.current = gameMusic;
 
-  // Mute/Unmute game music
-  useEffect(() => {
-    if (loading) return;
-
-    gameMusicRef.current.muted = settings.muted;
-  }, [settings]);
-  // --- END OF USE EFFECT ---
-  // -------------------------
+  return () => {
+    gameMusic.pause();
+    gameMusic.currentTime = 0;
+    gameMusicRef.current = null;
+    gameMusic.removeEventListener("canplaythrough", handleReady);
+  };
+}, [loading, settings.musicVolume]);
 
 
   // Changing game music
@@ -168,7 +139,24 @@ function Game() {
     gameMusicRef.current = gameMusic;
 
   }, [game.currentMusic]);
-  // -------------------
+
+
+  // Mute/Unmute game music
+  useEffect(() => {
+    if (loading) return;
+
+    gameMusicRef.current.muted = settings.muted;
+  }, [settings, loading]);
+
+
+  // Check if it's the player turn
+  useEffect(() => {
+    if (loading) return;
+
+    if (game.specificEnemyTurn !== 'player') return;
+    player.setData(draft => draft.actionsLeft = player.data.actions);  // resets the actionsLeft of the player
+
+  }, [game.specificEnemyTurn]);
 
 
   // --- MAIN FUNCTIONS ---
@@ -218,8 +206,12 @@ function Game() {
     return entity;
   }
 
+  function getCurrentMap() {
+    return maps[game.currentMap];
+  }
+
   // -- RETURNING THE GAME ---
-  if (loading) return <Loading />
+  if (loading) return <Loading enemies={enemies} player={player} mapSrc={getCurrentMap().src}/>
   return (
     <main id={styles['game']}>
       {/* CONFIRM DIALOG */}
@@ -243,7 +235,7 @@ function Game() {
   
       {/* MAP SECTION */}
       <section className={`${styles['x-section']} ${styles['map']}`}>
-        <MapContainer player={player} enemies={enemies} />
+        <MapContainer player={player} enemies={enemies} map={getCurrentMap()}/>
       </section>
   
       {/* STATS AND TERMINAL */}

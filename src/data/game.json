@@ -2,7 +2,7 @@
   "currentTurn": "player",
   "specificEnemyTurn": "player",
   "target": null,
-  "phase": 0,
+  "currentMap": "wildForest",
   "tickSpeed": 500,
   "gameTick": 0,
   "currentMusic" : "/assets/sounds/musics/the_music.ogg"

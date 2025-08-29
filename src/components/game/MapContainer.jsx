@@ -6,7 +6,7 @@ import styles from './MapContainer.module.css';
 
 
 
-function MapContainer({player, enemies }) {
+function MapContainer({player, enemies, map }) {
   // Passing the entities to a variable
   const entities = [player, ...enemies];
 
@@ -14,7 +14,7 @@ function MapContainer({player, enemies }) {
   return (
     <div className={styles.mapContainer}>
 
-      <img src="./assets/scenarios/wild_forest.jpg" alt="game map" id="map" />
+      <img src={map.src} alt="game map" id="map" />
       {/* Player on the left */}
       <div className={styles.playerSide}>
         <EntityContainer entityData={player} />
