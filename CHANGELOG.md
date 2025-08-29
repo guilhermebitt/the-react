@@ -1,3 +1,10 @@
+# [1.0.0-beta.13](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.12...v1.0.0-beta.13) (2025-08-29)
+
+
+### Bug Fixes
+
+* goblin ([a3709f0](https://github.com/guilhermebitt/the-react/commit/a3709f0378aad50c8bf334055714d2f41d1bf727))
+
 # [1.0.0-beta.12](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.11...v1.0.0-beta.12) (2025-08-29)
 
 
