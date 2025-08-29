@@ -3,6 +3,9 @@ import { BrowserRouter, Routes, Route, useLocation, useNavigate } from 'react-ro
 import { useEffect, useRef } from 'react';
 import { useLocalStorage } from 'usehooks-ts';
 
+// Contexts
+import { AppProviders } from './context/AppProviders.jsx';
+
 // Screens
 import Menu from './screens/Menu.jsx';
 import Settings from './screens/Settings.jsx';
@@ -17,7 +20,9 @@ function App() {
 
   return (
     <BrowserRouter>
-      <AppRoutes />
+      <AppProviders>
+        <AppRoutes />
+      </AppProviders>
     </BrowserRouter>
   );
 }

@@ -30,7 +30,8 @@ import ConfirmDialog from '../components/common/ConfirmDialog.jsx';
 import Loading from '../components/common/Loading.jsx';
 
 // Hooks
-import useGameTick from '../hooks/useGameTick.js';
+import useGameTick from '../hooks/useGameTick.js';  // This one will became obsolete
+import { useGame } from '../hooks/useGame.js';
 
 // Stylesheet
 import styles from'./Game.module.css';
@@ -39,6 +40,7 @@ import styles from'./Game.module.css';
 
 function Game() {
   // React Hooks
+  const { tick, audio } = useGame();
   const gameMusicRef = useRef(null);
   const [confirmDialog, setConfirmDialog] = useState({
     visible: false,
@@ -85,6 +87,12 @@ function Game() {
   // Starting the gameTick
   useGameTick();
 
+  // Game Tick
+  useEffect(() => {
+    if (loading) return;
+
+    // console.log(tick);
+  }, [tick]);
 
   // On game load:
   useEffect(() => {
