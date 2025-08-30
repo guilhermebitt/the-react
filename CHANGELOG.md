@@ -1,3 +1,10 @@
+# [1.0.0-beta.14](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.13...v1.0.0-beta.14) (2025-08-30)
+
+
+### Bug Fixes
+
+* forget the 'json' ([b9b3285](https://github.com/guilhermebitt/the-react/commit/b9b3285460e68e0e8125778eef57a4d665f37065))
+
 # [1.0.0-beta.13](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.12...v1.0.0-beta.13) (2025-08-29)
 
 
