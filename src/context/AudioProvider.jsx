@@ -1,5 +1,5 @@
 // Data
-import settings from '../data/settings.json' with { type: json };
+import settings from '../data/settings.json' with { type: 'json' };
 
 // Dependencies
 import { createContext, useContext, useRef, useState } from "react";

@@ -70,6 +70,8 @@ function Game() {
     onCancel: null
   });
 
+  console.log(audio);
+
   // Creating enemies
   const snake = createEntityObj('snake');
 
