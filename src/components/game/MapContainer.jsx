@@ -1,14 +1,17 @@
 // Components
 import EntityContainer from './EntityContainer.jsx';
 
+// Hooks
+import { useGame } from '../../hooks/useGame.js'
+
 // Stylesheet
 import styles from './MapContainer.module.css';
 
 
 
-function MapContainer({player, enemies, map }) {
-  // Passing the entities to a variable
-  const entities = [player, ...enemies];
+function MapContainer({ map }) {
+  const { player, enemiesController } = useGame();
+  const enemies = enemiesController.get();
 
   // Returning the Component
   return (
@@ -23,7 +26,7 @@ function MapContainer({player, enemies, map }) {
       {/* Enemies on the right */}
       <div className={styles.enemiesSide}>
         {enemies.map((enemy, index) => (
-          <EntityContainer key={enemy?.data?.id || index} entityData={enemy} id={enemy.data.id} player={player}/>
+          <EntityContainer key={enemy.data.id || index} entityData={enemy} id={enemy.data.id}/>
         ))}
       </div>
     </div>

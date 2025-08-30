@@ -1,14 +1,7 @@
-// IMPORTANT!!!
-// when settings the entity data (setData), do NOT use produce.
-// Instead, use only draft!
-
-
-
 // --------- ENTITIES ---------
 export class Entity {
-  constructor(entity, setEntity) {
-    this.data = entity;
-    this.setData = setEntity;
+  constructor(entity) {
+    this.data = structuredClone(entity);  // This will guarantee that each entity won't share the same data
   }
   
   // Generates a random number
@@ -33,21 +26,19 @@ export class Entity {
   attack(target) {
     // Executing animation
     if (this.data.animations.atk) {
-      this.setData((draft => {
-      draft.currentAnim = 'atk';
-    }))};
+      this.data.currentAnim = 'atk';
+    }
 
     // Rest of the action
     if (this.random(100) > this.hitChance(target)) {
       // Entity Missed
-      target.setData(draft => draft.dmgTaken = "Missed");
-      return { attackMsg: "The attack missed.", killed: false, dmg: "Missed", timeToWait: 1000};
+      target.data.dmgTaken = "Missed";
+      return { attackMsg: "The attack missed.", dmg: "Missed", timeToWait: 1000};
     };
 
     // Entity Hit
     let dmg = 0;
     let crit = 0;
-    let killed = false;
     const attack = this.data.stats.attack;
     const strength = this.data.stats.strength;
 
@@ -63,20 +54,19 @@ export class Entity {
 
     // Reducing the enemy's life
     const { dmgRed, realDmg } = target.takeDamage(dmg);
-    if ((target?.data?.stats?.health - realDmg) <= 0) killed = true;  // Getting the future state of the target
 
     // Generating final message
     const attackMsg = this.getAttackMessage(realDmg, crit, dmg, dmgRed);
 
     // Telling the target that the damage was crit
-    crit > 1 ? target.setData(draft => draft.dmgWasCrit = true) : target.setData(draft => draft.dmgWasCrit = false)
+    crit > 1 ? target.data.dmgWasCrit = true : target.data.dmgWasCrit = false
 
     // Calculating the time of the action
     const anim = this.data.animations['atk'];
     const animationFrames = anim.frames;
     const timeToWait = (anim.duration * animationFrames.length);
 
-    return {attackMsg, killed, dmg, timeToWait};
+    return {attackMsg, dmg, timeToWait};
   }
 
   getAttackMessage(realDmg, crit) {
@@ -110,14 +100,10 @@ export class Entity {
     // Debugging
     console.log ('Damage: ', amount, 'Reduction: ', dmgRed, 'Real Damage', realDmg);
 
-    this.setData(draft => {
-      // Guarantee that the stats exists
-      if (!draft.stats) draft.stats = { health: 0 };
+    // Reduce the health, never below 0
+    this.data.stats.health = Math.max(0, (this.data.stats.health || 0) - realDmg);
 
-      // Reduce the health, never below 0
-      draft.stats.health = Math.max(0, (draft.stats.health || 0) - realDmg);
-    });
-    this.setData(draft => draft.dmgTaken = realDmg);
+    this.data.dmgTaken = realDmg;
 
     return { dmgRed, realDmg };
   }
@@ -130,8 +116,8 @@ export class Entity {
 
 // --- PLAYER ---
 export class Player extends Entity {
-  constructor(entity, setEntity) {
-    super(entity, setEntity);
+  constructor(entity) {
+    super(entity);
   }
 
   // Generating player attack message
@@ -145,8 +131,8 @@ export class Player extends Entity {
 
 // --- ENEMY ---
 export class Enemy extends Entity {
-  constructor(entity, setEntity) {
-    super(entity, setEntity);
+  constructor(entity) {
+    super(entity);
   }
 
   handleTurn(target) {
@@ -169,15 +155,15 @@ export class Enemy extends Entity {
 // --------- ENEMIES ---------
 // --- GOBLIN ---
 export class Goblin extends Enemy {
-  constructor(entity, setEntity) {
-    super(entity, setEntity);
+  constructor(entity) {
+    super(entity);
   }
 }
 
 // --- SNAKE ---
 export class Snake extends Enemy {
-  constructor(entity, setEntity) {
-    super(entity, setEntity);
+  constructor(entity) {
+    super(entity);
   }
 }
 // ---------------------------

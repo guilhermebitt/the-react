@@ -17,15 +17,22 @@ import styles from './menus.module.css';
 
 function Menu() {
   const [currentTurn, setCurrentTurn] = useLocalStorage('currentTurn', gameData.currentTurn);
-  const { audio } = useGame();
+  const { audio, player, enemiesController } = useGame();
 
-  // Stop the music if its playing
+  // Stop the music on menu
   useEffect(() => {
-    if (audio.isPlaying()) audio.stopMusic();
+    audio.stopMusic();
+
+    return () => resetGame(keysToKeep);
   }, []);
 
   const handlePlay = () => currentTurn === "none" && setCurrentTurn('player');
   const keysToKeep = ['lastScreen', 'settings'];  // these keys won't be removed
+
+  const resetGame = (keysToKeep) => {
+    // Cleaning the local storage
+    clearStorage(keysToKeep);
+  }
 
   return (
     <main className={styles['menus']}>
@@ -37,7 +44,7 @@ function Menu() {
         <Link to="/settings">
           <button className={styles['menus']} >Settings</button>
         </Link>
-        <button className={`${styles['menus']} ${styles['clear']}`} onClick={() => clearStorage(keysToKeep)}>Clear all data (temporary)</button>
+        <button className={`${styles['menus']} ${styles['clear']}`} onClick={() => resetGame(keysToKeep)}>Clear all data</button>
       </section>
       
     </main>

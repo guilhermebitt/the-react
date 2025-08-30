@@ -19,18 +19,17 @@ import styles from './EntityContainer.module.css';
 
 
 
-function EntityContainer({ entityData, player }) {
+function EntityContainer({ entityData }) {
   const hitSoundRef = useRef(null);
-  const entity = entityData.data;
-  const setEntity = entityData.setData;
+  const entity = entityData?.data;
 
   // Contexts
-  const { tick } = useGame();
+  const { tick, audio, player, enemiesController } = useGame();
+  const enemiesData = enemiesController.get();
 
   // Loading Game Storage
   const [game, setGame] = useLocalStorage('game', gameJson);
   const [, setTerminalText] = useLocalStorage('terminalText', []);
-  const [enemiesData] = useLocalStorage('enemies');
   const [settings] = useLocalStorage('settings', settingsJson);
 
   // Getting useStates
@@ -47,7 +46,6 @@ function EntityContainer({ entityData, player }) {
   // On component first load
   useEffect(() => {
     // ----- GAME MUSIC -----
-    // Loading music
     const hitSound = new Audio('/assets/sounds/misc/hit_sound.ogg');
     hitSound.volume = settings.volume;  // volume, from 0 to 1
     hitSound.muted;
@@ -73,17 +71,17 @@ function EntityContainer({ entityData, player }) {
     (async () => {
       // Start of the enemy's turn
       if (!entityData?.isDead()) {  // executes only if the enemy is not dead
-        var playerIsDead = await enemyTurn(entityData);
+        await enemyTurn(entityData);
       }
 
       // Ending of the enemy's turn.
-      if (playerIsDead) {
+      if (player.isDead()) {
         setGame(produce(draft => {
           draft.specificEnemyTurn = 'none';
           draft.currentTurn = 'none';
         }));
       } else
-        if ((game.specificEnemyTurn >= enemiesData.length - 1) && (!playerIsDead)) {
+        if ((game.specificEnemyTurn >= enemiesData.length - 1) && (!player.isDead())) {
           setGame(produce(draft => {
             draft.specificEnemyTurn = 'player';
             draft.currentTurn = 'player';
@@ -149,7 +147,7 @@ function EntityContainer({ entityData, player }) {
 
   // Entity LIFE useEffect
   useEffect(() => {
-    if (!entity?.dmgTaken) return;
+    if (!entity.dmgTaken) return;
 
     if (entity?.dmgTaken >= 0) setDamage(prev => [...prev, [entity?.dmgTaken, entity?.dmgWasCrit]]);
     if (entity?.dmgTaken === 'Missed') setDamage(prev => [...prev, ["Missed", false]]);
@@ -170,19 +168,10 @@ function EntityContainer({ entityData, player }) {
 
     // Checking if the enemy died
     if (entityData?.isDead && entityData.isDead() === true) {
-      setEntity(draft => {
-        if (draft) draft.currentAnim = 'death';
-      });
+      entity.currentAnim = 'death';
     }
 
-    entityData.setData(draft => {
-      draft.dmgTaken = 0;
-      draft.dmgWasCrit = false;
-    })
-
-  }, [entity?.dmgTaken]);
-
-
+  }, [entity.dmgTaken]);
 
 
   // ----- FUNCTIONS -----
@@ -192,19 +181,21 @@ function EntityContainer({ entityData, player }) {
       const turn = enemy?.handleTurn(player);
 
       if (turn.actionType === 'atk') {
-        var { attackMsg, killed, timeToWait } = turn.action;
+        var { attackMsg, timeToWait } = turn.action;
         funcs.phrase(`${turn.msg}. ${attackMsg}`);
 
         // Verifying if the player died
-        if (killed) {
+        if (player.isDead()) {
           funcs.phrase('You died.');
-          setGame(produce(draft => { draft.currentMusic = '/assets/sounds/musics/you_died.ogg' }))
+          setGame(produce(draft => { draft.currentMusic = ['/assets/sounds/musics/you_died.ogg', false] }))
+          audio.stopMusic();
+          audio.playMusic('/assets/sounds/musics/you_died.ogg', false);
         }
       };
 
       // Timer to skip the current enemy turn
       const timer = setTimeout(() => {
-        resolve(killed);  // resolving the promise!
+        resolve();  // resolving the promise!
         clearTimeout(timer);
       }, timeToWait + 250);  // more 250ms to the enemy's actions
     });
@@ -223,9 +214,7 @@ function EntityContainer({ entityData, player }) {
       // When the animation get to the last frame
       if (index === animationFrames.length) {
         if (entity?.currentAnim !== 'death') {
-          setEntity(draft => {
-            draft.currentAnim = 'standBy';
-          });
+          entity.currentAnim = 'standBy';
           setStandBy(true);
         }
         clearInterval(interval);
@@ -257,7 +246,7 @@ function EntityContainer({ entityData, player }) {
 
         {/* Name and health bar */}
         <h2>{entity?.name}</h2>
-        {entity?.entityType !== 'player' && <HealthBar entity={entity} />}
+        {entity?.entityType !== 'player' && <HealthBar entityId={entity.id} />}
 
         {/* Image and control of the hit animation */}
         <img src={frame} alt="entity image" onClick={selectTarget} className={hit ? styles.hit : ''} />

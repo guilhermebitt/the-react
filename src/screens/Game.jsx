@@ -31,16 +31,14 @@ chore: tarefas de manutenção, dependências, configs, etc.
 
 
 // Data
-import playerJson from '../data/player.json' with { type: 'json' };
 import enemiesJson from '../data/enemies.json' with { type: 'json' };
 import gameJson from '../data/game.json' with { type: 'json' };
 import maps from '../data/maps.json' with { type: 'json' };
 
 // Dependencies
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocalStorage } from 'usehooks-ts';
 import * as funcs from '../utils/functions.js';
-import * as Entities from '../utils/entities.js';
 import { produce } from "immer";
 
 // Components
@@ -62,7 +60,8 @@ import styles from'./Game.module.css';
 
 function Game() {
   // React Hooks
-  const { tick, audio } = useGame();
+  const { audio, player, enemiesController } = useGame();
+  const enemies = enemiesController.get()  // Settings enemies
   const [confirmDialog, setConfirmDialog] = useState({
     visible: false,
     message: 'Are you sure?',
@@ -70,36 +69,10 @@ function Game() {
     onCancel: null
   });
 
-  console.log(audio);
-
-  // Creating enemies
-  const snake = createEntityObj('snake');
-
   // Setting the localStorage
-  const [playerData, setPlayerData] = useLocalStorage('player', playerJson);
-  const [enemiesData, setEnemiesData] = useLocalStorage('enemies', [snake, snake, snake]);
   const [game, setGame] = useLocalStorage('game', gameJson);
   const [loading, setLoading] = useLocalStorage('loading', true);
   const [, setTerminalText] = useLocalStorage('terminalText', []);
-
-  // Setting player
-  const setSafePlayerData = (recipe) => {
-    setPlayerData(prev => produce(prev, draft => {
-      recipe(draft);
-    }));
-  };
-
-  const player = new Entities.Player(playerData, setSafePlayerData);
-
-  // Settings enemies
-  const enemies = enemiesData.map((enemy, index) => {
-    const setEnemyData = (recipe) => {  // creates a setter that updates the enemy by the index
-      setEnemiesData(prev => produce(prev, draft => {
-        recipe(draft[index]); // applies only to the current enemy
-      }));
-    };
-    return new Entities[enemy.name](enemy, setEnemyData);  // gets the correct class from the enemy name
-  });
 
   // Initializing funcs
   funcs.init(setTerminalText, setGame);
@@ -107,27 +80,27 @@ function Game() {
   // On game load:
   useEffect(() => {
     if (loading) return;
+
+    // This will be executed when the game start for the first time
+    if (game.firstLoad === false) {
+      spawnEnemies();
+    };
     
     // Starting game music
-    audio.playMusic(game.currentMusic);
+    if (game.currentMusic[0] === "/assets/sounds/musics/the_music.ogg" && !audio.isPlaying()) {
+      audio.playMusic(game.currentMusic[0], game.currentMusic[1]);
+    }
 
-    // Applying an id for each enemy in enemies list
-    enemies.forEach((enemy, index) => {
-      enemy.setData(draft => draft.id = index)
-    })
     
     // Changing the animations tickSpeed to fit with the game tick
-    player.setData((draft => {
-      draft.animations.standBy[1] = game.tickSpeed;
-    }));
+    player.data.animations.standBy[1] = game.tickSpeed;
+
     enemies.forEach((enemy) => {
-      enemy.setData(draft => {
-        draft.animations.standBy[1] = game.tickSpeed;
-      });
+      enemy.data.animations.standBy[1] = game.tickSpeed;
     })
 
     // Defining that the player already started the game
-    setGame(produce(draft => {draft.firstLoad = true}));
+    if (!game.firstLoad) setGame(produce(draft => {draft.firstLoad = true}));
 
     return () => {
       setLoading(true);
@@ -141,7 +114,7 @@ function Game() {
     if (loading) return;
 
     if (game.specificEnemyTurn !== 'player') return;
-    player.setData(draft => draft.actionsLeft = player.data.actions);  // resets the actionsLeft of the player
+    player.data.actionsLeft = player.data.actions;  // resets the actionsLeft of the player
 
   }, [game.specificEnemyTurn]);
 
@@ -164,11 +137,8 @@ function Game() {
     }, timeToWait);
     // ------------------
 
-
     funcs.phrase(attackMsg);  // showing the result of the attack
-    player.setData(draft => {  // reducing player action
-      draft.actionsLeft -= 1;
-    });
+    player.data.actionsLeft -= 1;
   }
 
   function confirmScreen(onConfirm, onCancel, msg='Are you sure?') {
@@ -191,6 +161,11 @@ function Game() {
     });
     
     return entity;
+  }
+
+  function spawnEnemies() {
+    const snake = createEntityObj('snake');
+    enemiesController.spawnEnemies([snake, snake, snake])
   }
 
   function getCurrentMap() {
@@ -222,7 +197,7 @@ function Game() {
   
       {/* MAP SECTION */}
       <section className={`${styles['x-section']} ${styles['map']}`}>
-        <MapContainer player={player} enemies={enemies} map={getCurrentMap()}/>
+        <MapContainer map={getCurrentMap()}/>
       </section>
   
       {/* STATS AND TERMINAL */}

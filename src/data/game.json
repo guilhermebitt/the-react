@@ -1,8 +1,9 @@
 {
+  "firstLoad": false,
   "currentTurn": "player",
   "specificEnemyTurn": "player",
   "target": null,
   "currentMap": "wildForest",
   "tickSpeed": 500,
-  "currentMusic" : "/assets/sounds/musics/the_music.ogg"
+  "currentMusic" : ["/assets/sounds/musics/the_music.ogg", true]
 }

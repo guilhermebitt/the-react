@@ -1,8 +1,9 @@
 // Data
-import settings from '../data/settings.json' with { type: 'json' };
+import settingsJson from '../data/settings.json' with { type: 'json' };
 
 // Dependencies
-import { createContext, useContext, useRef, useState } from "react";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
+import { useLocalStorage } from 'usehooks-ts';
 
 
 
@@ -10,16 +11,20 @@ const AudioContext = createContext();  // Creating an audio context
 
 export function AudioProvider({ children }) {
   const audioRef = useRef(new Audio());
-  const [muted, setMuted] = useState(false);
-  const [musicVolume, setMusicVolume] = useState(settings.musicVolume);
+  const [settings] = useLocalStorage('settings', settingsJson);
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    audio.muted = settings.muted;
+  }, [settings.muted]);
 
   const playMusic = (src, loop = true) => {
     const audio = audioRef.current;
     audio.pause();
     audio.src = src;
     audio.loop = loop;
-    audio.volume = musicVolume;
-    audio.muted = muted;
+    audio.volume = settings.musicVolume;
+    audio.muted = settings.muted;
     audio.currentTime = 0;
     audio.play().catch(() => {});
   };
@@ -38,10 +43,16 @@ export function AudioProvider({ children }) {
       !audio.ended && 
       audio.readyState > 2
     );
+  };
+
+  const get = () => {
+    const audio = audioRef.current;
+    return audio
   }
 
+
   return (
-    <AudioContext.Provider value={{ playMusic, stopMusic, isPlaying, muted, setMuted, musicVolume, setMusicVolume }}>
+    <AudioContext.Provider value={{ get, playMusic, stopMusic, isPlaying }}>
       {children}
     </AudioContext.Provider>
   );
