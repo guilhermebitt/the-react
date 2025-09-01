@@ -72,10 +72,20 @@ function SaveGame({ saveId }) {
   }
 
   function startSave() {
-    game.update({ currentSave: saveId })
-    navigate('/game');
+    const save = saves[saveId]
+    // Resetting previous context
+    game.reset()
+    enemies.reset()
+    player.reset()
 
     // Logic to load the save
+    enemies.loadSave(save.enemies)
+    game.loadSave(save.game)
+    player.loadSave(save.player)
+
+    // Updating game
+    game.update({ currentSave: saveId })
+    navigate('/game');
   }
 
   return (

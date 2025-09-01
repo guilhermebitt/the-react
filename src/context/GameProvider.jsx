@@ -22,10 +22,14 @@ export function GameProvider({ children }) {
     }));
   };
 
+  const loadSave = (gameData) => {
+    setGameState(gameData);
+  }
+
   const reset = () => setGameState(gameData)
 
   return (
-    <GameContext.Provider value={{ data, update, reset }}>
+    <GameContext.Provider value={{ data, update, loadSave, reset }}>
       {children}
     </GameContext.Provider>
   );

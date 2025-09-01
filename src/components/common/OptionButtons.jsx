@@ -20,7 +20,7 @@ function OptionButtons() {
     setSaves(
       produce(draft => {
         const save = draft.find(e => e.id === saveId);
-        if (save) Object.assign(save, {game: game.data(), enemies: enemies.get(), player: player.get().data});
+        if (save) Object.assign(save, {game: game.data(), enemies: enemies.get(), player: player.get()});
       })
     );
   }

@@ -2,8 +2,8 @@
 import playerJson from '../data/player.json' with { type: 'json' };
 
 // Dependencies
-import { createContext, useContext, useRef, useState } from "react";
-import * as Entities from '../utils/entities.js';
+import { createContext, useContext, useRef } from "react";
+import { Player } from '../utils/entities.js';
 
 
 const PlayerContext = createContext();  // Creating provider
@@ -11,16 +11,21 @@ const PlayerContext = createContext();  // Creating provider
 
 
 export function PlayerProvider({ children }) {
-  const [playerState, setPlayerState] = useState(new Entities.Player(playerJson));
+  const playerRef = useRef(new Player(playerJson));
 
   const get = () => {
-    return playerState
+    const player = playerRef.current
+    return player
   }
 
-  const reset = () => setPlayerState(new Entities.Player(playerJson));
+  const loadSave = (playerData) => {
+    playerRef.current = new Player(playerData)
+  }
+
+  const reset = () => playerRef.current = new Player(playerJson);
 
   return (
-    <PlayerContext.Provider value={{ get, reset }}>
+    <PlayerContext.Provider value={{ get, loadSave, reset }}>
       {children}
     </PlayerContext.Provider>
   );

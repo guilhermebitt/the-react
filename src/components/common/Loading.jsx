@@ -19,7 +19,7 @@ const audioAssets = [
 
 function Loading({ enemies, player, mapSrc }) {
   const [loadingCounter, setLoadingCounter] = useState(-1);  // The minus one makes the code don't get loading as false
-  const [loading, setLoading] = useLocalStorage('loading', true);
+  const [, setLoading] = useLocalStorage('loading', true);
 
   useEffect(() => {
     const allEntities = [...enemies, player];

@@ -77,8 +77,9 @@ function Game() {
   useEffect(() => {
     if (loading) return;
 
+    // THIS IS TEMPORARY!!!!!!
     // This will be executed when the game start for the first time
-    if (game.data().firstLoad === false) {
+    if (game.data().firstLoad === false && enemies.get().length < 1) {
       spawnEnemies();
     };
     
