@@ -1,3 +1,11 @@
+# [1.0.0-beta.15](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.14...v1.0.0-beta.15) (2025-09-01)
+
+
+### Features
+
+* **save:** now I think the save system is complete! ([c9b86fd](https://github.com/guilhermebitt/the-react/commit/c9b86fd01b0835f4cbcd309a998aae1e0ee2fed3))
+* **save:** Saving system is done(?) ([8a637d3](https://github.com/guilhermebitt/the-react/commit/8a637d3f6791edc19f40e8aa11d9c29359c66c8f))
+
 # [1.0.0-beta.14](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.13...v1.0.0-beta.14) (2025-08-30)
 
 
