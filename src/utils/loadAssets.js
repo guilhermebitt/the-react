@@ -4,13 +4,13 @@ export function getEntitiesAssets(entities) {
 
   entities.forEach(entity => {
     // This will guarantee that the code won't pass the same entity
-    if (checkedEntities.includes(entity?.data?.name)) return;
+    if (checkedEntities.includes(entity?.name)) return;
 
     // Adding the entity to the list of checked entities
-    checkedEntities.push(entity?.data?.name);
+    checkedEntities.push(entity?.name);
 
     // Executing the rest of the code
-    const entityAnimations = Object.values(entity?.data?.animations);
+    const entityAnimations = Object.values(entity?.animations);
     
     entityAnimations.forEach(animation => {
       for (let i = 0; i < animation.frames.length; i++) {

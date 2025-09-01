@@ -17,8 +17,7 @@ import styles from './EntityContainer.module.css';
 
 
 
-function EntityContainer({ entityData }) {
-  const entity = entityData?.data;
+function EntityContainer({ entity }) {
 
   // useRefs
   const hitSoundRef = useRef(null);
@@ -71,8 +70,8 @@ function EntityContainer({ entityData }) {
     // --- Processing the enemy's turn ---
     (async () => {
       // Start of the enemy's turn
-      if (!entityData?.isDead()) {  // executes only if the enemy is not dead
-        await enemyTurn(entityData);
+      if (!entity?.isDead()) {  // executes only if the enemy is not dead
+        await enemyTurn(entity);
       }
 
       // Ending of the enemy's turn.
@@ -162,7 +161,7 @@ function EntityContainer({ entityData }) {
     }
 
     // Checking if the enemy died
-    if (entityData?.isDead && entityData.isDead() === true) {
+    if (entity?.isDead && entity.isDead() === true) {
       entity.currentAnim = 'death';
     }
 

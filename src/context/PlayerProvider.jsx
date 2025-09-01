@@ -17,12 +17,6 @@ export function PlayerProvider({ children }) {
     return playerState
   }
 
-  const update = (partial) => {
-    setPlayerState(produce(draft => {
-      Object.assign(draft, partial);
-    }));
-  }
-
   const reset = () => setPlayerState(new Entities.Player(playerJson));
 
   return (

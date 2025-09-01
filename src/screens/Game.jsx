@@ -88,10 +88,10 @@ function Game() {
     }
     
     // Changing the animations tickSpeed to fit with the game tick
-    player.get().data.animations.standBy[1] = game.data().tickSpeed;
+    player.get().animations.standBy.duration = game.data().tickSpeed;
 
     enemies.get().forEach((enemy) => {
-      enemy.data.animations.standBy[1] = game.data().tickSpeed;
+      enemy.animations.standBy.duration = game.data().tickSpeed;
     })
 
     // Defining that the player already started the game
@@ -108,7 +108,7 @@ function Game() {
     if (loading) return;
 
     if (game.data().specificEnemyTurn !== 'player') return;
-    player.get().data.actionsLeft = player.get().data.actions;  // resets the actionsLeft of the player
+    player.get().actionsLeft = player.get().actions;  // resets the actionsLeft of the player
 
   }, [game.data().specificEnemyTurn]);
 
@@ -117,8 +117,8 @@ function Game() {
   function doAttack() {
     // Conditions
     if (typeof game.data().target !== 'number') return funcs.phrase('Select a target!');
-    if (player.get().data.actionsLeft <= 0) return funcs.phrase('You do not have actions left!');
-    if (enemies.get([game.data().target])?.data?.currentAnim === 'death') return funcs.phrase('This enemy is dead.');
+    if (player.get().actionsLeft <= 0) return funcs.phrase('You do not have actions left!');
+    if (enemies.get([game.data().target])?.currentAnim === 'death') return funcs.phrase('This enemy is dead.');
 
     const { attackMsg, timeToWait } = player.get().attack(enemies.get([game.data().target]));  // this function executes an attack and return some data
 
@@ -132,7 +132,7 @@ function Game() {
     // ------------------
 
     funcs.phrase(attackMsg);  // showing the result of the attack
-    player.get().data.actionsLeft -= 1;
+    player.get().actionsLeft -= 1;
   }
 
   function confirmScreen(onConfirm, onCancel, msg='Are you sure?') {
@@ -188,12 +188,12 @@ function Game() {
   
       {/* MAP SECTION */}
       <section className={`${styles['x-section']} ${styles['map']}`}>
-        <MapContainer map={funcs.getCurrentMap()}/>
+        {enemies.get().length > 0 && <MapContainer map={funcs.getCurrentMap()}/>}
       </section>
   
       {/* STATS AND TERMINAL */}
       <section className={`${styles['x-section']} ${styles['statistics']}`}>
-        <Stats entity={player.get().data} />
+        <Stats entity={player.get()} />
 
         <Terminal />
       </section>
