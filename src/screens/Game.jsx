@@ -71,7 +71,7 @@ function Game() {
   const [, setTerminalText] = useLocalStorage('terminalText', []);
 
   // Initializing funcs
-  funcs.init(setTerminalText, game);
+  funcs.init(game);
 
   // On game load:
   useEffect(() => {

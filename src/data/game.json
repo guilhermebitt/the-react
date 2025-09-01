@@ -6,5 +6,6 @@
   "currentSave": null,
   "currentTurn": "player",
   "currentMap": "wildForest",
-  "currentMusic" : ["/assets/sounds/musics/the_music.ogg", true]
+  "currentMusic" : ["/assets/sounds/musics/the_music.ogg", true],
+  "terminalText": []
 }

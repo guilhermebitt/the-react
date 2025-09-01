@@ -40,7 +40,7 @@ function EntityContainer({ entity }) {
   const [hit, setHit] = useState(false);
 
   // Initializing funcs
-  funcs.init(setTerminalText, game);
+  funcs.init(game);
 
   // On component first load
   useEffect(() => {

@@ -4,11 +4,9 @@ import maps from '../data/maps.json' with { type: 'json' }
 
 
 // ----- HOOKS MANAGER -----
-let terminal;
 let game;
 
-export function init(setTerminalText, gameState) {
-  terminal = setTerminalText;
+export function init(gameState) {
   game = gameState;
 }
 
@@ -17,10 +15,10 @@ export function init(setTerminalText, gameState) {
 // ----- FUNCTIONS -----
 // Function to send a message to the terminal
 export function phrase(text, tag="p", className="default-msg") {
-  if (!terminal) return;
+  if (!game) return;
 
   // Get terminal as an array
-  const prevTerminal = JSON.parse(localStorage.getItem('terminalText') || "[]");
+  const prevTerminal = game.data().terminalText
 
   // Creating the message prompt
   const msg = `<${tag} className="${className}">${text}</${tag}>`;
@@ -29,10 +27,7 @@ export function phrase(text, tag="p", className="default-msg") {
   const updatedTerminal = [msg, ...prevTerminal];
 
   // Saves to the localStorage
-  localStorage.setItem('terminalText', JSON.stringify(updatedTerminal));
-
-  // Updates the terminal state
-  terminal(updatedTerminal);
+  game.update({ terminalText: updatedTerminal })
 }
 
 // Function to handle turn changes
