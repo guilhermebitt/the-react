@@ -21,10 +21,8 @@ export const useSaveManager = (saveId) => {
         ...prevSaves,
         [saveId]: gameState,
       }));
-      alert('Jogo salvo com sucesso!');
     } catch (error) {
-      console.error('Falha ao salvar o jogo:', error);
-      alert('Erro ao salvar o jogo.');
+      console.error('Error saving the game:', error);
     }
   };
 
@@ -32,22 +30,22 @@ export const useSaveManager = (saveId) => {
     try {
       const savedState = saves[saveId];
       if (!savedState) {
-        alert('Nenhum jogo salvo foi encontrado.');
         return;
       }
-      
+
+      // Resetting all contexts
       player.reset()
       enemies.reset()
       game.reset()
 
+      // Re-loading all contexts
       player.loadSave(savedState.player);
       enemies.loadSave(savedState.enemies);
       game.loadSave(savedState.game);
+
       game.update({ currentSave: saveId });
-      alert('Jogo carregado com sucesso!');
     } catch (error) {
-      console.error('Falha ao carregar o jogo:', error);
-      alert('Erro ao carregar o jogo.');
+      console.error('Error loading the game:', error);
     }
   };
 
@@ -58,10 +56,8 @@ export const useSaveManager = (saveId) => {
         delete newSaves[saveId];
         return newSaves;
       });
-      alert('Save deletado com sucesso!');
     } catch (error) {
-      console.error('Falha ao deletar o save:', error);
-      alert('Erro ao deletar o save.');
+      console.error('Error deleting the save:', error);
     }
   };
 
