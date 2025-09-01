@@ -1,12 +1,10 @@
 // Data
-import gameJson from '../../data/game.json' with { type: 'json' };
 import settingsJson from '../../data/settings.json' with { type: 'json' };
 
 // Dependencies
 import { useEffect, useState, useRef } from 'react';
 import { useLocalStorage } from 'usehooks-ts';
 import * as funcs from '../../utils/functions.js';
-import { produce } from "immer";
 
 // Components
 import HealthBar from '../ui/HealthBar.jsx';
@@ -20,15 +18,17 @@ import styles from './EntityContainer.module.css';
 
 
 function EntityContainer({ entityData }) {
-  const hitSoundRef = useRef(null);
   const entity = entityData?.data;
 
+  // useRefs
+  const hitSoundRef = useRef(null);
+  const firstRun = useRef(true);
+
   // Contexts
-  const { tick, audio, player, enemiesController } = useGame();
-  const enemiesData = enemiesController.get();
+  const { tick, audio, player, enemies, game } = useGame();
+  const enemiesData = enemies.get();
 
   // Loading Game Storage
-  const [game, setGame] = useLocalStorage('game', gameJson);
   const [, setTerminalText] = useLocalStorage('terminalText', []);
   const [settings] = useLocalStorage('settings', settingsJson);
 
@@ -41,7 +41,7 @@ function EntityContainer({ entityData }) {
   const [hit, setHit] = useState(false);
 
   // Initializing funcs
-  funcs.init(setTerminalText, setGame);
+  funcs.init(setTerminalText, game);
 
   // On component first load
   useEffect(() => {
@@ -56,6 +56,7 @@ function EntityContainer({ entityData }) {
       hitSound.currentTime = 0; // reset
       hitSoundRef.current = null;
     };
+    
   }, []);
 
 
@@ -64,7 +65,7 @@ function EntityContainer({ entityData }) {
   useEffect(() => {
     // --- Conditions to skip ---
     // This guarantee that the code will only be executed if its the enemy's turn
-    if (game.currentTurn !== 'enemies' || game.specificEnemyTurn !== entity?.id) return;
+    if (game.data().currentTurn !== 'enemies' || game.data().specificEnemyTurn !== entity?.id) return;
     // --------------------------
 
     // --- Processing the enemy's turn ---
@@ -75,28 +76,22 @@ function EntityContainer({ entityData }) {
       }
 
       // Ending of the enemy's turn.
-      if (player.isDead()) {
-        setGame(produce(draft => {
-          draft.specificEnemyTurn = 'none';
-          draft.currentTurn = 'none';
-        }));
+      if (player.get().isDead()) {
+        game.update({ specificEnemyTurn: 'none' });
+        game.update({ currentTurn: 'none' });
       } else
-        if ((game.specificEnemyTurn >= enemiesData.length - 1) && (!player.isDead())) {
-          setGame(produce(draft => {
-            draft.specificEnemyTurn = 'player';
-            draft.currentTurn = 'player';
-          }));
+        if ((game.data().specificEnemyTurn >= enemiesData.length - 1) && (!player.get().isDead())) {
+          game.update({ specificEnemyTurn: 'player' });
+          game.update({ currentTurn: 'player' });
           funcs.phrase('Its your turn!');
         } else {
-          setGame(produce(draft => {
-            draft.specificEnemyTurn = game.specificEnemyTurn + 1;
-          }));
+          game.update({ specificEnemyTurn: game.data().specificEnemyTurn + 1 });
         }
 
     })();  // the '()' is to call the async function!
     // -------------------------------------
 
-  }, [game.specificEnemyTurn]);
+  }, [game.data().specificEnemyTurn]);
 
 
 
@@ -104,6 +99,7 @@ function EntityContainer({ entityData }) {
   useEffect(() => {
     // Conditions to skip
     if (entity?.currentAnim === 'standBy') return;
+    if (isFirstRun()) return;  // Checks if it is the first run and changes the ref
 
     setStandBy(false);
     runAnim();
@@ -134,19 +130,18 @@ function EntityContainer({ entityData }) {
 
   // Game useEffect
   useEffect(() => {
-    (game.target === entity?.id) ? setSelected(true) : setSelected(false);
-    if (game.currentTurn === 'enemies' && typeof (game.target) === 'number') {
+    (game.data().target === entity?.id) ? setSelected(true) : setSelected(false);
+    if (game.data().currentTurn === 'enemies' && typeof (game.target) === 'number') {
       setSelected(false)
-      setGame(produce(draft => {
-        draft.target = NaN;
-      }));
+      game.update({ target: NaN });
     };
-  }, [game]);
+  }, [game.data()]);
 
 
 
   // Entity LIFE useEffect
   useEffect(() => {
+    if (isFirstRun()) return;  // Checks if it is the first run and changes the ref
     if (!entity.dmgTaken) return;
 
     if (entity?.dmgTaken >= 0) setDamage(prev => [...prev, [entity?.dmgTaken, entity?.dmgWasCrit]]);
@@ -174,20 +169,21 @@ function EntityContainer({ entityData }) {
   }, [entity.dmgTaken]);
 
 
+
   // ----- FUNCTIONS -----
   function enemyTurn(enemy) {
     return new Promise(resolve => {
       // CODE FOR THE ENEMY'S TURN
-      const turn = enemy?.handleTurn(player);
+      const turn = enemy?.handleTurn(player.get());
 
       if (turn.actionType === 'atk') {
         var { attackMsg, timeToWait } = turn.action;
         funcs.phrase(`${turn.msg}. ${attackMsg}`);
 
         // Verifying if the player died
-        if (player.isDead()) {
+        if (player.get().isDead()) {
           funcs.phrase('You died.');
-          setGame(produce(draft => { draft.currentMusic = ['/assets/sounds/musics/you_died.ogg', false] }))
+          game.update({ currentMusic: ['/assets/sounds/musics/you_died.ogg', false] });
           audio.stopMusic();
           audio.playMusic('/assets/sounds/musics/you_died.ogg', false);
         }
@@ -221,20 +217,24 @@ function EntityContainer({ entityData }) {
       } else {
         setFrame(animationFrames[index]);
         index = index + 1;
+        entity.img = "/assets/entities/death/death4.png";
+        entity.dmgTaken = null;
       }
     }, frameDuration);
   }
 
   function selectTarget() {
-    if (game.currentTurn === 'player' && typeof entity?.id === 'number') {
-      setGame(produce(draft => {
-        draft.target = entity?.id;
-      }));
+    if (game.data().currentTurn === 'player' && typeof entity?.id === 'number') {
+      game.update({ target: entity?.id })
     }
   }
 
+  function isFirstRun() {
+    const lastState = firstRun.current
+    firstRun.current = false
 
-
+    return lastState
+  }
 
   // Returning the Component
   return (
@@ -242,7 +242,7 @@ function EntityContainer({ entityData }) {
       {/* Code to toggle both the selected and the turn class */}
       <div className={
           `${styles[`enemy${entity?.id + 1}`]} ${styles.entityContainer} ${selected ? styles.selected : ''} 
-        ${game.specificEnemyTurn === entity?.id ? styles.turn : ''}`}>
+        ${game.data().specificEnemyTurn === entity?.id ? styles.turn : ''}`}>
 
         {/* Name and health bar */}
         <h2>{entity?.name}</h2>

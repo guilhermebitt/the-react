@@ -3,6 +3,7 @@ import { useTick } from "../context/TickProvider";
 import { useAudio } from "../context/AudioProvider";
 import { usePlayer } from "../context/PlayerProvider";
 import { useEnemies } from "../context/EnemiesProvider";
+import { useGameData } from "../context/GameProvider";
 
 
 
@@ -11,7 +12,8 @@ export function useGame() {
   const tick = useTick();
   const audio = useAudio();
   const player = usePlayer();
-  const enemiesController = useEnemies();
+  const enemies = useEnemies();
+  const game = useGameData();
 
-  return { tick, audio, player, enemiesController };
+  return { tick, audio, player, enemies, game };
 }

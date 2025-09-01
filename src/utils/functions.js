@@ -1,5 +1,5 @@
-// Dependencies
-import { produce } from "immer";
+// Data
+import maps from '../data/maps.json' with { type: 'json' }
 
 
 
@@ -7,9 +7,9 @@ import { produce } from "immer";
 let terminal;
 let game;
 
-export function init(setTerminalText, setGame) {
+export function init(setTerminalText, gameState) {
   terminal = setTerminalText;
-  game = setGame;
+  game = gameState;
 }
 
 
@@ -38,10 +38,8 @@ export function phrase(text, tag="p", className="default-msg") {
 // Function to handle turn changes
 export function endTurn() {
   if (!game) return;
-  game(produce(draft => {
-    draft.currentTurn = 'enemies';
-    draft.specificEnemyTurn = 0;
-  }));
+  game.update({ currentTurn: 'enemies' })
+  game.update({ specificEnemyTurn: 0 })
 }
 
 // Cleaning the localStorage
@@ -53,4 +51,9 @@ export function clearStorage(toKeep) {
       localStorage.removeItem(key);
     }
   })
+}
+
+// Getting the current map the player is
+export function getCurrentMap() {
+  return maps[game.data().currentMap];
 }

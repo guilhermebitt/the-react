@@ -1,5 +1,10 @@
+import { immerable } from "immer";
+
+
 // --------- ENTITIES ---------
 export class Entity {
+  [immerable] = true;
+
   constructor(entity) {
     this.data = structuredClone(entity);  // This will guarantee that each entity won't share the same data
   }

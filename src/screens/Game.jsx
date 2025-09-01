@@ -32,14 +32,12 @@ chore: tarefas de manutenção, dependências, configs, etc.
 
 // Data
 import enemiesJson from '../data/enemies.json' with { type: 'json' };
-import gameJson from '../data/game.json' with { type: 'json' };
 import maps from '../data/maps.json' with { type: 'json' };
 
 // Dependencies
 import { useEffect, useState } from 'react';
 import { useLocalStorage } from 'usehooks-ts';
 import * as funcs from '../utils/functions.js';
-import { produce } from "immer";
 
 // Components
 import MapContainer from '../components/game/MapContainer.jsx';
@@ -60,8 +58,7 @@ import styles from'./Game.module.css';
 
 function Game() {
   // React Hooks
-  const { audio, player, enemiesController } = useGame();
-  const enemies = enemiesController.get()  // Settings enemies
+  const { audio, player, enemies, game } = useGame();
   const [confirmDialog, setConfirmDialog] = useState({
     visible: false,
     message: 'Are you sure?',
@@ -70,37 +67,35 @@ function Game() {
   });
 
   // Setting the localStorage
-  const [game, setGame] = useLocalStorage('game', gameJson);
   const [loading, setLoading] = useLocalStorage('loading', true);
   const [, setTerminalText] = useLocalStorage('terminalText', []);
 
   // Initializing funcs
-  funcs.init(setTerminalText, setGame);
+  funcs.init(setTerminalText, game);
 
   // On game load:
   useEffect(() => {
     if (loading) return;
 
     // This will be executed when the game start for the first time
-    if (game.firstLoad === false) {
+    if (game.data().firstLoad === false) {
       spawnEnemies();
     };
     
     // Starting game music
-    if (game.currentMusic[0] === "/assets/sounds/musics/the_music.ogg" && !audio.isPlaying()) {
-      audio.playMusic(game.currentMusic[0], game.currentMusic[1]);
+    if (game.data().currentMusic[0] === "/assets/sounds/musics/the_music.ogg" && !audio.isPlaying()) {
+      audio.playMusic(game.data().currentMusic[0], game.data().currentMusic[1]);
     }
-
     
     // Changing the animations tickSpeed to fit with the game tick
-    player.data.animations.standBy[1] = game.tickSpeed;
+    player.get().data.animations.standBy[1] = game.data().tickSpeed;
 
-    enemies.forEach((enemy) => {
-      enemy.data.animations.standBy[1] = game.tickSpeed;
+    enemies.get().forEach((enemy) => {
+      enemy.data.animations.standBy[1] = game.data().tickSpeed;
     })
 
     // Defining that the player already started the game
-    if (!game.firstLoad) setGame(produce(draft => {draft.firstLoad = true}));
+    if (!game.data().firstLoad) game.update({ firstLoad: true });
 
     return () => {
       setLoading(true);
@@ -108,37 +103,36 @@ function Game() {
     
   }, [loading]);
 
-
   // Check if it's the player turn
   useEffect(() => {
     if (loading) return;
 
-    if (game.specificEnemyTurn !== 'player') return;
-    player.data.actionsLeft = player.data.actions;  // resets the actionsLeft of the player
+    if (game.data().specificEnemyTurn !== 'player') return;
+    player.get().data.actionsLeft = player.get().data.actions;  // resets the actionsLeft of the player
 
-  }, [game.specificEnemyTurn]);
+  }, [game.data().specificEnemyTurn]);
 
 
   // --- MAIN FUNCTIONS ---
   function doAttack() {
     // Conditions
-    if (typeof game.target !== 'number') return funcs.phrase('Select a target!');
-    if (player.data.actionsLeft <= 0) return funcs.phrase('You do not have actions left!');
-    if (enemies[game.target]?.data?.currentAnim === 'death') return funcs.phrase('This enemy is dead.');
+    if (typeof game.data().target !== 'number') return funcs.phrase('Select a target!');
+    if (player.get().data.actionsLeft <= 0) return funcs.phrase('You do not have actions left!');
+    if (enemies.get([game.data().target])?.data?.currentAnim === 'death') return funcs.phrase('This enemy is dead.');
 
-    const { attackMsg, timeToWait } = player.attack(enemies[game.target]);  // this function executes an attack and return some data
+    const { attackMsg, timeToWait } = player.get().attack(enemies.get([game.data().target]));  // this function executes an attack and return some data
 
     // Changing the turn 
-    const lastTurn = game.currentTurn;
-    setGame(produce(draft => {draft.currentTurn = 'onAction'}));
+    const lastTurn = game.data().currentTurn;
+    game.update({ currentTurn: 'onAction' });
 
     setTimeout(() => {
-      setGame(produce(draft => {draft.currentTurn = lastTurn}));
+      game.update({ currentTurn: lastTurn });
     }, timeToWait);
     // ------------------
 
     funcs.phrase(attackMsg);  // showing the result of the attack
-    player.data.actionsLeft -= 1;
+    player.get().data.actionsLeft -= 1;
   }
 
   function confirmScreen(onConfirm, onCancel, msg='Are you sure?') {
@@ -165,15 +159,12 @@ function Game() {
 
   function spawnEnemies() {
     const snake = createEntityObj('snake');
-    enemiesController.spawnEnemies([snake, snake, snake])
+    enemies.spawnEnemies([snake, snake, snake])
   }
 
-  function getCurrentMap() {
-    return maps[game.currentMap];
-  }
 
   // -- RETURNING THE GAME ---
-  if (loading) return <Loading enemies={enemies} player={player} mapSrc={getCurrentMap().src}/>
+  if (loading) return <Loading enemies={enemies.get()} player={player.get()} mapSrc={funcs.getCurrentMap().src}/>
   return (
     <main id={styles['game']}>
       {/* CONFIRM DIALOG */}
@@ -197,12 +188,12 @@ function Game() {
   
       {/* MAP SECTION */}
       <section className={`${styles['x-section']} ${styles['map']}`}>
-        <MapContainer map={getCurrentMap()}/>
+        <MapContainer map={funcs.getCurrentMap()}/>
       </section>
   
       {/* STATS AND TERMINAL */}
       <section className={`${styles['x-section']} ${styles['statistics']}`}>
-        <Stats entity={player.data} />
+        <Stats entity={player.get().data} />
 
         <Terminal />
       </section>
@@ -210,10 +201,10 @@ function Game() {
       {/* ACTION BUTTONS */}
       <section className={`${styles['x-section']} ${styles['bottom']}`}>
         <ActionButtons 
-          attack={() => game.currentTurn === 'player' && doAttack()} 
+          attack={() => game.data().currentTurn === 'player' && doAttack()} 
           changeAnim={(null)} 
           sendMsg={() => funcs.phrase('Hi!')}
-          endTurn={() => game.currentTurn === 'player' && confirmScreen(
+          endTurn={() => game.data().currentTurn === 'player' && confirmScreen(
             () => {funcs.endTurn('enemies')}
           )}
         />

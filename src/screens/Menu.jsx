@@ -14,7 +14,6 @@ import { useGame } from '../hooks/useGame';
 import styles from './menus.module.css';
 
 
-
 function Menu() {
   const [currentTurn, setCurrentTurn] = useLocalStorage('currentTurn', gameData.currentTurn);
   const { audio, player, enemiesController } = useGame();
@@ -27,7 +26,7 @@ function Menu() {
   }, []);
 
   const handlePlay = () => currentTurn === "none" && setCurrentTurn('player');
-  const keysToKeep = ['lastScreen', 'settings'];  // these keys won't be removed
+  const keysToKeep = ['lastScreen', 'settings', 'saves'];  // these keys won't be removed
 
   const resetGame = (keysToKeep) => {
     // Cleaning the local storage
@@ -38,13 +37,13 @@ function Menu() {
     <main className={styles['menus']}>
       <section>
         <h1>The</h1>
-        <Link to="/game">
+        <Link to="/saves">
           <button className={styles['menus']} onClick={handlePlay}>Play</button>
         </Link>
         <Link to="/settings">
           <button className={styles['menus']} >Settings</button>
         </Link>
-        <button className={`${styles['menus']} ${styles['clear']}`} onClick={() => resetGame(keysToKeep)}>Clear all data</button>
+        {/* <button className={`${styles['menus']} ${styles['clear']}`} onClick={() => resetGame(keysToKeep)}>Clear all data</button>*/}
       </section>
       
     </main>

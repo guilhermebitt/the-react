@@ -10,14 +10,10 @@ import styles from './Stats.module.css';
 
 
 function HealthBar({ entityId }) {
-  const { enemiesController } = useGame();
-  const enemies = enemiesController.get();
-  const entity = enemies[entityId].data;
+  const { enemies } = useGame();
+  const entity = enemies.get(entityId).data;
 
   const [healthPercent, setHealthPercent] = useState(100);
-
-  useEffect(() => {
-  }, [enemies[entityId]])
 
   useEffect(() => {
     setHealthPercent(calcPercent(entity.stats.health, entity.stats.maxHealth));

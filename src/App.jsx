@@ -10,6 +10,7 @@ import { AppProviders } from './context/AppProviders.jsx';
 import Menu from './screens/Menu.jsx';
 import Settings from './screens/Settings.jsx';
 import Game from './screens/Game.jsx';
+import Saves from './screens/Saves.jsx';
 
 // Stylesheet
 import './assets/css/App.css';
@@ -52,6 +53,7 @@ function AppRoutes() {
   return (
     <Routes>
       <Route path="/menu" element={<Menu />} />
+      <Route path="/saves" element={<Saves />} />
       <Route path="/game" element={<Game />} />
       <Route path="/settings" element={<Settings />} />
     </Routes>
