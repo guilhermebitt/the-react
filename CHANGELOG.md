@@ -1,3 +1,10 @@
+# [1.0.0-beta.16](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.15...v1.0.0-beta.16) (2025-09-01)
+
+
+### Features
+
+* starting to improve the save system (it gonna be better, I promise) ([2c2d443](https://github.com/guilhermebitt/the-react/commit/2c2d4437beb24e667593d962d69952554b717582))
+
 # [1.0.0-beta.15](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.14...v1.0.0-beta.15) (2025-09-01)
 
 
