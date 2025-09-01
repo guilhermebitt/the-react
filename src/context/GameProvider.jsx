@@ -10,26 +10,26 @@ import { produce } from "immer";
 const GameContext = createContext();
 
 export function GameProvider({ children }) {
-  const [gameState, setGameState] = useState(gameData)
+  const [game, setGame] = useState(gameData)
 
-  const data = () => {
-    return gameState
+  const get = () => {
+    return game
   }
 
   const update = (partial) => {
-    setGameState(produce(draft => {
+    setGame(produce(draft => {
       Object.assign(draft, partial);
     }));
   };
 
   const loadSave = (gameData) => {
-    setGameState(gameData);
+    setGame(gameData);
   }
 
-  const reset = () => setGameState(gameData)
+  const reset = () => setGame(gameData)
 
   return (
-    <GameContext.Provider value={{ data, update, loadSave, reset }}>
+    <GameContext.Provider value={{ get, update, loadSave, reset }}>
       {children}
     </GameContext.Provider>
   );

@@ -25,10 +25,8 @@ function EntityContainer({ entity }) {
 
   // Contexts
   const { tick, audio, player, enemies, game } = useGame();
-  const enemiesData = enemies.get();
 
   // Loading Game Storage
-  const [, setTerminalText] = useLocalStorage('terminalText', []);
   const [settings] = useLocalStorage('settings', settingsJson);
 
   // Getting useStates
@@ -64,7 +62,7 @@ function EntityContainer({ entity }) {
   useEffect(() => {
     // --- Conditions to skip ---
     // This guarantee that the code will only be executed if its the enemy's turn
-    if (game.data().currentTurn !== 'enemies' || game.data().specificEnemyTurn !== entity?.id) return;
+    if (game.get().currentTurn !== 'enemies' || game.get().specificEnemyTurn !== entity?.id) return;
     // --------------------------
 
     // --- Processing the enemy's turn ---
@@ -79,18 +77,18 @@ function EntityContainer({ entity }) {
         game.update({ specificEnemyTurn: 'none' });
         game.update({ currentTurn: 'none' });
       } else
-        if ((game.data().specificEnemyTurn >= enemiesData.length - 1) && (!player.get().isDead())) {
+        if ((game.get().specificEnemyTurn >= enemies.get().length - 1) && (!player.get().isDead())) {
           game.update({ specificEnemyTurn: 'player' });
           game.update({ currentTurn: 'player' });
           funcs.phrase('Its your turn!');
         } else {
-          game.update({ specificEnemyTurn: game.data().specificEnemyTurn + 1 });
+          game.update({ specificEnemyTurn: game.get().specificEnemyTurn + 1 });
         }
 
     })();  // the '()' is to call the async function!
     // -------------------------------------
 
-  }, [game.data().specificEnemyTurn]);
+  }, [game.get().specificEnemyTurn]);
 
 
 
@@ -129,12 +127,12 @@ function EntityContainer({ entity }) {
 
   // Game useEffect
   useEffect(() => {
-    (game.data().target === entity?.id) ? setSelected(true) : setSelected(false);
-    if (game.data().currentTurn === 'enemies' && typeof (game.target) === 'number') {
+    (game.get().target === entity?.id) ? setSelected(true) : setSelected(false);
+    if (game.get().currentTurn === 'enemies' && typeof (game.get().target) === 'number') {
       setSelected(false)
       game.update({ target: NaN });
     };
-  }, [game.data()]);
+  }, [game.get()]);
 
 
 
@@ -162,7 +160,7 @@ function EntityContainer({ entity }) {
 
     // Checking if the enemy died
     if (entity?.isDead && entity.isDead() === true) {
-      entity.currentAnim = 'death';
+      entity.update({ currentAnim: 'death' })
     }
 
   }, [entity.dmgTaken]);
@@ -209,21 +207,21 @@ function EntityContainer({ entity }) {
       // When the animation get to the last frame
       if (index === animationFrames.length) {
         if (entity?.currentAnim !== 'death') {
-          entity.currentAnim = 'standBy';
+          entity.update({ currentAnim: "standBy" });
           setStandBy(true);
         }
         clearInterval(interval);
       } else {
         setFrame(animationFrames[index]);
         index = index + 1;
-        entity.img = "/assets/entities/death/death4.png";
-        entity.dmgTaken = null;
+        entity.update({ img: "/assets/entities/death/death4.png" });
+        entity.update({ dmgTaken: null });
       }
     }, frameDuration);
   }
 
   function selectTarget() {
-    if (game.data().currentTurn === 'player' && typeof entity?.id === 'number') {
+    if (game.get().currentTurn === 'player' && typeof entity?.id === 'number') {
       game.update({ target: entity?.id })
     }
   }
@@ -241,7 +239,7 @@ function EntityContainer({ entity }) {
       {/* Code to toggle both the selected and the turn class */}
       <div className={
           `${styles[`enemy${entity?.id + 1}`]} ${styles.entityContainer} ${selected ? styles.selected : ''} 
-        ${game.data().specificEnemyTurn === entity?.id ? styles.turn : ''}`}>
+        ${game.get().specificEnemyTurn === entity?.id ? styles.turn : ''}`}>
 
         {/* Name and health bar */}
         <h2>{entity?.name}</h2>

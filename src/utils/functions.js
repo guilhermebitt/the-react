@@ -18,7 +18,7 @@ export function phrase(text, tag="p", className="default-msg") {
   if (!game) return;
 
   // Get terminal as an array
-  const prevTerminal = game.data().terminalText
+  const prevTerminal = game.get().terminalText
 
   // Creating the message prompt
   const msg = `<${tag} className="${className}">${text}</${tag}>`;
@@ -50,5 +50,5 @@ export function clearStorage(toKeep) {
 
 // Getting the current map the player is
 export function getCurrentMap() {
-  return maps[game.data().currentMap];
+  return maps[game.get().currentMap];
 }

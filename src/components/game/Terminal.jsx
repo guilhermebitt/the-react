@@ -11,7 +11,7 @@ import styles from './Terminal.module.css';
 function Terminal() {
   //const [terminalText, setTerminalText] = useLocalStorage('terminalText', []);
   const { game } = useGame();
-  const terminalText = game.data().terminalText;
+  const terminalText = game.get().terminalText;
 
   useEffect(() => {
     // Verifying if the terminal text change, when the
@@ -23,7 +23,7 @@ function Terminal() {
 
       newTerminalText.splice(20, 1);
 
-      game.data().terminalText = newTerminalText;
+      game.update({ "terminalText": newTerminalText })
     }
   }, [terminalText]);
 

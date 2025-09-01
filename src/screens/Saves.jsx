@@ -1,6 +1,3 @@
-// Data
-import savesData from '../data/saves.json' with { type: 'json' }
-
 // Dependencies
 import { Link } from 'react-router-dom';
 import { useLocalStorage } from 'usehooks-ts';
@@ -13,7 +10,6 @@ import SaveGame from '../components/ui/SaveGame';
 import styles from './menus.module.css';
 
 function Saves() {
-  // Getting the lastScreen from localStorage
   const [lastScreen, setLastScreen] = useLocalStorage('lastScreen', '/');
 
   useEffect(() => {

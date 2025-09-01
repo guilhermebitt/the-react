@@ -4,8 +4,17 @@ import { immerable } from "immer";
 export class Entity {
   [immerable] = true;
 
-  constructor(entity) {
-    Object.assign(this, structuredClone(entity)) // This will guarantee that each entity won't share the same data
+  constructor(data) {
+    const { update, ...rest } = data; // deconstruct the data to get the update function
+    Object.assign(this, structuredClone(rest)); // clone the rest of the data, but maintain the update
+    if (update) this.update = update; // adds the function after the clone
+  }
+
+  // Returns an pure object from the entity
+  toJSON() {
+    return Object.fromEntries(
+      Object.entries(this).filter(([key, value]) => typeof value !== "function")
+    );
   }
   
   // Generates a random number
@@ -29,14 +38,12 @@ export class Entity {
   // Attack to entity
   attack(target) {
     // Executing animation
-    if (this.animations.atk) {
-      this.currentAnim = 'atk';
-    }
+    if (this.animations.atk) this.update({ currentAnim: "atk" });
 
     // Rest of the action
     if (this.random(100) > this.hitChance(target)) {
       // Entity Missed
-      target.dmgTaken = "Missed";
+      target.update({ dmgTaken: "Missed" });
       return { attackMsg: "The attack missed.", dmg: "Missed", timeToWait: 1000 };
     };
 
@@ -63,7 +70,7 @@ export class Entity {
     const attackMsg = this.getAttackMessage(realDmg, crit, dmg, dmgRed);
 
     // Telling the target that the damage was crit
-    crit > 1 ? target.dmgWasCrit = true : target.dmgWasCrit = false
+    crit > 1 ? target.update({ dmgWasCrit: true }) : target.update({ dmgWasCrit: false });
 
     // Calculating the time of the action
     const anim = this.animations['atk'];
@@ -105,16 +112,16 @@ export class Entity {
     console.log('Damage: ', amount, 'Reduction: ', dmgRed, 'Real Damage', realDmg);
 
     // Reduce the health, never below 0
-    this.stats.health = Math.max(0, (this.stats.health || 0) - realDmg);
+    this.update({ "stats.health": Math.max(0, (this.stats.health || 0) - realDmg) })
 
-    this.dmgTaken = realDmg;
+    this.update({ dmgTaken: realDmg });
 
     return { dmgRed, realDmg };
   }
 
   // Verify if its dead
   isDead() {
-    return this.stats?.health <= 0;
+    return this.stats.health <= 0;
   }
 }
 
