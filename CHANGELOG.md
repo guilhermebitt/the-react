@@ -1,3 +1,10 @@
+# [1.0.0-beta.19](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.18...v1.0.0-beta.19) (2025-09-02)
+
+
+### Features
+
+* improved changelog, removed some action button, and changed some line in the SaveGame file. ([a75c0f8](https://github.com/guilhermebitt/the-react/commit/a75c0f8ffeb8424df79e41a4d7508444eddf83bb))
+
 # [1.0.0-beta.18](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.17...v1.0.0-beta.18) (2025-09-02)
 
 
