@@ -1,34 +1,44 @@
 {
+  "id": "player",
   "entityType": "player",
   "name": "Player",
   "img": "/assets/entities/player/hero0.png",
   "currentAnim": "standBy",
   "animations": {
-    "standBy": [{
-      "0": "/assets/entities/player/hero0.png",
-      "1": "/assets/entities/player/hero1.png"
-    }, 1000],
-    "atk": [{
-      "0": "/assets/entities/player/hero_atk0.png",
-      "1": "/assets/entities/player/hero_atk1.png",
-      "2": "/assets/entities/player/hero_atk2.png",
-      "3": "/assets/entities/player/hero_atk1.png",
-      "4": "/assets/entities/player/hero_atk0.png",
-      "5": "/assets/entities/player/hero0.png"
-    }, 100],
-    "death": [{
-        "0": "/assets/entities/death/death0.png",
-        "1": "/assets/entities/death/death1.png",
-        "2": "/assets/entities/death/death2.png",
-        "3": "/assets/entities/death/death3.png",
-        "4": "/assets/entities/death/death4.png"
-      }, 1000]
+    "standBy": {
+      "frames": [
+        "/assets/entities/player/hero0.png",
+        "/assets/entities/player/hero1.png"
+      ],
+      "duration": 1000
+    },
+    "atk": {
+      "frames": [
+        "/assets/entities/player/hero_atk0.png",
+        "/assets/entities/player/hero_atk1.png",
+        "/assets/entities/player/hero_atk2.png",
+        "/assets/entities/player/hero_atk1.png",
+        "/assets/entities/player/hero_atk0.png",
+        "/assets/entities/player/hero0.png"
+      ],
+      "duration": 100
+    },
+    "death": {
+      "frames": [
+      "/assets/entities/death/death0.png",
+      "/assets/entities/death/death1.png",
+      "/assets/entities/death/death2.png",
+      "/assets/entities/death/death3.png",
+      "/assets/entities/death/death4.png"
+      ],
+      "duration": 100
+    }
   },
   "stats": {
-    "maxHealth": 20,
-    "health": 20,
-    "maxStamina": 20,
-    "stamina": 20,
+    "maxHealth": 10,
+    "health": 10,
+    "maxStamina": 10,
+    "stamina": 10,
     "attack": 10,
     "strength": 1,
     "defense": 5,
@@ -39,5 +49,6 @@
     "evasion": 10,
     "money": 0
   },
-  "actions": 2
+  "actions": 2,
+  "actionsLeft": 2
 }

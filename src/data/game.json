@@ -1,6 +1,11 @@
 {
-  "currentTurn": "player",
+  "firstLoad": false,
+  "specificEnemyTurn": "player",
   "target": null,
-  "phase": 0,
-  "gameTickSpeed": 500
+  "tickSpeed": 500,
+  "currentSave": null,
+  "currentTurn": "player",
+  "currentMap": "wildForest",
+  "currentMusic" : ["/assets/sounds/musics/the_music.ogg", true],
+  "terminalText": []
 }

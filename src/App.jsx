@@ -3,13 +3,17 @@ import { BrowserRouter, Routes, Route, useLocation, useNavigate } from 'react-ro
 import { useEffect, useRef } from 'react';
 import { useLocalStorage } from 'usehooks-ts';
 
+// Contexts
+import { AppProviders } from './context/AppProviders.jsx';
+
 // Screens
 import Menu from './screens/Menu.jsx';
 import Settings from './screens/Settings.jsx';
 import Game from './screens/Game.jsx';
+import Saves from './screens/Saves.jsx';
 
 // Stylesheet
-import './App.css';
+import './assets/css/App.css';
 
 
 
@@ -17,7 +21,9 @@ function App() {
 
   return (
     <BrowserRouter>
+      <AppProviders>
         <AppRoutes />
+      </AppProviders>
     </BrowserRouter>
   );
 }
@@ -47,6 +53,7 @@ function AppRoutes() {
   return (
     <Routes>
       <Route path="/menu" element={<Menu />} />
+      <Route path="/saves" element={<Saves />} />
       <Route path="/game" element={<Game />} />
       <Route path="/settings" element={<Settings />} />
     </Routes>

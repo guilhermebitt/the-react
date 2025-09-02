@@ -1,0 +1,23 @@
+.terminal {
+    border: white solid 1px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column-reverse;
+    height: 100%;
+    width: 50%;
+    overflow-y: auto;
+    padding: 0rem 1rem;
+}
+
+.terminalLine {
+    text-align: left;
+    width: 100%;
+}
+
+.terminalLine > * {
+    display: inline;
+}
+
+.terminalLine::before {
+    content: "> ";
+}

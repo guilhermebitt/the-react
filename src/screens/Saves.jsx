@@ -3,18 +3,17 @@ import { Link } from 'react-router-dom';
 import { useLocalStorage } from 'usehooks-ts';
 import { useEffect } from 'react';
 
+// Components
+import SaveGame from '../components/ui/SaveGame';
+
 // Stylesheet
 import styles from './menus.module.css';
 
-
-
-function Settings() {
-
-  // Getting the lastScreen from localStorage
+function Saves() {
   const [lastScreen, setLastScreen] = useLocalStorage('lastScreen', '/');
 
   useEffect(() => {
-    if (lastScreen === '/settings') {
+    if (lastScreen === '/saves') {
       setLastScreen('/');
     }
   });
@@ -22,8 +21,12 @@ function Settings() {
   return (
     <main className={styles['menus']}>
       <section>
-        <h1>Settings</h1>
-        <button className={styles['menus']}>Option1</button>
+        <h1>Saves</h1>
+        {
+          [0, 1, 2].map(index => (
+            <SaveGame key={index} saveId={index}/>
+          ))
+        }
         <Link to={lastScreen}>
           <button className={styles['menus']}>Back</button>
         </Link>
@@ -32,4 +35,4 @@ function Settings() {
   );
 }
 
-export default Settings;
+export default Saves;

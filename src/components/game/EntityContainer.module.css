@@ -1,0 +1,145 @@
+.entityContainer {
+  display: flex;
+  flex-direction: column;
+  align-self: flex-start;
+  height: 100%;
+}
+
+.entityContainer img {
+  height: 65%;
+  z-index: 1;
+}
+
+.enemy1 {
+  transform: translateY(-20px) translateX(-25%);
+}
+.enemy2 {
+  transform: translateY(0px)translateX(0%);
+}
+.enemy3 {
+  transform: translateY(-20px)translateX(25%);
+}
+
+.entityContainer img.hit {
+  animation: takeDamage 1s ease 1;
+}
+
+@keyframes takeDamage {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+    filter: none;
+  }
+  20% {
+    transform: translate(-3px, -3px) scale(0.95) rotate(-3deg);
+    opacity: 0.8;
+    filter: brightness(0) invert(1);
+  }
+  40% {
+    transform: translate(3px, -3px) scale(1.05) rotate(3deg);
+    opacity: 1;
+    filter: none;
+  }
+  60% {
+    transform: translate(-3px, 3px) scale(0.95) rotate(-3deg);
+    opacity: 0.8;
+    filter: brightness(0) invert(1);
+  }
+  80% {
+    transform: translate(3px, 3px) scale(1.05) rotate(3deg);
+    opacity: 1;
+    filter: none;
+  }
+  100% {
+    transform: translate(0, 0) scale(1) rotate(0);
+    opacity: 1;
+    filter: none;
+  }
+}
+
+h2 {
+  height: 15%;
+  font-size: 1rem;
+  margin: 0px !important;
+}
+
+div.shadow {
+  transform: translateY(-50%);
+  width: 100%;
+  height: 10%;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(ellipse, rgba(0,0,0,0.4), transparent);
+}
+
+.turn div.shadow {
+  background: radial-gradient(ellipse, #11e03066, transparent);
+}
+
+.turn h2 {
+  color: #11e030;
+}
+
+.selectedArrow{
+  display: none;
+  position: absolute;
+  top: -1.25rem;
+  width: 100%;
+  height: fit-content;
+  animation: selectedArrow 2s ease-in-out infinite;
+}
+
+.selected .selectedArrow{
+  display: block;
+}
+
+div.damage {
+  display: block;
+  position: absolute;
+  opacity: 0;
+  top: -1.25rem;
+  right: 0px;
+  width: 100%;
+  text-align: right;
+  height: fit-content;
+  animation: showDamage 1s ease-in 1;
+  font-size: 1.25rem;
+  text-shadow: 
+    -1px -1px 0 #000000,
+    1px -1px 0 #000000,
+    -1px 1px 0 #000000,
+    1px 1px 0 #000000;
+}
+
+div.damage.crit {
+  font-size: 1.5rem;
+  color: rgb(230, 73, 73);
+  text-shadow: 
+    -1px -1px 0 #000000,
+    1px -1px 0 #000000,
+    -1px 1px 0 #000000,
+    1px 1px 0 #000000;
+}
+
+@keyframes selectedArrow {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes showDamage {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+}

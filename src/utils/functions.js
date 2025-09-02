@@ -1,0 +1,54 @@
+// Data
+import maps from '../data/maps.json' with { type: 'json' }
+
+
+
+// ----- HOOKS MANAGER -----
+let game;
+
+export function init(gameState) {
+  game = gameState;
+}
+
+
+
+// ----- FUNCTIONS -----
+// Function to send a message to the terminal
+export function phrase(text, tag="p", className="default-msg") {
+  if (!game) return;
+
+  // Get terminal as an array
+  const prevTerminal = game.get().terminalText
+
+  // Creating the message prompt
+  const msg = `<${tag} className="${className}">${text}</${tag}>`;
+
+  // Adding it to the start of the terminal
+  const updatedTerminal = [msg, ...prevTerminal];
+
+  // Saves to the localStorage
+  game.update({ terminalText: updatedTerminal })
+}
+
+// Function to handle turn changes
+export function endTurn() {
+  if (!game) return;
+  game.update({ currentTurn: 'enemies' })
+  game.update({ specificEnemyTurn: 0 })
+}
+
+// Cleaning the localStorage
+export function clearStorage(toKeep) {
+  const storageKeys = Object.keys(localStorage);  // saving the keys before remove since the length of storages changes
+
+  storageKeys.forEach(key => {
+    if (!toKeep.includes(key)) {
+      localStorage.removeItem(key);
+    }
+  })
+}
+
+// Getting the current map the player is
+export function getCurrentMap() {
+  return maps[game.get().currentMap];
+}

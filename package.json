@@ -1,7 +1,7 @@
 {
   "name": "the-react",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0-beta.16",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -22,6 +22,10 @@
     "usehooks-ts": "^3.1.1"
   },
   "devDependencies": {
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/github": "^11.0.4",
+    "@semantic-release/npm": "^12.0.2",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react-swc": "^3.5.0",
@@ -29,6 +33,7 @@
     "eslint-plugin-react": "^7.34.2",
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-react-refresh": "^0.4.7",
+    "semantic-release": "^24.2.7",
     "vite": "^5.3.1"
   },
   "prettier": {
