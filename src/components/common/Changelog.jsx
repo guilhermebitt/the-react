@@ -6,21 +6,23 @@ import { useEffect, useState } from 'react';
 import styles from './Changelog.module.css';
 import '../../assets/css/scrollbar.css';
 
-
-
 function Changelog() {
   const [fullText, setFullText] = useState('');
-  const [displayedLength, setDisplayedLength] = useState(1000); // Quantidade inicial de caracteres a serem exibidos
-  const INCREMENT_AMOUNT = 1000; // Quantos caracteres adicionar a cada clique
+  const [displayedLength, setDisplayedLength] = useState(1000);
+  const [loading, setLoading] = useState(true); // estado para controlar o carregamento
+  const INCREMENT_AMOUNT = 1000;
 
   useEffect(() => {
-    // Getting the text of CHANGELOG.md
     fetch('../../../CHANGELOG.md')
       .then((response) => response.text())
       .then((textData) => {
         setFullText(textData);
+        setLoading(false); // terminou de carregar
       })
-      .catch((error) => console.error('Error fetching the text file:', error));
+      .catch((error) => {
+        console.error('Error fetching the text file:', error);
+        setLoading(false); // mesmo com erro, parar o "loading"
+      });
   }, []);
 
   const handleShowMore = () => {
@@ -29,38 +31,42 @@ function Changelog() {
   };
 
   const handleShowLess = () => {
-    // Resets to initial state
     setDisplayedLength(1000);
   };
 
-  // Determina o texto a ser exibido
   const displayText =
     fullText.length > displayedLength
       ? fullText.substring(0, displayedLength) + '...'
       : fullText;
 
-  // Verifying if the buttons should appear
   const showMoreButton = displayedLength < fullText.length;
   const showLessButton = displayedLength > 1000 && fullText.length > 1000;
 
   return (
     <div className={`${styles.changelogContainer} scrollbar`}>
       <h1>ChangeLog</h1>
-      <ReactMarkdown>{displayText}</ReactMarkdown>
 
-      {/* Control buttons */}
-      <div className={styles.buttonContainer}>
-        {showMoreButton && (
-          <button onClick={handleShowMore} className={styles.toggleButton}>
-            Show more
-          </button>
-        )}
-        {showLessButton && (
-          <button onClick={handleShowLess} className={styles.toggleButton}>
-            Show less
-          </button>
-        )}
-      </div>
+      {/* Renderiza um loading ou o texto */}
+      {loading ? (
+        <p>Carregando...</p> // aqui você pode colocar um spinner ou skeleton
+      ) : (
+        <>
+          <ReactMarkdown>{displayText}</ReactMarkdown>
+
+          <div className={styles.buttonContainer}>
+            {showMoreButton && (
+              <button onClick={handleShowMore} className={styles.toggleButton}>
+                Show more
+              </button>
+            )}
+            {showLessButton && (
+              <button onClick={handleShowLess} className={styles.toggleButton}>
+                Show less
+              </button>
+            )}
+          </div>
+        </>
+      )}
     </div>
   );
 }
