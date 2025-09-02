@@ -1,3 +1,10 @@
+# [1.0.0-beta.17](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.16...v1.0.0-beta.17) (2025-09-02)
+
+
+### Features
+
+* **save:** the save function is now 100% complete (i think) ([7aea89e](https://github.com/guilhermebitt/the-react/commit/7aea89ea090f10cad40da1a36fb6e8fc1e518d31))
+
 # [1.0.0-beta.16](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.15...v1.0.0-beta.16) (2025-09-01)
 
 
