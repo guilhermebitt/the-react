@@ -1,33 +1,22 @@
 // Dependencies
 import ReactMarkdown from 'react-markdown';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+
+// Importa o conteúdo do CHANGELOG.md como texto puro
+import changelogText from '../../../CHANGELOG.md?raw';
 
 // Stylesheets
 import styles from './Changelog.module.css';
 import '../../assets/css/scrollbar.css';
 
 function Changelog() {
-  const [fullText, setFullText] = useState('');
+  // O texto já vem pronto, então não precisamos de loading
   const [displayedLength, setDisplayedLength] = useState(1000);
-  const [loading, setLoading] = useState(true); // estado para controlar o carregamento
   const INCREMENT_AMOUNT = 1000;
-
-  useEffect(() => {
-    fetch('../../../CHANGELOG.md')
-      .then((response) => response.text())
-      .then((textData) => {
-        setFullText(textData);
-        setLoading(false); // terminou de carregar
-      })
-      .catch((error) => {
-        console.error('Error fetching the text file:', error);
-        setLoading(false); // mesmo com erro, parar o "loading"
-      });
-  }, []);
 
   const handleShowMore = () => {
     const newLength = displayedLength + INCREMENT_AMOUNT;
-    setDisplayedLength(Math.min(newLength, fullText.length));
+    setDisplayedLength(Math.min(newLength, changelogText.length));
   };
 
   const handleShowLess = () => {
@@ -35,38 +24,31 @@ function Changelog() {
   };
 
   const displayText =
-    fullText.length > displayedLength
-      ? fullText.substring(0, displayedLength) + '...'
-      : fullText;
+    changelogText.length > displayedLength
+      ? changelogText.substring(0, displayedLength) + '...'
+      : changelogText;
 
-  const showMoreButton = displayedLength < fullText.length;
-  const showLessButton = displayedLength > 1000 && fullText.length > 1000;
+  const showMoreButton = displayedLength < changelogText.length;
+  const showLessButton = displayedLength > 1000 && changelogText.length > 1000;
 
   return (
     <div className={`${styles.changelogContainer} scrollbar`}>
       <h1>ChangeLog</h1>
 
-      {/* Renderiza um loading ou o texto */}
-      {loading ? (
-        <p>Carregando...</p> // aqui você pode colocar um spinner ou skeleton
-      ) : (
-        <>
-          <ReactMarkdown>{displayText}</ReactMarkdown>
+      <ReactMarkdown>{displayText}</ReactMarkdown>
 
-          <div className={styles.buttonContainer}>
-            {showMoreButton && (
-              <button onClick={handleShowMore} className={styles.toggleButton}>
-                Show more
-              </button>
-            )}
-            {showLessButton && (
-              <button onClick={handleShowLess} className={styles.toggleButton}>
-                Show less
-              </button>
-            )}
-          </div>
-        </>
-      )}
+      <div className={styles.buttonContainer}>
+        {showMoreButton && (
+          <button onClick={handleShowMore} className={styles.toggleButton}>
+            Show more
+          </button>
+        )}
+        {showLessButton && (
+          <button onClick={handleShowLess} className={styles.toggleButton}>
+            Show less
+          </button>
+        )}
+      </div>
     </div>
   );
 }
