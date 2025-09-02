@@ -1,0 +1,21 @@
+/* General Style of Scrollbar */
+.scrollbar::-webkit-scrollbar {
+  width: 10px; /* Largura da barra de rolagem vertical */
+  height: 10px; /* Altura da barra de rolagem horizontal */
+}
+
+/* Background of the Scrollbar */
+.scrollbar::-webkit-scrollbar-track {
+  background: #ffffff00;
+}
+
+/* style of that thing that moves */
+.scrollbar::-webkit-scrollbar-thumb {
+  background: #ddd;
+  border-radius: 5px; /* Deixa as bordas arredondadas */
+}
+
+/* style of that thing that moves (when mouse hover) */
+.scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #555;
+} 

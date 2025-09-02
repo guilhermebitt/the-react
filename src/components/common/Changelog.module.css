@@ -45,24 +45,10 @@
 }
 
 
-/* General Style of Scrollbar */
-.changelogContainer::-webkit-scrollbar {
-  width: 10px; /* Largura da barra de rolagem vertical */
-  height: 10px; /* Altura da barra de rolagem horizontal */
-}
-
-/* Background of the Scrollbar */
-.changelogContainer::-webkit-scrollbar-track {
-  background: #ffffff00;
-}
-
-/* style of that thing that moves */
-.changelogContainer::-webkit-scrollbar-thumb {
-  background: #d5d5d5;
-  border-radius: 5px; /* Deixa as bordas arredondadas */
-}
-
-/* style of that thing that moves (when mouse hover) */
-.changelogContainer::-webkit-scrollbar-thumb:hover {
-  background: #555;
+.toggleButton {
+  background-color: #00000000;
+  color: #d4e51e;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem 1rem;
 }

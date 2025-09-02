@@ -60,13 +60,10 @@ function SaveGame({ saveId }) {
         enemies: [],
         game: gameData
     };
-    console.log(saveId)
     setSaves(prevSaves => ({
         ...prevSaves,
         [saveId]: newGameState
     }));
-
-    game.update({ currentSave: saveId })
     
     // Now load it
     loadGame();
