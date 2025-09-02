@@ -7,6 +7,7 @@ import { useGame } from '../../hooks/useGame';
 
 // Stylesheets
 import styles from './Terminal.module.css';
+import '../../assets/css/scrollbar.css'
 
 function Terminal() {
   //const [terminalText, setTerminalText] = useLocalStorage('terminalText', []);
@@ -28,7 +29,7 @@ function Terminal() {
   }, [terminalText]);
 
   return (
-    <div className={styles.terminal}>
+    <div className={`${styles.terminal} scrollbar`}>
       {(Array.isArray(terminalText) ? terminalText : []).map((html, index) => (
         <div
           key={index}
