@@ -160,7 +160,6 @@ function Game() {
     enemies.spawnEnemies([snake, snake, snake])
   }
 
-
   // -- RETURNING THE GAME ---
   if (loading) return <Loading enemies={enemies.get()} player={player.get()} mapSrc={funcs.getCurrentMap().src}/>
   return (

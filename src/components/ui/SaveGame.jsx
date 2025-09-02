@@ -70,7 +70,6 @@ function SaveGame({ saveId }) {
     
     // Now load it
     loadGame();
-    navigate('/game');
   }
 
   return (

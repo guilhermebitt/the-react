@@ -76,6 +76,7 @@ function EntityContainer({ entity }) {
       if (player.get().isDead()) {
         game.update({ specificEnemyTurn: 'none' });
         game.update({ currentTurn: 'none' });
+        player.update({ currentAnim: 'death' })
       } else
         if ((game.get().specificEnemyTurn >= enemies.get().length - 1) && (!player.get().isDead())) {
           game.update({ specificEnemyTurn: 'player' });
@@ -159,7 +160,7 @@ function EntityContainer({ entity }) {
     }
 
     // Checking if the enemy died
-    if (entity?.isDead && entity.isDead() === true) {
+    if (entity.isDead() === true) {
       entity.update({ currentAnim: 'death' })
     }
 

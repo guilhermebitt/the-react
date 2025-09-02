@@ -15,6 +15,15 @@ const audioAssets = [
   "/assets/sounds/musics/you_died.ogg",
   "/assets/sounds/misc/hit_sound.ogg",
 ]
+// Temporary, manually adds the assets to be loaded from the Loading component
+const hudAssets = [
+  "assets/hud/coin.png",
+  "assets/hud/heart.png",
+  "assets/hud/shield.png",
+  "assets/hud/sword.png",
+  "assets/hud/stamina.png",
+  "assets/images/star-solid-full.svg"
+]
 
 
 function Loading({ enemies, player, mapSrc }) {
@@ -24,7 +33,7 @@ function Loading({ enemies, player, mapSrc }) {
   useEffect(() => {
     const allEntities = [...enemies, player];
     const entitiesAssets = getEntitiesAssets(allEntities);  // getting the entities assets to load
-    const imgsToLoad = [...entitiesAssets, mapSrc];
+    const imgsToLoad = [...entitiesAssets, mapSrc, ...hudAssets];
     const assetsNumber = imgsToLoad.length + audioAssets.length;
 
     setLoadingCounter(assetsNumber);  // Starting the assets counter
