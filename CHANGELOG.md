@@ -1,3 +1,11 @@
+# [1.0.0-beta.21](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.20...v1.0.0-beta.21) (2025-09-02)
+
+
+### Bug Fixes
+
+* OKAY, now it should work ([1d48bff](https://github.com/guilhermebitt/the-react/commit/1d48bffd754d3598eb1b3ad2e9d2912f0f405e9f))
+* OKAY, now it should work ([1532b61](https://github.com/guilhermebitt/the-react/commit/1532b615c870343d93ed847cf193aae850368bc5))
+
 # [1.0.0-beta.20](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.19...v1.0.0-beta.20) (2025-09-02)
 
 
