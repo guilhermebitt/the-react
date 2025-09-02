@@ -1,3 +1,10 @@
+# [1.0.0-beta.20](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.19...v1.0.0-beta.20) (2025-09-02)
+
+
+### Bug Fixes
+
+* trying to fix the changelog ([80c100d](https://github.com/guilhermebitt/the-react/commit/80c100d94b9878389537d051d4be54c56a899296))
+
 # [1.0.0-beta.19](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.18...v1.0.0-beta.19) (2025-09-02)
 
 
