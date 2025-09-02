@@ -7,8 +7,11 @@ import { Link } from 'react-router-dom';
 import { useLocalStorage } from 'usehooks-ts';
 import { clearStorage } from '../utils/functions';
 
+// Components
+import Changelog from '../components/common/Changelog.jsx';
+
 // Hooks
-import { useGame } from '../hooks/useGame';
+import { useGame } from '../hooks/useGame.js';
 
 // Stylesheet
 import styles from './menus.module.css';
@@ -45,6 +48,7 @@ function Menu() {
         </Link>
         {/* <button className={`${styles['menus']} ${styles['clear']}`} onClick={() => resetGame(keysToKeep)}>Clear all data</button>*/}
       </section>
+      <Changelog />
       
     </main>
   );
