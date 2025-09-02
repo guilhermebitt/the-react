@@ -1,3 +1,19 @@
+# [1.1.0](https://github.com/guilhermebitt/the-react/compare/v1.0.0...v1.1.0) (2025-09-02)
+
+
+### Bug Fixes
+
+* OKAY, now it should work ([1d48bff](https://github.com/guilhermebitt/the-react/commit/1d48bffd754d3598eb1b3ad2e9d2912f0f405e9f))
+* OKAY, now it should work ([1532b61](https://github.com/guilhermebitt/the-react/commit/1532b615c870343d93ed847cf193aae850368bc5))
+* trying to fix the changelog ([80c100d](https://github.com/guilhermebitt/the-react/commit/80c100d94b9878389537d051d4be54c56a899296))
+
+
+### Features
+
+* **changelog:** now there is a changelog boxgit add . You can see exatly what i've change ([90cd8bb](https://github.com/guilhermebitt/the-react/commit/90cd8bbf2f363f534addf333bf5e1e4c61712fc5))
+* i think that this version is stable, and I have addded a changelog box in the menu. ([791f260](https://github.com/guilhermebitt/the-react/commit/791f260a2165929042b0ef7bbd368bc77cdfde8f))
+* improved changelog, removed some action button, and changed some line in the SaveGame file. ([a75c0f8](https://github.com/guilhermebitt/the-react/commit/a75c0f8ffeb8424df79e41a4d7508444eddf83bb))
+
 # [1.0.0-beta.21](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.20...v1.0.0-beta.21) (2025-09-02)
 
 
