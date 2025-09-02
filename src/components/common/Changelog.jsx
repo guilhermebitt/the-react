@@ -10,7 +10,6 @@ import styles from './Changelog.module.css';
 import '../../assets/css/scrollbar.css';
 
 function Changelog() {
-  // O texto já vem pronto, então não precisamos de loading
   const [displayedLength, setDisplayedLength] = useState(1000);
   const INCREMENT_AMOUNT = 1000;
 
