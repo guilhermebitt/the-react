@@ -1,3 +1,10 @@
+# [1.0.0-beta.18](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.17...v1.0.0-beta.18) (2025-09-02)
+
+
+### Features
+
+* **changelog:** now there is a changelog boxgit add . You can see exatly what i've change ([90cd8bb](https://github.com/guilhermebitt/the-react/commit/90cd8bbf2f363f534addf333bf5e1e4c61712fc5))
+
 # [1.0.0-beta.17](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.16...v1.0.0-beta.17) (2025-09-02)
 
 
