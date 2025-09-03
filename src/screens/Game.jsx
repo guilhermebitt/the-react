@@ -41,9 +41,11 @@ import * as funcs from '../utils/functions.js';
 // Components
 import MapContainer from '../components/game/MapContainer.jsx';
 import ActionButtons from '../components/common/ActionButtons.jsx';
+import SectionButtons from '../components/common/SectionButtons.jsx';
 import Terminal from '../components/game/Terminal.jsx';
 import Header from '../components/game/Header.jsx';
 import Stats from '../components/ui/Stats.jsx';
+import PlayerHUD from '../components/ui/PlayerHUD.jsx';
 import ConfirmDialog from '../components/common/ConfirmDialog.jsx';
 import Loading from '../components/common/Loading.jsx';
 
@@ -185,19 +187,27 @@ function Game() {
   
       {/* MAP SECTION */}
       <section className={`${styles['x-section']} ${styles['map']}`}>
+        <PlayerHUD />
         {enemies.get().length > 0 && <MapContainer map={funcs.getCurrentMap()}/>}
       </section>
   
       {/* STATS AND TERMINAL */}
       <section className={`${styles['x-section']} ${styles['statistics']}`}>
-        <Stats entity={player.get()} />
-
         <Terminal />
+
+        <ActionButtons 
+          attack={() => game.get().currentTurn === 'player' && doAttack()} 
+          changeAnim={(null)} 
+          sendMsg={() => funcs.phrase('Hi!')}
+          endTurn={() => game.get().currentTurn === 'player' && confirmScreen(
+            () => {funcs.endTurn('enemies')}
+          )}
+        />
       </section>
   
       {/* ACTION BUTTONS */}
       <section className={`${styles['x-section']} ${styles['bottom']}`}>
-        <ActionButtons 
+        <SectionButtons 
           attack={() => game.get().currentTurn === 'player' && doAttack()} 
           changeAnim={(null)} 
           sendMsg={() => funcs.phrase('Hi!')}

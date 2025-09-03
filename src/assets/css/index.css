@@ -18,6 +18,25 @@ button {
   font-family: 'Tiny5' !important;
 }
 
+button.default {
+  border-radius: 5px;
+  background-color: #00000000;
+  color: white;
+  font-size: 1.25rem;
+  border: 1px solid rgb(255, 255, 255);
+}
+
+button.default:hover {
+  background-color: rgb(208, 208, 208);
+  border-color: rgb(208, 208, 208);
+  color: black;
+}
+
+button.default:active {
+  background-color: rgb(103, 103, 103);
+  border-color: rgb(103, 103, 103);
+}
+
 a {
   display: contents;
   text-decoration: none;

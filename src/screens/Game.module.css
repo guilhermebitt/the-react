@@ -43,10 +43,13 @@ h1 {
 }
 
 .x-section.map {
+  position: relative;
   max-height: 40%;
 }
 
 .x-section.statistics {
+  display: grid;
+  grid: 1fr / 3fr 1fr;
   max-height: 35%;
   gap: 10px;
 }
