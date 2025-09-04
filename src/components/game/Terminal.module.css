@@ -1,12 +1,11 @@
 .terminal {
-    border: white solid 1px;
-    border-radius: 5px;
     display: flex;
-    flex-direction: column-reverse;
     height: 100%;
-    width: 100%;
+    /*border: white solid 1px;
+    border-radius: 5px;*/
+    flex-direction: column-reverse;
     overflow-y: auto;
-    padding: 0rem 1rem;
+    padding: 0rem 0.5rem;
 }
 
 .terminalLine {

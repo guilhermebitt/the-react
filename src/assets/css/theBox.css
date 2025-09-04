@@ -1,0 +1,33 @@
+.box-container {
+  --title-wdt: 100px;
+
+  position: relative;
+  height: fit-content;
+  width: fit-content;
+}
+
+.box-container .box-title {
+  position: absolute;
+  width: var(--title-wdt);
+  bottom: 99%;
+  border-top: white solid 1px;
+  border-right: white solid 1px;
+  border-left: white solid 1px;
+  border-radius: 5px 5px 0px 0px;
+  height: 1rem;
+}
+
+.box-container .box-border {
+  position: relative;
+  border: white solid 1px;
+  border-radius: 0px 5px 5px 5px;
+  padding: 0.5rem;
+  margin-top: 1rem;
+
+  /* This mask will apply an effect that 'cuts' the border */
+  mask-image: 
+    linear-gradient(to right, transparent 0px var(--title-wdt), black var(--title-wdt) 100%),
+    linear-gradient(to bottom, transparent 0px 1px, black 1px 100%);
+  mask-composite: add;
+  mask-repeat: no-repeat;
+}

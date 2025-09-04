@@ -20,21 +20,15 @@ button {
 
 button.default {
   border-radius: 5px;
-  background-color: #00000000;
-  color: white;
-  font-size: 1.25rem;
-  border: 1px solid rgb(255, 255, 255);
-}
-
-button.default:hover {
   background-color: rgb(208, 208, 208);
   border-color: rgb(208, 208, 208);
   color: black;
+  font-size: 1.25rem;
+  border: none;
 }
 
-button.default:active {
+button.default:hover {
   background-color: rgb(103, 103, 103);
-  border-color: rgb(103, 103, 103);
 }
 
 a {

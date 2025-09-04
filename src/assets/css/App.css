@@ -6,15 +6,17 @@ body {
 }
 
 #root {
+    --game-width: 800px;
+    --game-height: 600px;
     position: relative;
-    width: 800px;
-    height: 600px;
-    overflow: hidden;
+    width: var(--game-width);
+    height: var(--game-height);
     margin: 10px auto;
     padding: 5px;
     text-align: center;
     background-color: black;
     box-sizing: content-box;
+    z-index: 0; /* NÃO MEXE NISSO */
 }
 
 main {

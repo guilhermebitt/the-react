@@ -166,6 +166,7 @@ function Game() {
   if (loading) return <Loading enemies={enemies.get()} player={player.get()} mapSrc={funcs.getCurrentMap().src}/>
   return (
     <main id={styles['game']}>
+
       {/* CONFIRM DIALOG */}
      <ConfirmDialog 
         visible={confirmDialog.visible}
@@ -179,7 +180,7 @@ function Game() {
           setConfirmDialog(prev => {return{...prev, visible: false}});
         }}
       />
-  
+
       {/* TOP SECTION */}
       <section className={`${styles['x-section']} ${styles['top']}`}>
         <Header />
@@ -190,11 +191,10 @@ function Game() {
         <PlayerHUD />
         {enemies.get().length > 0 && <MapContainer map={funcs.getCurrentMap()}/>}
       </section>
-  
+    
+      
       {/* STATS AND TERMINAL */}
       <section className={`${styles['x-section']} ${styles['statistics']}`}>
-        <Terminal />
-
         <ActionButtons 
           attack={() => game.get().currentTurn === 'player' && doAttack()} 
           changeAnim={(null)} 
@@ -203,6 +203,8 @@ function Game() {
             () => {funcs.endTurn('enemies')}
           )}
         />
+
+        <Terminal />
       </section>
   
       {/* ACTION BUTTONS */}
@@ -216,6 +218,7 @@ function Game() {
           )}
         />
       </section>
+      
     </main>
   );
 }

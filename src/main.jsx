@@ -9,6 +9,7 @@ import App from './App';
 
 // Stylesheet
 import './assets/css/index.css';
+import './assets/css/theBox.css';
 
 
 

@@ -1,6 +1,8 @@
 // Dependencies
 import { useEffect } from 'react';
-import { useLocalStorage } from 'usehooks-ts';
+
+// Components
+import ComponentBorder from '../ui/ComponentBorder';
 
 // Hooks
 import { useGame } from '../../hooks/useGame';
@@ -29,15 +31,17 @@ function Terminal() {
   }, [terminalText]);
 
   return (
-    <div className={`${styles.terminal} scrollbar`}>
-      {(Array.isArray(terminalText) ? terminalText : []).map((html, index) => (
-        <div
-          key={index}
-          className={styles.terminalLine}
-          dangerouslySetInnerHTML={{ __html: html }}
-        />
-      ))}
-    </div>
+    <ComponentBorder title='Terminal'>
+      <div className={`${styles.terminal} scrollbar`}>
+        {(Array.isArray(terminalText) ? terminalText : []).map((html, index) => (
+          <div
+            key={index}
+            className={styles.terminalLine}
+            dangerouslySetInnerHTML={{ __html: html }}
+          />
+        ))}
+      </div>
+    </ComponentBorder>
   );
 }
 
