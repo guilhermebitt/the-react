@@ -2,12 +2,15 @@
 import ReactMarkdown from 'react-markdown';
 import { useState } from 'react';
 
-// Importa o conteúdo do CHANGELOG.md como texto puro
-import changelogText from '../../../CHANGELOG.md?raw';
+// Components
+import ComponentBorder from '../ui/ComponentBorder';
 
 // Stylesheets
 import styles from './Changelog.module.css';
 import '../../assets/css/scrollbar.css';
+
+// Importa o conteúdo do CHANGELOG.md como texto puro
+import changelogText from '../../../CHANGELOG.md?raw';
 
 function Changelog() {
   const [displayedLength, setDisplayedLength] = useState(1000);
@@ -33,9 +36,7 @@ function Changelog() {
   return (
     <div className={`${styles.changelogContainer} scrollbar`}>
       <h1>ChangeLog</h1>
-
       <ReactMarkdown>{displayText}</ReactMarkdown>
-
       <div className={styles.buttonContainer}>
         {showMoreButton && (
           <button onClick={handleShowMore} className={styles.toggleButton}>

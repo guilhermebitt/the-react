@@ -1,6 +1,9 @@
 // Dependencies
 import { Link } from 'react-router-dom';
 
+// Components
+import ComponentBorder from '../ui/ComponentBorder';
+
 // Hooks
 import { useGame } from '../../hooks/useGame';
 import { useSaveManager } from '../../hooks/useSaveManager';
@@ -15,16 +18,17 @@ function OptionButtons() {
   const { saveGame } = useSaveManager(game.get().currentSave);
 
   return (
-  <div className={styles["options-menu-container"]}>
-    <button>Log</button>
-    <Link to="/settings">
-      <button>Settings</button>
-    </Link>
-    <Link to="/menu">
-      <button>Menu</button>
-    </Link>
-    <button onClick={saveGame}>Save Game</button>
-  </div>
+  <ComponentBorder title="Options">
+    <div className={styles["options-menu-container"]}>
+      <Link to="/settings">
+        <button className='default'>Settings</button>
+      </Link>
+      <Link to="/menu">
+        <button className='default'>Menu</button>
+      </Link>
+      <button className='default' onClick={saveGame}>Save Game</button>
+    </div>
+  </ComponentBorder>
   );
 }
 
