@@ -44,7 +44,6 @@ import ActionButtons from '../components/common/ActionButtons.jsx';
 import SectionButtons from '../components/common/SectionButtons.jsx';
 import Terminal from '../components/game/Terminal.jsx';
 import Header from '../components/game/Header.jsx';
-import Stats from '../components/ui/Stats.jsx';
 import PlayerHUD from '../components/ui/PlayerHUD.jsx';
 import ConfirmDialog from '../components/common/ConfirmDialog.jsx';
 import Loading from '../components/common/Loading.jsx';
