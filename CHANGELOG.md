@@ -1,3 +1,10 @@
+# [1.0.0-beta.22](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.21...v1.0.0-beta.22) (2025-09-06)
+
+
+### Features
+
+* fixing the health bar of the enemies ([69bddf8](https://github.com/guilhermebitt/the-react/commit/69bddf8e3a6c42e5e076de22465fea01c6ff8735))
+
 # [1.0.0-beta.21](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.20...v1.0.0-beta.21) (2025-09-02)
 
 
