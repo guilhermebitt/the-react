@@ -1,3 +1,11 @@
+# [1.0.0-beta.24](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.23...v1.0.0-beta.24) (2025-09-06)
+
+
+### Bug Fixes
+
+* **animation:** animation was changing at every section change ([11c0fc4](https://github.com/guilhermebitt/the-react/commit/11c0fc4097ca896446daf86faf5668cc028efdfd))
+* **enemies turn:** added more delay to change the enemies turn ([3555821](https://github.com/guilhermebitt/the-react/commit/35558218b3899ffa52bc6b5477ab3126e7649d85))
+
 # [1.0.0-beta.23](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.22...v1.0.0-beta.23) (2025-09-06)
 
 
