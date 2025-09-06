@@ -29,7 +29,6 @@ chore: tarefas de manutenção, dependências, configs, etc.
 👉 Ex: chore(deps): atualiza eslint para v9
 */
 
-
 // Data
 import enemiesJson from '../data/enemies.json' with { type: 'json' };
 
@@ -37,17 +36,16 @@ import enemiesJson from '../data/enemies.json' with { type: 'json' };
 import { useEffect, useState } from 'react';
 import { useLocalStorage } from 'usehooks-ts';
 import * as funcs from '../utils/functions.js';
+import { Routes, Route, Link, useNavigate, useLocation } from 'react-router-dom';
 
 // Components
 import MapContainer from '../components/game/MapContainer.jsx';
-import ActionButtons from '../components/common/ActionButtons.jsx';
 import SectionButtons from '../components/common/SectionButtons.jsx';
-import Terminal from '../components/game/Terminal.jsx';
 import Header from '../components/game/Header.jsx';
 import PlayerHUD from '../components/ui/PlayerHUD.jsx';
-import Stats from '../components/ui/Stats.jsx';
 import ConfirmDialog from '../components/common/ConfirmDialog.jsx';
 import Loading from '../components/common/Loading.jsx';
+import ActionSection from '../components/sections/ActionSection.jsx'
 
 // Hooks
 import { useGame } from '../hooks/useGame.js';
@@ -60,6 +58,8 @@ import styles from'./Game.module.css';
 function Game() {
   // React Hooks
   const { audio, player, enemies, game } = useGame();
+  const navigate = useNavigate();
+  const location = useLocation();
   const [confirmDialog, setConfirmDialog] = useState({
     visible: false,
     message: 'Are you sure?',
@@ -76,6 +76,7 @@ function Game() {
   // On game load:
   useEffect(() => {
     if (loading) return;
+    if (location.pathname === "/game") navigate("/game/action", { replace: true });
 
     // THIS IS TEMPORARY!!!!!!
     // This will be executed when the game start for the first time
@@ -114,27 +115,6 @@ function Game() {
 
   
   // --- MAIN FUNCTIONS ---
-  function doAttack() {
-    // Conditions
-    if (typeof game.get().target !== 'number') return funcs.phrase('Select a target!');
-    if (player.get().actionsLeft <= 0) return funcs.phrase('You do not have actions left!');
-    if (enemies.get([game.get().target])?.currentAnim === 'death') return funcs.phrase('This enemy is dead.');
-
-    const { attackMsg, timeToWait } = player.get().attack(enemies.get([game.get().target]));  // this function executes an attack and return some data
-
-    // Changing the turn 
-    const lastTurn = game.get().currentTurn;
-    game.update({ currentTurn: 'onAction' });
-
-    setTimeout(() => {
-      game.update({ currentTurn: lastTurn });
-    }, timeToWait);
-    // ------------------
-
-    funcs.phrase(attackMsg);  // showing the result of the attack
-    player.update({ actionsLeft: p => p.actionsLeft - 1 })
-  }
-
   function confirmScreen(onConfirm, onCancel, msg='Are you sure?') {
     setConfirmDialog({
       visible: true,
@@ -195,28 +175,18 @@ function Game() {
       
       {/* STATS AND TERMINAL */}
       <section className={`${styles['x-section']} ${styles['statistics']}`}>
-        <ActionButtons 
-          attack={() => game.get().currentTurn === 'player' && doAttack()} 
-          changeAnim={(null)} 
-          sendMsg={() => funcs.phrase('Hi!')}
-          endTurn={() => game.get().currentTurn === 'player' && confirmScreen(
-            () => {funcs.endTurn('enemies')}
-          )}
-        />
-
-        <Terminal />
-        <Stats entity={player.get()}/>
+        <Routes>
+          <Route path='action' element={<ActionSection />} />
+        </Routes>
       </section>
   
       {/* ACTION BUTTONS */}
       <section className={`${styles['x-section']} ${styles['bottom']}`}>
-        <SectionButtons 
-          attack={() => game.get().currentTurn === 'player' && doAttack()} 
-          changeAnim={(null)} 
-          sendMsg={() => funcs.phrase('Hi!')}
-          endTurn={() => game.get().currentTurn === 'player' && confirmScreen(
-            () => {funcs.endTurn('enemies')}
-          )}
+        <SectionButtons
+          sec1={() => navigate("action")} 
+          sec2={() => navigate("inventory")}
+          sec3={() => navigate("skills")}
+          sec4={() => navigate("#")}
         />
       </section>
       

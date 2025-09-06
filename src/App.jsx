@@ -54,7 +54,7 @@ function AppRoutes() {
     <Routes>
       <Route path="/menu" element={<Menu />} />
       <Route path="/saves" element={<Saves />} />
-      <Route path="/game" element={<Game />} />
+      <Route path="/game/*" element={<Game />} />
       <Route path="/settings" element={<Settings />} />
     </Routes>
   );

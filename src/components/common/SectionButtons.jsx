@@ -10,25 +10,28 @@ function SectionButtons(props) {
   return (
     <div className={styles.container}>
       <button
-        onClick={props.sendMsg}
+        onClick={props.sec1}
         className="default"
         disabled={game.get().currentTurn !== "player" ? true : false}
       >
         Action
       </button>
       <button
+        onClick={props.sec2}
         className="default"
         disabled={game.get().currentTurn !== "player" ? true : false}
       >
         Inventory
       </button>
       <button
+        onClick={props.sec3}
         className="default"
         disabled={game.get().currentTurn !== "player" ? true : false}
       >
         Skills
       </button>
       <button
+        onClick={props.sec4}
         className="default"
         disabled={game.get().currentTurn !== "player" ? true : false}
       >

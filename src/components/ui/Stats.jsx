@@ -11,19 +11,19 @@ function Stats({entity}) {
       <ComponentBorder title='Stats'>
         <div className={styles.statsContainer}>
           <div className={styles.statHolder}>
-            <img src="./assets/hud/sword.png" alt="" />
+            <img src="/assets/hud/sword.png" alt="" />
             Str: <span>{entity?.stats?.strength}</span>
             Atk: <span>{entity?.stats?.attack}</span>
           </div>
           <div className={styles.statHolder}>
-            <img src="./assets/hud/shield.png" alt="" />
+            <img src="/assets/hud/shield.png" alt="" />
             Con: <span>{entity?.stats?.constitution}</span>
             Def: <span>{entity?.stats?.defense}</span>
           </div>
           {
           entity?.name === "Player" &&
           <div className={styles.statHolder}>
-            <img src="./assets/hud/coin.png" alt="" />
+            <img src="/assets/hud/coin.png" alt="" />
             Money: <span>{entity?.stats?.money}</span>
           </div>
           }
