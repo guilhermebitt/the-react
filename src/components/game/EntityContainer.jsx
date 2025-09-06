@@ -196,7 +196,7 @@ function EntityContainer({ entity }) {
       const timer = setTimeout(() => {
         resolve();  // resolving the promise!
         clearTimeout(timer);
-      }, timeToWait + 250);  // more 250ms to the enemy's actions
+      }, timeToWait + 550);  // more 550ms to the enemy's actions
     });
   }
 

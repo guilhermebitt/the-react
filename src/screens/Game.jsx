@@ -36,7 +36,7 @@ import enemiesJson from '../data/enemies.json' with { type: 'json' };
 import { useEffect, useState } from 'react';
 import { useLocalStorage } from 'usehooks-ts';
 import * as funcs from '../utils/functions.js';
-import { Routes, Route, Link, useNavigate, useLocation } from 'react-router-dom';
+import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 
 // Components
 import MapContainer from '../components/game/MapContainer.jsx';
