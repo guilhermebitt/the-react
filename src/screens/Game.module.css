@@ -62,9 +62,6 @@ h1 {
 }
 
 .x-section.statistics {
-  display: grid;
-  grid: 1fr / 1fr 3fr 1fr;
-  gap: 10px;
   height: calc(var(--game-height) * 0.35); /* 35% */
 }
 

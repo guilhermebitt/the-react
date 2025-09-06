@@ -45,7 +45,9 @@ import Header from '../components/game/Header.jsx';
 import PlayerHUD from '../components/ui/PlayerHUD.jsx';
 import ConfirmDialog from '../components/common/ConfirmDialog.jsx';
 import Loading from '../components/common/Loading.jsx';
-import ActionSection from '../components/sections/ActionSection.jsx'
+import ActionSection from '../components/sections/ActionSection.jsx';
+import InventorySection from '../components/sections/InventorySection.jsx';
+import SkillsSection from '../components/sections/SkillsSection.jsx';
 
 // Hooks
 import { useGame } from '../hooks/useGame.js';
@@ -177,6 +179,8 @@ function Game() {
       <section className={`${styles['x-section']} ${styles['statistics']}`}>
         <Routes>
           <Route path='action' element={<ActionSection />} />
+          <Route path='inventory' element={<InventorySection />} />
+          <Route path='skills' element={<SkillsSection />} />
         </Routes>
       </section>
   

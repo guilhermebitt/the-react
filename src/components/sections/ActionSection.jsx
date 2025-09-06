@@ -11,6 +11,9 @@ import ConfirmDialog from '../common/ConfirmDialog.jsx';
 // Hooks
 import { useGame } from '../../hooks/useGame.js';
 
+// Stylesheet
+import styles from './sections.module.css'
+
 function ActionSection() {
   const { player, enemies, game } = useGame();
   const [confirmDialog, setConfirmDialog] = useState({
@@ -56,7 +59,7 @@ function ActionSection() {
 
   // Returning the section
   return (
-    <>
+    <div className={styles.actSecContainer}>
       {/* Confirm dialog */}
       <ConfirmDialog 
         visible={confirmDialog.visible}
@@ -85,7 +88,7 @@ function ActionSection() {
       />
       <Terminal />
       <Stats entity={player.get()} />
-    </>
+    </div>
   );
 }
 
