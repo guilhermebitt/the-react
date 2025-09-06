@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useGame } from '../../hooks/useGame.js';
 
 // Stylesheets
-import styles from './Stats.module.css';
+import styles from './HealthBar.module.css';
 
 
 
