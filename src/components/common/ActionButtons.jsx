@@ -25,14 +25,14 @@ function ActionButtons(props) {
           onClick={props.sendMsg}
           disabled={game.get().currentTurn !== "player" ? true : false}
         >
-          Message
+          Spells
         </button>
         <button
           className="default"
           onClick={props.changeAnim}
           disabled={game.get().currentTurn !== "player" ? true : false}
         >
-          Change Animation
+          WIP
         </button>
         <button
           className="default"

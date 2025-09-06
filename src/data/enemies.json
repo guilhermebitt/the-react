@@ -2,7 +2,9 @@
   "commonProperties": {
     "entityType": "enemy",
     "currentAnim": "standBy",
-    "actions": 2
+    "actions": 2,
+    "dmgTaken": 0,
+    "dmgWasCrit": false
   },
 
   "deathAnimation": {

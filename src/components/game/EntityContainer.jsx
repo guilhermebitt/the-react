@@ -34,7 +34,7 @@ function EntityContainer({ entity }) {
   const [standBy, setStandBy] = useState(true);
   const [selected, setSelected] = useState(false);
   const [standByIndex, setStandByIndex] = useState(0);
-  const [damage, setDamage] = useState([[]]);
+  const [damageNumbers, setDamageNumbers] = useState([]);
   const [hit, setHit] = useState(false);
 
   // Initializing funcs
@@ -55,8 +55,6 @@ function EntityContainer({ entity }) {
     };
     
   }, []);
-
-
 
   // Code for enemies turn
   useEffect(() => {
@@ -91,8 +89,6 @@ function EntityContainer({ entity }) {
 
   }, [game.get().specificEnemyTurn]);
 
-
-
   // Checks if the animation changed
   useEffect(() => {
     // Conditions to skip
@@ -102,8 +98,6 @@ function EntityContainer({ entity }) {
     setStandBy(false);
     runAnim();
   }, [entity?.currentAnim]);
-
-
 
   // Game tick useEffect
   useEffect(() => {
@@ -124,8 +118,6 @@ function EntityContainer({ entity }) {
     }
   }, [tick]);
 
-
-
   // Game useEffect
   useEffect(() => {
     (game.get().target === entity?.id) ? setSelected(true) : setSelected(false);
@@ -135,34 +127,47 @@ function EntityContainer({ entity }) {
     };
   }, [game.get()]);
 
-
-
-  // Entity LIFE useEffect
+  // Entity life
   useEffect(() => {
-    if (isFirstRun()) return;  // Checks if it is the first run and changes the ref
-    if (!entity.dmgTaken) return;
+    // Conditions to skip
+    if (isFirstRun()) return;
+    if (entity.dmgTaken === null || entity.dmgTaken === undefined) return;
 
-    if (entity?.dmgTaken >= 0) setDamage(prev => [...prev, [entity?.dmgTaken, entity?.dmgWasCrit]]);
-    if (entity?.dmgTaken === 'Missed') setDamage(prev => [...prev, ["Missed", false]]);
+    // Creating an ID for the new damage number
+    const newDamageId = Date.now() + Math.random();
+    const damageValue = entity.dmgTaken;
+    const wasCrit = entity.dmgWasCrit;
 
-    if (entity?.dmgTaken !== 'Missed') {
-      // Running the Hit Animation and Sound FX
-      setHit(true);
-      setTimeout(() => {
-        setHit(false);
-        clearTimeout();
-      }, 1000)
+    // Adding the new damage to the state
+    setDamageNumbers(prev => [...prev, {
+        id: newDamageId,
+        value: damageValue,
+        isCrit: wasCrit
+    }]);
 
-      hitSoundRef.current.play().catch(err => {
-        console.log("Autoplay bloqueado pelo navegador:", err);
-      });
-      // ---------------------------------------
+    // Handling damage sound and animation
+    if (damageValue !== 'Missed') {
+        setHit(true);
+        setTimeout(() => setHit(false), 1000); // Animation duration
+
+        hitSoundRef.current.play().catch(err => {
+            console.log("Autoplay bloqueado pelo navegador:", err);
+        });
+    }
+    
+    // Removing the damage from the state after 2 seconds
+    setTimeout(() => {
+        setDamageNumbers(prev => prev.filter(d => d.id !== newDamageId));
+    }, 2000); // 2s
+
+    // Checks if the entity died
+    if (entity.isDead()) {
+        entity.update({ currentAnim: 'death' });
     }
 
-    // Checking if the enemy died
-    if (entity.isDead() === true) {
-      entity.update({ currentAnim: 'death' })
-    }
+    // Returning the dmgTaken to null
+    // This will make sure that, even if the last damage as equals to the current, it will update
+    entity.update({ dmgTaken: null });
 
   }, [entity.dmgTaken]);
 
@@ -254,8 +259,13 @@ function EntityContainer({ entity }) {
         <div className={styles.selectedArrow}>▼</div>
 
         {/* Code to show the damage dealt */}
-        {damage.length > 0 && damage.map((dmg, index) => (
-          <div key={index} className={`${styles.damage} ${dmg[1] === true ? styles.crit : ''}`}>{dmg[0]}</div>
+        {damageNumbers.map((dmg) => (
+          <div 
+            key={dmg.id} 
+            className={`${styles.damage} ${dmg.isCrit ? styles.crit : ''}`}
+          >
+            {dmg.value}
+          </div>
         ))}
       </div>
     </>

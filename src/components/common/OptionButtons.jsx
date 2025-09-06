@@ -26,7 +26,7 @@ function OptionButtons() {
       <Link to="/menu">
         <button className='default'>Menu</button>
       </Link>
-      <button className='default' onClick={saveGame}>Save Game</button>
+      <button className='default' onClick={saveGame} disabled={!(game.get().currentTurn === "player")}>Save Game</button>
     </div>
   </ComponentBorder>
   );

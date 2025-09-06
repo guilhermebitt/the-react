@@ -14,7 +14,7 @@ function SectionButtons(props) {
         className="default"
         disabled={game.get().currentTurn !== "player" ? true : false}
       >
-        Stats
+        Action
       </button>
       <button
         className="default"
@@ -26,7 +26,7 @@ function SectionButtons(props) {
         className="default"
         disabled={game.get().currentTurn !== "player" ? true : false}
       >
-        Spells
+        Skills
       </button>
       <button
         className="default"
