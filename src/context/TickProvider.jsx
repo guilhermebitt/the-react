@@ -14,7 +14,7 @@ export function TickProvider({ children }) {
   const location = useLocation();
 
   useEffect(() => {
-    if (location.pathname !== '/game') setTick(0)  // Resets the tick
+    if (['menu', 'settings'].includes(location.pathname)) setTick(0)  // Resets the tick
   }, [location.pathname])
 
   useEffect(() => {
