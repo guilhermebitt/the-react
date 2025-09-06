@@ -37,8 +37,8 @@
   "stats": {
     "maxHealth": 10,
     "health": 10,
-    "maxStamina": 10,
-    "stamina": 10,
+    "maxMana": 10,
+    "mana": 10,
     "attack": 10,
     "strength": 1,
     "defense": 5,

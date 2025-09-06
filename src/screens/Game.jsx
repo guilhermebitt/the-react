@@ -45,6 +45,7 @@ import SectionButtons from '../components/common/SectionButtons.jsx';
 import Terminal from '../components/game/Terminal.jsx';
 import Header from '../components/game/Header.jsx';
 import PlayerHUD from '../components/ui/PlayerHUD.jsx';
+import Stats from '../components/ui/Stats.jsx';
 import ConfirmDialog from '../components/common/ConfirmDialog.jsx';
 import Loading from '../components/common/Loading.jsx';
 
@@ -204,6 +205,7 @@ function Game() {
         />
 
         <Terminal />
+        <Stats entity={player.get()}/>
       </section>
   
       {/* ACTION BUTTONS */}

@@ -1,4 +1,5 @@
-.hudContainer {
+/* BARS */
+.barContainer {
   position: absolute;
   left: 20px;
   top: 35px;
@@ -6,15 +7,16 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  padding: 5px;
   gap: 5px;
-  z-index: 100;
-  filter:drop-shadow(0px 0px 2px rgba(0, 0, 0, 1))
+  z-index: 1;
+  background-image: linear-gradient(to right, black, transparent);
 }
 
 /* Health Bar */
 .hpContainer {
-  width: 150px;
-  height: 17px;
+  width: 100%;
+  height: 5px;
 }
 
 .hpBar {
@@ -24,10 +26,27 @@
   background-color: red;
 }
 
+.hpBar.low { /* If all bars need to have this low atribute, I just need to remove the ".hpBar" */
+  background-color: red;
+  animation: low 2s linear infinite;
+}
+
+@keyframes low {
+  0% {
+    background-color: red;
+  }
+  50% {
+    background-color: rgb(255, 129, 129);
+  }
+  100% {
+    background-color: red;
+  }
+}
+
 /* Mana Bar */
 .mnContainer {
-  width: 100px;
-  height: 12px;
+  width: 100%;
+  height: 5px;
 }
 
 .mnBar {
@@ -35,4 +54,32 @@
   width: 100%;
   height: 100%;
   background-color: aqua;
+}
+
+/* TURN */
+.turnContainer {
+  position: absolute;
+  right: 50%;
+  transform: translateX(50%);
+  top: 35px;
+
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  z-index: 1;
+  background-image: linear-gradient(to right, transparent, black, transparent);
+
+}
+
+/* ACTIONS */
+.actionsContainer {
+  position: absolute;
+  right: 20px;
+  top: 35px;
+
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  z-index: 1;
+  background-image: linear-gradient(to left, black, transparent);
 }

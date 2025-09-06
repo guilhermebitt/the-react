@@ -53,21 +53,21 @@ h1 {
 
 .x-section.top {
   position: relative;
-  height: calc(var(--game-height) * 0.1); /* 10% */
+  height: calc(var(--game-height) * 0.10); /* 10% */
 }
 
 .x-section.map {
   position: relative;
-  height: calc(var(--game-height) * 0.4); /* 40% */
+  height: calc(var(--game-height) * 0.45); /* 45% */
 }
 
 .x-section.statistics {
   display: grid;
-  grid: 1fr / 1fr 3fr;
+  grid: 1fr / 1fr 3fr 1fr;
   gap: 10px;
-  height: calc(var(--game-height) * 0.35); /* 30% */
+  height: calc(var(--game-height) * 0.35); /* 35% */
 }
 
 .x-section.bottom {
-  height: calc(var(--game-height) * 0.15); /* 10% */
+  height: calc(var(--game-height) * 0.10); /* 10% */
 }

@@ -1,85 +1,26 @@
-div.stats-container {
-    width: 50%;
+div.statsContainer {
+    width: 100%;
     height: 100%;
-    border: white solid 1px;
-    border-radius: 5px;
     display: flex;
     flex-direction: column;
     padding: 0.5rem;
 }
 
-div.bar-container {
-    display: flex;
-    align-items: center;
-    height: 15%;
-    h4 {
-        width: 20%;
-        text-align: left;
-    }
-    img {
-        height: 100%;
-        width: fit-content;
-    }
-}
-
-div.bar-bg {
-    position: relative;
-    width: 100%;
-    height: 15px;
-    background-color: rgb(0, 0, 0);
-    padding: 2px;
-}
-
-div.hp.fill {
-    display: block;
-    width: 100%;
-    height: 11px;
-    background-color: rgb(255, 0, 0);
-    transition: width 0.5s ease-in;
-}
-
-div.stm.fill {
-    display: block;
-    width: 100%;
-    height: 11px;
-    background-color: rgb(213, 176, 8);
-    transition: width 0.5s ease-in;
-}
-
-div.bar-bg > p {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: white;
-    font-size: 0.75rem;
-    margin: 0;
-}
-
-div.stats {
-    display: flex;
-    flex-flow: column wrap;
-    align-content: start;
-    width: 100%;
-    height: 70%;
-}
-
-div.stat-holder {
+div.statHolder {
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    width: 50%;
-    height: 33%;
+    width: 100%;
+    height: 100%;
     gap: 5px;
 }
 
-div.stats img {
+div.statsContainer img {
     width: 30px;
 }
 
-div.stat-holder>p {
+div.statHolder>p {
     display: flex;
     justify-content: space-between;
     width: 100%;
-
 }
