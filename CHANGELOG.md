@@ -1,3 +1,15 @@
+# [1.0.0-beta.23](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.22...v1.0.0-beta.23) (2025-09-06)
+
+
+### Bug Fixes
+
+* **combat:** the combat mechanics as fixed ([6cbceca](https://github.com/guilhermebitt/the-react/commit/6cbcecab8dbe350b280fcc6d10e0e5b250f93c38))
+
+
+### Features
+
+* **route:** starting to implement more sections on the game screen ([c0600e6](https://github.com/guilhermebitt/the-react/commit/c0600e6ea4233a1ce7b392b99a76c501dda6499d))
+
 # [1.0.0-beta.22](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.21...v1.0.0-beta.22) (2025-09-06)
 
 
