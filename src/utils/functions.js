@@ -14,20 +14,46 @@ export function init(gameState) {
 
 // ----- FUNCTIONS -----
 // Function to send a message to the terminal
+// creating an external variable for the messages queue
+const msgQueue = [];
 export function phrase(text, tag="p", className="default-msg") {
   if (!game) return;
-
-  // Get terminal as an array
-  const prevTerminal = game.get().terminalText
 
   // Creating the message prompt
   const msg = `<${tag} className="${className}">${text}</${tag}>`;
 
-  // Adding it to the start of the terminal
-  const updatedTerminal = [msg, ...prevTerminal];
+  // Adding the message to the queue
+  msgQueue.push(msg);
 
-  // Saves to the localStorage
-  game.update({ terminalText: updatedTerminal })
+  // Calling the function to update the terminal
+  scheduleTerminalUpdate()
+}
+
+let updateScheduled = false;
+function scheduleTerminalUpdate() {
+  // Won't continue the code if the function is scheduling
+  if (updateScheduled) return;
+  updateScheduled = true;
+
+  // Defers the update to the next JavaScript "tick".
+  // This is important because JS runs code in a single-threaded event loop.
+  // If phrase() is called multiple times in quick succession, each call would
+  // read terminalText before the previous update is applied. Using setTimeout(..., 0)
+  // batches all messages in the queue and updates the terminal once, preventing
+  // newer messages from overwriting previous ones.
+  setTimeout(() => {
+    const prevTerminal = game.get().terminalText
+
+    // Joins everything in an unique array
+    const newTerminal = [...prevTerminal, ...msgQueue];
+
+    // Clear the queue and unlocks the scheduled flow
+    msgQueue.length = 0;
+    updateScheduled = false;
+
+    // Updates the game state
+    game.update({ terminalText: newTerminal });
+  }, 0);
 }
 
 // Function to handle turn changes

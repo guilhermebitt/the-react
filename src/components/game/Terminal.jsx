@@ -33,13 +33,17 @@ function Terminal() {
   return (
     <ComponentBorder title='Terminal'>
       <div className={`${styles.terminal} scrollbar`}>
-        {(Array.isArray(terminalText) ? terminalText : []).map((html, index) => (
-          <div
-            key={index}
-            className={styles.terminalLine}
-            dangerouslySetInnerHTML={{ __html: html }}
-          />
-        ))}
+        {(Array.isArray(terminalText) ? terminalText : [])
+          .slice() // creates a copy
+          .reverse() // reverts the order
+          .map((html, index) => (
+            <div
+              key={index}
+              className={styles.terminalLine}
+              dangerouslySetInnerHTML={{ __html: html }}
+            />
+          ))
+        }
       </div>
     </ComponentBorder>
   );

@@ -182,15 +182,15 @@ function EntityContainer({ entity }) {
       if (turn.actionType === 'atk') {
         var { attackMsg, timeToWait } = turn.action;
         funcs.phrase(`${turn.msg}. ${attackMsg}`);
-
-        // Verifying if the player died
-        if (player.get().isDead()) {
-          funcs.phrase('You died.');
-          game.update({ currentMusic: ['/assets/sounds/musics/you_died.ogg', false] });
-          audio.stopMusic();
-          audio.playMusic('/assets/sounds/musics/you_died.ogg', false);
-        }
       };
+
+      if (player.get().isDead()) {
+        funcs.phrase('You died.');
+        // Playing the death music:
+        game.update({ currentMusic: ['/assets/sounds/musics/you_died.ogg', false] });
+        audio.stopMusic();
+        audio.playMusic('/assets/sounds/musics/you_died.ogg', false);
+      }
 
       // Timer to skip the current enemy turn
       const timer = setTimeout(() => {
