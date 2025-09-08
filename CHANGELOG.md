@@ -1,3 +1,10 @@
+# [1.0.0-beta.25](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.24...v1.0.0-beta.25) (2025-09-08)
+
+
+### Features
+
+* **audio & death:** fixed the audio and add an DeathScreen ([f2d4a35](https://github.com/guilhermebitt/the-react/commit/f2d4a35211b6da29c283a7ee9dc6930d0ab2efb5))
+
 # [1.0.0-beta.24](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.23...v1.0.0-beta.24) (2025-09-06)
 
 
