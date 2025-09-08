@@ -19,12 +19,14 @@ import styles from './menus.module.css';
 
 function Menu() {
   const [currentTurn, setCurrentTurn] = useLocalStorage('currentTurn', gameData.currentTurn);
-  const { audio, player, enemiesController } = useGame();
+  const { audios } = useGame();
 
   // Stop the music on menu
   useEffect(() => {
-    audio.stopMusic();
-
+    if (audios.get("gameMusic")) {
+      if (audios.get("gameMusic").isPlaying()) audios.get("gameMusic").stop()
+    }
+    
     return () => resetGame(keysToKeep);
   }, []);
 

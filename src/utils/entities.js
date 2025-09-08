@@ -43,7 +43,7 @@ export class Entity {
     // Rest of the action
     if (this.random(100) > this.hitChance(target)) {
       // Entity Missed
-      target.update({ dmgTaken: "Missed" });
+      target.update({ dmgTaken: "Missed", dmgWasCrit: false });
       return { attackMsg: "The attack missed.", dmg: "Missed", timeToWait: 1000 };
     };
 

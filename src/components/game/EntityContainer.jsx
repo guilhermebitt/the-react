@@ -20,11 +20,10 @@ import styles from './EntityContainer.module.css';
 function EntityContainer({ entity }) {
 
   // useRefs
-  const hitSoundRef = useRef(null);
   const firstRun = useRef(true);
 
   // Contexts
-  const { tick, audio, player, enemies, game } = useGame();
+  const { tick, audios, player, enemies, game } = useGame();
 
   // Loading Game Storage
   const [settings] = useLocalStorage('settings', settingsJson);
@@ -39,22 +38,6 @@ function EntityContainer({ entity }) {
 
   // Initializing funcs
   funcs.init(game);
-
-  // On component first load
-  useEffect(() => {
-    // ----- GAME MUSIC -----
-    const hitSound = new Audio('/assets/sounds/misc/hit_sound.ogg');
-    hitSound.volume = settings.volume;  // volume, from 0 to 1
-    hitSound.muted;
-    hitSoundRef.current = hitSound;
-
-    return () => {
-      hitSound.pause();
-      hitSound.currentTime = 0; // reset
-      hitSoundRef.current = null;
-    };
-    
-  }, []);
 
   // Code for enemies turn
   useEffect(() => {
@@ -150,9 +133,7 @@ function EntityContainer({ entity }) {
         setHit(true);
         setTimeout(() => setHit(false), 1000); // Animation duration
 
-        hitSoundRef.current.play().catch(err => {
-            console.log("Autoplay bloqueado pelo navegador:", err);
-        });
+        if (audios.get("hitSound")) audios.get("hitSound").start(); // Start only if exists
     }
     
     // Removing the damage from the state after 2 seconds
@@ -187,16 +168,17 @@ function EntityContainer({ entity }) {
       if (player.get().isDead()) {
         funcs.phrase('You died.');
         // Playing the death music:
-        game.update({ currentMusic: ['/assets/sounds/musics/you_died.ogg', false] });
-        audio.stopMusic();
-        audio.playMusic('/assets/sounds/musics/you_died.ogg', false);
+        if (audios.get("gameMusic")?.isPlaying() && !audios.get("deathMusic")?.isPlaying()) {
+          audios.get("gameMusic").stop()
+          audios.get("deathMusic").start()
+        }
       }
 
       // Timer to skip the current enemy turn
       const timer = setTimeout(() => {
         resolve();  // resolving the promise!
         clearTimeout(timer);
-      }, timeToWait + 550);  // more 550ms to the enemy's actions
+      }, timeToWait + 500);  // more 0.5s to the enemy's actions
     });
   }
 

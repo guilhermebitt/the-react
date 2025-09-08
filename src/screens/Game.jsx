@@ -59,7 +59,7 @@ import styles from'./Game.module.css';
 
 function Game() {
   // React Hooks
-  const { audio, player, enemies, game } = useGame();
+  const { audios, player, enemies, game } = useGame();
   const navigate = useNavigate();
   const location = useLocation();
   const [confirmDialog, setConfirmDialog] = useState({
@@ -80,16 +80,16 @@ function Game() {
     if (loading) return;
     if (location.pathname === "/game") navigate("/game/action", { replace: true });
 
-    // THIS IS TEMPORARY!!!!!!
+    // THIS IS TEMPORARY!!!!!! (just to spawn enemies for the first time)
     // This will be executed when the game start for the first time
     if (game.get().firstLoad === false && enemies.get().length < 1) {
       spawnEnemies();
     };
-    
-    // Starting game music
-    if (game.get().currentMusic[0] === "/assets/sounds/musics/the_music.ogg" && !audio.isPlaying()) {
-      audio.playMusic(game.get().currentMusic[0], game.get().currentMusic[1]);
-    }
+
+    // Creating audios
+    audios.create({ name: "gameMusic", src: "/assets/sounds/musics/the_music.ogg", loop: true });
+    audios.create({ name: "deathMusic", src: "/assets/sounds/musics/you_died.ogg" });
+    audios.create({ name: "hitSound", src: "/assets/sounds/misc/hit_sound.ogg" });
     
     // Changing the animations tickSpeed to fit with the game tick
     player.update({ "animations.standBy.duration": game.get().tickSpeed })
@@ -106,6 +106,12 @@ function Game() {
     };
     
   }, [loading]);
+
+  // Starting the gameMusic
+  useEffect(() => {
+    if (player.get().isDead()) return;
+    if (!audios.get("gameMusic")?.isPlaying()) audios.get("gameMusic")?.start();
+  }, [audios.get("gameMusic")])
 
   // Check if it's the player turn
   useEffect(() => {

@@ -11,6 +11,9 @@ import { produce } from "immer";
 // Components
 import OptionButtons from '../common/OptionButtons';
 
+// Hooks
+import { useGame } from '../../hooks/useGame';
+
 // Stylesheets
 import styles from './Header.module.css';
 
@@ -20,6 +23,7 @@ function Header() {
   const [showOptions, setShowOptions] = useState(false);
   const [volumeIcon, setVolumeIcon] = useState(faVolumeHigh);
   const [settings, setSettings] = useLocalStorage('settings', settingsJson);
+  const { audios } = useGame();
 
   useEffect(() => {
     settings.muted === true ? setVolumeIcon(faVolumeMute) : setVolumeIcon(faVolumeHigh);
@@ -32,10 +36,16 @@ function Header() {
   function mute() {
     settings.muted ?
     setSettings(produce(draft => {
-      draft.muted = false
+      draft.muted = false;
+      Object.values(audios.get()).forEach(audio => {
+        audio.muted = false;
+      });
     })) :
     setSettings(produce(draft => {
-      draft.muted = true
+      draft.muted = true;
+      Object.values(audios.get()).forEach(audio => {
+        audio.muted = true;
+      });
     }))
   };
 
