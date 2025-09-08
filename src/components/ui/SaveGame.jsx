@@ -58,7 +58,8 @@ function SaveGame({ saveId }) {
     const newGameState = {
         player: playerData,
         enemies: [],
-        game: gameData
+        game: gameData,
+        tick: 0
     };
     setSaves(prevSaves => ({
         ...prevSaves,

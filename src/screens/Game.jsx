@@ -59,7 +59,7 @@ import styles from'./Game.module.css';
 
 function Game() {
   // React Hooks
-  const { audios, player, enemies, game } = useGame();
+  const { tick, audios, player, enemies, game } = useGame();
   const navigate = useNavigate();
   const location = useLocation();
   const [confirmDialog, setConfirmDialog] = useState({
@@ -80,6 +80,9 @@ function Game() {
     if (loading) return;
     if (location.pathname === "/game") navigate("/game/action", { replace: true });
 
+    // Starting the gameTick
+    tick.start();
+
     // THIS IS TEMPORARY!!!!!! (just to spawn enemies for the first time)
     // This will be executed when the game start for the first time
     if (game.get().firstLoad === false && enemies.get().length < 1) {
@@ -87,8 +90,8 @@ function Game() {
     };
 
     // Creating audios
-    audios.create({ name: "gameMusic", src: "/assets/sounds/musics/the_music.ogg", loop: true });
-    audios.create({ name: "deathMusic", src: "/assets/sounds/musics/you_died.ogg" });
+    audios.create({ name: "gameMusic", src: "/assets/sounds/musics/the_music.ogg", loop: true, type: 'music' });
+    audios.create({ name: "deathMusic", src: "/assets/sounds/musics/you_died.ogg", type: 'music' });
     audios.create({ name: "hitSound", src: "/assets/sounds/misc/hit_sound.ogg" });
     
     // Changing the animations tickSpeed to fit with the game tick
@@ -103,23 +106,35 @@ function Game() {
 
     return () => {
       setLoading(true);
+      tick.stop();  // If the player is not on the Game component, the tick will stop counting
     };
     
   }, [loading]);
 
   // Starting the gameMusic
   useEffect(() => {
+    if (loading) return;
+
     if (player.get().isDead()) return;
     if (!audios.get("gameMusic")?.isPlaying()) audios.get("gameMusic")?.start();
-  }, [audios.get("gameMusic")])
+  }, [audios.get("gameMusic"), loading])
 
-  // Check if it's the player turn
+  // Checking if it's the player turn
   useEffect(() => {
     if (loading) return;
 
     if (game.get().specificEnemyTurn !== 'player') return;
       player.update({ actionsLeft: player.get().actions })  // resets the actionsLeft of the player
   }, [game.get().specificEnemyTurn]);
+
+  // Checking if the player died
+  useEffect(() => {
+    if (loading) return
+    if (player.get().isDead() && !audios.get("deathMusic")?.isPlaying()) {
+      // Code if the player died and the death music is not playing anymore
+      navigate("/deathscreen");
+    }
+  }, [audios.get("deathMusic")?.isPlaying()])
 
   
   // --- MAIN FUNCTIONS ---

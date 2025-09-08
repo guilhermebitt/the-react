@@ -21,11 +21,10 @@ function Menu() {
   const [currentTurn, setCurrentTurn] = useLocalStorage('currentTurn', gameData.currentTurn);
   const { audios } = useGame();
 
-  // Stop the music on menu
   useEffect(() => {
-    if (audios.get("gameMusic")) {
-      if (audios.get("gameMusic").isPlaying()) audios.get("gameMusic").stop()
-    }
+    // Stop the music on menu
+    if (audios.get("gameMusic")?.isPlaying()) audios.get("gameMusic")?.stop()
+    if (audios.get("deathMusic")?.isPlaying()) audios.get("deathMusic")?.stop()
     
     return () => resetGame(keysToKeep);
   }, []);

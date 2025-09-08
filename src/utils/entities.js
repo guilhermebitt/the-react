@@ -65,6 +65,9 @@ export class Entity {
 
     // Reducing the enemy's life
     const { dmgRed, realDmg } = target.takeDamage(dmg);
+    if (target.stats.health === 0) {
+      this.update({ kills: (this.kills || 0) + 1 })
+    }
 
     // Generating final message
     const attackMsg = this.getAttackMessage(realDmg, crit, dmg, dmgRed);

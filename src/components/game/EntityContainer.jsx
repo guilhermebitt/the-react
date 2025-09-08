@@ -1,6 +1,3 @@
-// Data
-import settingsJson from '../../data/settings.json' with { type: 'json' };
-
 // Dependencies
 import { useEffect, useState, useRef } from 'react';
 import { useLocalStorage } from 'usehooks-ts';
@@ -24,9 +21,7 @@ function EntityContainer({ entity }) {
 
   // Contexts
   const { tick, audios, player, enemies, game } = useGame();
-
-  // Loading Game Storage
-  const [settings] = useLocalStorage('settings', settingsJson);
+  const gameTick = tick.get();
 
   // Getting useStates
   const [frame, setFrame] = useState(entity?.img);
@@ -99,7 +94,7 @@ function EntityContainer({ entity }) {
     if (entity?.currentAnim === 'standBy') {
       setFrame(animationFrames[standByIndex]);
     }
-  }, [tick]);
+  }, [gameTick]);
 
   // Game useEffect
   useEffect(() => {

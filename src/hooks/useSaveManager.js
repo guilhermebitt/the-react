@@ -7,7 +7,7 @@ import { useGame } from './useGame.js';
 
 
 export const useSaveManager = (saveId) => {
-  const { player, enemies, game } = useGame();
+  const { tick, player, enemies, game } = useGame();
   const [saves, setSaves] = useLocalStorage('saves', {});
 
   const saveGame = () => {
@@ -16,6 +16,7 @@ export const useSaveManager = (saveId) => {
         player: player.get(),
         enemies: enemies.get(),
         game: game.get(),
+        tick: tick.get()
       };
       setSaves((prevSaves) => ({
         ...prevSaves,
@@ -34,14 +35,16 @@ export const useSaveManager = (saveId) => {
       }
 
       // Resetting all contexts
-      player.reset()
-      enemies.reset()
-      game.reset()
+      player.reset();
+      enemies.reset();
+      game.reset();
+      tick.set(0);
 
       // Re-loading all contexts
       player.loadSave(savedState.player);
       enemies.loadSave(savedState.enemies);
       game.loadSave(savedState.game);
+      tick.set(savedState.tick);
 
       game.update({ currentSave: saveId });
     } catch (error) {

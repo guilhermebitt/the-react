@@ -60,10 +60,10 @@ export function AudioProvider({ children }) {
     // Applying initial sound settings
     switch(type) {
       case 'music':
-        audio.volume = settings.musicVolume;
+        audio.volume = settings.musicVolume ?? 1;
         break;
       case 'sfx':
-        audio.volume = settings.sfxVolume;
+        audio.volume = settings.sfxVolume ?? 1;
         break;
     }
 
