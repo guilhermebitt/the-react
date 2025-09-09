@@ -20,14 +20,10 @@ function Stats({entity}) {
             Con: <span>{entity?.stats?.constitution}</span>
             Def: <span>{entity?.stats?.defense}</span>
           </div>
-          {
-          entity?.name === "Player" &&
           <div className={styles.statHolder}>
             <img src="/assets/hud/coin.png" alt="" />
             Money: <span>{entity?.stats?.money}</span>
           </div>
-          }
-        
         </div>
       </ComponentBorder>
   );

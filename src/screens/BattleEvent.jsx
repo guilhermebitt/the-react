@@ -33,7 +33,7 @@ chore: tarefas de manutenção, dependências, configs, etc.
 import enemiesJson from '../data/enemies.json' with { type: 'json' };
 
 // Dependencies
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocalStorage } from 'usehooks-ts';
 import * as funcs from '../utils/functions.js';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
@@ -54,7 +54,7 @@ import VictoryModal from '../components/ui/VictoryModal.jsx';
 import { useGame } from '../hooks/useGame.js';
 
 // Stylesheet
-import styles from'./Game.module.css';
+import styles from'./BattleEvent.module.css';
 
 
 
@@ -69,7 +69,8 @@ function BattleEvent() {
     onConfirm: null,
     onCancel: null
   });
-  const [enemiesAlive, setEnemiesAlive] = useState(0);
+  const [enemiesAlive, setEnemiesAlive] = useState(null);
+  const [finishedEvent, setFinishedEvent] = useState(false);
 
   // Setting the localStorage
   const [loading, setLoading] = useLocalStorage('loading', true);
@@ -143,11 +144,15 @@ function BattleEvent() {
 
   // Checking if ALL enemies are dead
   useEffect(() => {
+    if (loading) return;
     const aliveCount = enemies.get().reduce((acc, enemy) => {
       return enemy.stats.health > 0 ? acc + 1 : acc;
     }, 0);
 
-    setEnemiesAlive(aliveCount);
+    setEnemiesAlive(aliveCount);  // GAMBIARRA MALDITA
+
+    // Finishing the battle event
+    if (enemiesAlive === 0 && enemies.get().length > 0) setFinishedEvent(true);
   }, [enemies.get()]);
 
   
@@ -176,7 +181,7 @@ function BattleEvent() {
 
   function spawnEnemies() {
     const snake = createEntityObj('snake');
-    enemies.spawnEnemies([snake, snake, snake])
+    enemies.spawnEnemies([snake])
   }
 
   // -- RETURNING THE GAME ---
@@ -185,7 +190,7 @@ function BattleEvent() {
     <main id={styles['game']}>
       {/* VictoryModal */}
 
-      {enemiesAlive === 0 && <VictoryModal />}
+      {finishedEvent && <VictoryModal />}
 
       {/* CONFIRM DIALOG */}
      <ConfirmDialog 

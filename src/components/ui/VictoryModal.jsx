@@ -1,7 +1,10 @@
 // Dependencies
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';  // This is temporary
+import { Link } from 'react-router-dom'; // This is temporary
 import * as funcs from '../../utils/functions.js';
+
+// Components
+import ValueIncrement from '../ui/ValueIncrement.jsx';
 
 // Hooks
 import { useGame } from '../../hooks/useGame';
@@ -12,11 +15,28 @@ import styles from './VictoryModal.module.css';
 function VictoryModal() {
   const { tick, game, player } = useGame();
   const [eventTime, setEventTime] = useState(null);
+  const [finished, setFinished] = useState(false);
+  const [timeForEach] = useState(1000)  // Time in MS to determine the time for each stat
+  const [infoId, setInfoId] = useState(0);
 
   useEffect(() => {
-    if (eventTime) return;
-    setEventTime(getEventTime());
-  }, [])
+    if (!eventTime) setEventTime(getEventTime());
+
+    // Changes the id after the time pass
+    let times = 0;
+    const interval = setInterval(() => {
+      setInfoId(prev => prev + 1)
+      times++;
+      if (times >= 2) clearInterval(interval);
+    }, timeForEach);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    console.log(infoId)
+    if (infoId >= 2) setFinished(true);
+  }, [infoId])
 
   function getEventTime() {
     const timeEntered = game.get().eventData.timeEntered;
@@ -24,24 +44,42 @@ function VictoryModal() {
 
     const timeInEvent = currentTime - timeEntered;
 
-    return funcs.tickToTime(timeInEvent, game.get().tickSpeed);
+    //return funcs.tickToTime(timeInEvent, game.get().tickSpeed);
+    return timeInEvent;
   }
 
   return (
-    <div className='backdrop'>
+    <div className="backdrop">
       <div className={styles.container}>
-
         <p>You Win</p>
 
         <div className={styles.info}>
-          <p>Event Duration: {eventTime}</p>
-          <p>Enemies Killed: {player.get().kills || 0}</p>
+          {/* EVENT TIME */}
+          {(infoId ?? 0) >= 0 && (
+            <p
+              style={{
+                visibility: (infoId ?? 0) >= 0 ? 'visible' : 'hidden',
+              }}
+            >
+              Event Duration: {<ValueIncrement finalValue={eventTime} duration={timeForEach} type={"time"}/>}
+            </p>
+          )}
+          {/* ENEMIES KILLED */}
+          {infoId >= 1 && (
+            <p
+              style={{
+                visibility: infoId >= 1 ? 'visible' : 'hidden',
+              }}
+            >
+              Enemies Killed: {<ValueIncrement finalValue={player.get().kills} duration={timeForEach}/>}
+            </p>
+          )}
         </div>
-        
+
         <div className={styles.buttons}>
           {/* This is temporary */}
           <Link to="/menu">
-            <button>Continue</button>
+            <button disabled={finished ? false : true}>Continue</button>
           </Link>
         </div>
       </div>
