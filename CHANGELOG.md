@@ -1,3 +1,10 @@
+# [1.0.0-beta.26](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.25...v1.0.0-beta.26) (2025-09-09)
+
+
+### Features
+
+* **clear data:** the clear data button returned (if something in the game feels wrong, reset your data) ([b99fadc](https://github.com/guilhermebitt/the-react/commit/b99fadc31f9054262c42718a120270d05245c8a0))
+
 # [1.0.0-beta.25](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.24...v1.0.0-beta.25) (2025-09-08)
 
 
