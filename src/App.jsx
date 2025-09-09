@@ -9,7 +9,7 @@ import { AppProviders } from './context/AppProviders.jsx';
 // Screens
 import Menu from './screens/Menu.jsx';
 import Settings from './screens/Settings.jsx';
-import Game from './screens/Game.jsx';
+import BattleEvent from './screens/BattleEvent.jsx';
 import Saves from './screens/Saves.jsx';
 import DeathScreen from './screens/DeathScreen.jsx';
 
@@ -33,7 +33,7 @@ function AppRoutes() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [lastScreen, setLastScreen] = useLocalStorage('lastScreen', '/');
+  const [, setLastScreen] = useLocalStorage('lastScreen', '/');
 
   // Keeping the last route
   const prevLocationRef = useRef(location.pathname);
@@ -55,7 +55,7 @@ function AppRoutes() {
     <Routes>
       <Route path="/menu" element={<Menu />} />
       <Route path="/saves" element={<Saves />} />
-      <Route path="/game/*" element={<Game />} />
+      <Route path="/battle/*" element={<BattleEvent />} />
       <Route path="/settings" element={<Settings />} />
       <Route path="/deathscreen" element={<DeathScreen />} />
     </Routes>

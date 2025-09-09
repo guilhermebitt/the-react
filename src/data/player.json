@@ -1,7 +1,8 @@
 {
   "id": "player",
   "entityType": "player",
-  "name": "Player",
+  "name": "Hero",
+  "level": 1,
   "img": "/assets/entities/player/hero0.png",
   "currentAnim": "standBy",
   "animations": {

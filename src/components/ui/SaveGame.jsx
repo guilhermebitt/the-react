@@ -50,7 +50,7 @@ function SaveGame({ saveId }) {
 
   function handleStartGame() {
     loadGame();
-    navigate('/game');
+    navigate('/battle');
   }
 
   function handleNewSave() {

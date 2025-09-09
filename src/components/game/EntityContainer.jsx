@@ -101,7 +101,7 @@ function EntityContainer({ entity }) {
     (game.get().target === entity?.id) ? setSelected(true) : setSelected(false);
     if (game.get().currentTurn === 'enemies' && typeof (game.get().target) === 'number') {
       setSelected(false)
-      game.update({ target: NaN });
+      game.update({ target: null });
     };
   }, [game.get()]);
 
@@ -221,11 +221,11 @@ function EntityContainer({ entity }) {
     <>
       {/* Code to toggle both the selected and the turn class */}
       <div className={
-          `${styles[`enemy${entity?.id + 1}`]} ${styles.entityContainer} ${selected ? styles.selected : ''} 
+        `${styles[`enemy${entity?.id + 1}`]} ${styles.entityContainer} ${selected ? styles.selected : ''} 
         ${game.get().specificEnemyTurn === entity?.id ? styles.turn : ''}`}>
 
         {/* Name and health bar */}
-        <h2>{entity?.name}</h2>
+        <h2>{entity?.name} Lv.{entity?.level}</h2>
         {entity?.entityType !== 'player' && <HealthBar entityId={entity.id} />}
 
         {/* Image and control of the hit animation */}

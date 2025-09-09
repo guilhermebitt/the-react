@@ -1,5 +1,6 @@
 {
   "commonProperties": {
+    "level": 1,
     "entityType": "enemy",
     "currentAnim": "standBy",
     "actions": 2,

@@ -1,4 +1,4 @@
-div.confirm-box {
+div.container {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -12,24 +12,9 @@ div.confirm-box {
   padding: 0.5rem;
 }
 
-div.confirm-box.animated {
-  animation: lookHere 0.2s linear 4;
-}
-
-@keyframes lookHere {
-  from {
-    border-color: white;
-    opacity: 1;
-  }
-  to {
-    border-color: rgb(103, 103, 103);
-    opacity: 0.5;
-  }
-}
-
-div.confirm-box div.buttons {
+div.container div.buttons {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   width: 60%;
 }
 

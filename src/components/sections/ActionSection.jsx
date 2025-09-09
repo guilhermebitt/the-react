@@ -28,7 +28,7 @@ function ActionSection() {
 
   // Function to realize an attack
   function doAttack() {
-    // Conditions
+    // Conditions]
     if (typeof game.get().target !== 'number') return funcs.phrase('Select a target!');
     if (player.get().actionsLeft <= 0) return funcs.phrase('You do not have actions left!');
     if (enemies.get([game.get().target])?.currentAnim === 'death') return funcs.phrase('This enemy is dead.');

@@ -33,7 +33,7 @@ chore: tarefas de manutenção, dependências, configs, etc.
 import enemiesJson from '../data/enemies.json' with { type: 'json' };
 
 // Dependencies
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useLocalStorage } from 'usehooks-ts';
 import * as funcs from '../utils/functions.js';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
@@ -48,6 +48,7 @@ import Loading from '../components/common/Loading.jsx';
 import ActionSection from '../components/sections/ActionSection.jsx';
 import InventorySection from '../components/sections/InventorySection.jsx';
 import SkillsSection from '../components/sections/SkillsSection.jsx';
+import VictoryModal from '../components/ui/VictoryModal.jsx';
 
 // Hooks
 import { useGame } from '../hooks/useGame.js';
@@ -57,7 +58,7 @@ import styles from'./Game.module.css';
 
 
 
-function Game() {
+function BattleEvent() {
   // React Hooks
   const { tick, audios, player, enemies, game } = useGame();
   const navigate = useNavigate();
@@ -68,6 +69,7 @@ function Game() {
     onConfirm: null,
     onCancel: null
   });
+  const [enemiesAlive, setEnemiesAlive] = useState(0);
 
   // Setting the localStorage
   const [loading, setLoading] = useLocalStorage('loading', true);
@@ -78,14 +80,20 @@ function Game() {
   // On game load:
   useEffect(() => {
     if (loading) return;
-    if (location.pathname === "/game") navigate("/game/action", { replace: true });
+    if (location.pathname === "/battle") navigate("/battle/action", { replace: true });
 
     // Starting the gameTick
     tick.start();
 
+    // If is the first time entering the event (going to settings and get back will not have any effect)
+    if (game.get().eventData.type === null) {
+      game.update({ "eventData.type": "battle" });
+      game.update({ "eventData.timeEntered": tick.get() });  // I have to keep an eye here
+    }
+
     // THIS IS TEMPORARY!!!!!! (just to spawn enemies for the first time)
     // This will be executed when the game start for the first time
-    if (game.get().firstLoad === false && enemies.get().length < 1) {
+    if (enemies.get().length < 1) {
       spawnEnemies();
     };
 
@@ -100,9 +108,6 @@ function Game() {
     enemies.get().forEach((enemy) => {
       enemy.update({ "animations.standBy.duration": game.get().tickSpeed })
     })
-
-    // Defining that the player already started the game
-    if (!game.get().firstLoad) game.update({ firstLoad: true });
 
     return () => {
       setLoading(true);
@@ -135,6 +140,15 @@ function Game() {
       navigate("/deathscreen");
     }
   }, [audios.get("deathMusic")?.isPlaying()])
+
+  // Checking if ALL enemies are dead
+  useEffect(() => {
+    const aliveCount = enemies.get().reduce((acc, enemy) => {
+      return enemy.stats.health > 0 ? acc + 1 : acc;
+    }, 0);
+
+    setEnemiesAlive(aliveCount);
+  }, [enemies.get()]);
 
   
   // --- MAIN FUNCTIONS ---
@@ -169,6 +183,9 @@ function Game() {
   if (loading) return <Loading enemies={enemies.get()} player={player.get()} mapSrc={funcs.getCurrentMap().src}/>
   return (
     <main id={styles['game']}>
+      {/* VictoryModal */}
+
+      {enemiesAlive === 0 && <VictoryModal />}
 
       {/* CONFIRM DIALOG */}
      <ConfirmDialog 
@@ -194,7 +211,6 @@ function Game() {
         <PlayerHUD />
         {enemies.get().length > 0 && <MapContainer map={funcs.getCurrentMap()}/>}
       </section>
-    
       
       {/* STATS AND TERMINAL */}
       <section className={`${styles['x-section']} ${styles['statistics']}`}>
@@ -219,4 +235,4 @@ function Game() {
   );
 }
 
-export default Game;
+export default BattleEvent;

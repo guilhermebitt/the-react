@@ -12,15 +12,37 @@ const GameContext = createContext();
 export function GameProvider({ children }) {
   const [game, setGame] = useState(gameData)
 
-  const get = () => {
-    return game
-  }
+  const get = () => game;
 
-  const update = (partial) => {
+  // Function to update the game
+  const update = (patch) => {
+    setGame(prev => {
+      const newGame = structuredClone(prev); // maintain the same instance to preserve the methods
+      for (const key in patch) {
+        const value = patch[key];
+        deepUpdate(
+          newGame,
+          key,
+          typeof value === "function" ? value(newGame) : value
+        );
+      }
+      return newGame;
+    });
+  };
+
+  // Deep update method
+  const deepUpdate = (obj, path, value) => {
+    const keys = path.split(".");
+    let current = obj;
+    keys.slice(0, -1).forEach(k => current = current[k]);
+    current[keys[keys.length - 1]] = value;
+  };
+
+  /*const update = (partial) => {
     setGame(produce(draft => {
       Object.assign(draft, partial);
     }));
-  };
+  };*/
 
   const loadSave = (gameData) => {
     setGame(gameData);

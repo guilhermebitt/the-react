@@ -23,7 +23,7 @@ function ConfirmDialog({ visible, message, onConfirm, onCancel }) {
   };
 
   return (
-    <div className={styles["confirm-backdrop"]} onClick={handleClickOutside}>
+    <div className='backdrop' onClick={handleClickOutside}>
       <div
         className={`${styles["confirm-box"]} ${animated ? styles.animated : ''}`} 
         onClick={handleBoxClick}>

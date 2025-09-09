@@ -11,7 +11,7 @@ export function PlayerProvider({ children }) {
   // Player State
   const [player, setPlayer] = useState(() => new Player(playerJson));
 
-  // Function to update de player
+  // Function to update the player
   const update = (patch) => {
     setPlayer(prev => {
       const newPlayer = prev; // maintain the same instance to preserve the methods
