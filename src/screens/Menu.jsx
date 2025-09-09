@@ -30,7 +30,7 @@ function Menu() {
   }, []);
 
   const handlePlay = () => currentTurn === "none" && setCurrentTurn('player');
-  const keysToKeep = ['lastScreen', 'settings', 'saves'];  // these keys won't be removed
+  const keysToKeep = [''];  // these keys won't be removed
 
   const resetGame = (keysToKeep) => {
     // Cleaning the local storage
@@ -47,7 +47,7 @@ function Menu() {
         <Link to="/settings">
           <button className={styles['menus']} >Settings</button>
         </Link>
-        {/* <button className={`${styles['menus']} ${styles['clear']}`} onClick={() => resetGame(keysToKeep)}>Clear all data</button>*/}
+        <button className={`${styles['menus']} ${styles['clear']}`} onClick={() => resetGame(keysToKeep)}>Clear all data</button>
       </section>
       <Changelog />
       

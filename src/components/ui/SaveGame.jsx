@@ -10,8 +10,10 @@ import { useLocalStorage } from 'usehooks-ts';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faPlay } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
+import * as funcs from '../../utils/functions.js';
 
 // Hooks
+import { useGame } from '../../hooks/useGame.js';
 import { useSaveManager } from '../../hooks/useSaveManager';
 
 // Components
@@ -31,6 +33,7 @@ function SaveGame({ saveId }) {
   const [saves, setSaves] = useLocalStorage('saves', savesData)
   const navigate = useNavigate();
   const { loadGame, deleteSave } = useSaveManager(saveId);
+  const { tick, game } = useGame();
 
   function confirmScreen(onConfirm, onCancel, msg='Are you sure?') {
     setConfirmDialog({
@@ -70,6 +73,11 @@ function SaveGame({ saveId }) {
     loadGame();
   }
 
+  function getTime() {
+    const savedState = saves[saveId]
+    return funcs.tickToTime(savedState.tick, game.get().tickSpeed)
+  }
+
   return (
     <>
       <ConfirmDialog 
@@ -92,9 +100,8 @@ function SaveGame({ saveId }) {
               <img className={styles.saveImg} src={getMap(saves[saveId].game).src} alt="" />
               <div className={styles.info}>
                 <p>Map: {getMap(saves[saveId].game).name}</p>
-                <p>Game Time: WIP</p>
-                <p>Experience: WIP</p>
-                <p>Money: WIP</p>
+                <p>Game Time: {getTime()}</p>
+                <p>Money: {saves[saveId].player.stats.money}</p>
               </div>
             </div>
             <div className={styles.actions}>

@@ -78,3 +78,19 @@ export function clearStorage(toKeep) {
 export function getCurrentMap() {
   return maps[game.get().currentMap];
 }
+
+// Get the tick and returns the time in format HH:MM:SS
+export function tickToTime(ticks, tickSpeed) {
+  const ticksPerSecond = 1000 / tickSpeed;
+
+  const seconds = Math.floor(ticks / ticksPerSecond);
+  const minutes = Math.floor(seconds / 60);
+  const hours = Math.floor(minutes / 60);
+
+  return `${padZero(hours % 60)}h ${padZero(minutes % 60)}m ${padZero(seconds % 60)}s`
+}
+
+// Returns a number in format 00
+export function padZero(number) {
+  return (number < 10 ? "0" : "") + number
+}

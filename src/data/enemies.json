@@ -72,11 +72,11 @@
       }
     },
     "stats": {
-      "maxHealth": 10,
-      "health": 10,
-      "attack": 10,
+      "maxHealth": 8,
+      "health": 8,
+      "attack": 5,
       "strength": 1,
-      "defense": 5,
+      "defense": 3,
       "constitution": 1,
       "crit": 2,
       "critChance": 10,
