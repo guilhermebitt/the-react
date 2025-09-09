@@ -1,3 +1,10 @@
+# [1.0.0-beta.28](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.27...v1.0.0-beta.28) (2025-09-09)
+
+
+### Features
+
+* **victory and defeat:** The game was a screen for death and a modal for victory ([deb7e7d](https://github.com/guilhermebitt/the-react/commit/deb7e7d38f735afa2146b93991e264fe3b7d4baf))
+
 # [1.0.0-beta.27](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.26...v1.0.0-beta.27) (2025-09-09)
 
 
