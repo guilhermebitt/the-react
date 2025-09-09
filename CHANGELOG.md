@@ -1,3 +1,10 @@
+# [1.0.0-beta.27](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.26...v1.0.0-beta.27) (2025-09-09)
+
+
+### Bug Fixes
+
+* **saves:** HOLY SH1T! FORGET THE OTHER COMMITgit add .! ([6e42823](https://github.com/guilhermebitt/the-react/commit/6e428238e4e8bf4098348b7ef5747a38946de1a1))
+
 # [1.0.0-beta.26](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.25...v1.0.0-beta.26) (2025-09-09)
 
 
