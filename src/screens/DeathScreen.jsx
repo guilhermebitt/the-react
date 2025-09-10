@@ -47,7 +47,7 @@ function DeathScreen() {
                 visibility: (infoId ?? 0) >= 0 ? 'visible' : 'hidden',
               }}
             >
-              Event Duration: {<ValueIncrement finalValue={tick.get()} duration={timeForEach} type={"time"}/>}
+              Game Duration: {<ValueIncrement finalValue={tick.get()} duration={timeForEach} type={"time"}/>}
             </p>
           )}
           {/* ENEMIES KILLED */}
