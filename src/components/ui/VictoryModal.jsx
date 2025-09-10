@@ -1,7 +1,6 @@
 // Dependencies
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom'; // This is temporary
-import * as funcs from '../../utils/functions.js';
 
 // Components
 import ValueIncrement from '../ui/ValueIncrement.jsx';
@@ -13,7 +12,7 @@ import { useGame } from '../../hooks/useGame';
 import styles from './VictoryModal.module.css';
 
 function VictoryModal() {
-  const { tick, game, player } = useGame();
+  const { tick, game } = useGame();
   const [eventTime, setEventTime] = useState(null);
   const [finished, setFinished] = useState(false);
   const [timeForEach] = useState(1000)  // Time in MS to determine the time for each stat
@@ -34,7 +33,6 @@ function VictoryModal() {
   }, []);
 
   useEffect(() => {
-    console.log(infoId)
     if (infoId >= 2) setFinished(true);
   }, [infoId])
 
@@ -71,7 +69,7 @@ function VictoryModal() {
                 visibility: infoId >= 1 ? 'visible' : 'hidden',
               }}
             >
-              Enemies Killed: {<ValueIncrement finalValue={player.get().kills} duration={timeForEach}/>}
+              Enemies Killed: {<ValueIncrement finalValue={game.get().eventData.kills} duration={timeForEach}/>}
             </p>
           )}
         </div>

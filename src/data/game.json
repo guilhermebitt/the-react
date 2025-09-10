@@ -9,6 +9,8 @@
   "currentMusic" : ["/assets/sounds/musics/the_music.ogg", true],
   "terminalText": [],
   "eventData": {
-    "type": null
+    "isFirstLoad": true,
+    "type": null,
+    "kills": 0
   }
 }

@@ -31,6 +31,7 @@ chore: tarefas de manutenção, dependências, configs, etc.
 
 // Data
 import enemiesJson from '../data/enemies.json' with { type: 'json' };
+import gameData from '../data/game.json' with { type: 'json' };
 
 // Dependencies
 import { useEffect, useState } from 'react';
@@ -78,7 +79,22 @@ function BattleEvent() {
   // Initializing funcs
   funcs.init(game);
 
-  // On game load:
+  // On event **FIRST LOAD** only
+  useEffect(() => {
+    // Verifying if the event as already loaded for the first time
+    if (!game.get().eventData.isFirstLoad || loading) return;
+
+    // Every code written here will be called only one time in the game tick history, until I update the game eventData to default!
+    console.log("event loaded for the first time");  // I'll keep this for debugging
+
+    // Resetting all game eventData
+    game.update({ "eventData": gameData.eventData });
+
+    // Updating the game eventData to be sure that the game first loaded
+    game.update({ "eventData.isFirstLoad": false });
+  }, [loading]);
+
+  // On game reload:
   useEffect(() => {
     if (loading) return;
     if (location.pathname === "/battle") navigate("/battle/action", { replace: true });
@@ -181,7 +197,7 @@ function BattleEvent() {
 
   function spawnEnemies() {
     const snake = createEntityObj('snake');
-    enemies.spawnEnemies([snake])
+    enemies.spawnEnemies([snake, snake, snake])
   }
 
   // -- RETURNING THE GAME ---

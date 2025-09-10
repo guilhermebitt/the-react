@@ -17,23 +17,24 @@ import styles from './sections.module.css'
 function ActionSection() {
   const { player, enemies, game } = useGame();
   const [confirmDialog, setConfirmDialog] = useState({
-      visible: false,
-      message: 'Are you sure?',
-      onConfirm: null,
-      onCancel: null
-    });
+    visible: false,
+    message: 'Are you sure?',
+    onConfirm: null,
+    onCancel: null
+  });
 
   // Passing the game controller to the funcs
   funcs.init(game);
 
   // Function to realize an attack
   function doAttack() {
-    // Conditions]
+    // Conditions
     if (typeof game.get().target !== 'number') return funcs.phrase('Select a target!');
     if (player.get().actionsLeft <= 0) return funcs.phrase('You do not have actions left!');
     if (enemies.get([game.get().target])?.currentAnim === 'death') return funcs.phrase('This enemy is dead.');
 
     const { attackMsg, timeToWait } = player.get().attack(enemies.get([game.get().target]));  // this function executes an attack and return some data
+    if (enemies.get([game.get().target]).stats.health <= 0) game.update({ "eventData.kills": game.get().eventData.kills + 1 })
 
     // Changing the turn 
     const lastTurn = game.get().currentTurn;

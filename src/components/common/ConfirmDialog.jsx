@@ -31,8 +31,8 @@ function ConfirmDialog({ visible, message, onConfirm, onCancel }) {
         <p>{message}</p>
 
         <div className={styles.buttons}>
-          <button onClick={onConfirm}>Yes</button>
-          <button onClick={onCancel}>No</button>
+          {onConfirm && <button onClick={onConfirm}>{message === "Game Saved!" ? 'Ok' : 'Yes'}</button>}
+          {onCancel && <button onClick={onCancel}>No</button>}
         </div>
 
       </div>

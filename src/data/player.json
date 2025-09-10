@@ -53,5 +53,6 @@
   "actions": 2,
   "actionsLeft": 2,
   "dmgTaken": 0,
-  "dmgWasCrit": false
+  "dmgWasCrit": false,
+  "kills": 0
 }
