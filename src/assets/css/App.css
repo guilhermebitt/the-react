@@ -25,3 +25,10 @@ main {
     align-items: center;
     height: 100%;
 }
+
+.page-wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}

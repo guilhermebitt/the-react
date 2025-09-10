@@ -2,6 +2,7 @@
 import { BrowserRouter, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useRef } from 'react';
 import { useLocalStorage } from 'usehooks-ts';
+import { AnimatePresence, motion } from 'framer-motion';
 
 // Contexts
 import { AppProviders } from './context/AppProviders.jsx';
@@ -52,13 +53,29 @@ function AppRoutes() {
   }, []); // <- só na montagem
 
   return (
-    <Routes>
-      <Route path="/menu" element={<Menu />} />
-      <Route path="/saves" element={<Saves />} />
-      <Route path="/battle/*" element={<BattleEvent />} />
-      <Route path="/settings" element={<Settings />} />
-      <Route path="/deathscreen" element={<DeathScreen />} />
-    </Routes>
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        <Route path="/menu" element={<PW><Menu /></PW>} />
+        <Route path="/saves" element={<PW><Saves /></PW>} />
+        <Route path="/battle/*" element={<PW><BattleEvent /></PW>} />
+        <Route path="/settings" element={<PW><Settings /></PW>} />
+        <Route path="/deathscreen" element={<PW><DeathScreen /></PW>} />
+      </Routes>
+    </AnimatePresence>
+  );
+}
+
+function PW({ children }) {  // PW -> PageWrapper
+  return (
+    <motion.div
+      initial={{ opacity: 0, x: 50 }}   // starts invisible and a little to the right
+      animate={{ opacity: 1, x: 0 }}   // enters smoothly
+      exit={{ opacity: 0, x: -50 }}    // exit to the left
+      transition={{ duration: 0.05, ease: "linear" }}
+      className="page-wrapper"
+    >
+      {children}
+    </motion.div>
   );
 }
 
