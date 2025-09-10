@@ -1,3 +1,11 @@
+# [1.0.0-beta.29](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.28...v1.0.0-beta.29) (2025-09-10)
+
+
+### Features
+
+* added the value increment mechanic to the death screen and improved the save game button in options ([7d24a29](https://github.com/guilhermebitt/the-react/commit/7d24a2902dc4b44e1f3bedecdc6d25073c5e1d3e))
+* **victory modal:** new victory modal system (I'll implement to death screen too) ([9b58713](https://github.com/guilhermebitt/the-react/commit/9b587131a67c5c1448e0b2efbc0a7b0de3881ed0))
+
 # [1.0.0-beta.28](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.27...v1.0.0-beta.28) (2025-09-09)
 
 
