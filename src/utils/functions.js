@@ -42,10 +42,12 @@ function scheduleTerminalUpdate() {
   // batches all messages in the queue and updates the terminal once, preventing
   // newer messages from overwriting previous ones.
   setTimeout(() => {
-    const prevTerminal = game.get().terminalText
+    const prevTerminal = game.get().terminalText;
+    const prevLog = game.get().logText;
 
     // Joins everything in an unique array
     const newTerminal = [...prevTerminal, ...msgQueue];
+    const newLog = [...prevLog, ...msgQueue];
 
     // Clear the queue and unlocks the scheduled flow
     msgQueue.length = 0;
@@ -53,6 +55,7 @@ function scheduleTerminalUpdate() {
 
     // Updates the game state
     game.update({ terminalText: newTerminal });
+    game.update({ logText: newLog });
   }, 0);
 }
 

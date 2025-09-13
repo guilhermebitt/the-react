@@ -3,6 +3,9 @@ import { BrowserRouter, Routes, Route, useLocation, useNavigate } from 'react-ro
 import { useEffect, useRef } from 'react';
 import { useLocalStorage } from 'usehooks-ts';
 
+// Components
+import LogContainer from './components/game/LogContainer.jsx';
+
 // Contexts
 import { AppProviders } from './context/AppProviders.jsx';
 
@@ -35,6 +38,7 @@ function AppRoutes() {
   const location = useLocation();
 
   const [, setLastScreen] = useLocalStorage('lastScreen', '/');
+  const [settings, setSettings] = useLocalStorage('settings', []);
 
   // Keeping the last route
   const prevLocationRef = useRef(location.pathname);
@@ -53,14 +57,18 @@ function AppRoutes() {
   }, []); // <- só na montagem
 
   return (
-    <Routes>
-      <Route path="/menu" element={<Menu />} />
-      <Route path="/saves" element={<Saves />} />
-      <Route path="/battle/*" element={<BattleEvent />} />
-      <Route path="/settings" element={<Settings />} />
-      <Route path="/deathscreen" element={<DeathScreen />} />
-      <Route path="/credits" element={<Credits />} />
-    </Routes>
+    <>
+      <Routes>
+        <Route path="/menu" element={<Menu />} />
+        <Route path="/saves" element={<Saves />} />
+        <Route path="/battle/*" element={<BattleEvent />} />
+        <Route path="/settings" element={<Settings />} />
+        <Route path="/deathscreen" element={<DeathScreen />} />
+        <Route path="/credits" element={<Credits />} />
+      </Routes>
+      
+      {settings.showLog ? <LogContainer /> : ''}
+    </>
   );
 }
 

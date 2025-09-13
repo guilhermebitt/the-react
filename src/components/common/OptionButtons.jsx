@@ -1,6 +1,11 @@
+// Data
+import settingsData from '../../data/settings.json' with { type: 'json' };
+
 // Dependencies
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { useLocalStorage } from 'usehooks-ts';
+import { produce } from "immer";
 
 // Components
 import ComponentBorder from '../ui/ComponentBorder';
@@ -25,6 +30,7 @@ function OptionButtons() {
     onCancel: null
   });
   const [ShowLastCScreen, setShowLastCScreen] = useState(false);
+  const [, setSettings] = useLocalStorage('settings', settingsData);
 
   useEffect(() => {
     if (!ShowLastCScreen) return;
@@ -39,6 +45,12 @@ function OptionButtons() {
       onConfirm: onConfirm || (() => {}),
       onCancel: onCancel,
     });
+  }
+
+  function showLog() {
+    setSettings(produce(draft => {
+      draft.showLog = true;
+    }));
   }
 
   return (
@@ -57,11 +69,12 @@ function OptionButtons() {
       />
       <ComponentBorder title="Options">
         <div className={styles["options-menu-container"]}>
+          <button className='default' onClick={showLog} disabled={!(game.get().currentTurn === "player")}>Log</button>
           <Link to="/settings">
-            <button className='default'>Settings</button>
+            <button className='default' disabled={!(game.get().currentTurn === "player")}>Settings</button>
           </Link>
           <Link to="/menu">
-            <button className='default'>Menu</button>
+            <button className='default' disabled={!(game.get().currentTurn === "player")}>Menu</button>
           </Link>
           <button className='default' onClick={() => {
             confirmScreen(() => {

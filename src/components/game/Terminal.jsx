@@ -9,10 +9,11 @@ import { useGame } from '../../hooks/useGame';
 
 // Stylesheets
 import styles from './Terminal.module.css';
-import '../../assets/css/scrollbar.css'
+import '../../assets/css/scrollbar.css';
+
+
 
 function Terminal() {
-  //const [terminalText, setTerminalText] = useLocalStorage('terminalText', []);
   const { game } = useGame();
   const terminalText = game.get().terminalText;
 
@@ -24,7 +25,12 @@ function Terminal() {
     if (terminalText.length > 20) {
       const newTerminalText = [...terminalText];
 
-      newTerminalText.splice(20, 1);
+      // Reverses the terminal text
+      newTerminalText.reverse();
+      // Removes the last item
+      newTerminalText.pop(0);
+      // Returns the terminal to normal
+      newTerminalText.reverse();
 
       game.update({ "terminalText": newTerminalText })
     }

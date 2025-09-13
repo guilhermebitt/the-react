@@ -1,5 +1,5 @@
 // Data
-import gameData from '../data/game.json' with { type: 'json' };
+import settingsData from '../data/settings.json' with { type: 'json' };
 
 // Dependencies
 import { useEffect } from 'react';
@@ -18,10 +18,12 @@ import styles from './menus.module.css';
 
 
 function Menu() {
-  const [currentTurn, setCurrentTurn] = useLocalStorage('currentTurn', gameData.currentTurn);
+  const [settings, setSettings] = useLocalStorage('settings', settingsData);
   const { audios } = useGame();
 
   useEffect(() => {
+    // Closes the log (if open)
+    if (settings?.showLog) setSettings(prev => {return{...prev, showLog: false}});
     // Stop the music on menu
     if (audios.get("gameMusic")?.isPlaying()) audios.get("gameMusic")?.stop()
     if (audios.get("deathMusic")?.isPlaying()) audios.get("deathMusic")?.stop()
@@ -29,7 +31,6 @@ function Menu() {
     return () => resetGame(keysToKeep);
   }, []);
 
-  const handlePlay = () => currentTurn === "none" && setCurrentTurn('player');
   const keysToKeep = ['lastScreen', 'settings', 'saves'];  // these keys won't be removed
 
   const resetGame = (keysToKeep) => {
@@ -42,7 +43,7 @@ function Menu() {
       <section>
         <h1>THE</h1>
         <Link to="/saves">
-          <button className={styles['menus']} onClick={handlePlay}>Play</button>
+          <button className={styles['menus']}>Play</button>
         </Link>
         <Link to="/settings">
           <button className={styles['menus']}>Settings</button>

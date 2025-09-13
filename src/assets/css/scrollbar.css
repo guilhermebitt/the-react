@@ -19,3 +19,26 @@
 .scrollbar::-webkit-scrollbar-thumb:hover {
   background: #555;
 } 
+
+
+/* Black scrollbar */
+.scrollbar-black::-webkit-scrollbar {
+  width: 10px; /* Largura da barra de rolagem vertical */
+  height: 10px; /* Altura da barra de rolagem horizontal */
+}
+
+/* Background of the Scrollbar */
+.scrollbar-black::-webkit-scrollbar-track {
+  background: #ffffff00;
+}
+
+/* style of that thing that moves */
+.scrollbar-black::-webkit-scrollbar-thumb {
+  background: #555;
+  border-radius: 5px; /* Deixa as bordas arredondadas */
+}
+
+/* style of that thing that moves (when mouse hover) */
+.scrollbar-black::-webkit-scrollbar-thumb:hover {
+  background: #444;
+} 

@@ -3,5 +3,6 @@
   "sfxVolume": 1,
   "musicVolume": 0.5,
   "volume": 1,
-  "lastScreen": "menu"
+  "lastScreen": "menu",
+  "showLog": false
 }
