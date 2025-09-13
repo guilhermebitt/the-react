@@ -1,32 +1,52 @@
 main.menus {
-  position: relative;
-  height: inherit;
-  width: inherit;
-  background-color: #222228;
-  overflow: hidden;
-
-}
-
-main.menus>section {
-  height:500px;
-  position: absolute;
-  top: 100px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 15px;
+  align-items: start;
+
+  position: relative;
+
+  height: inherit;
+  width: inherit;
+}
+
+main.menus::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: -1; /* Places the pseudo-element behind the content of the main */
+  pointer-events: none;
+
+  background-image: url('/assets/images/temp_bg.jpg');
+  background-size: cover;
+  opacity: 0.5; /* Example filter: opacity */
+}
+
+main.menus > section {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 20px;
+  height: 100%;
+  min-width: 300px;
+  padding: 2rem 5rem;
 
   h1 {
-    font-size: 2.5rem;
+    font-size: 3.5rem;
+    text-align: left;
   }
 }
 
 button.menus {
   min-height: 30px;
-  width: 150px;
+  width: fit-content;
+  padding: 0rem 1rem;
+
   font-size: 1.25rem;
-  border-radius: 10px;
   border: none;
+  background-color: #ffffff00 !important;
+  color: white;
+  font-size: 1.5rem;
 }
 
 button.menus:hover {
@@ -36,5 +56,5 @@ button.menus:hover {
 button.clear {
   background-color: rgb(248, 85, 85);
   position: absolute;
-  bottom: 20px;
+  bottom: 2rem;
 }

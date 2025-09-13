@@ -21,7 +21,7 @@ function Saves() {
   return (
     <main className={styles['menus']}>
       <section>
-        <h1>Saves</h1>
+        <h1>SAVES</h1>
         {
           [0, 1, 2].map(index => (
             <SaveGame key={index} saveId={index}/>

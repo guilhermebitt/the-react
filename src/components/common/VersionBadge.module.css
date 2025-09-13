@@ -1,9 +1,11 @@
 div.versionContainer {
   position: absolute;
-  top: 0px;
-  padding: 4px 8px;
-  color: 'white';
+  bottom: 5px;
+  right: 0px;
+  padding: 0rem 0.5rem;
+  color: #aaa;
   border-radius: 4;
   font-size: 0.75rem;
+  height: 0.75rem;
   font-weight: bold;
 }

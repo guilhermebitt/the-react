@@ -4,18 +4,19 @@
   align-items: center;
   position: absolute;
   right: 10px;
-  bottom: 10px;
-  width: 200px;
-  height: 150px;
+  bottom: 30px;
+  width: 250px;
+  height: 200px;
   padding: 1rem;
   border: white solid 1px;
+  background-color: #0d151c;
   border-radius: 5px;
   overflow-x: hidden;
   overflow-y: scroll;
 }
 
 .changelogContainer h1 {
-  color: #2c3e50;
+  color: #576a7e;
   border-bottom: 2px solid #ffffff;
   margin-top: 1rem;
   font-size: 1.5rem;

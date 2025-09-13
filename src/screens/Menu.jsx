@@ -40,12 +40,15 @@ function Menu() {
   return (
     <main className={styles['menus']}>
       <section>
-        <h1>The</h1>
+        <h1>THE</h1>
         <Link to="/saves">
           <button className={styles['menus']} onClick={handlePlay}>Play</button>
         </Link>
         <Link to="/settings">
-          <button className={styles['menus']} >Settings</button>
+          <button className={styles['menus']}>Settings</button>
+        </Link>
+        <Link to="/credits">
+          <button className={styles['menus']}>Credits</button>
         </Link>
         <button className={`${styles['menus']} ${styles['clear']}`} onClick={() => resetGame([''])}>Clear all data</button>
       </section>

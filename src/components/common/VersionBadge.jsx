@@ -9,9 +9,7 @@ import styles from './VersionBadge.module.css';
 function VersionBadge() {
   const isBeta = version.includes('beta');
   return (
-    <div className={styles.versionContainer} style={{
-      backgroundColor: isBeta ? '#FFA500' : '#4CAF50'
-    }}>
+    <div className={styles.versionContainer}>
       {isBeta ? `Beta ${version}` : `v${version}`}
     </div>
   );

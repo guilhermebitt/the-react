@@ -12,6 +12,7 @@ import Settings from './screens/Settings.jsx';
 import BattleEvent from './screens/BattleEvent.jsx';
 import Saves from './screens/Saves.jsx';
 import DeathScreen from './screens/DeathScreen.jsx';
+import Credits from './screens/Credits.jsx';
 
 // Stylesheet
 import './assets/css/App.css';
@@ -58,6 +59,7 @@ function AppRoutes() {
       <Route path="/battle/*" element={<BattleEvent />} />
       <Route path="/settings" element={<Settings />} />
       <Route path="/deathscreen" element={<DeathScreen />} />
+      <Route path="/credits" element={<Credits />} />
     </Routes>
   );
 }

@@ -12,7 +12,7 @@ body {
     width: var(--game-width);
     height: var(--game-height);
     margin: 10px auto;
-    padding: 5px;
+    padding: 0.75rem;
     text-align: center;
     background-color: black;
     box-sizing: content-box;

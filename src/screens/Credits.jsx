@@ -11,7 +11,7 @@ import styles from './menus.module.css';
 
 
 
-function Settings() {
+function Credits() {
   // Getting the lastScreen from localStorage
   const [lastScreen, setLastScreen] = useLocalStorage('lastScreen', '/');
   
@@ -30,8 +30,7 @@ function Settings() {
   return (
     <main className={styles['menus']}>
       <section>
-        <h1>SETTINGS</h1>
-        <button className={styles['menus']}>Option1</button>
+        <h1>CREDITS</h1>
         <Link to={lastScreen}>
           <button className={styles['menus']}>Back</button>
         </Link>
@@ -40,4 +39,4 @@ function Settings() {
   );
 }
 
-export default Settings;
+export default Credits;
