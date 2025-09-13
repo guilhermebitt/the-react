@@ -1,3 +1,10 @@
+# [1.0.0-beta.30](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.29...v1.0.0-beta.30) (2025-09-13)
+
+
+### Features
+
+* **credts and background:** Updated the menus background and added the credits to the artist and other people ([32803f1](https://github.com/guilhermebitt/the-react/commit/32803f1947da3b486f0895a66b85d25db7798577))
+
 # [1.0.0-beta.29](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.28...v1.0.0-beta.29) (2025-09-10)
 
 
