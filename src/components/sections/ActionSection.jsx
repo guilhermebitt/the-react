@@ -30,7 +30,7 @@ function ActionSection() {
   function doAttack() {
     // Conditions
     if (typeof game.get().target !== 'number') return funcs.phrase('Select a target!');
-    if (player.get().actionsLeft <= 0) return funcs.phrase('You do not have actions left!');
+    if (player.get().actionsLeft <= 0) return funcs.phrase('You do not have actions left! End your turn.');
     if (enemies.get([game.get().target])?.currentAnim === 'death') return funcs.phrase('This enemy is dead.');
 
     const { attackMsg, timeToWait } = player.get().attack(enemies.get([game.get().target]));  // this function executes an attack and return some data
