@@ -71,6 +71,7 @@ function Credits() {
           <p>GitHub: <a href='https://github.com/guilhermebitt' target='_blank'>https://github.com/guilhermebitt</a></p>
           <p>Email: guilherme.assis.bittencourt@gmail.com/</p>
         </div>
+        <hr />
         {/* BETA TESTERS */}
         <h2>Beta Testers</h2>
         {/* Guilherme Bittencourt */}
