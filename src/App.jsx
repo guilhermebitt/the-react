@@ -12,6 +12,7 @@ import { AppProviders } from './context/AppProviders.jsx';
 // Screens
 import Menu from './screens/Menu.jsx';
 import Settings from './screens/Settings.jsx';
+import MapScreen from './screens/MapScreen.jsx';
 import BattleEvent from './screens/BattleEvent.jsx';
 import Saves from './screens/Saves.jsx';
 import DeathScreen from './screens/DeathScreen.jsx';
@@ -59,12 +60,21 @@ function AppRoutes() {
   return (
     <>
       <Routes>
+        {/* Menus */}
         <Route path="/menu" element={<Menu />} />
         <Route path="/saves" element={<Saves />} />
-        <Route path="/battle/*" element={<BattleEvent />} />
         <Route path="/settings" element={<Settings />} />
-        <Route path="/deathscreen" element={<DeathScreen />} />
         <Route path="/credits" element={<Credits />} />
+
+        {/* Game Screens */}
+        <Route path="/mapscreen" element={<MapScreen />} />
+        <Route path="/deathscreen" element={<DeathScreen />} />
+
+        {/* Event Screens */}
+        <Route path="/battle/*" element={<BattleEvent />} />
+
+        {/* In Case of Page Not Found */}
+        <Route path="*" element={<Menu />} />
       </Routes>
       
       {settings.showLog ? <LogContainer /> : ''}

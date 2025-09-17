@@ -11,6 +11,7 @@ import styles from './menus.module.css';
 import '../assets/css/scrollbar.css'
 
 
+
 function Credits() {
   // Getting the lastScreen from localStorage
   const [lastScreen, setLastScreen] = useLocalStorage('lastScreen', '/');

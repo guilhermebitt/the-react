@@ -6,12 +6,47 @@
   "currentSave": null,
   "currentTurn": "player",
   "currentMap": "wildForest",
-  "currentMusic" : ["/assets/sounds/musics/the_music.ogg", true],
+  "currentMusic": ["/assets/sounds/musics/the_music.ogg", true],
   "terminalText": [],
   "logText": [],
   "eventData": {
     "isFirstLoad": true,
     "type": null,
-    "kills": 0
-  }
+    "kills": 0,
+    "path": "/mapscreen"
+  },
+  "mapData": [
+    {
+      "url": "/assets/map_sections/wild_forest_section.png",
+      "events": ["teste", "teste"]
+    },
+    {
+      "url": "/assets/map_sections/wild_forest_section.png",
+      "events": ["teste"]
+    },
+    {
+      "url": "/assets/map_sections/wild_forest_section.png",
+      "events": ["teste", "teste"]
+    },
+    {
+      "url": "/assets/map_sections/wild_forest_section.png",
+      "events": ["teste"]
+    },
+    {
+      "url": "/assets/map_sections/wild_forest_section.png",
+      "events": ["teste"]
+    },
+    {
+      "url": "/assets/map_sections/wild_forest_section.png",
+      "events": ["teste", "teste"]
+    },
+    {
+      "url": "/assets/map_sections/wild_forest_section.png",
+      "events": ["teste", "teste"]
+    },
+    {
+      "url": "/assets/map_sections/wild_forest_section.png",
+      "events": ["teste"]
+    }
+  ]
 }

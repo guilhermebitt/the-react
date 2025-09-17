@@ -1,0 +1,24 @@
+section.xSection {
+  width: 100%;
+  padding: 5px;
+}
+
+section.xSection.top {
+  position: relative;
+  height: calc(var(--game-height) * 0.10); /* 10% */
+}
+
+section.xSection.map {
+  position: relative;
+  height: calc(var(--game-height) * 0.90); /* 90% */
+}
+
+div.mapSections {
+  display: flex;
+  flex-direction: column-reverse;
+
+  height: 100%;
+  width: 100%;
+
+  overflow-y: auto;
+}

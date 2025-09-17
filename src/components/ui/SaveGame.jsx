@@ -33,7 +33,7 @@ function SaveGame({ saveId }) {
   const [saves, setSaves] = useLocalStorage('saves', savesData)
   const navigate = useNavigate();
   const { loadGame, deleteSave } = useSaveManager(saveId);
-  const { tick, game } = useGame();
+  const { game } = useGame();
 
   function confirmScreen(onConfirm, onCancel, msg='Are you sure?') {
     setConfirmDialog({
@@ -50,7 +50,8 @@ function SaveGame({ saveId }) {
 
   function handleStartGame() {
     loadGame();
-    navigate('/battle');
+  
+    navigate(game.get()?.eventData?.path);
   }
 
   function handleNewSave() {

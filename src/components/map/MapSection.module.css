@@ -1,0 +1,33 @@
+section.mapSection {
+  position: relative;
+
+  min-height: calc(var(--game-height) * 0.35);  /* 35% of the game height */
+
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: top;
+}
+
+div.path {
+  position: absolute;
+  z-index: 1;
+
+  display: flex;
+  justify-content: center;
+
+
+  height: 50%;
+  width: 100%;
+
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: top;
+}
+
+div.path.top {
+  top: 0;
+}
+
+div.path.bottom {
+  bottom: 0;
+}
