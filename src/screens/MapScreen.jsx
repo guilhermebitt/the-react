@@ -3,6 +3,7 @@ import mapsData from '../data/maps.json' with { type: 'json' };
 
 // Dependencies
 import { useEffect, useState } from 'react';
+import * as funcs from '../utils/functions.js';
 
 // Components
 import Header from '../components/game/Header.jsx';
@@ -56,7 +57,26 @@ function MapScreen() {
     }
 
     return [bottomPath, topPath];
-  }
+  };
+
+  function generateBadges(selfL) {
+    let type = [];
+
+    for (let i = 0; i < selfL; i++) {
+      // Here I can control the percentage of each event to appear. Later...
+      const random = selfL > 1 ? funcs.random(4, 1) : funcs.random(3, 1);
+
+      // Generating the event
+      switch (random) {
+        case 1: type.push('battle'); break;
+        case 2: type.push('shop'); break;
+        case 3: type.push('unknown'); break;
+        case 4: type.push('none'); break;
+      }
+    }
+
+    return type;
+  };
 
   if (!load) return;
   return (
@@ -77,16 +97,19 @@ function MapScreen() {
               .map((section, index) => {
                 // Adding the map section components to the MapScreen
 
-                console.log(game.get().mapData[index]?.events.length)
-
                 // Getting the next section (to configure the path)
                 const thisSeEv = game.get().mapData[index + 0]?.events.length;
                 const nextSeEv = game.get().mapData[index + 1]?.events.length;
 
                 const paths = getPath(thisSeEv, nextSeEv);
 
+                // THIS FUNCTION CANNOT BE HERE. THIS FUNCTION CREATES A BADGE AND NOT GET IT!!!!!!!
+                const badges = generateBadges(thisSeEv);
+
+                console.log(badges, thisSeEv)
+
                 // Returning the MapSection with its props
-                return <MapSection key={index} background={section.url} paths={paths} teste={section.events}/>
+                return <MapSection key={index} background={section.url} paths={paths} badges={badges}/>
               })
             }
           </div>

@@ -97,3 +97,10 @@ export function tickToTime(ticks, tickSpeed) {
 export function padZero(number) {
   return (number < 10 ? "0" : "") + number
 }
+
+// Generates a random number
+export function random(max, min = 0) {
+  const array = new Uint32Array(1);
+  crypto.getRandomValues(array);
+  return min + (array[0] % ((max + 1) - min));
+}
