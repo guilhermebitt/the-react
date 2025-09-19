@@ -10,6 +10,7 @@
   "terminalText": [],
   "logText": [],
   "eventData": {
+    "event": null,
     "isFirstLoad": true,
     "type": null,
     "kills": 0,
@@ -18,35 +19,42 @@
   "mapData": [
     {
       "url": "/assets/map_sections/wild_forest_section.png",
-      "events": ["teste", "teste"]
+      "events": [
+        {
+          "eventId": 0,
+          "type": "battle",
+          "path": "/battle",
+          "isFinished": false,
+          "enemiesToSpawn": [
+            {
+              "name": "snake",
+              "level": 1
+            }
+          ]
+        }
+      ]
     },
     {
       "url": "/assets/map_sections/wild_forest_section.png",
-      "events": ["teste"]
+      "events": [
+        {
+          "eventId": 1,
+          "type": "shop"
+        }
+      ]
     },
     {
       "url": "/assets/map_sections/wild_forest_section.png",
-      "events": ["teste", "teste"]
-    },
-    {
-      "url": "/assets/map_sections/wild_forest_section.png",
-      "events": ["teste"]
-    },
-    {
-      "url": "/assets/map_sections/wild_forest_section.png",
-      "events": ["teste"]
-    },
-    {
-      "url": "/assets/map_sections/wild_forest_section.png",
-      "events": ["teste", "teste"]
-    },
-    {
-      "url": "/assets/map_sections/wild_forest_section.png",
-      "events": ["teste", "teste"]
-    },
-    {
-      "url": "/assets/map_sections/wild_forest_section.png",
-      "events": ["teste"]
+      "events": [
+        {
+          "eventId": 2,
+          "type": "battle"
+        },
+        {
+          "eventId": 3,
+          "type": "unknown"
+        }
+      ]
     }
   ]
 }

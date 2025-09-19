@@ -1,9 +1,9 @@
 // Data
 import mapsData from '../data/maps.json' with { type: 'json' };
+import gameData from '../data/game.json' with { type: 'json' };
 
 // Dependencies
 import { useEffect, useState } from 'react';
-import * as funcs from '../utils/functions.js';
 
 // Components
 import Header from '../components/game/Header.jsx';
@@ -29,12 +29,25 @@ var pathsUrl = [
 
 // Creating the MapScreen
 function MapScreen() {
-  const { game } = useGame();
+  const { game, tick, audios } = useGame();
   const [load, setLoad] = useState(false);
+
+  const mapData = structuredClone(game.get().mapData);
 
   // This will make sure that the game only load after the first construction of the component
   useEffect(() => {
     setLoad(true);
+    tick.start();
+
+    // Stopping the game music if it is playing
+    if (audios.get("gameMusic")?.isPlaying()) audios.get("gameMusic")?.pause();
+
+    // Resetting all game eventData
+    game.update({ "eventData": gameData.eventData });
+
+    return () => {
+      tick.stop();  // tick stops when the game exit the map component
+    }
   }, []);
 
   function getPath(selfL, nextL) {
@@ -59,23 +72,15 @@ function MapScreen() {
     return [bottomPath, topPath];
   };
 
-  function generateBadges(selfL) {
-    let type = [];
+  function getBadges(selfL, index) {
+    let types = [];
 
     for (let i = 0; i < selfL; i++) {
-      // Here I can control the percentage of each event to appear. Later...
-      const random = selfL > 1 ? funcs.random(4, 1) : funcs.random(3, 1);
-
-      // Generating the event
-      switch (random) {
-        case 1: type.push('battle'); break;
-        case 2: type.push('shop'); break;
-        case 3: type.push('unknown'); break;
-        case 4: type.push('none'); break;
-      }
+      const type = mapData[index]?.events[i];
+      types.push(type);
     }
 
-    return type;
+    return types;
   };
 
   if (!load) return;
@@ -92,8 +97,8 @@ function MapScreen() {
 
           <div className={`${styles.mapSections} scrollbar`}>
             {/* MAP CONTENTS */}
-            {game.get()?.mapData && game.get().mapData
-              .reverse()
+            {}
+            {mapData && mapData
               .map((section, index) => {
                 // Adding the map section components to the MapScreen
 
@@ -104,9 +109,7 @@ function MapScreen() {
                 const paths = getPath(thisSeEv, nextSeEv);
 
                 // THIS FUNCTION CANNOT BE HERE. THIS FUNCTION CREATES A BADGE AND NOT GET IT!!!!!!!
-                const badges = generateBadges(thisSeEv);
-
-                console.log(badges, thisSeEv)
+                const badges = getBadges(thisSeEv, index);
 
                 // Returning the MapSection with its props
                 return <MapSection key={index} background={section.url} paths={paths} badges={badges}/>

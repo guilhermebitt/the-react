@@ -81,17 +81,34 @@ function BattleEvent() {
 
   // On event **FIRST LOAD** only
   useEffect(() => {
-    // Verifying if the event as already loaded for the first time
-    if (!game.get().eventData.isFirstLoad || loading) return;
+    // Conditions to skip:
+    if (!game.get().eventData.isFirstLoad || loading || location.pathname !== '/battle') return;
 
     // Every code written here will be called only one time in the game tick history, until I update the game eventData to default!
     console.log("event loaded for the first time");  // I'll keep this for debugging
+
+    // Getting the event object
+    const event = game.get()?.eventData?.event;
 
     // Resetting all game eventData
     game.update({ "eventData": gameData.eventData });
 
     // Updating the game eventData to be sure that the game first loaded
     game.update({ "eventData.isFirstLoad": false });
+
+    // Updating the path to the event
+    game.update({ "eventData.path": event?.path });
+
+    // Updating the eventData Event
+    game.update({ "eventData.event": event });
+
+    // Spawning the enemies
+    if (enemies.get().length < 1) {
+      spawnEnemies(event?.enemiesToSpawn);
+    };
+
+    // Resetting the game music
+    audios.get("gameMusic")?.stop()
   }, [loading]);
 
   // On game reload:
@@ -108,12 +125,6 @@ function BattleEvent() {
       game.update({ "eventData.timeEntered": tick.get() });  // I have to keep an eye here
     }
 
-    // THIS IS TEMPORARY!!!!!! (just to spawn enemies for the first time)
-    // This will be executed when the game start for the first time
-    if (enemies.get().length < 1) {
-      spawnEnemies();
-    };
-
     // Creating audios
     audios.create({ name: "gameMusic", src: "/assets/sounds/musics/the_music.ogg", loop: true, type: 'music' });
     audios.create({ name: "deathMusic", src: "/assets/sounds/musics/you_died.ogg", type: 'music' });
@@ -129,17 +140,28 @@ function BattleEvent() {
 
     return () => {
       setLoading(true);
-      tick.stop();  // If the player is not on the Game component, the tick will stop counting
+      tick.stop();  // tick stops when the game exit the battle component
+      audios.get("gameMusic")?.pause();
     };
     
   }, [loading]);
+
+  // On event finish
+  useEffect(() => {
+    if (loading) return
+
+    const event = game.get()?.eventData?.event;
+    const pathToEvent = findEventPath(event?.eventId);
+    game.update({ [pathToEvent]: prev => ({...prev, "isFinished": true}) })
+
+  }, [finishedEvent])
 
   // Starting the gameMusic
   useEffect(() => {
     if (loading) return;
 
     if (player.get().isDead()) return;
-    if (!audios.get("gameMusic")?.isPlaying()) audios.get("gameMusic")?.start();
+    if (!audios.get("gameMusic")?.isPlaying()) audios.get("gameMusic")?.play();
   }, [audios.get("gameMusic"), loading])
 
   // Checking if it's the player turn
@@ -174,6 +196,29 @@ function BattleEvent() {
 
   
   // --- MAIN FUNCTIONS ---
+  function getEventById(id) {
+    // This function return the event by its ID
+    for (const data of game.get()?.mapData) {
+      const found = data?.events.find(event => event?.eventId === id);
+      if (found) return found;
+    }
+    return null;
+  }
+
+  function findEventPath(id) {
+    // This function return the path to the event passed by the ID
+    for (let i = 0; i < game.get()?.mapData.length; i++) {
+      const section = game.get()?.mapData[i];
+      for (let j = 0; j < section?.events?.length; j++) {
+        const event = section?.events[j];
+        if (event?.eventId === id) {
+          return `mapData.${i}.events.${j}`;
+        }
+      }
+    }
+    return null;
+  }
+
   function confirmScreen(onConfirm, onCancel, msg='Are you sure?') {
     setConfirmDialog({
       visible: true,
@@ -183,22 +228,26 @@ function BattleEvent() {
     });
   }
 
-  function createEntityObj(name) {
+  function createEntityObj(name, level) {
     const entity = new Object({
       ...enemiesJson['commonProperties'],
       ...enemiesJson[name],
       "animations": {
         ...enemiesJson[name]['animations'],
         ...enemiesJson['deathAnimation']
-      }
+      },
+      "level": level
     });
     
     return entity;
   }
 
-  function spawnEnemies() {
-    const snake = createEntityObj('snake');
-    enemies.spawnEnemies([snake, snake, snake])
+  function spawnEnemies(enemiesToSpawn) {
+    let enemiesObjs = [];
+    enemiesToSpawn.forEach(enemy => {
+      enemiesObjs.push(createEntityObj(enemy?.name, enemy?.level));
+    })
+    enemies.spawnEnemies(enemiesObjs);
   }
 
   // -- RETURNING THE GAME ---

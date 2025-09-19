@@ -27,6 +27,7 @@ export function EnemiesProvider({ children }) {
   };
 
   const spawnEnemies = (enemiesData) => {
+    // In the future I'll control the enemies level here
     setEnemies(prev => {
       const newEnemies = [...prev];
       enemiesData.forEach((enemyData, index) => {

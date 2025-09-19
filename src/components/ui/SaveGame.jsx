@@ -5,7 +5,7 @@ import savesData from '../../data/saves.json' with { type: 'json' }
 import maps from '../../data/maps.json' with { type: 'json' }
 
 // Dependencies
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useLocalStorage } from 'usehooks-ts';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faPlay } from '@fortawesome/free-solid-svg-icons';
@@ -31,9 +31,17 @@ function SaveGame({ saveId }) {
     onCancel: null
   });
   const [saves, setSaves] = useLocalStorage('saves', savesData)
+  const [load, setLoad] = useState(false);
   const navigate = useNavigate();
   const { loadGame, deleteSave } = useSaveManager(saveId);
   const { game } = useGame();
+
+  // Reacts to the change of the load (game load)
+  useEffect(() => {
+    if (!load) return;
+
+    navigate(game.get()?.eventData?.path);
+  }, [load])
 
   function confirmScreen(onConfirm, onCancel, msg='Are you sure?') {
     setConfirmDialog({
@@ -51,7 +59,7 @@ function SaveGame({ saveId }) {
   function handleStartGame() {
     loadGame();
   
-    navigate(game.get()?.eventData?.path);
+    setLoad(true);
   }
 
   function handleNewSave() {

@@ -1,6 +1,5 @@
 // Dependencies
 import { useEffect, useState, useRef } from 'react';
-import { useLocalStorage } from 'usehooks-ts';
 import * as funcs from '../../utils/functions.js';
 
 // Components

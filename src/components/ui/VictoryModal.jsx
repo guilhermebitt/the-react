@@ -76,7 +76,7 @@ function VictoryModal() {
 
         <div className={styles.buttons}>
           {/* This is temporary */}
-          <Link to="/menu">
+          <Link to="/mapscreen">
             <button disabled={finished ? false : true}>Continue</button>
           </Link>
         </div>

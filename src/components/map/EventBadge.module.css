@@ -3,6 +3,14 @@ div.eventBadgeContainer {
 }
 
 img.eventImage {
-  width: 100px;
-  height: 100;
+  width: 80px;
+}
+
+img.eventImage:hover {
+  transform: scale(1.05);
+  cursor: pointer;
+}
+
+img.eventImage:active {
+  transform: scale(1.1);
 }

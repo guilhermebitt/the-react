@@ -18,9 +18,8 @@ function MapSection({ background, paths, badges }) {
 
       {/* ------- BADGES ------- */}
       <div className={styles.badgesContainer}>
-        {badges.map(type => {
-          console.log(type)
-          return <EventBadge type={type}/>;
+        {badges.map((badge, index) => {
+          return <EventBadge key={index} badge={badge}/>;
         })}
         
       </div>
