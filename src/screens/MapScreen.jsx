@@ -29,7 +29,7 @@ var pathsUrl = [
 
 // Creating the MapScreen
 function MapScreen() {
-  const { game, tick, audios } = useGame();
+  const { game, enemies, tick, audios } = useGame();
   const [load, setLoad] = useState(false);
 
   const mapData = structuredClone(game.get().mapData);
@@ -42,8 +42,9 @@ function MapScreen() {
     // Stopping the game music if it is playing
     if (audios.get("gameMusic")?.isPlaying()) audios.get("gameMusic")?.pause();
 
-    // Resetting all game eventData
+    // Resetting all game eventData and enemies
     game.update({ "eventData": gameData.eventData });
+    enemies.reset();
 
     return () => {
       tick.stop();  // tick stops when the game exit the map component
@@ -112,7 +113,7 @@ function MapScreen() {
                 const badges = getBadges(thisSeEv, index);
 
                 // Returning the MapSection with its props
-                return <MapSection key={index} background={section.url} paths={paths} badges={badges}/>
+                return <MapSection key={index} background={section.url} paths={paths} badges={badges} index={index}/>
               })
             }
           </div>

@@ -14,3 +14,13 @@ img.eventImage:hover {
 img.eventImage:active {
   transform: scale(1.1);
 }
+
+img.eventImage.canSelect {
+  /* --badge-shadow: rgb(53, 87, 84); */
+  --badge-shadow: white;
+
+  filter: drop-shadow(1px 1px 1px var(--badge-shadow))
+    drop-shadow(-1px -1px 1px var(--badge-shadow))
+    drop-shadow(-1px 1px 1px var(--badge-shadow))
+    drop-shadow(1px -1px 1px var(--badge-shadow));
+}

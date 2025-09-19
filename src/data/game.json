@@ -6,6 +6,8 @@
   "currentSave": null,
   "currentTurn": "player",
   "currentMap": "wildForest",
+  "currentMapSection": 0,
+  "currentPath": null,
   "currentMusic": ["/assets/sounds/musics/the_music.ogg", true],
   "terminalText": [],
   "logText": [],
@@ -16,6 +18,7 @@
     "kills": 0,
     "path": "/mapscreen"
   },
+  "eventsEnabled": [0],
   "mapData": [
     {
       "url": "/assets/map_sections/wild_forest_section.png",
@@ -39,7 +42,15 @@
       "events": [
         {
           "eventId": 1,
-          "type": "shop"
+          "type": "battle",
+          "path": "/battle",
+          "isFinished": false,
+          "enemiesToSpawn": [
+            {
+              "name": "snake",
+              "level": 1
+            }
+          ]
         }
       ]
     },
@@ -48,11 +59,85 @@
       "events": [
         {
           "eventId": 2,
-          "type": "battle"
+          "type": "battle",
+          "path": "/battle",
+          "isFinished": false,
+          "enemiesToSpawn": [
+            {
+              "name": "snake",
+              "level": 1
+            }
+          ]
         },
         {
           "eventId": 3,
-          "type": "unknown"
+          "type": "battle",
+          "path": "/battle",
+          "isFinished": false,
+          "enemiesToSpawn": [
+            {
+              "name": "snake",
+              "level": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "url": "/assets/map_sections/wild_forest_section.png",
+      "events": [
+        {
+          "eventId": 4,
+          "type": "battle",
+          "path": "/battle",
+          "isFinished": false,
+          "enemiesToSpawn": [
+            {
+              "name": "snake",
+              "level": 1
+            }
+          ]
+        },
+        {
+          "eventId": 5,
+          "type": "battle",
+          "path": "/battle",
+          "isFinished": false,
+          "enemiesToSpawn": [
+            {
+              "name": "snake",
+              "level": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "url": "/assets/map_sections/wild_forest_section.png",
+      "events": [
+        {
+          "eventId": 6,
+          "type": "battle",
+          "path": "/battle",
+          "isFinished": false,
+          "enemiesToSpawn": [
+            {
+              "name": "snake",
+              "level": 1
+            }
+          ]
+        },
+        {
+          "eventId": 7,
+          "type": "battle",
+          "path": "/battle",
+          "isFinished": false,
+          "enemiesToSpawn": [
+            {
+              "name": "snake",
+              "level": 1
+            }
+          ]
         }
       ]
     }

@@ -1,14 +1,50 @@
+// Dependencies
+import { useState, useEffect } from 'react';
+
 // Components
 import EventBadge from './EventBadge.jsx';
+import Clouds from './Clouds.jsx';
+
+// Hooks
+import { useGame } from '../../hooks/useGame.js';
 
 // Stylesheets
 import styles from './MapSection.module.css';
 
 
 
-function MapSection({ background, paths, badges }) {
+function MapSection({ background, paths, badges, index }) {
+  const { game } = useGame();
+  const [cloud, setCloud] = useState("");
+
+  useEffect(() => {
+    const currentMS = game.get().currentMapSection;
+
+    window.location.hash = game.get().currentMapSection;
+
+    if (index <= currentMS) {
+      setCloud("none");
+    } else
+    if (index === currentMS + 1) {
+      setCloud("starting");
+    } else {
+      setCloud("full");
+    }
+  }, [])
+
   return (
-    <section className={styles.mapSection} style={{ backgroundImage: `url(${background})`}}>
+    <section id={index} className={styles.mapSection} style={{ backgroundImage: `url(${background})`}}>
+      {/* ------- CLOUDS ------- */}
+      <div className={styles.cloudsContainer}>
+        <Clouds type={cloud}/>
+      </div>
+      {cloud === "starting" &&
+        <div className={`${styles.cloudsContainer} ${styles.up}`}>
+          <Clouds type={"full"}/>
+        </div>
+      }
+      
+
       {/* ------- PATHS ------- */}
       {/* TOP PATH */}
       <div className={`${styles.path} ${styles.top}`} style={{ backgroundImage: `url(${paths[1]})`}}/>

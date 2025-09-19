@@ -89,23 +89,17 @@ function BattleEvent() {
 
     // Getting the event object
     const event = game.get()?.eventData?.event;
-
-    // Resetting all game eventData
-    game.update({ "eventData": gameData.eventData });
-
+    
     // Updating the game eventData to be sure that the game first loaded
     game.update({ "eventData.isFirstLoad": false });
-
-    // Updating the path to the event
-    game.update({ "eventData.path": event?.path });
-
-    // Updating the eventData Event
-    game.update({ "eventData.event": event });
 
     // Spawning the enemies
     if (enemies.get().length < 1) {
       spawnEnemies(event?.enemiesToSpawn);
     };
+
+    // Resetting the player's actions left
+    player.update({ actionsLeft: player.get().actions }) 
 
     // Resetting the game music
     audios.get("gameMusic")?.stop()
@@ -150,9 +144,7 @@ function BattleEvent() {
   useEffect(() => {
     if (loading) return
 
-    const event = game.get()?.eventData?.event;
-    const pathToEvent = findEventPath(event?.eventId);
-    game.update({ [pathToEvent]: prev => ({...prev, "isFinished": true}) })
+    game.finishEvent();
 
   }, [finishedEvent])
 
@@ -196,15 +188,6 @@ function BattleEvent() {
 
   
   // --- MAIN FUNCTIONS ---
-  function getEventById(id) {
-    // This function return the event by its ID
-    for (const data of game.get()?.mapData) {
-      const found = data?.events.find(event => event?.eventId === id);
-      if (found) return found;
-    }
-    return null;
-  }
-
   function findEventPath(id) {
     // This function return the path to the event passed by the ID
     for (let i = 0; i < game.get()?.mapData.length; i++) {
