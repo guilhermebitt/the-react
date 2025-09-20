@@ -3,15 +3,18 @@ import mapsData from '../data/maps.json' with { type: 'json' };
 import gameData from '../data/game.json' with { type: 'json' };
 
 // Dependencies
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { getMapAssets } from '../utils/loadAssets.js';
 
 // Components
 import Header from '../components/game/Header.jsx';
 import ComponentBorder from '../components/ui/ComponentBorder.jsx';
 import MapSection from '../components/map/MapSection.jsx';
+import Loading from '../components/common/Loading.jsx';
 
 // Hooks
 import { useGame } from '../hooks/useGame.js';
+import { useLoading } from '../hooks/useLoading.js';
 
 // Stylesheets
 import styles from './MapScreen.module.css';
@@ -25,18 +28,36 @@ var pathsUrl = [
   "/assets/map_sections/paths/bifurcation_inverted.png"
 ];
 
+// Defining the badges URL
+var badgesUrl = [
+  "/assets/map_sections/events_badges/battle_badge.png",
+  "/assets/map_sections/events_badges/boss_badge.png",
+  "/assets/map_sections/events_badges/loot_badge.png",
+  "/assets/map_sections/events_badges/shop_badge.png",
+  "/assets/map_sections/events_badges/unknown_badge.png",
+];
+
 
 
 // Creating the MapScreen
 function MapScreen() {
   const { game, enemies, tick, audios } = useGame();
-  const [load, setLoad] = useState(false);
-
+  const { loading, loadAssets } = useLoading();
   const mapData = structuredClone(game.get().mapData);
+
+  // LOADING
+  useEffect(() => {
+    const mapAssets = getMapAssets(mapData);
+    const assetsToLoad = [...mapAssets, ...pathsUrl, ...badgesUrl];
+
+    loadAssets(assetsToLoad);
+  }, []);
 
   // This will make sure that the game only load after the first construction of the component
   useEffect(() => {
-    setLoad(true);
+    if (loading) return;
+
+    // Resuming the tick count
     tick.start();
 
     // Stopping the game music if it is playing
@@ -49,7 +70,7 @@ function MapScreen() {
     return () => {
       tick.stop();  // tick stops when the game exit the map component
     }
-  }, []);
+  }, [loading]);
 
   function getPath(selfL, nextL) {
     const bottomPath = pathsUrl[selfL - 1];
@@ -84,7 +105,7 @@ function MapScreen() {
     return types;
   };
 
-  if (!load) return;
+  if (loading) return <Loading />
   return (
     <main id={styles.mapScreen}>
       {/* TOP SECTION */}

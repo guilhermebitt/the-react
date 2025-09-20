@@ -2,6 +2,9 @@ export function getEntitiesAssets(entities) {
   let entitiesAssets = [];
   let checkedEntities = [];
 
+  // Checking if there is any entity
+  if (!entities) {console.warn('⚠️ The getEntitiesAssets function did not receive any entities.'); return};
+
   entities.forEach(entity => {
     // This will guarantee that the code won't pass the same entity
     if (checkedEntities.includes(entity?.name)) return;
@@ -24,4 +27,28 @@ export function getEntitiesAssets(entities) {
   });
 
   return entitiesAssets;
+}
+
+export function getMapAssets(mapData) {
+  // Clouds load was default
+  let mapAssets = [
+    "assets/map_sections/clouds/cloud_1.png",
+    "assets/map_sections/clouds/cloud_2.png",
+    "assets/map_sections/clouds/cloud_3.png",
+    "assets/map_sections/clouds/cloud_full.png"
+  ];
+  let checkedMaps = [];
+
+  mapData.forEach(section => {
+    // This will guarantee that the code won't pass the same map url
+    if (checkedMaps.includes(section?.url)) return;
+
+    // Adding the map to the list of checked maps
+    checkedMaps.push(section?.url);
+
+    // Executing the rest of the code
+    mapAssets.push(section?.url);
+  });
+
+  return mapAssets;
 }

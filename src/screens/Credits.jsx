@@ -85,7 +85,7 @@ function Credits() {
         {/* Guilherme Bittencourt */}
         <div className={styles['credits']}>
           <h3>Vinícius Duarte</h3>
-          <h3>Emmanuel Resende</h3>
+          <h3>Emanuel Resende</h3>
           <h3>Matheus Dutra</h3>
           <h3>Gustavo Henrique</h3>
           <h3>Bernardo Pinheiro</h3>

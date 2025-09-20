@@ -31,12 +31,11 @@ chore: tarefas de manutenção, dependências, configs, etc.
 
 // Data
 import enemiesJson from '../data/enemies.json' with { type: 'json' };
-import gameData from '../data/game.json' with { type: 'json' };
 
 // Dependencies
 import { useEffect, useState } from 'react';
-import { useLocalStorage } from 'usehooks-ts';
 import * as funcs from '../utils/functions.js';
+import { getEntitiesAssets } from '../utils/loadAssets.js';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 
 // Components
@@ -44,7 +43,6 @@ import MapContainer from '../components/game/MapContainer.jsx';
 import SectionButtons from '../components/common/SectionButtons.jsx';
 import Header from '../components/game/Header.jsx';
 import PlayerHUD from '../components/ui/PlayerHUD.jsx';
-import ConfirmDialog from '../components/common/ConfirmDialog.jsx';
 import Loading from '../components/common/Loading.jsx';
 import ActionSection from '../components/sections/ActionSection.jsx';
 import InventorySection from '../components/sections/InventorySection.jsx';
@@ -53,15 +51,25 @@ import VictoryModal from '../components/ui/VictoryModal.jsx';
 
 // Hooks
 import { useGame } from '../hooks/useGame.js';
+import { useLoading } from '../hooks/useLoading.js';
 
 // Stylesheet
 import styles from'./BattleEvent.module.css';
 
-
+// hudAssets
+const hudAssets = [
+  "assets/hud/coin.png",
+  "assets/hud/heart.png",
+  "assets/hud/shield.png",
+  "assets/hud/sword.png",
+  "assets/hud/stamina.png",
+  "assets/images/star-solid-full.svg"
+];
 
 function BattleEvent() {
   // React Hooks
   const { tick, audios, player, enemies, game } = useGame();
+  const { loading, loadAssets } = useLoading();
   const navigate = useNavigate();
   const location = useLocation();
   const [confirmDialog, setConfirmDialog] = useState({
@@ -73,11 +81,25 @@ function BattleEvent() {
   const [enemiesAlive, setEnemiesAlive] = useState(null);
   const [finishedEvent, setFinishedEvent] = useState(false);
 
-  // Setting the localStorage
-  const [loading, setLoading] = useLocalStorage('loading', true);
-
   // Initializing funcs
   funcs.init(game);
+
+  // LOADING
+  useEffect(() => {
+    // Getting the entities assets
+    const entitiesToLoad = game.get()?.eventData?.event?.enemiesToSpawn
+      .map(enemy => {
+        return createEntityObj(enemy?.name, enemy?.level);
+    });
+    entitiesToLoad?.push(player?.get());
+    const entitiesAssets = getEntitiesAssets(entitiesToLoad) ?? [];
+
+    // Pushing all assets to an array
+    const assets = [...entitiesAssets, ...hudAssets];
+
+    // Loading assets
+    loadAssets(assets);
+  }, []);
 
   // On event **FIRST LOAD** only
   useEffect(() => {
@@ -133,7 +155,6 @@ function BattleEvent() {
     })
 
     return () => {
-      setLoading(true);
       tick.stop();  // tick stops when the game exit the battle component
       audios.get("gameMusic")?.pause();
     };
@@ -188,30 +209,7 @@ function BattleEvent() {
 
   
   // --- MAIN FUNCTIONS ---
-  function findEventPath(id) {
-    // This function return the path to the event passed by the ID
-    for (let i = 0; i < game.get()?.mapData.length; i++) {
-      const section = game.get()?.mapData[i];
-      for (let j = 0; j < section?.events?.length; j++) {
-        const event = section?.events[j];
-        if (event?.eventId === id) {
-          return `mapData.${i}.events.${j}`;
-        }
-      }
-    }
-    return null;
-  }
-
-  function confirmScreen(onConfirm, onCancel, msg='Are you sure?') {
-    setConfirmDialog({
-      visible: true,
-      message: msg,
-      onConfirm: onConfirm || (() => {}),
-      onCancel: onCancel || (() => setConfirmDialog(prev => ({ ...prev, visible: false }))),
-    });
-  }
-
-  function createEntityObj(name, level) {
+  function createEntityObj(name, level=1) {
     const entity = new Object({
       ...enemiesJson['commonProperties'],
       ...enemiesJson[name],
@@ -234,26 +232,11 @@ function BattleEvent() {
   }
 
   // -- RETURNING THE GAME ---
-  if (loading) return <Loading enemies={enemies.get()} player={player.get()} mapSrc={funcs.getCurrentMap().src}/>
+  if (loading) return <Loading />
   return (
     <main id={styles['game']}>
       {/* VictoryModal */}
-
       {finishedEvent && <VictoryModal />}
-
-      {/* CONFIRM DIALOG */}
-     <ConfirmDialog 
-        visible={confirmDialog.visible}
-        message={confirmDialog.message}
-        onConfirm={() => {
-          confirmDialog.onConfirm?.();
-          setConfirmDialog(prev => {return{...prev, visible: false}});
-        }}
-        onCancel={() => {
-          confirmDialog.onCancel?.();
-          setConfirmDialog(prev => {return{...prev, visible: false}});
-        }}
-      />
 
       {/* TOP SECTION */}
       <section className={`${styles['x-section']} ${styles['top']}`}>
