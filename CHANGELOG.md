@@ -1,3 +1,10 @@
+# [1.0.0-beta.32](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.31...v1.0.0-beta.32) (2025-09-20)
+
+
+### Features
+
+* **audio options and more:** I added somethings to the game, but it may be instable ([6c0b032](https://github.com/guilhermebitt/the-react/commit/6c0b0329a0578e464e997367fb8eb81e2bbd58cc))
+
 # [1.0.0-beta.31](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.30...v1.0.0-beta.31) (2025-09-20)
 
 
