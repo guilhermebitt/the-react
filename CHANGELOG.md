@@ -1,3 +1,18 @@
+# [1.0.0-beta.31](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.30...v1.0.0-beta.31) (2025-09-20)
+
+
+### Bug Fixes
+
+* **hr:** hr ([5b92641](https://github.com/guilhermebitt/the-react/commit/5b92641cfd83317be36dc625db748fb4604a6bf5))
+
+
+### Features
+
+* **animations:** cloud animations and more badges ([0068f70](https://github.com/guilhermebitt/the-react/commit/0068f7029477462e5850cf058c4daa4c2a99b2d2))
+* **map screen:** New screen to navigate through the mapgit add .! ([57cbf53](https://github.com/guilhermebitt/the-react/commit/57cbf5306fcf40c98e72f92caa9afeebfdc01829))
+* **map system:** the map is now 50% done ([60aac52](https://github.com/guilhermebitt/the-react/commit/60aac5292d3223acd0b295699f3e3f228568c0df))
+* **terminal log:** added a log with the last 200 messages and fixed the audio os the points at the death screen and victory component ([f649b58](https://github.com/guilhermebitt/the-react/commit/f649b58685e90d868384e9b1104fb69e07bf9b2b))
+
 # [1.0.0-beta.30](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.29...v1.0.0-beta.30) (2025-09-13)
 
 
