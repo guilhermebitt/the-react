@@ -20,7 +20,13 @@ function MapSection({ background, paths, badges, index }) {
   useEffect(() => {
     const currentMS = game.get().currentMapSection;
 
-    window.location.hash = game.get().currentMapSection;
+    // For some reason this need to be here and not in the MapScreen.jsx
+    window.location.hash = currentMS;
+    if (currentMS < game.get().mapData.length) {
+      window.location.hash = currentMS;
+    } else {
+      window.location.hash = game.get().mapData.length - 1;
+    }
 
     if (index <= currentMS) {
       setCloud("none");

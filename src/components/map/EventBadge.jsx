@@ -13,6 +13,7 @@ var badgesUrl = [
   '/assets/map_sections/events_badges/battle_badge.png',
   '/assets/map_sections/events_badges/shop_badge.png',
   '/assets/map_sections/events_badges/unknown_badge.png',
+  '/assets/map_sections/events_badges/boss_badge.png'
 ];
 
 function EventBadge({ badge }) {
@@ -35,6 +36,9 @@ function EventBadge({ badge }) {
           break;
         case 'unknown':
           setBadgeUrl(badgesUrl[2]);
+          break;
+        case 'boss_battle':
+          setBadgeUrl(badgesUrl[3]);
           break;
         default:
           console.warn('⚠️ Type of event does not exist: ', badge?.type);
