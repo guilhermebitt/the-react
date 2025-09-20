@@ -1,8 +1,8 @@
 {
   "muted": false,
+  "volume": 1,
   "sfxVolume": 1,
   "musicVolume": 0.5,
-  "volume": 1,
   "lastScreen": "menu",
   "showLog": false
 }

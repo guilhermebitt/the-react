@@ -72,12 +72,6 @@ function BattleEvent() {
   const { loading, loadAssets } = useLoading();
   const navigate = useNavigate();
   const location = useLocation();
-  const [confirmDialog, setConfirmDialog] = useState({
-    visible: false,
-    message: 'Are you sure?',
-    onConfirm: null,
-    onCancel: null
-  });
   const [enemiesAlive, setEnemiesAlive] = useState(null);
   const [finishedEvent, setFinishedEvent] = useState(false);
 

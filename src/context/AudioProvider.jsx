@@ -2,7 +2,7 @@
 import settingsJson from '../data/settings.json' with { type: 'json' };
 
 // Dependencies
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
 import { useLocalStorage } from 'usehooks-ts';
 
 const AudioContext = createContext(); // Creating an audio context
@@ -13,6 +13,22 @@ export function AudioProvider({ children }) {
 
   // getting settings from localStorage
   const [settings] = useLocalStorage('settings', settingsJson);
+
+  useEffect(() => {
+    Object.values(audios).forEach(audio => {
+      if (!audio?.type) return;
+
+      // Applying the new sound settings
+      switch(audio?.type) {
+        case 'music':
+          audio.volume = settings?.musicVolume * settings?.volume ?? 1;
+          break;
+        case 'sfx':
+          audio.volume = settings?.sfxVolume * settings?.volume ?? 1;
+          break;
+      }
+    })
+  }, [settings.volume, settings.musicVolume, settings.sfxVolume]);
 
   const create = ({
     // Parameters
@@ -35,6 +51,7 @@ export function AudioProvider({ children }) {
     const audio = new Audio(src);
     audio.loop = loop;
     audio.muted = muted;
+    audio.type = type;
 
     // ADDING CUSTOM METHODS TO AUDIO OBJECT
     // verifies if the audio is playing
@@ -60,10 +77,10 @@ export function AudioProvider({ children }) {
     // Applying initial sound settings
     switch(type) {
       case 'music':
-        audio.volume = settings.musicVolume ?? 1;
+        audio.volume = settings?.musicVolume * settings?.volume ?? 1;
         break;
       case 'sfx':
-        audio.volume = settings.sfxVolume ?? 1;
+        audio.volume = settings?.sfxVolume * settings?.volume ?? 1;
         break;
     }
 

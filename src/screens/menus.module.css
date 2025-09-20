@@ -87,3 +87,44 @@ button.clear {
   position: absolute;
   bottom: 2rem;
 }
+
+.sliderOption {
+  display: flex;
+  width: 300px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.slider {
+  appearance: none;
+  width: 150px;
+  height: 10px; /* Specified height */
+  outline: none; /* Remove outline */
+  border-radius: 5px;
+}
+
+.slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 15px; /* Set a specific slider handle width */
+  height: 15px; /* Slider handle height */
+  border-radius: 50%;
+  background: aqua; /* Green background */
+  cursor: pointer; /* Cursor on hover */
+
+  filter: drop-shadow(2px 2px rgba(0, 0, 0, 0.415))
+}
+
+.slider::-moz-range-thumb {
+  width: 15px; /* Set a specific slider handle width */
+  height: 15px; /* Slider handle height */
+  border-radius: 50%;
+  background: aqua; /* Green background */
+  cursor: pointer; /* Cursor on hover */
+}
+
+.slider::-moz-range-track {
+  height: 10px;
+  border-radius: 5px;
+  background: #ccc;
+}
