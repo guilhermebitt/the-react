@@ -201,18 +201,33 @@ function BattleEvent() {
     if (enemiesAlive === 0 && enemies.get().length > 0) setFinishedEvent(true);
   }, [enemies.get()]);
 
-  
   // --- MAIN FUNCTIONS ---
-  function createEntityObj(name, level=1) {
-    // UPDATE FROM LEVEL HERE!
+  function createEntityObj(name, level = 1) {
+    // Getting the base stats values
+    const BASE_HEALTH = enemiesJson[name]['stats']['health'];
+    const BASE_ATTACK = enemiesJson[name]['stats']['attack'];
+    const BASE_DEFENSE = enemiesJson[name]['stats']['defense'];
+    const GROWTH_RATE = 1.5;
+    
     const entity = new Object({
       ...enemiesJson['commonProperties'],
       ...enemiesJson[name],
+      "level": level,
       "animations": {
         ...enemiesJson[name]['animations'],
         ...enemiesJson['deathAnimation']
       },
-      "level": level
+      "stats": {
+        ...enemiesJson[name]['stats'],
+        // Stat = default * const(1.5) * level - 1 
+        // Exemple:
+        // snake lv 1 => health = 8
+        // snake lv 2 => health = 12
+        "maxHealth":  Math.floor(BASE_HEALTH * (1 + (level - 1) * (GROWTH_RATE - 1))),
+        "health":     Math.floor(BASE_HEALTH * (1 + (level - 1) * (GROWTH_RATE - 1))),
+        "attack":     Math.floor(BASE_ATTACK * (1 + (level - 1) * (GROWTH_RATE - 1))),
+        "defense":    Math.floor(BASE_DEFENSE * (1 + (level - 1) * (GROWTH_RATE - 1))),
+      }
     });
     
     return entity;

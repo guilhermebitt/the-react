@@ -1,4 +1,5 @@
 import { immerable } from 'immer';
+import playerJson from '../data/player.json';
 
 // --------- ENTITIES ---------
 export class Entity {
@@ -73,7 +74,11 @@ export class Entity {
     }
 
     // Reducing the enemy's life
-    const { dmgRed, realDmg } = target.takeDamage(dmg);
+    const { dmgRed, realDmg, isDead } = target.takeDamage(dmg);
+
+    // If the attacker is the player, generates the target loot if it died
+    if (isDead && this.entityType === 'player') target?.generateLoot(this)
+
     if (target.stats.health === 0) {
       this.update({ kills: (this.kills || 0) + 1 });
     }
@@ -91,7 +96,7 @@ export class Entity {
     const animationFrames = anim.frames;
     const timeToWait = anim.duration * animationFrames.length;
 
-    return { attackMsg, dmg, timeToWait };
+    return { attackMsg, dmg, timeToWait, isDead };
   }
 
   getAttackMessage(realDmg, crit) {
@@ -141,9 +146,11 @@ export class Entity {
       'stats.health': Math.max(0, (this.stats.health || 0) - realDmg),
     });
 
+    const isDead = this.stats.health - realDmg <= 0;
+
     this.update({ dmgTaken: realDmg });
 
-    return { dmgRed, realDmg };
+    return { dmgRed, realDmg, isDead };
   }
 
   // Verify if its dead
@@ -156,8 +163,51 @@ export class Entity {
 export class Player extends Entity {
   constructor(entity) {
     super(entity);
+  }
 
-    
+  // Function that levels up the player
+  levelUp(level) {
+    console.log(level)
+
+    // Getting the base stats values
+    const BASE_HEALTH = playerJson['stats']['health'];
+    const BASE_ATTACK = playerJson['stats']['attack'];
+    const BASE_DEFENSE = playerJson['stats']['defense'];
+    const GROWTH_RATE = 1.5;
+
+    console.log(BASE_HEALTH);
+
+    // Setting up the next player stats
+    const newHealth = Math.floor((BASE_HEALTH * (1 + (level - 1) * (GROWTH_RATE - 1))) - this.stats.maxHealth)
+    const newAttack = Math.floor((BASE_ATTACK * (1 + (level - 1) * (GROWTH_RATE - 1))) - this.stats.attack)
+    const newDefense = Math.floor((BASE_DEFENSE * (1 + (level - 1) * (GROWTH_RATE - 1))) - this.stats.defense)
+
+    // Updating player stats
+    this.update({ "stats.maxHealth": prev => prev + newHealth })
+    this.update({ "stats.health": prev => prev + newHealth })
+    this.update({ "stats.attack": prev => prev + newAttack })
+    this.update({ "stats.defense": prev => prev + newDefense })
+  }
+
+  // Functions that verify if the player can levelUp
+  tryLevelUp() {
+    // Verifies if the player has sufficient experience to levelup
+    if (this.xp >= this.getNextLvXP()) {
+      const newLevel = this.level + 1
+
+      this.update({ level: newLevel });
+      this.levelUp(newLevel);
+      return newLevel;
+    }
+  }
+
+  // Calculates the experience needed to levelup
+  getNextLvXP() {
+    const BASE_XP = 10;
+    const GROWTH = 1.2;
+    // Square formula to get the next level needed experience
+    //return Math.floor(BASE_XP * (this.level + 1) ** 2 * SCALE - BASE_XP * this.level);
+    return Math.floor(BASE_XP * Math.pow(this.level, GROWTH));
   }
 
   // Generating player attack message
@@ -188,6 +238,16 @@ export class Enemy extends Entity {
     }
 
     return turn;
+  }
+
+  generateLoot(player) {
+    const minXP = this.loot.xp[0];
+    const maxXP = this.loot.xp[1];
+    const experience = this.random(maxXP, minXP);
+
+    player.update({ xp: prev => prev + experience })
+
+    return experience;
   }
 }
 

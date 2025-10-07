@@ -3,6 +3,7 @@
   "entityType": "player",
   "name": "Hero",
   "level": 1,
+  "xp": 0,
   "img": "/assets/entities/player/hero0.png",
   "currentAnim": "standBy",
   "animations": {
