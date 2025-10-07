@@ -1,27 +1,32 @@
-import { immerable } from "immer";
+import { immerable } from 'immer';
 
 // --------- ENTITIES ---------
 export class Entity {
   [immerable] = true;
 
   constructor(data) {
-    const { update, ...rest } = data; // deconstruct the data to get the update function
-    Object.assign(this, structuredClone(rest)); // clone the rest of the data, but maintain the update
+    // deconstruct the data to get the update function
+    const { update, ...rest } = data;
+
+    // Add the update function separately
     if (update) this.update = update; // adds the function after the clone
+
+    // Add the rest to the instance
+    Object.assign(this, rest);
   }
 
   // Returns an pure object from the entity
   toJSON() {
     return Object.fromEntries(
-      Object.entries(this).filter(([key, value]) => typeof value !== "function")
+      Object.entries(this).filter(([key, value]) => typeof value !== 'function')
     );
   }
-  
+
   // Generates a random number
   random(max, min = 0) {
     const array = new Uint32Array(1);
     crypto.getRandomValues(array);
-    return min + (array[0] % ((max + 1) - min));
+    return min + (array[0] % (max + 1 - min));
   }
 
   handleTurn() {
@@ -38,14 +43,18 @@ export class Entity {
   // Attack to entity
   attack(target) {
     // Executing animation
-    if (this.animations.atk) this.update({ currentAnim: "atk" });
+    if (this.animations.atk) this.update({ currentAnim: 'atk' });
 
     // Rest of the action
     if (this.random(100) > this.hitChance(target)) {
       // Entity Missed
-      target.update({ dmgTaken: "Missed", dmgWasCrit: false });
-      return { attackMsg: "The attack missed.", dmg: "Missed", timeToWait: 1000 };
-    };
+      target.update({ dmgTaken: 'Missed', dmgWasCrit: false });
+      return {
+        attackMsg: 'The attack missed.',
+        dmg: 'Missed',
+        timeToWait: 1000,
+      };
+    }
 
     // Entity Hit
     let dmg = 0;
@@ -54,39 +63,42 @@ export class Entity {
     const strength = this.stats.strength;
 
     // Crit
-    (this.random(100) > this.stats.critChance) ?
-      crit = 1 :
-      crit = this.stats.crit;
+    this.random(100) > this.stats.critChance
+      ? (crit = 1)
+      : (crit = this.stats.crit);
 
     // Generating damage
-    for (let i = 0; i < (strength * crit); i++) {
+    for (let i = 0; i < strength * crit; i++) {
       dmg += this.random(attack, 1); // 1 -> attack
     }
 
     // Reducing the enemy's life
     const { dmgRed, realDmg } = target.takeDamage(dmg);
     if (target.stats.health === 0) {
-      this.update({ kills: (this.kills || 0) + 1 })
+      this.update({ kills: (this.kills || 0) + 1 });
     }
 
     // Generating final message
     const attackMsg = this.getAttackMessage(realDmg, crit, dmg, dmgRed);
 
     // Telling the target that the damage was crit
-    crit > 1 ? target.update({ dmgWasCrit: true }) : target.update({ dmgWasCrit: false });
+    crit > 1
+      ? target.update({ dmgWasCrit: true })
+      : target.update({ dmgWasCrit: false });
 
     // Calculating the time of the action
     const anim = this.animations['atk'];
     const animationFrames = anim.frames;
-    const timeToWait = (anim.duration * animationFrames.length);
+    const timeToWait = anim.duration * animationFrames.length;
 
     return { attackMsg, dmg, timeToWait };
   }
 
   getAttackMessage(realDmg, crit) {
-    let msg = crit === 1
-      ? `The attack hit, dealing ${realDmg} points of damage.`
-      : `Critical hit! The attack deals ${realDmg} points of damage!`;
+    let msg =
+      crit === 1
+        ? `The attack hit, dealing ${realDmg} points of damage.`
+        : `Critical hit! The attack deals ${realDmg} points of damage!`;
     return msg;
   }
 
@@ -108,14 +120,26 @@ export class Entity {
   takeDamage(amount) {
     // The max damage that can be reduced is half of the damage
     // The '-0.01' is used to guarantee that, if the number is 2.5, the round will round it to the number below (e.g. round(2.5) = 2)
-    const dmgRed = Math.min(this.calcDamageReduction(), Math.round((amount / 2) - 0.01));
-    const realDmg = Math.max(1, (amount - dmgRed)); // The min damage that will be done if the attacker hits, is 1
+    const dmgRed = Math.min(
+      this.calcDamageReduction(),
+      Math.round(amount / 2 - 0.01)
+    );
+    const realDmg = Math.max(1, amount - dmgRed); // The min damage that will be done if the attacker hits, is 1
 
     // Debugging
-    console.log('Damage: ', amount, 'Reduction: ', dmgRed, 'Real Damage', realDmg);
+    console.log(
+      'Damage: ',
+      amount,
+      'Reduction: ',
+      dmgRed,
+      'Real Damage',
+      realDmg
+    );
 
     // Reduce the health, never below 0
-    this.update({ "stats.health": Math.max(0, (this.stats.health || 0) - realDmg) })
+    this.update({
+      'stats.health': Math.max(0, (this.stats.health || 0) - realDmg),
+    });
 
     this.update({ dmgTaken: realDmg });
 
@@ -132,13 +156,16 @@ export class Entity {
 export class Player extends Entity {
   constructor(entity) {
     super(entity);
+
+    
   }
 
   // Generating player attack message
   getAttackMessage(realDmg, crit) {
-    let msg = crit === 1
-      ? `You landed a hit, dealing ${realDmg} points of damage.`
-      : `You landed a critical hit! dealing ${realDmg} points of damage!`;
+    let msg =
+      crit === 1
+        ? `You landed a hit, dealing ${realDmg} points of damage.`
+        : `You landed a critical hit! dealing ${realDmg} points of damage!`;
     return msg;
   }
 }
@@ -150,20 +177,19 @@ export class Enemy extends Entity {
   }
 
   handleTurn(target) {
-    const chance = this.random(100) // generates a number between 0 and 100
+    const chance = this.random(100); // generates a number between 0 and 100
     let turn = {};
 
-    if (chance >= 0) { // 100% Attack
+    if (chance >= 0) {
+      // 100% Attack
       turn.action = this.attack(target);
       turn.msg = 'The enemy tries to attack you';
-      turn.actionType = 'atk'
+      turn.actionType = 'atk';
     }
 
     return turn;
   }
 }
-// ----------------------------
-
 
 // --------- ENEMIES ---------
 // --- GOBLIN ---
@@ -179,4 +205,3 @@ export class Snake extends Enemy {
     super(entity);
   }
 }
-// ---------------------------

@@ -12,24 +12,16 @@ import { faTrash, faPlay } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import * as funcs from '../../utils/functions.js';
 
-// Hooks
+// Custom Hooks
 import { useGame } from '../../hooks/useGame.js';
 import { useSaveManager } from '../../hooks/useSaveManager';
-
-// Components
-import ConfirmDialog from '../common/ConfirmDialog';
+import { useConfirmDialog } from '../../hooks/useConfirmDialog.jsx';
 
 // Stylesheets
 import styles from './SaveGame.module.css';
 
-
 function SaveGame({ saveId }) {
-  const [confirmDialog, setConfirmDialog] = useState({
-    visible: false,
-    message: 'Are you sure?',
-    onConfirm: null,
-    onCancel: null
-  });
+  const [CDComponent, confirm] = useConfirmDialog();
   const [saves, setSaves] = useLocalStorage('saves', savesData)
   const [load, setLoad] = useState(false);
   const navigate = useNavigate();
@@ -42,15 +34,6 @@ function SaveGame({ saveId }) {
 
     navigate(game.get()?.eventData?.path);
   }, [load])
-
-  function confirmScreen(onConfirm, onCancel, msg='Are you sure?') {
-    setConfirmDialog({
-      visible: true,
-      message: msg,
-      onConfirm: onConfirm || (() => {}),
-      onCancel: onCancel || (() => setConfirmDialog(prev => ({ ...prev, visible: false }))),
-    });
-  }
 
   function getMap(game) {
     return maps[game.currentMap];
@@ -82,6 +65,13 @@ function SaveGame({ saveId }) {
     loadGame();
   }
 
+  async function handleDelete() {
+    const result = await confirm("Do you REALLY want to delete?");
+    if (result) {
+      deleteSave();
+    }
+  }
+
   function getTime() {
     const savedState = saves[saveId]
     return funcs.tickToTime(savedState.tick, game.get().tickSpeed)
@@ -89,18 +79,7 @@ function SaveGame({ saveId }) {
 
   return (
     <>
-      <ConfirmDialog 
-        visible={confirmDialog.visible}
-        message={confirmDialog.message}
-        onConfirm={() => {
-          confirmDialog.onConfirm?.();
-          setConfirmDialog(prev => ({...prev, visible: false}));
-        }}
-        onCancel={() => {
-          confirmDialog.onCancel?.();
-          setConfirmDialog(prev => ({...prev, visible: false}));
-        }}
-      />
+      {CDComponent}
       <section className={styles.saveGameContainer}>
         {
           saves[saveId]?.game ?
@@ -114,7 +93,7 @@ function SaveGame({ saveId }) {
               </div>
             </div>
             <div className={styles.actions}>
-              <button onClick={() => confirmScreen(deleteSave, null, "Do you REALLY want to delete?")}><FontAwesomeIcon icon={faTrash}/></button>
+              <button onClick={handleDelete}><FontAwesomeIcon icon={faTrash}/></button>
               <button onClick={handleStartGame}><FontAwesomeIcon icon={faPlay}/></button>
             </div>
           </div> :

@@ -4,8 +4,6 @@ import { useState } from 'react';
 // Stylesheet
 import styles from './ConfirmDialog.module.css';
 
-
-
 function ConfirmDialog({ visible, message, onConfirm, onCancel }) {
   const [animated, setAnimated] = useState(false);
 

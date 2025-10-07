@@ -204,6 +204,7 @@ function BattleEvent() {
   
   // --- MAIN FUNCTIONS ---
   function createEntityObj(name, level=1) {
+    // UPDATE FROM LEVEL HERE!
     const entity = new Object({
       ...enemiesJson['commonProperties'],
       ...enemiesJson[name],

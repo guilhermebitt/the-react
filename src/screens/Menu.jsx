@@ -16,7 +16,6 @@ import { useGame } from '../hooks/useGame.js';
 // Stylesheet
 import styles from './menus.module.css';
 
-
 function Menu() {
   const [settings, setSettings] = useLocalStorage('settings', settingsData);
   const { audios } = useGame();

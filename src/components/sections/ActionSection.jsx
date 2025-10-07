@@ -46,7 +46,7 @@ function ActionSection() {
     // ------------------
 
     funcs.phrase(attackMsg);  // showing the result of the attack
-    player.update({ actionsLeft: p => p.actionsLeft - 1 })
+    player.update({ actionsLeft: prev => prev - 1 })
   }
 
   function confirmScreen(onConfirm, onCancel, msg='Are you sure?') {
