@@ -5,26 +5,30 @@ import gameData from '../data/game.json' with { type: 'json' }
 import { createContext, useContext, useState } from "react";
 import { createUpdater } from "../utils/stateUpdater.js";
 
-
+// Creates the game context
 const GameContext = createContext();
 
+// Function to the game provider
 export function GameProvider({ children }) {
-  const [game, setGame] = useState(gameData)
+  const [game, setGame] = useState(gameData);
 
+  // OBJECT DATA FUNCTIONS
   // Get the game object
   const get = () => game;
 
   // Update function
   const update = createUpdater(setGame);
 
+  // Resets the game data
+  const reset = () => setGame(gameData);
+
   // Loads the data from save to the game context
   const loadSave = (gameData) => {
     setGame(gameData);
   };
 
-  // Resets the game data
-  const reset = () => setGame(gameData);
-
+  // GAME LOGIC FUNCTIONS
+  // Finishes the event
   const finishEvent = () => {
     const event = game?.eventData?.event;
     const pathToEvent = findEventPath(event?.eventId);
@@ -54,6 +58,7 @@ export function GameProvider({ children }) {
     update({ currentMapSection: nextSectionId });
   };
 
+  // Gets the event by the ID
   const getEventById = (id) => {
     // This function return the event by its ID
     for (const data of game?.mapData) {
@@ -63,6 +68,7 @@ export function GameProvider({ children }) {
     return null;
   };
 
+  // Gets the event by the path
   const findEventPath = (id) => {
     // This function return the path to the event passed by the ID
     for (let i = 0; i < game?.mapData.length; i++) {
@@ -77,8 +83,18 @@ export function GameProvider({ children }) {
     return null;
   };
 
+  // Functions to export
+  const values = {
+    get,
+    update,
+    reset,
+    loadSave,
+    finishEvent,
+    findEventPath,
+  }
+
   return (
-    <GameContext.Provider value={{ get, update, loadSave, reset, finishEvent, findEventPath }}>
+    <GameContext.Provider value={values}>
       {children}
     </GameContext.Provider>
   );

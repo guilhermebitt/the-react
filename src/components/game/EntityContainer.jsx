@@ -28,9 +28,26 @@ function EntityContainer({ entity }) {
   const [damageNumbers, setDamageNumbers] = useState([]);
   const [turnEnded, setTurnEnded] = useState(false);
   const [hit, setHit] = useState(false);
+  const [leveling, setLeveling] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   // Initializing funcs
   funcs.init(game);
+
+  // Main useEffect. Executes only in the construction
+  useEffect(() => {
+    setLoading(false);
+  }, []);
+
+  // Sets the entity to levelup
+  useEffect(() => {
+    if (loading) return;
+
+    if (!audios?.get('levelUp')?.isPlaying()) audios?.get('levelUp')?.play();
+
+    setLeveling(true);
+    setTimeout(() => setLeveling(false), 1500); // Animation duration
+  }, [player.get().level]);
 
   // Code for enemies turn
   useEffect(() => {
@@ -270,7 +287,9 @@ function EntityContainer({ entity }) {
           src={frame}
           alt="entity image"
           onClick={selectTarget}
-          className={hit ? styles.hit : ''}
+          className={`${hit && styles.hit} ${
+            leveling && entity?.entityType === 'player' && styles.levelingUp
+          }`}
         />
 
         {/* Extra div (those ones are displayed as "none" by default) */}

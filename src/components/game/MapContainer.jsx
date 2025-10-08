@@ -1,5 +1,6 @@
 // Components
 import EntityContainer from './EntityContainer.jsx';
+import Entity from './Entity.jsx';
 import ComponentBorder from '../ui/ComponentBorder';
 
 // Hooks

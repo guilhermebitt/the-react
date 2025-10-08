@@ -167,33 +167,29 @@ export class Player extends Entity {
 
   // Function that levels up the player
   levelUp(level) {
-    console.log(level)
-
     // Getting the base stats values
     const BASE_HEALTH = playerJson['stats']['health'];
     const BASE_ATTACK = playerJson['stats']['attack'];
     const BASE_DEFENSE = playerJson['stats']['defense'];
     const GROWTH_RATE = 1.5;
 
-    console.log(BASE_HEALTH);
-
     // Setting up the next player stats
-    const newHealth = Math.floor((BASE_HEALTH * (1 + (level - 1) * (GROWTH_RATE - 1))) - this.stats.maxHealth)
-    const newAttack = Math.floor((BASE_ATTACK * (1 + (level - 1) * (GROWTH_RATE - 1))) - this.stats.attack)
-    const newDefense = Math.floor((BASE_DEFENSE * (1 + (level - 1) * (GROWTH_RATE - 1))) - this.stats.defense)
+    const newHealth = Math.floor((BASE_HEALTH * (1 + (level - 1) * (GROWTH_RATE - 1))) - this.stats.maxHealth);
+    const newAttack = Math.floor((BASE_ATTACK * (1 + (level - 1) * (GROWTH_RATE - 1))) - this.stats.attack);
+    const newDefense = Math.floor((BASE_DEFENSE * (1 + (level - 1) * (GROWTH_RATE - 1))) - this.stats.defense);
 
     // Updating player stats
-    this.update({ "stats.maxHealth": prev => prev + newHealth })
-    this.update({ "stats.health": prev => prev + newHealth })
-    this.update({ "stats.attack": prev => prev + newAttack })
-    this.update({ "stats.defense": prev => prev + newDefense })
+    this.update({ "stats.maxHealth": prev => prev + newHealth });
+    this.update({ "stats.health": prev => prev + newHealth });
+    this.update({ "stats.attack": prev => prev + newAttack });
+    this.update({ "stats.defense": prev => prev + newDefense });
   }
 
   // Functions that verify if the player can levelUp
   tryLevelUp() {
     // Verifies if the player has sufficient experience to levelup
     if (this.xp >= this.getNextLvXP()) {
-      const newLevel = this.level + 1
+      const newLevel = this.level + 1;
 
       this.update({ level: newLevel });
       this.levelUp(newLevel);

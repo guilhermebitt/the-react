@@ -140,6 +140,7 @@ function BattleEvent() {
     audios.create({ name: "deathMusic", src: "/assets/sounds/musics/you_died.ogg", type: 'music' });
     audios.create({ name: "hitSound", src: "/assets/sounds/misc/hit_sound.ogg" });
     audios.create({ name: 'pointSound', src: '/assets/sounds/misc/point.ogg' });
+    audios.create({ name: 'levelUp', src: '/assets/sounds/misc/level_up.ogg' });
     
     // Changing the animations tickSpeed to fit with the game tick
     player.update({ "animations.standBy.duration": game.get().tickSpeed })

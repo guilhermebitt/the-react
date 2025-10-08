@@ -79,7 +79,7 @@ function ActionSection() {
       <ActionButtons
         attack={() => game.get().currentTurn === 'player' && doAttack()}
         changeAnim={null}
-        sendMsg={() => funcs.phrase('Hi!')}
+        sendMsg={null}
         endTurn={() =>
           game.get().currentTurn === 'player' &&
           confirmScreen(() => {
