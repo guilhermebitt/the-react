@@ -1,7 +1,7 @@
 {
   "wildForest": {
     "name": "Wild Forest",
-    "appearChance": 50,
+    "appearChance": 100,
     "src": "/assets/scenarios/wild_forest.jpg",
     "section": "/assets/map_sections/wild_forest_section.png",
     "enemies": {

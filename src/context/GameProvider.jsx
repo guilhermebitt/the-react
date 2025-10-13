@@ -230,8 +230,6 @@ export function GameProvider({ children }) {
         mapData.push(section);
       }
 
-      console.log(mapData)
-
       // Generating the boss section
     }
   };

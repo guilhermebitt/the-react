@@ -32,8 +32,6 @@ export const useSaveManager = (saveId) => {
       if (!savedState) {
         savedState = saves[saveId];
       }
-      
-      console.log(savedState);
 
       if (!savedState) {
         return;
