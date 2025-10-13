@@ -1,7 +1,24 @@
 {
   "wildForest": {
     "name": "Wild Forest",
+    "appearChance": 50,
     "src": "/assets/scenarios/wild_forest.jpg",
-    "section": "/assets/map_sections/wild_forest_section.png"
+    "section": "/assets/map_sections/wild_forest_section.png",
+    "enemies": {
+      "snake": {
+        "defaultChance": 90
+      },
+      "venomousSnake": {
+        "defaultChance": 10
+      }
+    },
+    "bosses": { 
+      "anaconda": {
+        "defaultChance": 50
+      },
+      "kingSlime": {
+        "defaultChance": 50
+      }
+    }
   }
 }

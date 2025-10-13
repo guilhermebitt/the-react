@@ -1,0 +1,14 @@
+{
+  "battle": {
+    "appearChance": 100,
+    "type": "battle",
+    "path": "/battle",
+    "isFinished": false
+  },
+  "bossBattle": {
+    "appearChance": 100,
+    "type": "bossBattle",
+    "path": "/battle",
+    "isFinished": false
+  }
+}

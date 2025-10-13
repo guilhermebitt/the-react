@@ -5,7 +5,7 @@
   "tickSpeed": 500,
   "currentSave": null,
   "currentTurn": "player",
-  "currentMap": "wildForest",
+  "currentMap": null,
   "currentMapSection": 0,
   "currentPath": null,
   "currentMusic": ["/assets/sounds/musics/the_music.ogg", true],
@@ -18,8 +18,10 @@
     "kills": 0,
     "path": "/mapscreen"
   },
+  "doubleEventChance": 65,
   "eventsEnabled": [0],
-  "mapData": [
+  "mapData": [],
+  "x": [
     {
       "url": "/assets/map_sections/wild_forest_section.png",
       "events": [

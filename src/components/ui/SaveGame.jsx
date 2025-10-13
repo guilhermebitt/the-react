@@ -50,19 +50,34 @@ function SaveGame({ saveId }) {
     // We can't directly use the `saveGame` from the hook here as it needs current game data.
     // Instead, we can create a temporary game state with default data and save it.
     // Alternatively, you can save a predefined new game state.
-    const newGameState = {
-        player: playerData,
-        enemies: [],
-        game: gameData,
-        tick: 0
-    };
+    const newGameState = structuredClone({
+      player: playerData,
+      enemies: [],
+      game: gameData,
+      tick: 0
+    });
+
+    // Generating the first region
+    console.log("Creating first region...")
+    const result = game.createRegion();
+
+    // Getting the regionKey
+    const { regionKey } = result || {regionKey: null};
+
+    console.log("REGION KEY:", regionKey)
+
+    // Updating the gameData with the region
+    newGameState.game.currentMap = regionKey || "wildForest";
+
+    console.log(newGameState);
+    
     setSaves(prevSaves => ({
-        ...prevSaves,
-        [saveId]: newGameState
+      ...prevSaves,
+      [saveId]: newGameState
     }));
     
     // Now load it
-    loadGame();
+    loadGame(newGameState);
   }
 
   async function handleDelete() {

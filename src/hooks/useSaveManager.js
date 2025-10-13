@@ -27,9 +27,14 @@ export const useSaveManager = (saveId) => {
     }
   };
 
-  const loadGame = () => {
+  const loadGame = (savedState = null) => {
     try {
-      const savedState = saves[saveId];
+      if (!savedState) {
+        savedState = saves[saveId];
+      }
+      
+      console.log(savedState);
+
       if (!savedState) {
         return;
       }

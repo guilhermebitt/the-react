@@ -13,7 +13,7 @@ var badgesUrl = [
   '/assets/map_sections/events_badges/battle_badge.png',
   '/assets/map_sections/events_badges/shop_badge.png',
   '/assets/map_sections/events_badges/unknown_badge.png',
-  '/assets/map_sections/events_badges/boss_badge.png'
+  '/assets/map_sections/events_badges/boss_badge.png',
 ];
 
 function EventBadge({ badge }) {
@@ -59,10 +59,7 @@ function EventBadge({ badge }) {
     const otherSide = badge?.eventId === section?.events[0]?.eventId ? 1 : 0;
 
     // Getting the Id of the event in the next section
-    const blockIds = [
-      nextSection?.events[otherSide]?.eventId,
-      section?.events[otherSide]?.eventId,
-    ];
+    const blockIds = [nextSection?.events[otherSide]?.eventId, section?.events[otherSide]?.eventId];
 
     const blockEventPaths = blockIds.map((blockId) => {
       return game.findEventPath(blockId);
@@ -88,16 +85,14 @@ function EventBadge({ badge }) {
     // Updating the event object
     game.update({ 'eventData.event': badge });
 
+    // Traveling to the event
     navigate(badge?.path);
   }
 
   return (
     <div className={styles.eventBadgeContainer}>
       <img
-        className={`${styles.eventImage} ${
-          game.get()?.eventsEnabled?.includes(badge?.eventId) &&
-          styles.canSelect
-        }`}
+        className={`${styles.eventImage} ${game.get()?.eventsEnabled?.includes(badge?.eventId) && styles.canSelect}`}
         src={badgeUrl}
         onClick={handleEvent}
       />
