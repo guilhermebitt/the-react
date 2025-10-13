@@ -62,12 +62,11 @@ function SaveGame({ saveId }) {
     const result = game.createRegion();
 
     // Getting the regionKey
-    const { regionKey } = result || {regionKey: null};
-
-    console.log("REGION KEY:", regionKey)
+    const { regionKey, mapData } = result || {regionKey: null};
 
     // Updating the gameData with the region
     newGameState.game.currentMap = regionKey || "wildForest";
+    newGameState.game.mapData = mapData || [];
     
     setSaves(prevSaves => ({
       ...prevSaves,

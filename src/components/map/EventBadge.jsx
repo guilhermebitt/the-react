@@ -37,7 +37,7 @@ function EventBadge({ badge }) {
         case 'unknown':
           setBadgeUrl(badgesUrl[2]);
           break;
-        case 'boss_battle':
+        case 'bossBattle':
           setBadgeUrl(badgesUrl[3]);
           break;
         default:
@@ -50,6 +50,7 @@ function EventBadge({ badge }) {
   function handleEvent() {
     // If the event as already finished, skip
     if (badge?.isFinished) return;
+    if (!game.get().eventsEnabled.includes(badge?.eventId)) return;
 
     // Getting the sections
     const section = game.get()?.mapData[game.get()?.currentMapSection];

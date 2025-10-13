@@ -51,6 +51,7 @@
 
   "snake": {
     "name": "Snake",
+    "className": "Snake",
     "img": "/assets/entities/snake/snake0.png",
     "animations": {
       "standBy": {
@@ -85,7 +86,48 @@
       "evasion": 10
     },
     "loot": {
-      "xp": [10, 10]
+      "xp": [5, 10]
+    }
+  },
+
+  "venomousSnake": {
+    "name": "Venomous Snake",
+    "className": "VenomousSnake",
+    "img": "/assets/entities/snake/snake0.png",
+    "animations": {
+      "standBy": {
+        "frames": [
+          "/assets/entities/snake/snake0.png",
+          "/assets/entities/snake/snake1.png"
+        ],
+        "duration": 1000
+      },
+      "atk": {
+        "frames": [
+          "/assets/entities/snake/snake_atk0.png",
+          "/assets/entities/snake/snake_atk1.png",
+          "/assets/entities/snake/snake_atk2.png",
+          "/assets/entities/snake/snake_atk1.png",
+          "/assets/entities/snake/snake_atk0.png",
+          "/assets/entities/snake/snake0.png"
+        ],
+        "duration": 100
+      }
+    },
+    "stats": {
+      "maxHealth": 10,
+      "health": 10,
+      "attack": 7,
+      "strength": 1,
+      "defense": 4,
+      "constitution": 1,
+      "crit": 2,
+      "critChance": 15,
+      "accuracy": 95,
+      "evasion": 10
+    },
+    "loot": {
+      "xp": [10, 25]
     }
   }
 }

@@ -261,3 +261,8 @@ export class Snake extends Enemy {
     super(entity);
   }
 }
+export class VenomousSnake extends Enemy {
+  constructor(entity) {
+    super(entity);
+  }
+}

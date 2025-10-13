@@ -18,7 +18,7 @@
     "kills": 0,
     "path": "/mapscreen"
   },
-  "doubleEventChance": 65,
+  "doubleEventChance": 40,
   "eventsEnabled": [0],
   "mapData": [],
   "x": [

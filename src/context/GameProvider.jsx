@@ -1,6 +1,7 @@
 // Data
 import gameData from '../data/game.json' with { type: 'json' };
 import mapsData from '../data/maps.json' with { type: 'json' };
+import eventsData from '../data/events.json' with { type: 'json' };
 
 // Dependencies
 import { createContext, useContext, useState } from "react";
@@ -46,6 +47,18 @@ export function GameProvider({ children }) {
       const pathToEvent = this.findEventPath(event?.eventId);
       controls.update({ [pathToEvent]: prev => ({...prev, "isFinished": true}) });
       this.passEvents();
+    },
+
+    // Function that returns the last ID of the mapData events
+    getLastEventId() {
+      let lastEventId = -1;  // If the last was "-1", the actual is 0 :)
+      for (const section of game.mapData) {
+        for (const event of section.events) {
+          lastEventId = event.eventId;
+        }
+      }
+
+      return lastEventId;
     },
 
     // Function to pass the events in the map
@@ -100,62 +113,47 @@ export function GameProvider({ children }) {
   const mapLogic = {
     // Creates the ponderedChance of an array of objects with appearChance
     ponderedChance(array) {
-      try {
-        for (const item of array) {
-          // If the obj does not have an appearChance, returns
-          if (!item[1]?.appearChance) {console.warn("⚠️ obj of array in ponderedChance() does not have an appearChance."); return null;}
+      // Converts the entries of the array to [key, value]
+      let arrayEntries = structuredClone(Object.entries(array));
+
+      for (const item of arrayEntries) {
+        // If the obj appearChance is equals to 0, skip this for
+        if (item[1]?.appearChance === 0) continue;
+
+        // If the obj does not have an appearChance, returns
+        if (!item[1]?.appearChance) {
+          console.warn("⚠️ obj of array in ponderedChance() does not have an appearChance."); 
+          return null;
         }
-      } catch (e) {
-        console.error("something goes wrong: ", e)
-        return null;
       }
 
       // Sorting the array
-      const sortedArray = structuredClone(array.sort((a, b) => b[1].appearChance - a[1].appearChance));
+      const sortedArray = structuredClone(arrayEntries).sort((a, b) => b[1].appearChance - a[1].appearChance);
 
-      // Variable to storage the pondered chance
-      let ponderedChance = 0;
+      // Variable to storage sum of all chances
+      const totalChance = sortedArray.reduce(
+        (acc, [, obj]) => acc + obj.appearChance,
+        0
+      );
 
-      // Iterates into the array to get the pondered chance
-      for (const [, obj] of sortedArray) {
-        // Adds the chance to the total
-        ponderedChance += obj?.appearChance || 0;
-      };
+      // Generating the roll random number
+      const roll = utils.random(totalChance);
+      let cumulative = 0;
 
-      // Iterates into the array to update the appearChance of the obj accordingly to the pondered chance
-      for (const [, obj] of sortedArray) {
-        // Updates the appear chance of the obj
-        obj.appearChance = ponderedChance * (obj.appearChance / 100);
-      };
+      for (const [key, obj] of sortedArray) {
+        cumulative += obj.appearChance;
+        //console.log("Object:", key, "Roll:", roll, "Cumulative:", cumulative);
+        if (roll <= cumulative) return [key, obj];
+      }
 
-      // Iterates into the array to verify the individual chance of each obj
-      for (const [objKey, obj] of sortedArray) {
-        // Setting the chance value
-        const roll = utils.random(ponderedChance);
-
-        // Console.log just for debugging
-        console.log("Verifying chance. Obj:", obj?.name || obj, "Roll:", roll, "Chance(<):", obj.appearChance);
-
-        if (roll <= obj.appearChance) {
-          console.log("Obj selected:", obj?.name || obj);
-
-          // Returning the result if the object is select
-          return [objKey, obj];
-        }
-      };
-
-      // Trying again if obj is not selected
-      console.log("Nothing selected. Trying again...")
-      this.ponderedChance(array);
+      // Just in case that something went wrong
+      return this.ponderedChance(array);
     },
 
     // Generates a map region
     createRegion() {
-      // Converts the entries of the map to an array with [key, value]
-      let maps = structuredClone(Object.entries(mapsData));
-
       // Getting a region by generating it from a pondered chance
-      const result = this.ponderedChance(maps);
+      const result = this.ponderedChance(mapsData);
 
       // Returns null if the result fails
       if (!result) return null;
@@ -166,71 +164,116 @@ export function GameProvider({ children }) {
       // Defining the region to the game object currentMap
       controls.update({ currentMap: regionKey });
 
-      // Creates the mapData sections
-      this.createSections(region);
+      // Generating a random number for the amount of sections
+      const secAmount = utils.random(6, 4);
 
-      // Returning the result
-      return {regionKey, region};
+      // Creating the mapData sections
+      let mapData = [];
+      let lastEventId = eventsLogic.getLastEventId();
+      for (let i = 0; i < secAmount; i++) {
+        
+        // Generating events to the region
+        const events = this.createEvents();
 
-      // Iterates into the maps array to verify the individual chance of each region
-      for (const [regionKey, region] of maps) {
-        // Setting the chance value
-        const chance = utils.random(ponderedChance);
-
-        // Console.log just for debugging
-        console.log("Verifying chance to spawn. Region:", region.name, "Roll:", chance, "Chance(<):", region.appearChance);
-
-        if (chance <= region.appearChance) {
-          console.log("Region selected: ", region.name);
-
-          // Defining the region to the game object currentMap
-          controls.update({ currentMap: regionKey })
-
-          // Creates the mapData sections
-          this.createSections(region);
-
-          // Returning the result
-          return {regionKey, region};
-        }
+        // Generating the section
+        const [section, newLastEventId] = this.createSection(regionKey, events, lastEventId);
+        lastEventId = newLastEventId;
+        mapData.push(section);
       };
 
-      // If nothing is selected, calls the function again
-      console.log("Nothing selected.");
-      this.createRegion();
+      // Adding the boss event to the mapData
+      const bossEvent = [eventsData["bossBattle"]];
+      const [bossSection,] = this.createSection(regionKey, bossEvent, lastEventId);
+      mapData.push(bossSection);
+
+      // Returning the result
+      return {regionKey, mapData};
     },
 
     // Functions that generates the events for a section
     createEvents() {
-      // Generating a random number for the double event chance
+      // Setting up the variable of events
+      let events = [];
+
+      // Getting a event by generating it from a pondered chance
+      const result = this.ponderedChance(eventsData);
+      if (!result) return null;
+      const [, eventTemplate] = result;  // Deconstructing the result
+      const event = structuredClone(eventTemplate);
+      events.push(event)
+      
+      // Verifies if the section will have two events
       const doubleEventRoll = utils.random(100);
-
-      // Generating a random number for the events
-      const eventRoll = utils.random(100);
-
-      // Getting an event from the chance
-
-      // Verifying if the section will have two events
-      if (doubleEventRoll < game.doubleEventChance) {
-
+      if (doubleEventRoll < game?.doubleEventChance || 0) {
+        const secondResult = this.ponderedChance(eventsData);
+        if (secondResult) {
+          const [, secondEventTemplate] = secondResult;
+          const secondEvent = structuredClone(secondEventTemplate);
+          events.push(secondEvent);
+        }
       }
+
+      // Returning the events
+      return events;
+    },
+
+    // Function to generate the enemies of an battle event
+    generateEnemies(regionKey, eventType, allowMultipleEnemies = true) {
+      let enemiesToSpawn = [];
+      const MAX_OF_ENEMIES = 3;
+
+      // Getting the enemies list of the region and event type from the maps json
+      const enemiesList = mapsData[regionKey]["enemies"][eventType];
+      
+      // Trying to spawn multiple enemies
+      for (let i = 0; i < MAX_OF_ENEMIES; i++) {
+        // Random number from 0 to 100
+        const moreEnemiesRoll = utils.random(100);
+
+        // Verifying if can spawn more enemies
+        const multipleEnemiesChance = mapsData[regionKey]["multipleEnemiesChance"] + eventsLogic.getLastEventId();
+        if (moreEnemiesRoll >= multipleEnemiesChance && i !== 0) {
+          break;
+        }
+
+        const result = this.ponderedChance(enemiesList);
+        if (!result) return null;
+        const [enemyKey] = result;
+
+        // Adding the enemies to the enemies to spawn list
+        enemiesToSpawn.push({name: enemyKey});
+
+        // If the allow multiples enemies is false, break the loop
+        if (!allowMultipleEnemies) {
+          break;
+        }
+      }
+      
+      // Returning the list of enemies
+      return enemiesToSpawn;
     },
 
     // Function that creates the sections of a region
-    createSections(region, secNumber = 4) {
-      // Variable of the mapData
-      let mapData = structuredClone(game.mapData);
+    createSection(regionKey, events, startingId) {
+      // Updating the event with an ID and enemies to spawn
+      let lastEventId = startingId;
+      for (let event of events) {
+        // ID
+        event.eventId = lastEventId + 1;
+        lastEventId++;
 
-      // Generating the first sections
-      for (let i = 0; i < secNumber; i++) {
-        const section = {
-          "url": region?.section
+        // Enemies
+        if (["battle", "bossBattle"].includes(event?.type)) {
+          const enemiesToSpawn = this.generateEnemies(regionKey, event?.type, event?.allowMultipleEnemies);
+
+          event.enemiesToSpawn = enemiesToSpawn;
         }
-
-        // Adding section to the mapData
-        mapData.push(section);
       }
 
-      // Generating the boss section
+      return [{
+        url: mapsData[regionKey]["section"],
+        events: events
+      }, lastEventId];
     }
   };
 

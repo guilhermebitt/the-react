@@ -3,12 +3,14 @@
     "appearChance": 100,
     "type": "battle",
     "path": "/battle",
-    "isFinished": false
+    "isFinished": false,
+    "allowMultipleEnemies": true
   },
   "bossBattle": {
-    "appearChance": 100,
+    "appearChance": 0,
     "type": "bossBattle",
     "path": "/battle",
-    "isFinished": false
+    "isFinished": false,
+    "allowMultipleEnemies": false
   }
 }

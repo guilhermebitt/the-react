@@ -97,6 +97,11 @@ function BattleEvent() {
 
   // On event **FIRST LOAD** only
   useEffect(() => {
+    for (const section of game.get().mapData) {
+      for (const eventx of section.events) {
+        console.log(eventx)
+      }
+    }
     // Conditions to skip:
     if (!game.get().eventData.isFirstLoad || loading || location.pathname !== '/battle') return;
 

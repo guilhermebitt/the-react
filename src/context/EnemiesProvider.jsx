@@ -33,7 +33,7 @@ export function EnemiesProvider({ children }) {
     setEnemies((prev) => {
       const newEnemies = [...prev];
       enemiesData.forEach((enemyData, index) => {
-        const newEnemy = new Entities[enemyData.name]({
+        const newEnemy = new Entities[enemyData.className]({
           ...enemyData,
           id: index,
           update: (patch) => update(index, patch),

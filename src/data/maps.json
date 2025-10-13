@@ -4,20 +4,23 @@
     "appearChance": 100,
     "src": "/assets/scenarios/wild_forest.jpg",
     "section": "/assets/map_sections/wild_forest_section.png",
+    "multipleEnemiesChance": 25,
     "enemies": {
-      "snake": {
-        "defaultChance": 90
+      "battle": {
+        "snake": {
+          "appearChance": 75
+        },
+        "venomousSnake": {
+          "appearChance": 25
+        }
       },
-      "venomousSnake": {
-        "defaultChance": 10
-      }
-    },
-    "bosses": { 
-      "anaconda": {
-        "defaultChance": 50
-      },
-      "kingSlime": {
-        "defaultChance": 50
+      "bossBattle": {
+        "anaconda": {
+          "appearChance": 50
+        },
+        "kingSlime": {
+          "appearChance": 50
+        }
       }
     }
   }
