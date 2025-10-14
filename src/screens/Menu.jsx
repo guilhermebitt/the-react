@@ -12,6 +12,7 @@ import Changelog from '../components/common/Changelog.jsx';
 
 // Hooks
 import { useGame } from '../hooks/useGame.js';
+import { useSaveManager } from '../hooks/useSaveManager.js';
 
 // Stylesheet
 import styles from './menus.module.css';
@@ -19,20 +20,24 @@ import styles from './menus.module.css';
 function Menu() {
   const [settings, setSettings] = useLocalStorage('settings', settingsData);
   const { audios } = useGame();
+  const { resetGame } = useSaveManager();
 
   useEffect(() => {
+    // Resets the game contexts
+    resetGame();
+
     // Closes the log (if open)
     if (settings?.showLog) setSettings(prev => {return{...prev, showLog: false}});
     // Stop the music on menu
     if (audios.get("gameMusic")?.isPlaying()) audios.get("gameMusic")?.stop()
     if (audios.get("deathMusic")?.isPlaying()) audios.get("deathMusic")?.stop()
     
-    return () => resetGame(keysToKeep);
+    return () => resetGameStorage(keysToKeep);
   }, []);
 
   const keysToKeep = ['lastScreen', 'settings', 'saves'];  // these keys won't be removed
 
-  const resetGame = (keysToKeep) => {
+  const resetGameStorage = (keysToKeep) => {
     // Cleaning the local storage
     clearStorage(keysToKeep);
   }

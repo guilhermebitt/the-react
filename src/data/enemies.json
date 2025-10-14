@@ -3,9 +3,9 @@
     "level": 1,
     "entityType": "enemy",
     "currentAnim": "standBy",
+    "statesAnim": [],
     "actions": 2,
-    "dmgTaken": 0,
-    "dmgWasCrit": false
+    "spanMessages": []
   },
 
   "deathAnimation": {

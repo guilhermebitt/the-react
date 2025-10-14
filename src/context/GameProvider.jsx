@@ -173,16 +173,16 @@ export function GameProvider({ children }) {
       for (let i = 0; i < secAmount; i++) {
         
         // Generating events to the region
-        const events = this.createEvents();
+        const eventsList = this.createEvents(i === 0 ? false : true);
 
         // Generating the section
-        const [section, newLastEventId] = this.createSection(regionKey, events, lastEventId);
+        const [section, newLastEventId] = this.createSection(regionKey, eventsList, lastEventId);
         lastEventId = newLastEventId;
         mapData.push(section);
       };
 
       // Adding the boss event to the mapData
-      const bossEvent = [eventsData["bossBattle"]];
+      const bossEvent = structuredClone([eventsData["bossBattle"]]);
       const [bossSection,] = this.createSection(regionKey, bossEvent, lastEventId);
       mapData.push(bossSection);
 
@@ -191,7 +191,7 @@ export function GameProvider({ children }) {
     },
 
     // Functions that generates the events for a section
-    createEvents() {
+    createEvents(allowMultipleEvents = true) {
       // Setting up the variable of events
       let events = [];
 
@@ -199,17 +199,15 @@ export function GameProvider({ children }) {
       const result = this.ponderedChance(eventsData);
       if (!result) return null;
       const [, eventTemplate] = result;  // Deconstructing the result
-      const event = structuredClone(eventTemplate);
-      events.push(event)
+      events.push(structuredClone(eventTemplate))
       
       // Verifies if the section will have two events
       const doubleEventRoll = utils.random(100);
-      if (doubleEventRoll < game?.doubleEventChance || 0) {
+      if (doubleEventRoll < game?.doubleEventChance && allowMultipleEvents) {
         const secondResult = this.ponderedChance(eventsData);
         if (secondResult) {
           const [, secondEventTemplate] = secondResult;
-          const secondEvent = structuredClone(secondEventTemplate);
-          events.push(secondEvent);
+          events.push(structuredClone(secondEventTemplate));
         }
       }
 
@@ -275,6 +273,29 @@ export function GameProvider({ children }) {
         events: events
       }, lastEventId];
     }
+  };
+
+  // Functions to handle the turns
+  const turnLogic = {
+    switchTurn(turnToSwitch = null) {
+      // Saving the variable locally
+      let nextTurn = turnToSwitch;
+
+      // Verifying if the currentTurn is switchable
+      if (!['player', 'enemies'].includes(game.currentTurn)) {
+        return console.warn("⚠️ At switchTurn function: the current turn is not switchable.");
+      };
+
+      // Switching the current turn
+      if (!nextTurn) {
+        nextTurn = game.currentTurn === "player"
+          ? "enemies"  // If the current turn is "player", the next is "enemies"
+          : "player"  // Same thing from above
+      };
+
+      // Defining the next turn
+      controls.update({ currentTurn: nextTurn })
+    },
   };
 
   // Joining the all the function to one object

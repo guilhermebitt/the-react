@@ -1,5 +1,5 @@
 // Dependencies
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
 import { deepUpdate } from '../utils/stateUpdater.js';
 import * as Entities from '../utils/entities.js';
 import { produce } from 'immer';
@@ -9,53 +9,61 @@ const EnemiesContext = createContext();
 export function EnemiesProvider({ children }) {
   const [enemies, setEnemies] = useState([]);
 
-  /**
-   * Updates a specific enemy at index with the given patch.
-   * Patch can use dot notation and updater functions just like in createUpdater.
-   *
-   * @param {number} index - Index of the enemy in the array.
-   * @param {Object} patch - Object of key/value pairs or updater functions.
-   */
-  const update = (index, patch) => {
-    setEnemies((prev) =>
-      produce(prev, (draft) => {
-        const target = draft[index];
-        if (!target) return;
+  // Functions to manipulate the game state:
+  const controls = {
+    get: (id = null) => (id !== null ? enemies[id] : enemies),
 
-        for (const key in patch) {
-          deepUpdate(target, key, patch[key]);
-        }
-      })
-    );
+    /**
+     * Updates a specific enemy at index with the given patch.
+     * Patch can use dot notation and updater functions just like in createUpdater.
+     *
+     * @param {number} index - Index of the enemy in the array.
+     * @param {Object} patch - Object of key/value pairs or updater functions.
+     */
+    update: (index, patch) => {
+      setEnemies((prev) =>
+        produce(prev, (draft) => {
+          const target = draft[index];
+          if (!target) return;
+
+          for (const key in patch) {
+            deepUpdate(target, key, patch[key]);
+          }
+        })
+      );
+    },
+
+    // Resets the game data
+    reset: () => setEnemies([]),
+
+    // Loads the data from save to the game context
+    loadSave: (gameData) => setGame(gameData),
+    loadSave: (savedEnemies) => spawnLogic.spawnEnemies(savedEnemies),
   };
 
-  const spawnEnemies = (enemiesData) => {
-    setEnemies((prev) => {
-      const newEnemies = [...prev];
-      enemiesData.forEach((enemyData, index) => {
-        const newEnemy = new Entities[enemyData.className]({
-          ...enemyData,
-          id: index,
-          update: (patch) => update(index, patch),
+  // Logic of the enemy spawn
+  const spawnLogic = {
+    spawnEnemies: (enemiesData) => {
+      setEnemies((prev) => {
+        const newEnemies = [...prev];
+        enemiesData.forEach((enemyData, index) => {
+          const newEnemy = new Entities[enemyData.className]({
+            ...enemyData,
+            id: index,
+            update: (patch) => controls.update(index, patch),
+          });
+          newEnemies.push(newEnemy);
         });
-        newEnemies.push(newEnemy);
+        return newEnemies;
       });
-      return newEnemies;
-    });
+    },
   };
 
-  const get = (id = null) => (id !== null ? enemies[id] : enemies);
-
-  const reset = () => setEnemies([]);
-
-  const loadSave = (savedEnemies) => spawnEnemies(savedEnemies);
+  // Joining the all the function to one object
+  const functions = {...controls, ...spawnLogic};
 
   return (
-    <EnemiesContext.Provider
-      value={{ get, spawnEnemies, update, loadSave, reset }}
-    >
-      {children}
-    </EnemiesContext.Provider>
+    <EnemiesContext.Provider value={functions}>{children}</EnemiesContext.Provider>
   );
 }
 

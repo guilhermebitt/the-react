@@ -74,7 +74,7 @@ function SaveGame({ saveId }) {
     }));
     
     // Now load it
-    loadGame(newGameState);
+    //loadGame(newGameState);
   }
 
   async function handleDelete() {

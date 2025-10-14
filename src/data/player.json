@@ -6,6 +6,7 @@
   "xp": 0,
   "img": "/assets/entities/player/hero0.png",
   "currentAnim": "standBy",
+  "statesAnim": [],
   "animations": {
     "standBy": {
       "frames": [
@@ -53,7 +54,6 @@
   },
   "actions": 2,
   "actionsLeft": 2,
-  "dmgTaken": 0,
-  "dmgWasCrit": false,
-  "kills": 0
+  "kills": 0,
+  "spanMessages": []
 }

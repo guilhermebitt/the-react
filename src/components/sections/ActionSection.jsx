@@ -33,7 +33,7 @@ function ActionSection() {
     if (player.get().actionsLeft <= 0) return funcs.phrase('You do not have actions left! End your turn.');
     if (enemies.get([game.get().target])?.currentAnim === 'death') return funcs.phrase('This enemy is dead.');
 
-    const { attackMsg, timeToWait } = player.get().attack(enemies.get([game.get().target]));  // this function executes an attack and return some data
+    const { attackMsg, timeToWait, loot } = player.get().attack(enemies.get([game.get().target]));  // this function executes an attack and return some data
     if (enemies.get([game.get().target]).stats.health <= 0) game.update({ "eventData.kills": game.get().eventData.kills + 1 })
 
     // Changing the turn 
@@ -46,6 +46,7 @@ function ActionSection() {
     // ------------------
 
     funcs.phrase(attackMsg);  // showing the result of the attack
+    loot?.experience && funcs.phrase(`You gained ${loot.experience} points of experience.`);
     player.update({ actionsLeft: prev => prev - 1 })
   }
 

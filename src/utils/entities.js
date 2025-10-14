@@ -18,9 +18,7 @@ export class Entity {
 
   // Returns an pure object from the entity
   toJSON() {
-    return Object.fromEntries(
-      Object.entries(this).filter(([key, value]) => typeof value !== 'function')
-    );
+    return Object.fromEntries(Object.entries(this).filter(([key, value]) => typeof value !== 'function'));
   }
 
   // Generates a random number
@@ -49,7 +47,9 @@ export class Entity {
     // Rest of the action
     if (this.random(100) > this.hitChance(target)) {
       // Entity Missed
-      target.update({ dmgTaken: 'Missed', dmgWasCrit: false });
+      const newSpanMessages = structuredClone(target?.spanMessages);
+      newSpanMessages.push({ value: 'Missed' });
+      target.update({ spanMessages: newSpanMessages });
       return {
         attackMsg: 'The attack missed.',
         dmg: 'Missed',
@@ -58,15 +58,14 @@ export class Entity {
     }
 
     // Entity Hit
+    let loot = null;
     let dmg = 0;
     let crit = 0;
     const attack = this.stats.attack;
     const strength = this.stats.strength;
 
     // Crit
-    this.random(100) > this.stats.critChance
-      ? (crit = 1)
-      : (crit = this.stats.crit);
+    this.random(100) > this.stats.critChance ? (crit = 1) : (crit = this.stats.crit);
 
     // Generating damage
     for (let i = 0; i < strength * crit; i++) {
@@ -77,7 +76,9 @@ export class Entity {
     const { dmgRed, realDmg, isDead } = target.takeDamage(dmg);
 
     // If the attacker is the player, generates the target loot if it died
-    if (isDead && this.entityType === 'player') target?.generateLoot(this)
+    if (isDead && this.entityType === 'player') {
+      loot = target?.generateLoot(this);
+    }
 
     if (target.stats.health === 0) {
       this.update({ kills: (this.kills || 0) + 1 });
@@ -87,16 +88,17 @@ export class Entity {
     const attackMsg = this.getAttackMessage(realDmg, crit, dmg, dmgRed);
 
     // Telling the target that the damage was crit
-    crit > 1
-      ? target.update({ dmgWasCrit: true })
-      : target.update({ dmgWasCrit: false });
+    const spanMessage = crit > 1 ? { value: realDmg, type: 'crit' } : { value: realDmg };
+    const newSpanMessages = structuredClone(target?.spanMessages);
+    newSpanMessages.push(spanMessage);
+    target.update({ spanMessages: newSpanMessages });
 
     // Calculating the time of the action
     const anim = this.animations['atk'];
     const animationFrames = anim.frames;
     const timeToWait = anim.duration * animationFrames.length;
 
-    return { attackMsg, dmg, timeToWait, isDead };
+    return { attackMsg, dmg, timeToWait, isDead, loot };
   }
 
   getAttackMessage(realDmg, crit) {
@@ -125,21 +127,11 @@ export class Entity {
   takeDamage(amount) {
     // The max damage that can be reduced is half of the damage
     // The '-0.01' is used to guarantee that, if the number is 2.5, the round will round it to the number below (e.g. round(2.5) = 2)
-    const dmgRed = Math.min(
-      this.calcDamageReduction(),
-      Math.round(amount / 2 - 0.01)
-    );
+    const dmgRed = Math.min(this.calcDamageReduction(), Math.round(amount / 2 - 0.01));
     const realDmg = Math.max(1, amount - dmgRed); // The min damage that will be done if the attacker hits, is 1
 
     // Debugging
-    console.log(
-      'Damage: ',
-      amount,
-      'Reduction: ',
-      dmgRed,
-      'Real Damage',
-      realDmg
-    );
+    console.log('Damage: ', amount, 'Reduction: ', dmgRed, 'Real Damage', realDmg);
 
     // Reduce the health, never below 0
     this.update({
@@ -149,6 +141,14 @@ export class Entity {
     const isDead = this.stats.health - realDmg <= 0;
 
     this.update({ dmgTaken: realDmg });
+
+    // Adding the state animation of HIT and, after 1s, removing it
+    const newStatesAnim = structuredClone(this.statesAnim);
+    newStatesAnim.push('hit');
+    this.update({ statesAnim: newStatesAnim });
+    setTimeout(() => {
+      this.update({ statesAnim: (prev) => prev.filter((item) => item !== 'hit') });
+    }, 1000);
 
     return { dmgRed, realDmg, isDead };
   }
@@ -174,15 +174,23 @@ export class Player extends Entity {
     const GROWTH_RATE = 1.5;
 
     // Setting up the next player stats
-    const newHealth = Math.floor((BASE_HEALTH * (1 + (level - 1) * (GROWTH_RATE - 1))) - this.stats.maxHealth);
-    const newAttack = Math.floor((BASE_ATTACK * (1 + (level - 1) * (GROWTH_RATE - 1))) - this.stats.attack);
-    const newDefense = Math.floor((BASE_DEFENSE * (1 + (level - 1) * (GROWTH_RATE - 1))) - this.stats.defense);
+    const newHealth = Math.floor(BASE_HEALTH * (1 + (level - 1) * (GROWTH_RATE - 1)) - this.stats.maxHealth);
+    const newAttack = Math.floor(BASE_ATTACK * (1 + (level - 1) * (GROWTH_RATE - 1)) - this.stats.attack);
+    const newDefense = Math.floor(BASE_DEFENSE * (1 + (level - 1) * (GROWTH_RATE - 1)) - this.stats.defense);
 
     // Updating player stats
-    this.update({ "stats.maxHealth": prev => prev + newHealth });
-    this.update({ "stats.health": prev => prev + newHealth });
-    this.update({ "stats.attack": prev => prev + newAttack });
-    this.update({ "stats.defense": prev => prev + newDefense });
+    this.update({ 'stats.maxHealth': (prev) => prev + newHealth });
+    this.update({ 'stats.health': (prev) => prev + newHealth });
+    this.update({ 'stats.attack': (prev) => prev + newAttack });
+    this.update({ 'stats.defense': (prev) => prev + newDefense });
+
+    // Setting levelup state animation
+    const newStatesAnim = structuredClone(this.statesAnim);
+    newStatesAnim.push('leveling');
+    this.update({ statesAnim: newStatesAnim });
+    setTimeout(() => {
+      this.update({ statesAnim: (prev) => prev.filter((item) => item !== 'leveling') });
+    }, 1000);
   }
 
   // Functions that verify if the player can levelUp
@@ -241,9 +249,9 @@ export class Enemy extends Entity {
     const maxXP = this.loot.xp[1];
     const experience = this.random(maxXP, minXP);
 
-    player.update({ xp: prev => prev + experience })
+    player.update({ xp: (prev) => prev + experience });
 
-    return experience;
+    return { experience };
   }
 }
 

@@ -21,12 +21,12 @@ function MapContainer({ map }) {
         <img src={map.src} alt="game map" id={styles.map} />
         {/* Player on the left */}
         <div className={styles.playerSide}>
-          <EntityContainer entity={player.get()} />
+          <Entity entity={player.get()} />
         </div>
         {/* Enemies on the right */}
         <div className={styles.enemiesSide}>
           {enemies.get().map((enemy, index) => (
-            <EntityContainer key={enemy.id || index} entity={enemy} id={enemy.id}/>
+            <Entity key={enemy.id || index} entity={enemy} id={enemy.id}/>
           ))}
         </div>
       </div>
