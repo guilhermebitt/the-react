@@ -5,7 +5,7 @@ enum EntityIds {
   Player,
   Enemy1,
   Enemy2,
-  Enemy3
+  Enemy3,
 }
 
 // Types for the states of the entity
@@ -15,7 +15,7 @@ type State = "hit" | "leveling" | "idle";
 type AnimationKeys = "standBy" | "atk" | "death";
 interface Animation {
   frames: string[];
-  duration: number
+  duration: number;
 }
 
 // Stats
@@ -39,9 +39,19 @@ interface Stats {
 
 // Span Message (message that will appear above the entity container)
 interface SpanMessage {
-  value: string;
-  type?: "crit";
+  value: string | number;
+  type?: string;
 }
+
+// Updater for any type T
+type Updater<T> = T | ((prev: T) => T);
+
+// All the nested paths is valid
+type NestedKeys<T, Prefix extends string = ""> = {
+  [K in keyof T]: T[K] extends object
+    ? `${Prefix}${K & string}` | NestedKeys<T[K], `${Prefix}${K & string}.`>
+    : `${Prefix}${K & string}`
+}[keyof T];
 
 // Common atributes for all entities
 export interface EntityData {
@@ -66,6 +76,14 @@ export interface EntityData {
   level: number;
   xp?: number;
 
+  // Enemies atributes
+  loot: any;  // ADD LOOT TYPE HERE LATER
+
   // Others
   spanMessages?: SpanMessage[];
+  update: (
+    updates: {
+      [K in keyof EntityData | NestedKeys<EntityData>]?: Updater<any>
+    }
+  ) => void;
 }

@@ -1,58 +1,55 @@
-import { immerable } from 'immer';
-import playerJson from '../data/player.json';
+// Dependencies
+import { immerable } from "immer";
+
+// Importing player data from player.json
+import playerJson from "@/data/player.json";
+
+// Importing the interface of EntityData
+import { EntityData } from "@/types";
 
 // --------- ENTITIES ---------
 export class Entity {
   [immerable] = true;
 
-  constructor(data) {
-    // deconstruct the data to get the update function
-    const { update, ...rest } = data;
+  public data!: EntityData;
 
-    // Add the update function separately
-    if (update) this.update = update; // adds the function after the clone
-
-    // Add the rest to the instance
-    Object.assign(this, rest);
+  constructor(data: EntityData) {
+    Object.assign(this, data);
   }
 
   // Returns an pure object from the entity
   toJSON() {
-    return Object.fromEntries(Object.entries(this).filter(([key, value]) => typeof value !== 'function'));
+    return Object.fromEntries(Object.entries(this).filter(([key, value]) => typeof value !== "function"));
   }
 
   // Generates a random number
-  random(max, min = 0) {
+  random(max: number, min = 0) {
     const array = new Uint32Array(1);
     crypto.getRandomValues(array);
     return min + (array[0] % (max + 1 - min));
   }
 
-  handleTurn() {
-    return;
-  }
-
   // Chance to hit an enemy (0 - 1)
-  hitChance(target) {
+  hitChance(target: Player | Enemy) {
     const attackerAccuracy = this.stats.accuracy ?? 0;
     const defenderEvasion = target.stats.evasion ?? 0;
     return Math.min(100, Math.max(0, attackerAccuracy - defenderEvasion));
   }
 
   // Attack to entity
-  attack(target) {
+  attack(target: Player | Enemy) {
     // Executing animation
-    if (this.animations.atk) this.update({ currentAnim: 'atk' });
+    if (this.animations.atk) this.update({ currentAnim: "atk" });
 
     // Rest of the action
     if (this.random(100) > this.hitChance(target)) {
       // Entity Missed
-      const newSpanMessages = structuredClone(target?.spanMessages);
-      newSpanMessages.push({ value: 'Missed' });
+      const newSpanMessages = structuredClone(target.spanMessages);
+      newSpanMessages?.push({ value: "Missed" });
       target.update({ spanMessages: newSpanMessages });
       return {
-        attackMsg: 'The attack missed.',
-        dmg: 'Missed',
+        attackMsg: "The attack missed.",
+        dmg: "Missed",
         timeToWait: 1000,
       };
     }
@@ -76,8 +73,8 @@ export class Entity {
     const { dmgRed, realDmg, isDead } = target.takeDamage(dmg);
 
     // If the attacker is the player, generates the target loot if it died
-    if (isDead && this.entityType === 'player') {
-      loot = target?.generateLoot(this);
+    if (isDead && target instanceof Enemy) {
+      loot = target?.generateLoot(this as unknown as Player);
     }
 
     if (target.stats.health === 0) {
@@ -85,23 +82,23 @@ export class Entity {
     }
 
     // Generating final message
-    const attackMsg = this.getAttackMessage(realDmg, crit, dmg, dmgRed);
+    const attackMsg = this.getAttackMessage(realDmg, crit);
 
     // Telling the target that the damage was crit
-    const spanMessage = crit > 1 ? { value: realDmg, type: 'crit' } : { value: realDmg };
+    const spanMessage = crit > 1 ? { value: realDmg, type: "crit" } : { value: realDmg };
     const newSpanMessages = structuredClone(target?.spanMessages);
-    newSpanMessages.push(spanMessage);
+    newSpanMessages?.push(spanMessage);
     target.update({ spanMessages: newSpanMessages });
 
     // Calculating the time of the action
-    const anim = this.animations['atk'];
+    const anim = this.animations["atk"];
     const animationFrames = anim.frames;
     const timeToWait = anim.duration * animationFrames.length;
 
     return { attackMsg, dmg, timeToWait, isDead, loot };
   }
 
-  getAttackMessage(realDmg, crit) {
+  getAttackMessage(realDmg: number, crit: number) {
     let msg =
       crit === 1
         ? `The attack hit, dealing ${realDmg} points of damage.`
@@ -124,30 +121,30 @@ export class Entity {
   }
 
   // Receive damage
-  takeDamage(amount) {
+  takeDamage(amount: number) {
     // The max damage that can be reduced is half of the damage
     // The '-0.01' is used to guarantee that, if the number is 2.5, the round will round it to the number below (e.g. round(2.5) = 2)
     const dmgRed = Math.min(this.calcDamageReduction(), Math.round(amount / 2 - 0.01));
     const realDmg = Math.max(1, amount - dmgRed); // The min damage that will be done if the attacker hits, is 1
 
     // Debugging
-    console.log('Damage: ', amount, 'Reduction: ', dmgRed, 'Real Damage', realDmg);
+    console.log("Damage: ", amount, "Reduction: ", dmgRed, "Real Damage", realDmg);
 
     // Reduce the health, never below 0
     this.update({
-      'stats.health': Math.max(0, (this.stats.health || 0) - realDmg),
+      "stats.health": Math.max(0, (this.stats.health || 0) - realDmg),
     });
 
     const isDead = this.stats.health - realDmg <= 0;
 
-    this.update({ dmgTaken: realDmg });
+    //this.update({ dmgTaken: realDmg });
 
     // Adding the state animation of HIT and, after 1s, removing it
-    const newStatesAnim = structuredClone(this.statesAnim);
-    newStatesAnim.push('hit');
-    this.update({ statesAnim: newStatesAnim });
+    const newStatesAnim = structuredClone(this.states);
+    newStatesAnim.push("hit");
+    this.update({ states: newStatesAnim });
     setTimeout(() => {
-      this.update({ statesAnim: (prev) => prev.filter((item) => item !== 'hit') });
+      this.update({ states: (prev: any) => prev.filter((item: any) => item !== "hit") });
     }, 1000);
 
     return { dmgRed, realDmg, isDead };
@@ -161,16 +158,16 @@ export class Entity {
 
 // --- PLAYER ---
 export class Player extends Entity {
-  constructor(entity) {
+  constructor(entity: EntityData) {
     super(entity);
   }
 
   // Function that levels up the player
-  levelUp(level) {
+  levelUp(level: number) {
     // Getting the base stats values
-    const BASE_HEALTH = playerJson['stats']['health'];
-    const BASE_ATTACK = playerJson['stats']['attack'];
-    const BASE_DEFENSE = playerJson['stats']['defense'];
+    const BASE_HEALTH = playerJson["stats"]["health"];
+    const BASE_ATTACK = playerJson["stats"]["attack"];
+    const BASE_DEFENSE = playerJson["stats"]["defense"];
     const GROWTH_RATE = 1.5;
 
     // Setting up the next player stats
@@ -179,24 +176,24 @@ export class Player extends Entity {
     const newDefense = Math.floor(BASE_DEFENSE * (1 + (level - 1) * (GROWTH_RATE - 1)) - this.stats.defense);
 
     // Updating player stats
-    this.update({ 'stats.maxHealth': (prev) => prev + newHealth });
-    this.update({ 'stats.health': (prev) => prev + newHealth });
-    this.update({ 'stats.attack': (prev) => prev + newAttack });
-    this.update({ 'stats.defense': (prev) => prev + newDefense });
+    this.update({ "stats.maxHealth": (prev: number) => prev + newHealth });
+    this.update({ "stats.health": (prev: number) => prev + newHealth });
+    this.update({ "stats.attack": (prev: number) => prev + newAttack });
+    this.update({ "stats.defense": (prev: number) => prev + newDefense });
 
     // Setting levelup state animation
-    const newStatesAnim = structuredClone(this.statesAnim);
-    newStatesAnim.push('leveling');
-    this.update({ statesAnim: newStatesAnim });
+    const newStatesAnim = structuredClone(this.states);
+    newStatesAnim.push("leveling");
+    this.update({ states: newStatesAnim });
     setTimeout(() => {
-      this.update({ statesAnim: (prev) => prev.filter((item) => item !== 'leveling') });
+      this.update({ states: (prev: []) => prev.filter((item) => item !== "leveling") });
     }, 1000);
   }
 
   // Functions that verify if the player can levelUp
   tryLevelUp() {
     // Verifies if the player has sufficient experience to levelup
-    if (this.xp >= this.getNextLvXP()) {
+    if (this.xp || 0 >= this.getNextLvXP()) {
       const newLevel = this.level + 1;
 
       this.update({ level: newLevel });
@@ -215,7 +212,7 @@ export class Player extends Entity {
   }
 
   // Generating player attack message
-  getAttackMessage(realDmg, crit) {
+  getAttackMessage(realDmg: number, crit: number) {
     let msg =
       crit === 1
         ? `You landed a hit, dealing ${realDmg} points of damage.`
@@ -226,30 +223,36 @@ export class Player extends Entity {
 
 // --- ENEMY ---
 export class Enemy extends Entity {
-  constructor(entity) {
+  constructor(entity: EntityData) {
     super(entity);
   }
 
-  handleTurn(target) {
+  handleTurn(target: Player) {
     const chance = this.random(100); // generates a number between 0 and 100
-    let turn = {};
+
+    type Turn = {
+      action: any, 
+      msg: string, 
+      actionType: string};
+    
+    let turn: Turn = {action: null, msg: "", actionType: ""};
 
     if (chance >= 0) {
       // 100% Attack
       turn.action = this.attack(target);
-      turn.msg = 'The enemy tries to attack you';
-      turn.actionType = 'atk';
+      turn.msg = "The enemy tries to attack you";
+      turn.actionType = "atk";
     }
 
     return turn;
   }
 
-  generateLoot(player) {
+  generateLoot(player: Player) {
     const minXP = this.loot.xp[0];
     const maxXP = this.loot.xp[1];
     const experience = this.random(maxXP, minXP);
 
-    player.update({ xp: (prev) => prev + experience });
+    player.update({ xp: (prev: number) => prev + experience });
 
     return { experience };
   }
@@ -258,19 +261,22 @@ export class Enemy extends Entity {
 // --------- ENEMIES ---------
 // --- GOBLIN ---
 export class Goblin extends Enemy {
-  constructor(entity) {
+  constructor(entity: EntityData) {
     super(entity);
   }
 }
 
 // --- SNAKE ---
 export class Snake extends Enemy {
-  constructor(entity) {
+  constructor(entity: EntityData) {
     super(entity);
   }
 }
 export class VenomousSnake extends Enemy {
-  constructor(entity) {
+  constructor(entity: EntityData) {
     super(entity);
   }
 }
+
+// Saying to TS that Entity has all atributes of EntityData
+export interface Entity extends EntityData {}

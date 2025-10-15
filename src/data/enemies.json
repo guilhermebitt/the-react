@@ -3,7 +3,7 @@
     "level": 1,
     "entityType": "enemy",
     "currentAnim": "standBy",
-    "statesAnim": [],
+    "states": [],
     "actions": 2,
     "spanMessages": []
   },

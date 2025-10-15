@@ -3,10 +3,10 @@ import playerJson from '../data/player.json' with { type: 'json' };
 
 // Dependencies
 import { createContext, useContext, useState, useEffect } from "react";
-import { createUpdater } from "../utils/stateUpdater.js";
-import { Player } from '../utils/entities.js';
-import { init, phrase } from '../utils/functions.ts';
-import { useGame } from '../hooks/useGame.js';
+import { createUpdater } from "../utils/stateUpdater";
+import { Player } from '../utils/entities';
+import { init, phrase } from '../utils/functions';
+import { useGame } from '../hooks/useGame';
 
 const PlayerContext = createContext();
 
@@ -33,7 +33,7 @@ export function PlayerProvider({ children }) {
   useEffect(() => {
     const result = player.tryLevelUp();
     if (result) phrase('Level Up!')
-  }, [player.xp, player.level]);
+  }, [player.xp]);
 
   const update = createUpdater(setPlayer);
 

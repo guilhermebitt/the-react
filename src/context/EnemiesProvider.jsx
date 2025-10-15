@@ -1,7 +1,7 @@
 // Dependencies
 import { createContext, useContext, useState, useEffect } from 'react';
-import { deepUpdate } from '../utils/stateUpdater.js';
-import * as Entities from '../utils/entities.js';
+import { deepUpdate } from '../utils/stateUpdater';
+import * as Entities from '../utils/entities';
 import { produce } from 'immer';
 
 const EnemiesContext = createContext();

@@ -66,11 +66,11 @@ function Entity({ entity }) {
     ${styles[`enemy${entity?.id + 1}`]}
     ${game.get().specificEnemyTurn === entity?.id ? styles.turn : ''}
   `;
-
+  
   // Entity image classes
   const entityImageClasses = `
-    ${entity?.statesAnim.includes('hit') && styles.hit}
-    ${entity?.statesAnim.includes('leveling') && entity?.entityType === 'player' && styles.levelingUp}
+    ${entity?.states.includes('hit') && styles.hit}
+    ${entity?.states.includes('leveling') && entity?.entityType === 'player' && styles.levelingUp}
   `;
 
   // Returning the Component
