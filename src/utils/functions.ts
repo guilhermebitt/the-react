@@ -1,22 +1,19 @@
 // Data
-import maps from '../data/maps.json' with { type: 'json' }
-
-
+import mapsJson from '../data/maps.json';
+const maps: object | any = mapsJson;
 
 // ----- HOOKS MANAGER -----
-let game;
+let game: any;
 
-export function init(gameState) {
+export function init(gameState: any) {
   game = gameState;
 }
-
-
 
 // ----- FUNCTIONS -----
 // Function to send a message to the terminal
 // creating an external variable for the messages queue
-const msgQueue = [];
-export function phrase(text, tag="p", className="default-msg") {
+const msgQueue: string[] = [];
+export function phrase(text: string, tag: string = 'p', className: string = 'default-msg') {
   if (!game) return;
 
   // Creating the message prompt
@@ -26,7 +23,7 @@ export function phrase(text, tag="p", className="default-msg") {
   msgQueue.push(msg);
 
   // Calling the function to update the terminal
-  scheduleTerminalUpdate()
+  scheduleTerminalUpdate();
 }
 
 let updateScheduled = false;
@@ -62,45 +59,45 @@ function scheduleTerminalUpdate() {
 // Function to handle turn changes
 export function endTurn() {
   if (!game) return;
-  game.update({ currentTurn: 'enemies' })
-  game.update({ specificEnemyTurn: 0 })
+  game.update({ currentTurn: 'enemies' });
+  game.update({ specificEnemyTurn: 0 });
 }
 
 // Cleaning the localStorage
-export function clearStorage(toKeep) {
-  const storageKeys = Object.keys(localStorage);  // saving the keys before remove since the length of storages changes
+export function clearStorage(toKeep: string[]) {
+  const storageKeys = Object.keys(localStorage); // saving the keys before remove since the length of storages changes
 
-  storageKeys.forEach(key => {
+  storageKeys.forEach((key) => {
     if (!toKeep.includes(key)) {
       localStorage.removeItem(key);
     }
-  })
+  });
 }
 
 // Getting the current map the player is
-export function getCurrentMap() {
+export function getCurrentMap(): any {
   return maps[game.get().currentMap];
 }
 
 // Get the tick and returns the time in format HH:MM:SS
-export function tickToTime(ticks, tickSpeed) {
+export function tickToTime(ticks: number, tickSpeed: number) {
   const ticksPerSecond = 1000 / tickSpeed;
 
   const seconds = Math.floor(ticks / ticksPerSecond);
   const minutes = Math.floor(seconds / 60);
   const hours = Math.floor(minutes / 60);
 
-  return `${padZero(hours % 60)}h ${padZero(minutes % 60)}m ${padZero(seconds % 60)}s`
+  return `${padZero(hours % 60)}h ${padZero(minutes % 60)}m ${padZero(seconds % 60)}s`;
 }
 
 // Returns a number in format 00
-export function padZero(number) {
-  return (number < 10 ? "0" : "") + number
+export function padZero(number: number) {
+  return (number < 10 ? '0' : '') + number;
 }
 
 // Generates a random number
-export function random(max, min = 0) {
+export function random(max: number, min: number = 0) {
   const array = new Uint32Array(1);
   crypto.getRandomValues(array);
-  return min + (array[0] % ((max + 1) - min));
+  return min + (array[0] % (max + 1 - min));
 }

@@ -299,7 +299,7 @@ export function GameProvider({ children }) {
   };
 
   // Joining the all the function to one object
-  const functions = {...controls, ...eventsLogic, ...mapLogic};
+  const functions = {...controls, ...eventsLogic, ...mapLogic, ...turnLogic};
 
   return (
     <GameContext.Provider value={functions}>

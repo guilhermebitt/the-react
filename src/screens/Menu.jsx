@@ -5,7 +5,7 @@ import settingsData from '../data/settings.json' with { type: 'json' };
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useLocalStorage } from 'usehooks-ts';
-import { clearStorage } from '../utils/functions';
+import { clearStorage } from '../utils/functions.ts';
 
 // Components
 import Changelog from '../components/common/Changelog.jsx';

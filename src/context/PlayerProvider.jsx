@@ -5,7 +5,7 @@ import playerJson from '../data/player.json' with { type: 'json' };
 import { createContext, useContext, useState, useEffect } from "react";
 import { createUpdater } from "../utils/stateUpdater.js";
 import { Player } from '../utils/entities.js';
-import { init, phrase } from '../utils/functions.js';
+import { init, phrase } from '../utils/functions.ts';
 import { useGame } from '../hooks/useGame.js';
 
 const PlayerContext = createContext();

@@ -34,7 +34,7 @@ import enemiesJson from '../data/enemies.json' with { type: 'json' };
 
 // Dependencies
 import { useEffect, useState } from 'react';
-import * as funcs from '../utils/functions.js';
+import * as funcs from '../utils/functions.ts';
 import { getEntitiesAssets } from '../utils/loadAssets.js';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 

@@ -1,6 +1,6 @@
 // Dependencies
 import { useEffect, useState } from "react";
-import * as funcs from '../../utils/functions.js';
+import * as funcs from '../../utils/functions';
 
 // Hooks
 import { useGame } from "../../hooks/useGame";

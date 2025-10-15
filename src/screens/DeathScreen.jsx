@@ -1,7 +1,7 @@
 // Dependencies
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import * as funcs from '../utils/functions.js';
+import * as funcs from '../utils/functions.ts';
 
 // Components
 import ValueIncrement from '../components/ui/ValueIncrement.jsx';

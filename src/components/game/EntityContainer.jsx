@@ -1,13 +1,13 @@
 // Dependencies
 import { useEffect, useState, useRef } from 'react';
-import * as funcs from '../../utils/functions.js';
+import * as funcs from '../../utils/functions';
 
 // Components
-import HealthBar from '../ui/HealthBar.jsx';
-import ExperienceBar from '../ui/ExperienceBar.jsx';
+import HealthBar from '../ui/HealthBar';
+import ExperienceBar from '../ui/ExperienceBar';
 
 // Hooks
-import { useGame } from '../../hooks/useGame.js';
+import { useGame } from '../../hooks/useGame';
 
 // Stylesheet
 import styles from './EntityContainer.module.css';

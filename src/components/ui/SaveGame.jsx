@@ -10,7 +10,7 @@ import { useLocalStorage } from 'usehooks-ts';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faPlay } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
-import * as funcs from '../../utils/functions.js';
+import * as funcs from '../../utils/functions';
 
 // Custom Hooks
 import { useGame } from '../../hooks/useGame.js';

@@ -1,15 +1,15 @@
 // Dependencies
-import * as funcs from '../../utils/functions.js';
+import * as funcs from '../../utils/functions';
 import { useState } from 'react';
 
 // Components
-import ActionButtons from '../common/ActionButtons.jsx';
-import Terminal from '../game/Terminal.jsx';
-import Stats from '../ui/Stats.jsx';
-import ConfirmDialog from '../common/ConfirmDialog.jsx';
+import ActionButtons from '../common/ActionButtons';
+import Terminal from '../game/Terminal';
+import Stats from '../ui/Stats';
+import ConfirmDialog from '../common/ConfirmDialog';
 
 // Hooks
-import { useGame } from '../../hooks/useGame.js';
+import { useGame } from '../../hooks/useGame';
 
 // Stylesheet
 import styles from './sections.module.css'
