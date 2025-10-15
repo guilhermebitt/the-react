@@ -5,15 +5,15 @@ import { immerable } from "immer";
 import playerJson from "@/data/player.json";
 
 // Importing the interface of EntityData
-import { EntityData } from "@/types";
+import { BaseEntityData, EntityData, PlayerData, EnemyData } from "@/types";
 
 // --------- ENTITIES ---------
 export class Entity {
   [immerable] = true;
 
-  public data!: EntityData;
+  public data!: BaseEntityData;
 
-  constructor(data: EntityData) {
+  constructor(data: BaseEntityData) {
     Object.assign(this, data);
   }
 
@@ -158,7 +158,7 @@ export class Entity {
 
 // --- PLAYER ---
 export class Player extends Entity {
-  constructor(entity: EntityData) {
+  constructor(entity: PlayerData) {
     super(entity);
   }
 
@@ -186,7 +186,7 @@ export class Player extends Entity {
     newStatesAnim.push("leveling");
     this.update({ states: newStatesAnim });
     setTimeout(() => {
-      this.update({ states: (prev: []) => prev.filter((item) => item !== "leveling") });
+      this.update({ states: (prev: any) => prev.filter((item: any) => item !== "leveling") });
     }, 1000);
   }
 
@@ -223,7 +223,7 @@ export class Player extends Entity {
 
 // --- ENEMY ---
 export class Enemy extends Entity {
-  constructor(entity: EntityData) {
+  constructor(entity: EnemyData) {
     super(entity);
   }
 
@@ -252,7 +252,7 @@ export class Enemy extends Entity {
     const maxXP = this.loot.xp[1];
     const experience = this.random(maxXP, minXP);
 
-    player.update({ xp: (prev: number) => prev + experience });
+    player.update({ xp: (prev) => prev + experience });
 
     return { experience };
   }
@@ -261,22 +261,24 @@ export class Enemy extends Entity {
 // --------- ENEMIES ---------
 // --- GOBLIN ---
 export class Goblin extends Enemy {
-  constructor(entity: EntityData) {
+  constructor(entity: EnemyData) {
     super(entity);
   }
 }
 
 // --- SNAKE ---
 export class Snake extends Enemy {
-  constructor(entity: EntityData) {
+  constructor(entity: EnemyData) {
     super(entity);
   }
 }
 export class VenomousSnake extends Enemy {
-  constructor(entity: EntityData) {
+  constructor(entity: EnemyData) {
     super(entity);
   }
 }
 
 // Saying to TS that Entity has all atributes of EntityData
-export interface Entity extends EntityData {}
+export interface Entity extends BaseEntityData {}
+export interface Player extends PlayerData {}
+export interface Enemy extends EnemyData {}

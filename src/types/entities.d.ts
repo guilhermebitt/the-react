@@ -1,5 +1,8 @@
 // Base types of entities atributes
 
+// Imports
+import { UpdaterPatch } from "@/types";
+
 // Entities id
 enum EntityIds {
   Player,
@@ -43,18 +46,8 @@ interface SpanMessage {
   type?: string;
 }
 
-// Updater for any type T
-type Updater<T> = T | ((prev: T) => T);
-
-// All the nested paths is valid
-type NestedKeys<T, Prefix extends string = ""> = {
-  [K in keyof T]: T[K] extends object
-    ? `${Prefix}${K & string}` | NestedKeys<T[K], `${Prefix}${K & string}.`>
-    : `${Prefix}${K & string}`
-}[keyof T];
-
 // Common atributes for all entities
-export interface EntityData {
+export interface BaseEntityData {
   // Atributes that differs the entities
   id: EntityIds;
   name: string;
@@ -74,16 +67,24 @@ export interface EntityData {
   // Gameplay
   kills: number;
   level: number;
-  xp?: number;
 
-  // Enemies atributes
-  loot: any;  // ADD LOOT TYPE HERE LATER
+  // Player
+  xp: number;
+
+  // Enemies:
+  loot: any;  // IMPORTANT: CREATE A INTERFACE FOR LOOT
 
   // Others
   spanMessages?: SpanMessage[];
-  update: (
-    updates: {
-      [K in keyof EntityData | NestedKeys<EntityData>]?: Updater<any>
-    }
-  ) => void;
+  update: (patch: UpdaterPatch<EntityData>) => void;
 }
+
+interface PlayerData extends BaseEntityData {
+  xp: number;
+}
+
+interface EnemyData extends BaseEntityData {
+  loot: Loot;
+}
+
+type EntityData = PlayerData | EnemyData;

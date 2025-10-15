@@ -5,7 +5,7 @@
     "src": "/assets/scenarios/wild_forest.jpg",
     "section": "/assets/map_sections/wild_forest_section.png",
     "multipleEnemiesChance": 25,
-    "enemies": {
+    "mapEnemies": {
       "battle": {
         "snake": {
           "appearChance": 75

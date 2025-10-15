@@ -1,5 +1,5 @@
 // Dependencies
-import version from '../../utils/version.js';
+import version from '../../utils/version';
 
 // Stylesheets
 import styles from './VersionBadge.module.css';

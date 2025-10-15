@@ -1,5 +1,5 @@
 // Data
-import mapsJson from '../data/maps.json';
+import mapsJson from "../data/maps.json";
 const maps: object | any = mapsJson;
 
 // ----- HOOKS MANAGER -----
@@ -10,10 +10,11 @@ export function init(gameState: any) {
 }
 
 // ----- FUNCTIONS -----
+
 // Function to send a message to the terminal
 // creating an external variable for the messages queue
 const msgQueue: string[] = [];
-export function phrase(text: string, tag: string = 'p', className: string = 'default-msg') {
+export function phrase(text: string, tag: string = "p", className: string = "default-msg") {
   if (!game) return;
 
   // Creating the message prompt
@@ -59,7 +60,7 @@ function scheduleTerminalUpdate() {
 // Function to handle turn changes
 export function endTurn() {
   if (!game) return;
-  game.update({ currentTurn: 'enemies' });
+  game.update({ currentTurn: "enemies" });
   game.update({ specificEnemyTurn: 0 });
 }
 
@@ -92,7 +93,7 @@ export function tickToTime(ticks: number, tickSpeed: number) {
 
 // Returns a number in format 00
 export function padZero(number: number) {
-  return (number < 10 ? '0' : '') + number;
+  return (number < 10 ? "0" : "") + number;
 }
 
 // Generates a random number

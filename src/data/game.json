@@ -1,6 +1,6 @@
 {
   "firstLoad": false,
-  "specificEnemyTurn": "player",
+  "specificEnemyTurn": 0,
   "target": null,
   "tickSpeed": 500,
   "currentSave": null,
@@ -20,99 +20,5 @@
   },
   "doubleEventChance": 40,
   "eventsEnabled": [0],
-  "mapData": [],
-  "x": [
-    {
-      "url": "/assets/map_sections/wild_forest_section.png",
-      "events": [
-        {
-          "eventId": 0,
-          "type": "battle",
-          "path": "/battle",
-          "isFinished": false,
-          "enemiesToSpawn": [
-            {
-              "name": "snake",
-              "level": 1
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "url": "/assets/map_sections/wild_forest_section.png",
-      "events": [
-        {
-          "eventId": 1,
-          "type": "battle",
-          "path": "/battle",
-          "isFinished": false,
-          "enemiesToSpawn": [
-            {
-              "name": "snake",
-              "level": 2
-            }
-          ]
-        },
-        {
-          "eventId": 2,
-          "type": "battle",
-          "path": "/battle",
-          "isFinished": false,
-          "enemiesToSpawn": [
-            {
-              "name": "snake",
-              "level": 2
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "url": "/assets/map_sections/wild_forest_section.png",
-      "events": [
-        {
-          "eventId": 3,
-          "type": "battle",
-          "path": "/battle",
-          "isFinished": false,
-          "enemiesToSpawn": [
-            {
-              "name": "snake",
-              "level": 3
-            }
-          ]
-        },
-        {
-          "eventId": 4,
-          "type": "battle",
-          "path": "/battle",
-          "isFinished": false,
-          "enemiesToSpawn": [
-            {
-              "name": "snake",
-              "level": 3
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "url": "/assets/map_sections/wild_forest_section.png",
-      "events": [
-        {
-          "eventId": 5,
-          "type": "boss_battle",
-          "path": "/battle",
-          "isFinished": false,
-          "enemiesToSpawn": [
-            {
-              "name": "snake",
-              "level": 5
-            }
-          ]
-        }
-      ]
-    }
-  ]
+  "mapArea": []
 }

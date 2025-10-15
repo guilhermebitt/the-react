@@ -53,8 +53,8 @@ function EventBadge({ badge }) {
     if (!game.get().eventsEnabled.includes(badge?.eventId)) return;
 
     // Getting the sections
-    const section = game.get()?.mapData[game.get()?.currentMapSection];
-    const nextSection = game.get()?.mapData[game.get()?.currentMapSection + 1];
+    const section = game.get()?.mapArea[game.get()?.currentMapSection];
+    const nextSection = game.get()?.mapArea[game.get()?.currentMapSection + 1];
 
     // Getting the side to block
     const otherSide = badge?.eventId === section?.events[0]?.eventId ? 1 : 0;

@@ -66,7 +66,7 @@ function SaveGame({ saveId }) {
 
     // Updating the gameData with the region
     newGameState.game.currentMap = regionKey || "wildForest";
-    newGameState.game.mapData = mapData || [];
+    newGameState.game.mapArea = mapData || [];
     
     setSaves(prevSaves => ({
       ...prevSaves,

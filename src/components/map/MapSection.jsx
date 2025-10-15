@@ -22,10 +22,10 @@ function MapSection({ background, paths, badges, index }) {
 
     // For some reason this need to be here and not in the MapScreen.jsx
     window.location.hash = currentMS;
-    if (currentMS < game.get().mapData.length) {
+    if (currentMS < game.get().mapArea.length) {
       window.location.hash = currentMS;
     } else {
-      window.location.hash = game.get().mapData.length - 1;
+      window.location.hash = game.get().mapArea.length - 1;
     }
 
     if (index <= currentMS) {

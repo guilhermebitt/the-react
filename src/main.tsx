@@ -5,15 +5,17 @@ import ReactDOM from 'react-dom/client';
 import VersionBadge from './components/common/VersionBadge.jsx';
 
 // Screens
-import App from './App';
+import App from './App.jsx';
 
 // Stylesheet
 import './assets/css/index.css';
 import './assets/css/theBox.css';
 
+const rootElement = document.getElementById('root');
 
+if (!rootElement) throw new Error('Root element not found');
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+ReactDOM.createRoot(rootElement).render(
   <>
     <App />
     <VersionBadge />

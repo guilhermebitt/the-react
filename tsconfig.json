@@ -8,14 +8,15 @@
     "isolatedModules": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,
+    "maxNodeModuleJsDepth": 2,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noImplicitAny": true,
     "skipLibCheck": true,
     "noEmit": true,
     "allowJs": true,
-    "baseUrl": ".",
     "checkJs": false,
+    "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]
     }

@@ -4,17 +4,17 @@ import gameData from '../data/game.json' with { type: 'json' };
 
 // Dependencies
 import { useEffect } from 'react';
-import { getMapAssets } from '../utils/loadAssets.js';
+import { getMapAssets } from '../utils/loadAssets';
 
 // Components
-import Header from '../components/game/Header.jsx';
-import ComponentBorder from '../components/ui/ComponentBorder.jsx';
-import MapSection from '../components/map/MapSection.jsx';
-import Loading from '../components/common/Loading.jsx';
+import Header from '../components/game/Header';
+import ComponentBorder from '../components/ui/ComponentBorder';
+import MapSection from '../components/map/MapSection';
+import Loading from '../components/common/Loading';
 
 // Hooks
-import { useGame } from '../hooks/useGame.js';
-import { useLoading } from '../hooks/useLoading.js';
+import { useGame } from '../hooks/useGame';
+import { useLoading } from '../hooks/useLoading';
 
 // Stylesheets
 import styles from './MapScreen.module.css';
@@ -43,11 +43,11 @@ var badgesUrl = [
 function MapScreen() {
   const { game, enemies, tick, audios } = useGame();
   const { loading, loadAssets } = useLoading();
-  const mapData = structuredClone(game.get().mapData);
+  const mapArea = structuredClone(game.get().mapArea);
 
   // LOADING
   useEffect(() => {
-    const mapAssets = getMapAssets(mapData);
+    const mapAssets = getMapAssets(mapArea);
     const assetsToLoad = [...mapAssets, ...pathsUrl, ...badgesUrl];
 
     loadAssets(assetsToLoad);
@@ -92,18 +92,18 @@ function MapScreen() {
     }
 
     return [bottomPath, topPath];
-  };
+  }
 
   function getBadges(selfL, index) {
     let types = [];
 
     for (let i = 0; i < selfL; i++) {
-      const type = mapData[index]?.events[i];
+      const type = mapArea[index]?.events[i];
       types.push(type);
     }
 
     return types;
-  };
+  }
 
   if (loading) return <Loading />
   return (
@@ -120,13 +120,13 @@ function MapScreen() {
           <div className={`${styles.mapSections} scrollbar`}>
             {/* MAP CONTENTS */}
             {}
-            {mapData && mapData
+            {mapArea && mapArea
               .map((section, index) => {
                 // Adding the map section components to the MapScreen
 
                 // Getting the next section (to configure the path)
-                const thisSeEv = game.get().mapData[index + 0]?.events.length;
-                const nextSeEv = game.get().mapData[index + 1]?.events.length;
+                const thisSeEv = game.get().mapArea[index + 0]?.events.length;
+                const nextSeEv = game.get().mapArea[index + 1]?.events.length;
 
                 const paths = getPath(thisSeEv, nextSeEv);
 
@@ -143,7 +143,7 @@ function MapScreen() {
       </section>
     </main>
   );
-};
+}
 
 // Exporting the MapScreen component as default
 export default MapScreen;

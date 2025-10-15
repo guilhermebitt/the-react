@@ -34,24 +34,24 @@ import enemiesJson from '../data/enemies.json' with { type: 'json' };
 
 // Dependencies
 import { useEffect, useState } from 'react';
-import * as funcs from '../utils/functions.ts';
-import { getEntitiesAssets } from '../utils/loadAssets.js';
+import * as funcs from '../utils/functions';
+import { getEntitiesAssets } from '../utils/loadAssets';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 
 // Components
-import MapContainer from '../components/game/MapContainer.jsx';
-import SectionButtons from '../components/common/SectionButtons.jsx';
-import Header from '../components/game/Header.jsx';
-import PlayerHUD from '../components/ui/PlayerHUD.jsx';
-import Loading from '../components/common/Loading.jsx';
-import ActionSection from '../components/sections/ActionSection.jsx';
-import InventorySection from '../components/sections/InventorySection.jsx';
-import SkillsSection from '../components/sections/SkillsSection.jsx';
-import VictoryModal from '../components/ui/VictoryModal.jsx';
+import MapContainer from '../components/game/MapContainer';
+import SectionButtons from '../components/common/SectionButtons';
+import Header from '../components/game/Header';
+import PlayerHUD from '../components/ui/PlayerHUD';
+import Loading from '../components/common/Loading';
+import ActionSection from '../components/sections/ActionSection';
+import InventorySection from '../components/sections/InventorySection';
+import SkillsSection from '../components/sections/SkillsSection';
+import VictoryModal from '../components/ui/VictoryModal';
 
 // Hooks
-import { useGame } from '../hooks/useGame.js';
-import { useLoading } from '../hooks/useLoading.js';
+import { useGame } from '../hooks/useGame';
+import { useLoading } from '../hooks/useLoading';
 
 // Stylesheet
 import styles from'./BattleEvent.module.css';
@@ -112,7 +112,7 @@ function BattleEvent() {
     // Spawning the enemies
     if (enemies.get().length < 1) {
       spawnEnemies(event?.enemiesToSpawn);
-    };
+    }
 
     // Resetting the player's actions left
     player.update({ actionsLeft: player.get().actions }) 
