@@ -1,6 +1,6 @@
 {
   "firstLoad": false,
-  "specificEnemyTurn": 0,
+  "specificEntityTurn": 0,
   "target": null,
   "tickSpeed": 500,
   "currentSave": null,

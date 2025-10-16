@@ -8,7 +8,7 @@ type TurnTypes = typeof validTurns[number];
 interface GameData {
   // Gameplay settings
   firstLoad: boolean;
-  specificEnemyTurn: EntityIds;
+  specificEntityTurn: EntityIds;
   target: any;  // ID of the entity
   tickSpeed: number;
 

@@ -3,14 +3,14 @@ import { useEffect, useRef } from "react";
 import { useGame } from "@/hooks";
 
 // Importing TS types
-import { TurnTypes } from "@/types";
+import { TurnTypes, EntityIds } from "@/types";
 import { validTurns } from "@/types/constants";
 import { init, phrase } from "@/utils/functions";
 import { Enemy, Entity } from "@/utils/entities";
 
 // Functions that handle the context dependencies
 export function useTurnLogic() {
-  const { game, enemies } = useGame();
+  const { game, enemies, player } = useGame();
   const isFirstRender = useRef(true);
   const lastTurn = useRef<TurnTypes>(null);
 
@@ -22,7 +22,7 @@ export function useTurnLogic() {
     }
 
     // Keeping the lastTurn
-    const lastTurnTemp: TurnTypes = lastTurn.current
+    const lastTurnTemp: TurnTypes = lastTurn.current;
 
     // Updates the last turn to the actual one
     lastTurn.current = game.currentTurn;
@@ -37,13 +37,13 @@ export function useTurnLogic() {
     }
 
     // Verify what kind of turn it is
-    switch(game.get().currentTurn) {
+    switch (game.get().currentTurn) {
       case "player":
-        functions.handlePlayerTurn()
+        functions.handlePlayerTurn();
         break;
 
       case "enemies":
-        functions.handleEnemiesTurn()
+        functions.handleEnemiesTurn();
         break;
 
       default:
@@ -59,17 +59,28 @@ export function useTurnLogic() {
     // Function to handle the player turn
     handlePlayerTurn() {
       // First of all, we reset the specific turn (0 is player)
-      game.update({ specificEnemyTurn: 0 });
+      game.update({ specificEntityTurn: 0 });
     },
 
-    // FUnction to handle the enemies turn
-    handleEnemiesTurn() {
-      // First of all, we set the specific turn to enemy 1
-      let nextSpecificTurn = game.get().specificEnemyTurn + 1;
-      game.update({ specificEnemyTurn: nextSpecificTurn });
+    // Function to handle the enemies turn. Starts from the enemy 1
+    handleEnemiesTurn(enemyId: EntityIds = 1) {
+      // First of all, sets the specific entity turn
+      game.update({ specificEntityTurn: enemyId });
+      // Getting the entity by its id
+      const enemy = enemies.get(enemyId);
 
-      // getting the entity by its id
-      const enemy = enemies.get(nextSpecificTurn);
+      // Executing its turn
+      this.enemyTurn(enemy, player.get()).then(() => {
+        // Getting the amount of enemies
+        const enemiesAmount = enemies.get().length;
+
+        // Setting the specific turn to the next enemy
+        const nextEntity = enemyId + 1;
+
+        // If the next entity id reaches the last enemy of the enemies list. It'll finish the enemies turn
+        if (nextEntity > enemiesAmount) this.switchTurn("player");
+        else this.handleEnemiesTurn(nextEntity);
+      });
     },
 
     // Functions that changes the current turn
@@ -101,9 +112,9 @@ export function useTurnLogic() {
         const turn = enemy.handleTurn(target);
 
         if (!turn) {
-          console.error('turn is null at enemyTurn().');
+          console.error("turn is null at enemyTurn().");
           return;
-        };
+        }
 
         // Handling the action type
         switch (turn.actionType) {
@@ -123,7 +134,7 @@ export function useTurnLogic() {
         }, timeToWait + 500); // more 0.5s to the enemy's actions
       });
     },
-  }
+  };
 
-  return {...functions};
+  return { ...functions };
 }

@@ -64,7 +64,7 @@ function Entity({ entity }) {
     ${styles.entityContainer}
     ${entity?.id === game.get()?.target && styles.selected}
     ${styles[`enemy${entity?.id}`]}
-    ${game.get().specificEnemyTurn === entity?.id ? styles.turn : ''}
+    ${game.get().specificEntityTurn === entity?.id ? styles.turn : ''}
   `;
   
   // Entity image classes
