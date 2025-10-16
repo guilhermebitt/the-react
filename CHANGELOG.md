@@ -1,101 +1,18 @@
-# [1.0.0-beta.33](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.32...v1.0.0-beta.33) (2025-10-07)
-
-
-### Features
-
-* **level:** new leveling system and some code fixes and changes ([652383a](https://github.com/guilhermebitt/the-react/commit/652383a9e7e36ec6f94cc585f1fcb5568d1b1b22))
-
-# [1.0.0-beta.32](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.31...v1.0.0-beta.32) (2025-09-20)
-
-
-### Features
-
-* **audio options and more:** I added somethings to the game, but it may be instable ([6c0b032](https://github.com/guilhermebitt/the-react/commit/6c0b0329a0578e464e997367fb8eb81e2bbd58cc))
-
-# [1.0.0-beta.31](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.30...v1.0.0-beta.31) (2025-09-20)
+# [1.1.0](https://github.com/guilhermebitt/the-react/compare/v1.0.0...v1.1.0) (2025-09-02)
 
 
 ### Bug Fixes
 
-* **hr:** hr ([5b92641](https://github.com/guilhermebitt/the-react/commit/5b92641cfd83317be36dc625db748fb4604a6bf5))
+* OKAY, now it should work ([1d48bff](https://github.com/guilhermebitt/the-react/commit/1d48bffd754d3598eb1b3ad2e9d2912f0f405e9f))
+* OKAY, now it should work ([1532b61](https://github.com/guilhermebitt/the-react/commit/1532b615c870343d93ed847cf193aae850368bc5))
+* trying to fix the changelog ([80c100d](https://github.com/guilhermebitt/the-react/commit/80c100d94b9878389537d051d4be54c56a899296))
 
 
 ### Features
 
-* **animations:** cloud animations and more badges ([0068f70](https://github.com/guilhermebitt/the-react/commit/0068f7029477462e5850cf058c4daa4c2a99b2d2))
-* **map screen:** New screen to navigate through the mapgit add .! ([57cbf53](https://github.com/guilhermebitt/the-react/commit/57cbf5306fcf40c98e72f92caa9afeebfdc01829))
-* **map system:** the map is now 50% done ([60aac52](https://github.com/guilhermebitt/the-react/commit/60aac5292d3223acd0b295699f3e3f228568c0df))
-* **terminal log:** added a log with the last 200 messages and fixed the audio os the points at the death screen and victory component ([f649b58](https://github.com/guilhermebitt/the-react/commit/f649b58685e90d868384e9b1104fb69e07bf9b2b))
-
-# [1.0.0-beta.30](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.29...v1.0.0-beta.30) (2025-09-13)
-
-
-### Features
-
-* **credts and background:** Updated the menus background and added the credits to the artist and other people ([32803f1](https://github.com/guilhermebitt/the-react/commit/32803f1947da3b486f0895a66b85d25db7798577))
-
-# [1.0.0-beta.29](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.28...v1.0.0-beta.29) (2025-09-10)
-
-
-### Features
-
-* added the value increment mechanic to the death screen and improved the save game button in options ([7d24a29](https://github.com/guilhermebitt/the-react/commit/7d24a2902dc4b44e1f3bedecdc6d25073c5e1d3e))
-* **victory modal:** new victory modal system (I'll implement to death screen too) ([9b58713](https://github.com/guilhermebitt/the-react/commit/9b587131a67c5c1448e0b2efbc0a7b0de3881ed0))
-
-# [1.0.0-beta.28](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.27...v1.0.0-beta.28) (2025-09-09)
-
-
-### Features
-
-* **victory and defeat:** The game was a screen for death and a modal for victory ([deb7e7d](https://github.com/guilhermebitt/the-react/commit/deb7e7d38f735afa2146b93991e264fe3b7d4baf))
-
-# [1.0.0-beta.27](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.26...v1.0.0-beta.27) (2025-09-09)
-
-
-### Bug Fixes
-
-* **saves:** HOLY SH1T! FORGET THE OTHER COMMITgit add .! ([6e42823](https://github.com/guilhermebitt/the-react/commit/6e428238e4e8bf4098348b7ef5747a38946de1a1))
-
-# [1.0.0-beta.26](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.25...v1.0.0-beta.26) (2025-09-09)
-
-
-### Features
-
-* **clear data:** the clear data button returned (if something in the game feels wrong, reset your data) ([b99fadc](https://github.com/guilhermebitt/the-react/commit/b99fadc31f9054262c42718a120270d05245c8a0))
-
-# [1.0.0-beta.25](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.24...v1.0.0-beta.25) (2025-09-08)
-
-
-### Features
-
-* **audio & death:** fixed the audio and add an DeathScreen ([f2d4a35](https://github.com/guilhermebitt/the-react/commit/f2d4a35211b6da29c283a7ee9dc6930d0ab2efb5))
-
-# [1.0.0-beta.24](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.23...v1.0.0-beta.24) (2025-09-06)
-
-
-### Bug Fixes
-
-* **animation:** animation was changing at every section change ([11c0fc4](https://github.com/guilhermebitt/the-react/commit/11c0fc4097ca896446daf86faf5668cc028efdfd))
-* **enemies turn:** added more delay to change the enemies turn ([3555821](https://github.com/guilhermebitt/the-react/commit/35558218b3899ffa52bc6b5477ab3126e7649d85))
-
-# [1.0.0-beta.23](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.22...v1.0.0-beta.23) (2025-09-06)
-
-
-### Bug Fixes
-
-* **combat:** the combat mechanics as fixed ([6cbceca](https://github.com/guilhermebitt/the-react/commit/6cbcecab8dbe350b280fcc6d10e0e5b250f93c38))
-
-
-### Features
-
-* **route:** starting to implement more sections on the game screen ([c0600e6](https://github.com/guilhermebitt/the-react/commit/c0600e6ea4233a1ce7b392b99a76c501dda6499d))
-
-# [1.0.0-beta.22](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.21...v1.0.0-beta.22) (2025-09-06)
-
-
-### Features
-
-* fixing the health bar of the enemies ([69bddf8](https://github.com/guilhermebitt/the-react/commit/69bddf8e3a6c42e5e076de22465fea01c6ff8735))
+* **changelog:** now there is a changelog boxgit add . You can see exatly what i've change ([90cd8bb](https://github.com/guilhermebitt/the-react/commit/90cd8bbf2f363f534addf333bf5e1e4c61712fc5))
+* i think that this version is stable, and I have addded a changelog box in the menu. ([791f260](https://github.com/guilhermebitt/the-react/commit/791f260a2165929042b0ef7bbd368bc77cdfde8f))
+* improved changelog, removed some action button, and changed some line in the SaveGame file. ([a75c0f8](https://github.com/guilhermebitt/the-react/commit/a75c0f8ffeb8424df79e41a4d7508444eddf83bb))
 
 # [1.0.0-beta.21](https://github.com/guilhermebitt/the-react/compare/v1.0.0-beta.20...v1.0.0-beta.21) (2025-09-02)
 
