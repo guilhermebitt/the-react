@@ -1,16 +1,16 @@
 // Dependencies
-import { useEffect, useState, useRef } from 'react';
-import * as funcs from '../../utils/functions';
+import { useEffect, useState, useRef } from "react";
+import * as funcs from "../../utils/functions";
 
 // Components
-import HealthBar from '../ui/HealthBar';
-import ExperienceBar from '../ui/ExperienceBar';
+import HealthBar from "../ui/HealthBar";
+import ExperienceBar from "../ui/ExperienceBar";
 
 // Hooks
-import { useGame } from '../../hooks/useGame';
+import { useGame } from "../../hooks/useGame";
 
 // Stylesheet
-import styles from './EntityContainer.module.css';
+import styles from "./EntityContainer.module.css";
 
 function EntityContainer({ entity }) {
   // useRefs
@@ -43,7 +43,7 @@ function EntityContainer({ entity }) {
   useEffect(() => {
     if (loading) return;
 
-    if (!audios?.get('levelUp')?.isPlaying()) audios?.get('levelUp')?.play();
+    if (!audios?.get("levelUp")?.isPlaying()) audios?.get("levelUp")?.play();
 
     setLeveling(true);
     setTimeout(() => setLeveling(false), 1500); // Animation duration
@@ -52,11 +52,7 @@ function EntityContainer({ entity }) {
   // Code for enemies turn
   useEffect(() => {
     // This guarantee that the code will only be executed if its the enemy's turn
-    if (
-      game.get().currentTurn !== 'enemies' ||
-      game.get().specificEnemyTurn !== entity?.id
-    )
-      return;
+    if (game.get().currentTurn !== "enemies" || game.get().specificEnemyTurn !== entity?.id) return;
 
     // --- Processing the enemy's turn ---
     (async () => {
@@ -78,13 +74,10 @@ function EntityContainer({ entity }) {
     if (!turnEnded) return;
 
     // Ending of the enemy's turn.
-    if (
-      game.get().specificEnemyTurn >= enemies.get().length - 1 &&
-      !player.get().isDead()
-    ) {
-      game.update({ specificEnemyTurn: 'player' });
-      game.update({ currentTurn: 'player' });
-      funcs.phrase('Its your turn!');
+    if (game.get().specificEnemyTurn >= enemies.get().length - 1 && !player.get().isDead()) {
+      game.update({ specificEnemyTurn: "player" });
+      game.update({ currentTurn: "player" });
+      funcs.phrase("Its your turn!");
     } else {
       game.update({ specificEnemyTurn: game.get().specificEnemyTurn + 1 });
     }
@@ -95,13 +88,13 @@ function EntityContainer({ entity }) {
   // If the entity is the player, and its is dead, execute this:
   useEffect(() => {
     // Conditions to skip
-    if (entity?.entityType !== 'player') return;
+    if (entity?.entityType !== "player") return;
     if (!entity?.isDead()) return; // guarantees that the player do not die at the begin
 
     // Updates
-    game.update({ specificEnemyTurn: 'none' });
-    game.update({ currentTurn: 'none' });
-    player.update({ currentAnim: 'death' });
+    game.update({ specificEnemyTurn: "none" });
+    game.update({ currentTurn: "none" });
+    player.update({ currentAnim: "death" });
 
     runDeathEvent(); // Only to the player
   }, [entity?.isDead()]);
@@ -109,7 +102,7 @@ function EntityContainer({ entity }) {
   // Checks if the animation changed
   useEffect(() => {
     // Conditions to skip
-    if (entity?.currentAnim === 'standBy') return;
+    if (entity?.currentAnim === "standBy") return;
     if (isFirstRun()) return; // Checks if it is the first run and changes the ref
 
     setStandBy(false);
@@ -119,10 +112,7 @@ function EntityContainer({ entity }) {
   // Game tick useEffect
   useEffect(() => {
     // Updates the index
-    const nexIndex =
-      standByIndex < entity?.animations['standBy']?.frames?.length - 1
-        ? standByIndex + 1
-        : 0;
+    const nexIndex = standByIndex < entity?.animations["standBy"]?.frames?.length - 1 ? standByIndex + 1 : 0;
     setStandByIndex(nexIndex);
 
     // Conditions to continue
@@ -133,7 +123,7 @@ function EntityContainer({ entity }) {
     const animationFrames = anim.frames;
 
     // Updates the entity's image if the animation is standBy
-    if (entity?.currentAnim === 'standBy') {
+    if (entity?.currentAnim === "standBy") {
       setFrame(animationFrames[standByIndex]);
     }
   }, [gameTick]);
@@ -141,10 +131,7 @@ function EntityContainer({ entity }) {
   // Game useEffect
   useEffect(() => {
     game.get().target === entity?.id ? setSelected(true) : setSelected(false);
-    if (
-      game.get().currentTurn === 'enemies' &&
-      typeof game.get().target === 'number'
-    ) {
+    if (game.get().currentTurn === "enemies" && typeof game.get().target === "number") {
       setSelected(false);
       game.update({ target: null });
     }
@@ -172,11 +159,11 @@ function EntityContainer({ entity }) {
     ]);
 
     // Handling damage sound and animation
-    if (damageValue !== 'Missed') {
+    if (damageValue !== "Missed") {
       setHit(true);
       setTimeout(() => setHit(false), 1000); // Animation duration
 
-      if (audios.get('hitSound')) audios.get('hitSound').start(); // Start only if exists
+      if (audios.get("hitSound")) audios.get("hitSound").start(); // Start only if exists
     }
 
     // Removing the damage from the state after 2 seconds
@@ -186,7 +173,7 @@ function EntityContainer({ entity }) {
 
     // Checks if the entity died
     if (entity.isDead()) {
-      entity.update({ currentAnim: 'death' });
+      entity.update({ currentAnim: "death" });
     }
 
     // Returning the dmgTaken to null
@@ -200,7 +187,7 @@ function EntityContainer({ entity }) {
       // CODE FOR THE ENEMY'S TURN
       const turn = enemy?.handleTurn(player.get());
 
-      if (turn.actionType === 'atk') {
+      if (turn.actionType === "atk") {
         var { attackMsg, timeToWait } = turn.action;
         funcs.phrase(`${turn.msg}. ${attackMsg}`);
       }
@@ -225,35 +212,32 @@ function EntityContainer({ entity }) {
     const interval = setInterval(() => {
       // When the animation get to the last frame
       if (index === animationFrames.length) {
-        if (entity?.currentAnim !== 'death') {
-          entity.update({ currentAnim: 'standBy' });
+        if (entity?.currentAnim !== "death") {
+          entity.update({ currentAnim: "standBy" });
           setStandBy(true);
         }
         clearInterval(interval);
       } else {
         setFrame(animationFrames[index]);
         index = index + 1;
-        entity.update({ img: '/assets/entities/death/death4.png' });
+        entity.update({ img: "/assets/entities/death/death4.png" });
         entity.update({ dmgTaken: null });
       }
     }, frameDuration);
   }
 
   function runDeathEvent() {
-    funcs.phrase('You died.');
+    funcs.phrase("You died.");
 
     // Playing the death music:
-    if (
-      audios.get('gameMusic')?.isPlaying() &&
-      !audios.get('deathMusic')?.isPlaying()
-    ) {
-      audios.get('gameMusic').stop();
-      audios.get('deathMusic').start();
+    if (audios.get("gameMusic")?.isPlaying() && !audios.get("deathMusic")?.isPlaying()) {
+      audios.get("gameMusic").stop();
+      audios.get("deathMusic").start();
     }
   }
 
   function selectTarget() {
-    if (game.get().currentTurn === 'player' && typeof entity?.id === 'number') {
+    if (game.get().currentTurn === "player" && typeof entity?.id === "number") {
       game.update({ target: entity?.id });
     }
   }
@@ -270,26 +254,21 @@ function EntityContainer({ entity }) {
     <>
       {/* Code to toggle both the selected and the turn class */}
       <div
-        className={`${styles[`enemy${entity?.id + 1}`]} ${
-          styles.entityContainer
-        } ${selected ? styles.selected : ''} 
-        ${game.get().specificEnemyTurn === entity?.id ? styles.turn : ''}`}
-      >
+        className={`${styles[`enemy${entity?.id + 1}`]} ${styles.entityContainer} ${selected ? styles.selected : ""} 
+        ${game.get().specificEnemyTurn === entity?.id ? styles.turn : ""}`}>
         {/* Name and health bar */}
         <h2>
           {entity?.name} Lv.{entity?.level}
         </h2>
-        {entity?.entityType !== 'player' && <HealthBar entityId={entity.id} />}
-        {entity?.entityType === 'player' && <ExperienceBar />}
+        {entity?.entityType !== "player" && <HealthBar entityId={entity.id} />}
+        {entity?.entityType === "player" && <ExperienceBar />}
 
         {/* Image and control of the hit animation */}
         <img
           src={frame}
           alt="entity image"
           onClick={selectTarget}
-          className={`${hit && styles.hit} ${
-            leveling && entity?.entityType === 'player' && styles.levelingUp
-          }`}
+          className={`${hit && styles.hit} ${leveling && entity?.entityType === "player" && styles.levelingUp}`}
         />
 
         {/* Extra div (those ones are displayed as "none" by default) */}
@@ -298,10 +277,7 @@ function EntityContainer({ entity }) {
 
         {/* Code to show the damage dealt */}
         {damageNumbers.map((dmg) => (
-          <div
-            key={dmg.id}
-            className={`${styles.damage} ${dmg.isCrit ? styles.crit : ''}`}
-          >
+          <div key={dmg.id} className={`${styles.damage} ${dmg.isCrit ? styles.crit : ""}`}>
             {dmg.value}
           </div>
         ))}

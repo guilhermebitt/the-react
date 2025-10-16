@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 
 // Hooks
-import { useGame } from '../../hooks/useGame.js';
+import { useGame } from '../../hooks/useGame';
 
 // Stylesheets
 import styles from './bars.module.css';

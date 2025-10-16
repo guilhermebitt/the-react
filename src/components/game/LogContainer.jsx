@@ -9,7 +9,7 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import ComponentBorder from '../ui/ComponentBorder';
 
 // Hooks
-import { useGame } from '../../hooks/useGame.js';
+import { useGame } from '../../hooks/useGame';
 
 // Stylesheets
 import styles from './LogContainer.module.css';

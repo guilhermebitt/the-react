@@ -1,12 +1,12 @@
 // Dependencies
 import { useState, useEffect } from 'react';
-import { useAnimation } from '../../hooks/useAnimation.js';
-import { useGame } from '../../hooks/useGame.js';
+import { useAnimation } from '../../hooks/useAnimation';
+import { useGame } from '../../hooks/useGame';
 
 // Components
 import HealthBar from '../ui/HealthBar';
 import ExperienceBar from '../ui/ExperienceBar';
-import ValueSpan from '../ui/ValueSpan.jsx';
+import ValueSpan from '../ui/ValueSpan';
 
 // Stylesheet
 import styles from './Entity.module.css';
@@ -63,7 +63,7 @@ function Entity({ entity }) {
   const entityContainerClasses = `
     ${styles.entityContainer}
     ${entity?.id === game.get()?.target && styles.selected}
-    ${styles[`enemy${entity?.id + 1}`]}
+    ${styles[`enemy${entity?.id}`]}
     ${game.get().specificEnemyTurn === entity?.id ? styles.turn : ''}
   `;
   

@@ -3,8 +3,7 @@ import { TickProvider } from "./TickProvider";
 import { PlayerProvider } from "./PlayerProvider";
 import { EnemiesProvider } from "./EnemiesProvider";
 import { GameProvider } from "./GameProvider";
-
-
+import { LogicProvider } from "./LogicProvider";
 
 export function AppProviders({ children }) {
   return (
@@ -13,7 +12,9 @@ export function AppProviders({ children }) {
         <TickProvider>
           <PlayerProvider>
             <EnemiesProvider>
-              {children}
+              <LogicProvider>
+                {children}
+              </LogicProvider>
             </EnemiesProvider>
           </PlayerProvider>
         </TickProvider>

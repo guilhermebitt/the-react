@@ -1,10 +1,10 @@
 // Components
-import EntityContainer from './EntityContainer.jsx';
-import Entity from './Entity.jsx';
+import EntityContainer from './EntityContainer';
+import Entity from './Entity';
 import ComponentBorder from '../ui/ComponentBorder';
 
 // Hooks
-import { useGame } from '../../hooks/useGame.js'
+import { useGame } from '../../hooks/useGame'
 
 // Stylesheet
 import styles from './MapContainer.module.css';

@@ -2,7 +2,7 @@
 import { useLocalStorage } from 'usehooks-ts';
 
 // Hooks
-import { useGame } from './useGame.js';
+import { useGame } from './useGame';
 
 export const useSaveManager = (saveId) => {
   const { tick, player, enemies, game } = useGame();

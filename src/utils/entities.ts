@@ -5,7 +5,15 @@ import { immerable } from "immer";
 import playerJson from "@/data/player.json";
 
 // Importing the interface of EntityData
-import { BaseEntityData, EntityData, PlayerData, EnemyData } from "@/types";
+import { BaseEntityData, PlayerData, EnemyData } from "@/types";
+
+type EnemyActions = "attack";
+
+type Action = {
+  action: any;
+  msg: string;
+  actionType: EnemyActions;
+};
 
 // --------- ENTITIES ---------
 export class Entity {
@@ -30,14 +38,14 @@ export class Entity {
   }
 
   // Chance to hit an enemy (0 - 1)
-  hitChance(target: Player | Enemy) {
+  hitChance(target: Entity) {
     const attackerAccuracy = this.stats.accuracy ?? 0;
     const defenderEvasion = target.stats.evasion ?? 0;
     return Math.min(100, Math.max(0, attackerAccuracy - defenderEvasion));
   }
 
   // Attack to entity
-  attack(target: Player | Enemy) {
+  attack(target: Entity) {
     // Executing animation
     if (this.animations.atk) this.update({ currentAnim: "atk" });
 
@@ -227,24 +235,19 @@ export class Enemy extends Entity {
     super(entity);
   }
 
-  handleTurn(target: Player) {
-    const chance = this.random(100); // generates a number between 0 and 100
-
-    type Turn = {
-      action: any, 
-      msg: string, 
-      actionType: string};
-    
-    let turn: Turn = {action: null, msg: "", actionType: ""};
+  handleTurn(target: Entity): Partial<Action> | null {
+    const chance = this.random(100); // generates a number between 0 and 100 (this number also counts!)
+    const turn: Partial<Action> = {};
 
     if (chance >= 0) {
       // 100% Attack
       turn.action = this.attack(target);
       turn.msg = "The enemy tries to attack you";
-      turn.actionType = "atk";
+      turn.actionType = "attack";
     }
 
-    return turn;
+    // If there is a turn action, returns the turn. If not, returns nothing
+    return turn?.action ? turn : null;
   }
 
   generateLoot(player: Player) {

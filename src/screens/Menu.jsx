@@ -5,14 +5,14 @@ import settingsData from '../data/settings.json' with { type: 'json' };
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useLocalStorage } from 'usehooks-ts';
-import { clearStorage } from '../utils/functions.ts';
+import { clearStorage } from '../utils/functions';
 
 // Components
-import Changelog from '../components/common/Changelog.jsx';
+import Changelog from '../components/common/Changelog';
 
 // Hooks
-import { useGame } from '../hooks/useGame.js';
-import { useSaveManager } from '../hooks/useSaveManager.js';
+import { useGame } from '../hooks/useGame';
+import { useSaveManager } from '../hooks/useSaveManager';
 
 // Stylesheet
 import styles from './menus.module.css';

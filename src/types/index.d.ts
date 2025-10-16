@@ -5,3 +5,4 @@ export * from "./map";
 export * from "./game";
 export * from "./event";
 export * from "./global";
+export * from "./contexts";

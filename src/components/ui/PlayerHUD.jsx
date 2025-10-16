@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 import ComponentBorder from './ComponentBorder.jsx';
 
 // Hooks
-import { useGame } from '../../hooks/useGame.js';
+import { useGame } from '../../hooks/useGame';
 
 // Stylesheets
 import styles from './PlayerHUD.module.css';

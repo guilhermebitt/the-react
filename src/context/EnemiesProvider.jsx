@@ -1,5 +1,5 @@
 // Dependencies
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect, useMemo } from 'react';
 import { deepUpdate } from '../utils/stateUpdater';
 import * as Entities from '../utils/entities';
 import { produce } from 'immer';
@@ -11,7 +11,7 @@ export function EnemiesProvider({ children }) {
 
   // Functions to manipulate the game state:
   const controls = {
-    get: (id = null) => (id !== null ? enemies[id] : enemies),
+    get: (id = null) => (id !== null ? enemies[id - 1] : enemies),
 
     /**
      * Updates a specific enemy at index with the given patch.
@@ -37,7 +37,6 @@ export function EnemiesProvider({ children }) {
     reset: () => setEnemies([]),
 
     // Loads the data from save to the game context
-    loadSave: (gameData) => setGame(gameData),
     loadSave: (savedEnemies) => spawnLogic.spawnEnemies(savedEnemies),
   };
 
@@ -49,7 +48,7 @@ export function EnemiesProvider({ children }) {
         enemiesData.forEach((enemyData, index) => {
           const newEnemy = new Entities[enemyData.className]({
             ...enemyData,
-            id: index,
+            id: index + 1,
             update: (patch) => controls.update(index, patch),
           });
           newEnemies.push(newEnemy);

@@ -50,8 +50,8 @@ import SkillsSection from '../components/sections/SkillsSection';
 import VictoryModal from '../components/ui/VictoryModal';
 
 // Hooks
-import { useGame } from '../hooks/useGame';
-import { useLoading } from '../hooks/useLoading';
+import { useGame } from '@/hooks';
+import { useLoading } from '@/hooks';
 
 // Stylesheet
 import styles from'./BattleEvent.module.css';
@@ -68,7 +68,7 @@ const hudAssets = [
 
 function BattleEvent() {
   // React Hooks
-  const { tick, audios, player, enemies, game } = useGame();
+  const { tick, audios, player, enemies, game, logic } = useGame();
   const { loading, loadAssets } = useLoading();
   const navigate = useNavigate();
   const location = useLocation();
@@ -160,7 +160,7 @@ function BattleEvent() {
   useEffect(() => {
     if (loading) return
 
-    game.finishEvent();
+    logic.finishEvent();
 
   }, [finishedEvent])
 

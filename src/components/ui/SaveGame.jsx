@@ -1,8 +1,8 @@
 // Data
-import gameData from '../../data/game.json' with { type: 'json' }
-import playerData from '../../data/player.json' with { type: 'json' }
-import savesData from '../../data/saves.json' with { type: 'json' }
-import maps from '../../data/maps.json' with { type: 'json' }
+import gameData from '@/data/game.json' with { type: 'json' }
+import playerData from '@/data/player.json' with { type: 'json' }
+import savesData from '@/data/saves.json' with { type: 'json' }
+import maps from '@/data/maps.json' with { type: 'json' }
 
 // Dependencies
 import { useState, useEffect } from 'react';
@@ -10,12 +10,12 @@ import { useLocalStorage } from 'usehooks-ts';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faPlay } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
-import * as funcs from '../../utils/functions';
+import * as funcs from '@/utils/functions';
 
 // Custom Hooks
-import { useGame } from '../../hooks/useGame.js';
-import { useSaveManager } from '../../hooks/useSaveManager';
-import { useConfirmDialog } from '../../hooks/useConfirmDialog.jsx';
+import { useGame } from '@/hooks/useGame';
+import { useSaveManager } from '@/hooks/useSaveManager';
+import { useConfirmDialog } from '@/hooks/useConfirmDialog';
 
 // Stylesheets
 import styles from './SaveGame.module.css';
@@ -26,7 +26,7 @@ function SaveGame({ saveId }) {
   const [load, setLoad] = useState(false);
   const navigate = useNavigate();
   const { loadGame, deleteSave } = useSaveManager(saveId);
-  const { game } = useGame();
+  const { game, logic } = useGame();
 
   // Reacts to the change of the load (game load)
   useEffect(() => {
@@ -59,7 +59,7 @@ function SaveGame({ saveId }) {
 
     // Generating the first region
     console.log("Creating first region...")
-    const result = game.createRegion();
+    const result = logic.createRegion();
 
     // Getting the regionKey
     const { regionKey, mapData } = result || {regionKey: null};

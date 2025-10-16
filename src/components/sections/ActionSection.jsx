@@ -15,7 +15,7 @@ import { useGame } from '../../hooks/useGame';
 import styles from './sections.module.css'
 
 function ActionSection() {
-  const { player, enemies, game } = useGame();
+  const { player, enemies, game, logic } = useGame();
   const [confirmDialog, setConfirmDialog] = useState({
     visible: false,
     message: 'Are you sure?',
@@ -84,7 +84,7 @@ function ActionSection() {
         endTurn={() =>
           game.get().currentTurn === 'player' &&
           confirmScreen(() => {
-            funcs.endTurn('enemies');
+            logic.switchTurn();
           })
         }
       />

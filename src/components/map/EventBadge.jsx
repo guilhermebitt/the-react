@@ -19,7 +19,7 @@ var badgesUrl = [
 function EventBadge({ badge }) {
   const [badgeUrl, setBadgeUrl] = useState('');
   const navigate = useNavigate();
-  const { game } = useGame();
+  const { game, logic } = useGame();
 
   useEffect(() => {
     // Verifying if there is a type
@@ -63,7 +63,7 @@ function EventBadge({ badge }) {
     const blockIds = [nextSection?.events[otherSide]?.eventId, section?.events[otherSide]?.eventId];
 
     const blockEventPaths = blockIds.map((blockId) => {
-      return game.findEventPath(blockId);
+      return logic.findEventPath(blockId);
     });
 
     // Blocking the side in the nextSection ONLY IF THE NEXT SECTION HAS TWO EVENTS (and the current too)!

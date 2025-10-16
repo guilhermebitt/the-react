@@ -2,11 +2,11 @@
 import { useState, useEffect } from 'react';
 
 // Components
-import EventBadge from './EventBadge.jsx';
-import Clouds from './Clouds.jsx';
+import EventBadge from './EventBadge';
+import Clouds from './Clouds';
 
 // Hooks
-import { useGame } from '../../hooks/useGame.js';
+import { useGame } from '../../hooks/useGame';
 
 // Stylesheets
 import styles from './MapSection.module.css';

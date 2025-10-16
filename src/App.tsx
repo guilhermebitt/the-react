@@ -34,7 +34,6 @@ function App() {
 function AppRoutes() {
   const navigate = useNavigate();
   const location = useLocation();
-
   const [, setLastScreen] = useLocalStorage("lastScreen", "/");
   const [settings] = useLocalStorage("settings", {showLog: false});
 
