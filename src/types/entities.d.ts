@@ -61,6 +61,7 @@ export interface BaseEntityData {
   animations: Record<AnimationKeys, Animation>;
 
   // Turns atributes
+  skipTurn: boolean;
   actions: number;
   actionsLeft: number;
 

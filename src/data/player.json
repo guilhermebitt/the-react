@@ -54,6 +54,7 @@
   },
   "actions": 2,
   "actionsLeft": 2,
+  "skipTurn": false,
   "kills": 0,
   "spanMessages": []
 }

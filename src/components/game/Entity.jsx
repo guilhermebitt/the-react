@@ -1,15 +1,15 @@
 // Dependencies
-import { useState, useEffect } from 'react';
-import { useAnimation } from '../../hooks/useAnimation';
-import { useGame } from '../../hooks/useGame';
+import { useState, useEffect } from "react";
+import { useAnimation } from "../../hooks/useAnimation";
+import { useGame } from "../../hooks/useGame";
 
 // Components
-import HealthBar from '../ui/HealthBar';
-import ExperienceBar from '../ui/ExperienceBar';
-import ValueSpan from '../ui/ValueSpan';
+import HealthBar from "../ui/HealthBar";
+import ExperienceBar from "../ui/ExperienceBar";
+import ValueSpan from "../ui/ValueSpan";
 
 // Stylesheet
-import styles from './Entity.module.css';
+import styles from "./Entity.module.css";
 
 // Entity Component
 function Entity({ entity }) {
@@ -29,20 +29,19 @@ function Entity({ entity }) {
 
     if (entity?.stats?.health <= 0) {
       entity.update({ currentAnim: "death" });
-    };
-
-  }, [entity?.stats?.health])
+    }
+  }, [entity?.stats?.health]);
 
   // UseEffect that updates each time the states of the entity changes
   useEffect(() => {
     if (firstLoad) return;
 
     if (entity?.statesAnim.includes("hit")) {
-      if (audios.get('hitSound')) audios.get('hitSound').start()
+      if (audios.get("hitSound")) audios.get("hitSound").start();
     }
 
     if (entity?.statesAnim.includes("leveling")) {
-      if (audios.get('levelUp')) audios.get('levelUp').start()
+      if (audios.get("levelUp")) audios.get("levelUp").start();
     }
   }, [entity?.statesAnim]);
 
@@ -54,7 +53,7 @@ function Entity({ entity }) {
 
   // This function sets the game target to the current entity
   function selectTarget() {
-    if (game.get().currentTurn === 'player' && typeof entity?.id === 'number') {
+    if (game.get().currentTurn === "player" && typeof entity?.id === "number") {
       game.update({ target: entity?.id });
     }
   }
@@ -62,15 +61,15 @@ function Entity({ entity }) {
   // Entity container classes
   const entityContainerClasses = `
     ${styles.entityContainer}
-    ${entity?.id === game.get()?.target && styles.selected}
+    ${entity?.id === game.get()?.target && ["player", "onAction"].includes(game.get().currentTurn) && styles.selected}
     ${styles[`enemy${entity?.id}`]}
-    ${game.get().specificEntityTurn === entity?.id ? styles.turn : ''}
+    ${game.get().specificEntityTurn === entity?.id ? styles.turn : ""}
   `;
-  
+
   // Entity image classes
   const entityImageClasses = `
-    ${entity?.states.includes('hit') && styles.hit}
-    ${entity?.states.includes('leveling') && entity?.entityType === 'player' && styles.levelingUp}
+    ${entity?.states.includes("hit") && styles.hit}
+    ${entity?.states.includes("leveling") && entity?.entityType === "player" && styles.levelingUp}
   `;
 
   // Returning the Component
@@ -83,7 +82,7 @@ function Entity({ entity }) {
         <h2>{entity?.name} Lv.{entity?.level}</h2>
 
         {/* Experience and health bars */}
-        {entity?.entityType !== 'player' ? <HealthBar entityId={entity.id} /> : <ExperienceBar />}
+        {entity?.entityType !== "player" ? <HealthBar entityId={entity.id} /> : <ExperienceBar />}
 
         {/* Entity image */}
         <img className={entityImageClasses} src={framePath || entity?.img} alt="entity image" onClick={selectTarget} />
@@ -93,7 +92,7 @@ function Entity({ entity }) {
         <div className={styles.selectedArrow}>▼</div>
 
         {/* Component that controls the span message when the entity is hit, levelUps, etc */}
-        <ValueSpan spanMessages={entity?.spanMessages} entityUpdater={entity?.update}/>
+        <ValueSpan spanMessages={entity?.spanMessages} entityUpdater={entity?.update} />
       </div>
     </>
   );

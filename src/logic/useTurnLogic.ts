@@ -25,13 +25,14 @@ export function useTurnLogic() {
     const lastTurnTemp: TurnTypes = lastTurn.current;
 
     // Updates the last turn to the actual one
-    lastTurn.current = game.currentTurn;
+    lastTurn.current = game.get().currentTurn;
 
     // Verifying if the last turn was onAction.
     // If the last turn was onAction, that means that
     // the entity is just going back to its turn, but
     // it don't need to executes the logic to the start
     // of the turn.
+
     if (lastTurnTemp === "onAction") {
       return;
     }
@@ -52,7 +53,7 @@ export function useTurnLogic() {
   }, [game.get().currentTurn]);
 
   // Initializing functions
-  init(game.get());
+  init(game);
 
   // Functions
   const functions = {
@@ -60,12 +61,19 @@ export function useTurnLogic() {
     handlePlayerTurn() {
       // First of all, we reset the specific turn (0 is player)
       game.update({ specificEntityTurn: 0 });
+
+      // Skipping turn
+      if (player.get().skipTurn === true) this.handleEnemiesTurn();
+
+      // Resetting the player actions
+      player.update({ actionsLeft: player.get().actions });
     },
 
     // Function to handle the enemies turn. Starts from the enemy 1
     handleEnemiesTurn(enemyId: EntityIds = 1) {
       // First of all, sets the specific entity turn
       game.update({ specificEntityTurn: enemyId });
+
       // Getting the entity by its id
       const enemy = enemies.get(enemyId);
 
@@ -81,6 +89,7 @@ export function useTurnLogic() {
         if (nextEntity > enemiesAmount) this.switchTurn("player");
         else this.handleEnemiesTurn(nextEntity);
       });
+
     },
 
     // Functions that changes the current turn
@@ -109,6 +118,10 @@ export function useTurnLogic() {
     enemyTurn(enemy: Enemy, target: Entity) {
       return new Promise<void>((resolve) => {
         // CODE FOR THE ENEMY'S TURN
+
+        // Skipping turn
+        if (enemy.skipTurn === true) {resolve(); return};
+
         const turn = enemy.handleTurn(target);
 
         if (!turn) {

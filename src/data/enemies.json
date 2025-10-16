@@ -5,7 +5,8 @@
     "currentAnim": "standBy",
     "states": [],
     "actions": 2,
-    "spanMessages": []
+    "spanMessages": [],
+    "skipTurn": false
   },
 
   "deathAnimation": {

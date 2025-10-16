@@ -145,7 +145,8 @@ export class Entity {
 
     const isDead = this.stats.health - realDmg <= 0;
 
-    //this.update({ dmgTaken: realDmg });
+    // If the entity is an enemy and it is dead, skipTurn will be true
+    (isDead && this.entityType === "enemy") && this.update({ skipTurn: true });
 
     // Adding the state animation of HIT and, after 1s, removing it
     const newStatesAnim = structuredClone(this.states);
