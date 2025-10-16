@@ -30,3 +30,4 @@ build/
 # Other files
 todo.md
 project
+src-tauri/

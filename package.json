@@ -8,7 +8,9 @@
     "build": "vite build",
     "type-check": "tsc --noEmit",
     "lint": "eslint 'src/**/*.{ts,tsx,js,jsx}' --fix",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "tauri:dev": "tauri dev",
+    "tauri:build": "tauri build"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^7.0.0",
