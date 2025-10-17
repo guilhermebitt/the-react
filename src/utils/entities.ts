@@ -282,6 +282,18 @@ export class VenomousSnake extends Enemy {
     super(entity);
   }
 }
+export class Anaconda extends Enemy {
+  constructor(entity: EnemyData) {
+    super(entity);
+  }
+}
+
+// --- SLIME ---
+export class Slime extends Enemy {
+  constructor(entity: EnemyData) {
+    super(entity);
+  }
+}
 
 // Saying to TS that Entity has all atributes of EntityData
 export interface Entity extends BaseEntityData {}

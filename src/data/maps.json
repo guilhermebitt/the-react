@@ -8,18 +8,21 @@
     "mapEnemies": {
       "battle": {
         "snake": {
-          "appearChance": 75
+          "appearChance": 35
         },
         "venomousSnake": {
-          "appearChance": 25
+          "appearChance": 15
+        },
+        "slime": {
+          "appearChance": 50
         }
       },
       "bossBattle": {
         "anaconda": {
-          "appearChance": 50
+          "appearChance": 100
         },
         "kingSlime": {
-          "appearChance": 50
+          "appearChance": 0
         }
       }
     }

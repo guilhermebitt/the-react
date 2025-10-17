@@ -114,6 +114,7 @@ export function createMapLogic(deps: MapLogicDeps) {
       const events: Event[] = [event];
 
       const [bossSection] = this.createSection(regionKey, events, lastEventId);
+
       mapData.push(bossSection);
 
       // Returning the result

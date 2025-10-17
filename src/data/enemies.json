@@ -75,11 +75,11 @@
       }
     },
     "stats": {
-      "maxHealth": 8,
-      "health": 8,
-      "attack": 5,
+      "maxHealth": 12,
+      "health": 12,
+      "attack": 7,
       "strength": 1,
-      "defense": 3,
+      "defense": 4,
       "constitution": 1,
       "crit": 2,
       "critChance": 10,
@@ -94,33 +94,33 @@
   "venomousSnake": {
     "name": "Venomous Snake",
     "className": "VenomousSnake",
-    "img": "/assets/entities/snake/snake0.png",
+    "img": "/assets/entities/venomous_snake/venomous_snake0.png",
     "animations": {
       "standBy": {
         "frames": [
-          "/assets/entities/snake/snake0.png",
-          "/assets/entities/snake/snake1.png"
+          "/assets/entities/venomous_snake/venomous_snake0.png",
+          "/assets/entities/venomous_snake/venomous_snake1.png"
         ],
         "duration": 1000
       },
       "atk": {
         "frames": [
-          "/assets/entities/snake/snake_atk0.png",
-          "/assets/entities/snake/snake_atk1.png",
-          "/assets/entities/snake/snake_atk2.png",
-          "/assets/entities/snake/snake_atk1.png",
-          "/assets/entities/snake/snake_atk0.png",
-          "/assets/entities/snake/snake0.png"
+          "/assets/entities/venomous_snake/venomous_snake_atk0.png",
+          "/assets/entities/venomous_snake/venomous_snake_atk1.png",
+          "/assets/entities/venomous_snake/venomous_snake_atk2.png",
+          "/assets/entities/venomous_snake/venomous_snake_atk1.png",
+          "/assets/entities/venomous_snake/venomous_snake_atk0.png",
+          "/assets/entities/venomous_snake/venomous_snake0.png"
         ],
         "duration": 100
       }
     },
     "stats": {
-      "maxHealth": 10,
-      "health": 10,
+      "maxHealth": 16,
+      "health": 16,
       "attack": 7,
       "strength": 1,
-      "defense": 4,
+      "defense": 5,
       "constitution": 1,
       "crit": 2,
       "critChance": 15,
@@ -128,7 +128,86 @@
       "evasion": 10
     },
     "loot": {
-      "xp": [10, 25]
+      "xp": [10, 15]
+    }
+  },
+
+  "slime": {
+    "name": "Slime",
+    "className": "Slime",
+    "img": "/assets/entities/slime/slime0.png",
+    "animations": {
+      "standBy": {
+        "frames": [
+          "/assets/entities/slime/slime0.png",
+          "/assets/entities/slime/slime1.png"
+        ],
+        "duration": 1000
+      },
+      "atk": {
+        "frames": [
+          "/assets/entities/slime/slime_atk0.png",
+          "/assets/entities/slime/slime_atk1.png",
+          "/assets/entities/slime/slime_atk2.png"
+        ],
+        "duration": 200
+      }
+    },
+    "stats": {
+      "maxHealth": 10,
+      "health": 10,
+      "attack": 5,
+      "strength": 1,
+      "defense": 3,
+      "constitution": 1,
+      "crit": 2,
+      "critChance": 20,
+      "accuracy": 80,
+      "evasion": 10
+    },
+    "loot": {
+      "xp": [1, 5]
+    }
+  },
+
+  "anaconda": {
+    "name": "Anaconda",
+    "className": "Anaconda",
+    "img": "/assets/entities/anaconda/anaconda0.png",
+    "animations": {
+      "standBy": {
+        "frames": [
+          "/assets/entities/anaconda/anaconda0.png",
+          "/assets/entities/anaconda/anaconda1.png"
+        ],
+        "duration": 1000
+      },
+      "atk": {
+        "frames": [
+          "/assets/entities/anaconda/anaconda_atk0.png",
+          "/assets/entities/anaconda/anaconda_atk1.png",
+          "/assets/entities/anaconda/anaconda_atk2.png",
+          "/assets/entities/anaconda/anaconda_atk1.png",
+          "/assets/entities/anaconda/anaconda_atk0.png",
+          "/assets/entities/anaconda/anaconda0.png"
+        ],
+        "duration": 100
+      }
+    },
+    "stats": {
+      "maxHealth": 25,
+      "health": 25,
+      "attack": 10,
+      "strength": 2,
+      "defense": 8,
+      "constitution": 1,
+      "crit": 2,
+      "critChance": 10,
+      "accuracy": 100,
+      "evasion": 13
+    },
+    "loot": {
+      "xp": [15, 25]
     }
   }
 }
