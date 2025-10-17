@@ -55,6 +55,7 @@ function Entity({ entity }) {
   function selectTarget() {
     if (game.get().currentTurn === "player" && typeof entity?.id === "number") {
       game.update({ target: entity?.id });
+      console.log(entity)
     }
   }
 
@@ -62,7 +63,8 @@ function Entity({ entity }) {
   const entityContainerClasses = `
     ${styles.entityContainer}
     ${entity?.id === game.get()?.target && ["player", "onAction"].includes(game.get().currentTurn) && styles.selected}
-    ${styles[`enemy${entity?.id}`]}
+    ${!entity?.isBoss && styles[`enemy${entity?.id}`]}
+    ${entity?.isBoss && styles[`boss`]}
     ${game.get().specificEntityTurn === entity?.id ? styles.turn : ""}
   `;
 
@@ -79,7 +81,7 @@ function Entity({ entity }) {
       <div className={entityContainerClasses}>
         {/* Name and level */}
         {/* prettier-ignore */}
-        <h2>{entity?.name} Lv.{entity?.level}</h2>
+        <h2>{entity?.name}{!entity?.isBoss && ` Lv.${entity?.level}`}</h2>
 
         {/* Experience and health bars */}
         {entity?.entityType !== "player" ? <HealthBar entityId={entity.id} /> : <ExperienceBar />}

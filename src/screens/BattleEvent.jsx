@@ -209,6 +209,8 @@ function BattleEvent() {
     const BASE_ATTACK = enemiesJson[name]['stats']['attack'];
     const BASE_DEFENSE = enemiesJson[name]['stats']['defense'];
     const GROWTH_RATE = 1.5;
+
+    console.log(enemiesJson["anaconda"])
     
     const entity = new Object({
       ...enemiesJson['commonProperties'],

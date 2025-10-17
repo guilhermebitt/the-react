@@ -2,6 +2,7 @@
   "commonProperties": {
     "level": 1,
     "entityType": "enemy",
+    "isBoss": false,
     "currentAnim": "standBy",
     "states": [],
     "actions": 2,
@@ -171,6 +172,7 @@
   },
 
   "anaconda": {
+    "isBoss": true,
     "name": "Anaconda",
     "className": "Anaconda",
     "img": "/assets/entities/anaconda/anaconda0.png",
@@ -195,10 +197,10 @@
       }
     },
     "stats": {
-      "maxHealth": 25,
-      "health": 25,
+      "maxHealth": 20,
+      "health": 20,
       "attack": 10,
-      "strength": 2,
+      "strength": 1,
       "defense": 8,
       "constitution": 1,
       "crit": 2,

@@ -27,6 +27,9 @@
 .enemy3 {
   transform: translateY(-20px)translateX(25%);
 }
+.boss {
+  transform: translateY(-10px)scale(1.4)translateX(-25%);
+}
 
 .entityContainer img.hit {
   animation: takeDamage 1s ease 1;
