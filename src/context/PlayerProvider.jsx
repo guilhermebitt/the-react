@@ -2,7 +2,7 @@
 import playerJson from '../data/player.json' with { type: 'json' };
 
 // Dependencies
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState, useEffect, useRef } from "react";
 import { createUpdater } from "../utils/stateUpdater";
 import { Player } from '../utils/entities';
 import { init, phrase } from '../utils/functions';
@@ -20,7 +20,11 @@ const PlayerContext = createContext();
 export function PlayerProvider({ children }) {
   // Player State
   const [player, setPlayer] = useState(() => new Player({ ...playerJson, update: () => {} }));
-  const { game } = useGame();
+  const playerRef = useRef(player);
+  const { game, audios } = useGame();
+
+  // Maintaining the player reference updated
+  useEffect(() => {playerRef.current = player}, [player]);
 
   // On context construction
   useEffect(() => {
@@ -35,7 +39,23 @@ export function PlayerProvider({ children }) {
     if (result) phrase('Level Up!')
   }, [player.xp]);
 
+  // Code if the player dies
+  useEffect(() => {
+    if (!player.isDead()) return;
+
+    // Phrase
+    phrase("You died.");
+    
+    // Playing the death music:
+    if (audios.get("gameMusic")?.isPlaying() && !audios.get("deathMusic")?.isPlaying()) {
+      audios.get("gameMusic").stop();
+      audios.get("deathMusic").start();
+    }
+  }, [player.isDead()]);
+
   const update = createUpdater(setPlayer);
+
+  const getRef = () => playerRef.current;
 
   const get = () => player;
 
@@ -44,7 +64,7 @@ export function PlayerProvider({ children }) {
   const reset = () => setPlayer(new Player({ ...playerJson, update: update }));
 
   return (
-    <PlayerContext.Provider value={{ get, update, loadSave, reset }}>
+    <PlayerContext.Provider value={{ get, getRef, update, loadSave, reset }}>
       {children}
     </PlayerContext.Provider>
   );

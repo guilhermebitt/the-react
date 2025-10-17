@@ -5,7 +5,7 @@ import rawGameData from '../data/game.json' with { type: 'json' };
 import { GameData, UpdaterPatch } from '@/types';
 
 // Dependencies
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect, useRef } from "react";
 import { createUpdater } from "../utils/stateUpdater";
 
 // Conversion of JSON to types
@@ -25,9 +25,17 @@ const GameContext = createContext<GameContextType | undefined>(undefined);
 // Function to the game provider
 export function GameProvider({ children }: { children: React.ReactNode }) {
   const [game, setGame] = useState<GameData>(gameData);
+  const gameRef = useRef(game);
+
+  // Maintaining the game reference updated
+  useEffect(() => {gameRef.current = game}, [game]);
  
   // Functions to manipulate the game state:
   const controls = {
+    // Gets the game ref
+    getRef: () => gameRef.current,
+
+    // Gets the game data
     get: () => game,
 
     // Update function

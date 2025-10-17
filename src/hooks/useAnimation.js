@@ -10,14 +10,16 @@ export function useAnimation(entity) {
   const { tick } = useGame();
   const animInterval = useRef(null);
 
+  // Runs every time the game tick updates
+  useEffect(() => {
+    handleTickUpdate();
+  }, [tick.get()]);
+
   // Executed when the component deconstruct
   useEffect(() => {return deconstruct}, []);
 
   // Constantly checks if the current animation changed
   useEffect(() => verifyAnim(entity?.currentAnim), [entity?.currentAnim]);
-
-  // Runs every time the game tick updates
-  useEffect(handleTickUpdate, [tick]);
 
   // Runs every time the tick updates
   function handleTickUpdate() {

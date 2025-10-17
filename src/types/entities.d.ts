@@ -5,6 +5,7 @@ import { UpdaterPatch } from "@/types";
 
 // Entities id
 enum EntityIds {
+  None = -1,
   Player,
   Enemy1,
   Enemy2,

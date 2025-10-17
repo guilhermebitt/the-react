@@ -1,5 +1,5 @@
 // Dependencies
-import { createContext, useContext, useState, useEffect, useMemo } from 'react';
+import { createContext, useContext, useState, useEffect, useRef } from 'react';
 import { deepUpdate } from '../utils/stateUpdater';
 import * as Entities from '../utils/entities';
 import { produce } from 'immer';
@@ -8,9 +8,17 @@ const EnemiesContext = createContext();
 
 export function EnemiesProvider({ children }) {
   const [enemies, setEnemies] = useState([]);
+  const enemiesRef = useRef(enemies);
+
+  // Maintaining the enemies reference updated
+  useEffect(() => {enemiesRef.current = enemies}, [enemies]);
 
   // Functions to manipulate the game state:
   const controls = {
+    // Gets the enemies ref
+    getRef: (id = null) => (id !== null ? enemiesRef.current[id - 1] : enemiesRef.current),
+
+    // Gets the enemies data
     get: (id = null) => (id !== null ? enemies[id - 1] : enemies),
 
     /**

@@ -36,14 +36,14 @@ function Entity({ entity }) {
   useEffect(() => {
     if (firstLoad) return;
 
-    if (entity?.statesAnim.includes("hit")) {
+    if (entity?.states.includes("hit")) {
       if (audios.get("hitSound")) audios.get("hitSound").start();
     }
 
-    if (entity?.statesAnim.includes("leveling")) {
+    if (entity?.states.includes("leveling")) {
       if (audios.get("levelUp")) audios.get("levelUp").start();
     }
-  }, [entity?.statesAnim]);
+  }, [entity?.states]);
 
   // This function just executes in the component construct
   function handleFirstLoad() {

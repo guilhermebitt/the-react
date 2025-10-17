@@ -46,6 +46,11 @@ export function useTurnLogic() {
       case "enemies":
         functions.handleEnemiesTurn();
         break;
+      
+      case null:
+        // This says that there's not a entity turn
+        game.update({ specificEntityTurn: -1 })
+        break;
 
       default:
         return;
@@ -78,18 +83,23 @@ export function useTurnLogic() {
       const enemy = enemies.get(enemyId);
 
       // Executing its turn
-      this.enemyTurn(enemy, player.get()).then(() => {
+      this.enemyTurn(enemy).then(() => {
         // Getting the amount of enemies
         const enemiesAmount = enemies.get().length;
 
         // Setting the specific turn to the next enemy
         const nextEntity = enemyId + 1;
 
+        // If the player died, will skip all turns
+        if (player.getRef().isDead()) {
+          game.update({ currentTurn: null });
+          return;
+        }
+
         // If the next entity id reaches the last enemy of the enemies list. It'll finish the enemies turn
         if (nextEntity > enemiesAmount) this.switchTurn("player");
         else this.handleEnemiesTurn(nextEntity);
       });
-
     },
 
     // Functions that changes the current turn
@@ -115,14 +125,14 @@ export function useTurnLogic() {
     },
 
     // Handling the enemy's turn
-    enemyTurn(enemy: Enemy, target: Entity) {
+    enemyTurn(enemy: Enemy) {
       return new Promise<void>((resolve) => {
         // CODE FOR THE ENEMY'S TURN
 
         // Skipping turn
         if (enemy.skipTurn === true) {resolve(); return};
 
-        const turn = enemy.handleTurn(target);
+        const turn = enemy.handleTurn(player.getRef());
 
         if (!turn) {
           console.error("turn is null at enemyTurn().");

@@ -1,3 +1,6 @@
+// Dependencies
+import { useMemo } from "react";
+
 // Contexts
 import { useTick } from "@/context/TickProvider";
 import { useAudio } from "@/context/AudioProvider";
@@ -5,8 +8,6 @@ import { usePlayer } from "@/context/PlayerProvider";
 import { useEnemies } from "@/context/EnemiesProvider";
 import { useGameData } from "@/context/GameProvider";
 import { useLogic } from "@/context/LogicProvider";
-
-
 
 // This hook will group all the other context hooks
 export function useGame() {
@@ -17,5 +18,7 @@ export function useGame() {
   const game = useGameData();
   const logic = useLogic();
 
-  return { tick, audios, player, enemies, game, logic };
+  return useMemo(() => {
+    return { tick, audios, player, enemies, game, logic };
+  }, [tick, audios, player, enemies, game, logic]);
 }

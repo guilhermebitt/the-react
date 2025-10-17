@@ -130,6 +130,7 @@ export class Entity {
 
   // Receive damage
   takeDamage(amount: number) {
+    //console.log(this.entityType, amount, this.stats.health)
     // The max damage that can be reduced is half of the damage
     // The '-0.01' is used to guarantee that, if the number is 2.5, the round will round it to the number below (e.g. round(2.5) = 2)
     const dmgRed = Math.min(this.calcDamageReduction(), Math.round(amount / 2 - 0.01));
@@ -202,7 +203,7 @@ export class Player extends Entity {
   // Functions that verify if the player can levelUp
   tryLevelUp() {
     // Verifies if the player has sufficient experience to levelup
-    if (this.xp || 0 >= this.getNextLvXP()) {
+    if (this.xp >= this.getNextLvXP()) {
       const newLevel = this.level + 1;
 
       this.update({ level: newLevel });
@@ -214,7 +215,7 @@ export class Player extends Entity {
   // Calculates the experience needed to levelup
   getNextLvXP() {
     const BASE_XP = 10;
-    const GROWTH = 1.2;
+    const GROWTH = 1.6;
     // Square formula to get the next level needed experience
     //return Math.floor(BASE_XP * (this.level + 1) ** 2 * SCALE - BASE_XP * this.level);
     return Math.floor(BASE_XP * Math.pow(this.level, GROWTH));
