@@ -1,3 +1,10 @@
+# [1.2.0-beta.2](https://github.com/guilhermebitt/the-react/compare/v1.2.0-beta.1...v1.2.0-beta.2) (2025-10-17)
+
+
+### Bug Fixes
+
+* all bugs has been fixed ([900f1ae](https://github.com/guilhermebitt/the-react/commit/900f1ae4931d682799c8714034e844ec6cd1c846))
+
 # [1.2.0-beta.1](https://github.com/guilhermebitt/the-react/compare/v1.1.0...v1.2.0-beta.1) (2025-10-16)
 
 
