@@ -10,12 +10,14 @@ import ConfirmDialog from '../common/ConfirmDialog';
 
 // Hooks
 import { useGame } from '../../hooks/useGame';
+import { usePerkLogic } from '@/logic/usePerkLogic';
 
 // Stylesheet
 import styles from './sections.module.css'
 
 function ActionSection() {
   const { player, enemies, game, logic } = useGame();
+  const { createPerk } = usePerkLogic();
   const [confirmDialog, setConfirmDialog] = useState({
     visible: false,
     message: 'Are you sure?',
@@ -33,8 +35,8 @@ function ActionSection() {
     if (player.get().actionsLeft <= 0) return funcs.phrase('You do not have actions left! End your turn.');
     if (enemies.get([game.get().target])?.currentAnim === 'death') return funcs.phrase('This enemy is dead.');
 
-    const { attackMsg, timeToWait, loot } = player.get().attack(enemies.get([game.get().target]));  // this function executes an attack and return some data
-    if (enemies.get([game.get().target]).stats.health <= 0) game.update({ "eventData.kills": game.get().eventData.kills + 1 })
+    const { attackMsg, timeToWait, loot, isDead } = player.get().attack(enemies.get([game.get().target]));  // this function executes an attack and return some data
+    if (isDead) game.update({ "eventData.kills": prev => prev + 1 })
 
     // Changing the turn 
     const lastTurn = game.get().currentTurn;
@@ -80,7 +82,7 @@ function ActionSection() {
       <ActionButtons
         attack={() => game.get().currentTurn === 'player' && doAttack()}
         changeAnim={null}
-        sendMsg={null}
+        sendMsg={() => createPerk("critEye")}
         endTurn={() =>
           game.get().currentTurn === 'player' &&
           confirmScreen(() => {

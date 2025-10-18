@@ -23,6 +23,11 @@ export function PlayerProvider({ children }) {
   const playerRef = useRef(player);
   const { game, audios } = useGame();
 
+  // Checking if the increments changed
+  useEffect(() => {
+    player.incrementStats();
+  }, [player.increases]);
+
   // Maintaining the player reference updated
   useEffect(() => {playerRef.current = player}, [player]);
 

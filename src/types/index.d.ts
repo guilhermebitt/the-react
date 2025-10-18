@@ -6,3 +6,4 @@ export * from "./game";
 export * from "./event";
 export * from "./global";
 export * from "./contexts";
+export * from "./perks";

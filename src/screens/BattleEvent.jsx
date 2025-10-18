@@ -31,6 +31,7 @@ chore: tarefas de manutenção, dependências, configs, etc.
 
 // Data
 import enemiesJson from '../data/enemies.json' with { type: 'json' };
+import perksJson from "@/data/perks.json";
 
 // Dependencies
 import { useEffect, useState } from 'react';
@@ -46,7 +47,7 @@ import PlayerHUD from '../components/ui/PlayerHUD';
 import Loading from '../components/common/Loading';
 import ActionSection from '../components/sections/ActionSection';
 import InventorySection from '../components/sections/InventorySection';
-import SkillsSection from '../components/sections/SkillsSection';
+import PerksSection from '../components/sections/PerksSection';
 import VictoryModal from '../components/ui/VictoryModal';
 
 // Hooks
@@ -210,8 +211,6 @@ function BattleEvent() {
     const BASE_DEFENSE = enemiesJson[name]['stats']['defense'];
     const GROWTH_RATE = 1.5;
 
-    console.log(enemiesJson["anaconda"])
-    
     const entity = new Object({
       ...enemiesJson['commonProperties'],
       ...enemiesJson[name],
@@ -267,17 +266,17 @@ function BattleEvent() {
         <Routes>
           <Route path='action' element={<ActionSection />} />
           <Route path='inventory' element={<InventorySection />} />
-          <Route path='skills' element={<SkillsSection />} />
+          <Route path='perks' element={<PerksSection />} />
         </Routes>
       </section>
   
       {/* ACTION BUTTONS */}
       <section className={`${styles['x-section']} ${styles['bottom']}`}>
         <SectionButtons
-          sec1={() => navigate("action")} 
-          sec2={() => navigate("inventory")}
-          sec3={() => navigate("skills")}
-          sec4={() => navigate("#")}
+          sec1={() => navigate("action", {replace: true})} 
+          sec2={() => navigate("inventory", {replace: true})}
+          sec3={() => navigate("perks", {replace: true})}
+          sec4={() => navigate("#", {replace: true})}
         />
       </section>
       

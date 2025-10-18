@@ -1,0 +1,25 @@
+div.perkModalContainer {
+  position: fixed;
+  z-index: 10;
+
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+
+  border: white solid 1px;
+  background-color: #222;
+  border-radius: 0px 5px 5px 5px;
+  padding: 0.5rem;
+  margin-top: 1rem;
+
+  pointer-events: none;
+}
+
+div.perkModalContainer h2,
+div.perkModalContainer p {
+  text-align: start;
+}
+
+div.perkModalContainer h2 {
+  color: rgb(23, 150, 76);
+}

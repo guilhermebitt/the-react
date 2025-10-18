@@ -1,12 +1,13 @@
 // Importing types
 import { EntityData, GameData } from "@/types";
 
+// Default rarities
+type Rarity = "common" | "uncommon" | "rare" | "legendary";
+
 // Creates all possible paths for a T object
 type DotPaths<T> = T extends object
   ? {
-      [K in keyof T & string]: T[K] extends object
-        ? K | `${K}.${DotPaths<T[K]>}`
-        : K;
+      [K in keyof T & string]: T[K] extends object ? K | `${K}.${DotPaths<T[K]>}` : K;
     }[keyof T & string]
   : never;
 

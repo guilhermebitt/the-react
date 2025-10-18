@@ -28,7 +28,7 @@ function SectionButtons(props) {
         className="default"
         disabled={game.get().currentTurn !== "player" ? true : false}
       >
-        Skills
+        Perks
       </button>
       <button
         onClick={props.sec4}

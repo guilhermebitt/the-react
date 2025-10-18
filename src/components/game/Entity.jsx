@@ -55,7 +55,6 @@ function Entity({ entity }) {
   function selectTarget() {
     if (game.get().currentTurn === "player" && typeof entity?.id === "number") {
       game.update({ target: entity?.id });
-      console.log(entity)
     }
   }
 

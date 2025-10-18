@@ -14,3 +14,11 @@
   gap: 10px;
   height: 100%;
 }
+
+.perksContainer {
+  display: grid;
+  grid-template-columns: 50px 50px;
+  gap: 0.5rem;
+  overflow: auto;
+  max-height: 100%;
+}

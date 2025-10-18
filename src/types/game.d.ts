@@ -1,5 +1,5 @@
 // Importing the the types used in GameData
-import { EventData, Section, EntityIds, MapsKey, UpdaterPatch } from "@/types/";
+import { EventData, Section, EntityIds, MapsKey, UpdaterPatch, Perk } from "@/types";
 import { validTurns } from "@/types/constants";
 
 type TurnTypes = typeof validTurns[number];
@@ -31,6 +31,9 @@ interface GameData {
 
   // Map sections
   mapArea: Section[];
+
+  // Skills
+  perks: {[key: string]: Perk};
 }
 
 // Game updater type

@@ -47,6 +47,10 @@ interface SpanMessage {
   type?: string;
 }
 
+interface Increases {
+  [key: keyof Stats]: number;
+}
+
 // Common atributes for all entities
 export interface BaseEntityData {
   // Atributes that differs the entities
@@ -70,11 +74,7 @@ export interface BaseEntityData {
   kills: number;
   level: number;
 
-  // Player
-  xp: number;
-
-  // Enemies:
-  loot: any;  // IMPORTANT: CREATE A INTERFACE FOR LOOT
+  increases: Increases;
 
   // Others
   spanMessages?: SpanMessage[];

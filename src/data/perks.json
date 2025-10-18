@@ -1,0 +1,19 @@
+{
+  "critEye": {
+    "id": "critEye",
+    "name": "Crit Eye",
+    "description": "Increases the critic attack chance by {critChance}%",
+    "rarity": "common",
+    "iconURL": "/assets/perks/battle/crit_eye.png",
+
+    "stackCount": 1,
+    "maxStackCount": 10,
+
+    "category": "battle",
+    "effects": {
+      "increases": {
+        "critChance": 2
+      }
+    }
+  }
+}

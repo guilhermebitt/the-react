@@ -1,0 +1,13 @@
+div.perkContainer {
+  position: relative;
+}
+
+img.perkImg {
+  width: 100%;
+}
+
+p.perkCount {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}

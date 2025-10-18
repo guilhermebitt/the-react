@@ -7,7 +7,8 @@
     "states": [],
     "actions": 2,
     "spanMessages": [],
-    "skipTurn": false
+    "skipTurn": false,
+    "increases": {}
   },
 
   "deathAnimation": {

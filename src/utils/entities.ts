@@ -5,7 +5,7 @@ import { immerable } from "immer";
 import playerJson from "@/data/player.json";
 
 // Importing the interface of EntityData
-import { BaseEntityData, PlayerData, EnemyData } from "@/types";
+import { BaseEntityData, PlayerData, EnemyData, Increases } from "@/types";
 
 type EnemyActions = "attack";
 
@@ -85,8 +85,8 @@ export class Entity {
       loot = target?.generateLoot(this as unknown as Player);
     }
 
-    if (target.stats.health === 0) {
-      this.update({ kills: (this.kills || 0) + 1 });
+    if (isDead === true) {
+      this.update({ kills: (prev) => prev + 1 });
     }
 
     // Generating final message
@@ -147,7 +147,7 @@ export class Entity {
     const isDead = this.stats.health - realDmg <= 0;
 
     // If the entity is an enemy and it is dead, skipTurn will be true
-    (isDead && this.entityType === "enemy") && this.update({ skipTurn: true });
+    isDead && this.entityType === "enemy" && this.update({ skipTurn: true });
 
     // Adding the state animation of HIT and, after 1s, removing it
     const newStatesAnim = structuredClone(this.states);
@@ -172,8 +172,46 @@ export class Player extends Entity {
     super(entity);
   }
 
+  // Functions to calc the new player stats with increments
+  incrementStats() {
+    // Keys that is updated when the player levels up
+    const levelUpKeys = ["maxHealth", "health", "attack", "defense"]
+
+    // For each stat of the player, applies an increment
+    for (const [statKey, statValue] of Object.entries(playerJson.stats)) {
+      // If there is not an increment for the stat, skips the calculation
+      if (!Object.keys(this.increases).includes(statKey)) continue;
+      // Dot path for the stat
+      const newStatKey = `stats.${statKey}`
+
+      // Updating the player
+      this.update({ [newStatKey]: () => {
+        // If the key to increment is one of the level up keys, returns the increment + the level value
+        if (levelUpKeys.includes(statKey)) {
+          let levelUppedValue: number = 0;
+
+          switch (statKey) {
+            case "maxHealth":
+            case "health":
+              levelUppedValue = this.levelUp(this.level, true).newHealth
+              break;
+            case "attack":
+              levelUppedValue = this.levelUp(this.level, true).newAttack
+              break;
+            case "defense":
+              levelUppedValue = this.levelUp(this.level, true).newDefense
+              break;
+          }
+
+          return statValue + this.increases[statKey as keyof Increases] + levelUppedValue;
+        }
+        return statValue + this.increases[statKey as keyof Increases];
+      } })
+    }
+  }
+
   // Function that levels up the player
-  levelUp(level: number) {
+  levelUp(level: number, skipUpdate = false) {
     // Getting the base stats values
     const BASE_HEALTH = playerJson["stats"]["health"];
     const BASE_ATTACK = playerJson["stats"]["attack"];
@@ -185,19 +223,25 @@ export class Player extends Entity {
     const newAttack = Math.floor(BASE_ATTACK * (1 + (level - 1) * (GROWTH_RATE - 1)) - this.stats.attack);
     const newDefense = Math.floor(BASE_DEFENSE * (1 + (level - 1) * (GROWTH_RATE - 1)) - this.stats.defense);
 
+    // Skipping the update
+    if (skipUpdate) return { newHealth, newAttack, newDefense };
+
     // Updating player stats
-    this.update({ "stats.maxHealth": (prev: number) => prev + newHealth });
-    this.update({ "stats.health": (prev: number) => prev + newHealth });
-    this.update({ "stats.attack": (prev: number) => prev + newAttack });
-    this.update({ "stats.defense": (prev: number) => prev + newDefense });
+    this.update({ "stats.maxHealth": (prev) => prev + newHealth });
+    this.update({ "stats.health": (prev) => prev + newHealth });
+    this.update({ "stats.attack": (prev) => prev + newAttack });
+    this.update({ "stats.defense": (prev) => prev + newDefense });
 
     // Setting levelup state animation
     const newStatesAnim = structuredClone(this.states);
     newStatesAnim.push("leveling");
     this.update({ states: newStatesAnim });
     setTimeout(() => {
-      this.update({ states: (prev: any) => prev.filter((item: any) => item !== "leveling") });
+      this.update({ states: (prev) => prev.filter((item) => item !== "leveling") });
     }, 1000);
+
+    // Returning the new stats
+    return { newHealth, newAttack, newDefense };
   }
 
   // Functions that verify if the player can levelUp
@@ -257,7 +301,7 @@ export class Enemy extends Entity {
     const maxXP = this.loot.xp[1];
     const experience = this.random(maxXP, minXP);
 
-    player.update({ xp: (prev) => prev + experience });
+    player.update({ xp: (prev: number) => prev + experience });
 
     return { experience };
   }
