@@ -1,3 +1,10 @@
+# [1.2.0-beta.3](https://github.com/guilhermebitt/the-react/compare/v1.2.0-beta.2...v1.2.0-beta.3) (2025-10-18)
+
+
+### Features
+
+* **perks:** starting to implement a perk feature to the game ([fdcef3d](https://github.com/guilhermebitt/the-react/commit/fdcef3d0f507cafbbc17855af14d38c56ff91439))
+
 # [1.2.0-beta.2](https://github.com/guilhermebitt/the-react/compare/v1.2.0-beta.1...v1.2.0-beta.2) (2025-10-17)
 
 
