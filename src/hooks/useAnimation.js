@@ -1,19 +1,21 @@
 // Dependencies
 import { useEffect, useState, useRef } from 'react';
-import { useGame } from './useGame';
+// Stores
+import { useTick } from '@/stores';
 
 export function useAnimation(entity) {
   // React States
   const [framePath, setFramePath] = useState();
   const [standByIndex, setStandByIndex] = useState(0);
   // Other Hooks
-  const { tick } = useGame();
   const animInterval = useRef(null);
+  // Stores
+  const tick = useTick.use.tick();
 
   // Runs every time the game tick updates
   useEffect(() => {
     handleTickUpdate();
-  }, [tick.get()]);
+  }, [tick]);
 
   // Executed when the component deconstruct
   useEffect(() => {return deconstruct}, []);

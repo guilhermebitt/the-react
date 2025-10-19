@@ -4,8 +4,16 @@ import { useLocalStorage } from 'usehooks-ts';
 // Hooks
 import { useGame } from './useGame';
 
+// Stores
+import { useTick } from '@/stores';
+
 export const useSaveManager = (saveId) => {
-  const { tick, player, enemies, game } = useGame();
+  const { player, enemies, game } = useGame();
+
+  // Store
+  const getCurrentTick = useTick.use.getCurrent();
+  const updateTick = useTick.use.update();
+
   const [saves, setSaves] = useLocalStorage('saves', {});
 
   const saveGame = () => {
@@ -14,7 +22,7 @@ export const useSaveManager = (saveId) => {
         player: player.get(),
         enemies: enemies.get(),
         game: game.get(),
-        tick: tick.get(),
+        tick: getCurrentTick(),
       };
       setSaves((prevSaves) => ({
         ...prevSaves,
@@ -39,13 +47,13 @@ export const useSaveManager = (saveId) => {
       player.reset();
       enemies.reset();
       game.reset();
-      tick.set(0);
+      updateTick(0);
 
       // Re-loading all contexts
       player.loadSave(savedState.player);
       enemies.loadSave(savedState.enemies);
       game.loadSave(savedState.game);
-      tick.set(savedState.tick);
+      updateTick(savedState.tick)
 
       game.update({ currentSave: saveId });
     } catch (error) {
@@ -70,7 +78,7 @@ export const useSaveManager = (saveId) => {
     player.reset();
     enemies.reset();
     game.reset();
-    tick.set(0);
+    updateTick(0);
   };
 
   return { saveGame, loadGame, deleteSave, resetGame };

@@ -54,6 +54,9 @@ import VictoryModal from '../components/ui/VictoryModal';
 import { useGame } from '@/hooks';
 import { useLoading } from '@/hooks';
 
+// Stores
+import { useTick } from '@/stores';
+
 // Stylesheet
 import styles from'./BattleEvent.module.css';
 
@@ -69,12 +72,17 @@ const hudAssets = [
 
 function BattleEvent() {
   // React Hooks
-  const { tick, audios, player, enemies, game, logic } = useGame();
+  const { audios, player, enemies, game, logic } = useGame();
   const { loading, loadAssets } = useLoading();
   const navigate = useNavigate();
   const location = useLocation();
   const [enemiesAlive, setEnemiesAlive] = useState(null);
   const [finishedEvent, setFinishedEvent] = useState(false);
+
+  // Stores
+  const getCurrentTick = useTick.use.getCurrent();
+  const startTick = useTick.use.start();
+  const stopTick = useTick.use.stop();
 
   // Initializing funcs
   funcs.init(game);
@@ -128,12 +136,12 @@ function BattleEvent() {
     if (location.pathname === "/battle") navigate("/battle/action", { replace: true });
 
     // Starting the gameTick
-    tick.start();
+    startTick;
 
     // If is the first time entering the event (going to settings and get back will not have any effect)
     if (game.get().eventData.type === null) {
       game.update({ "eventData.type": "battle" });
-      game.update({ "eventData.timeEntered": tick.get() });  // I have to keep an eye here
+      game.update({ "eventData.timeEntered": getCurrentTick() });  // I have to keep an eye here
     }
 
     // Creating audios
@@ -151,7 +159,7 @@ function BattleEvent() {
     })
 
     return () => {
-      tick.stop();  // tick stops when the game exit the battle component
+      stopTick;  // tick stops when the game exit the battle component
       audios.get("gameMusic")?.pause();
     };
     

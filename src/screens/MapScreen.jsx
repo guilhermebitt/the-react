@@ -16,6 +16,9 @@ import Loading from '../components/common/Loading';
 import { useGame } from '../hooks/useGame';
 import { useLoading } from '../hooks/useLoading';
 
+// Stores
+import { useTick } from '@/stores';
+
 // Stylesheets
 import styles from './MapScreen.module.css';
 import '../assets/css/scrollbar.css';
@@ -37,13 +40,15 @@ var badgesUrl = [
   "/assets/map_sections/events_badges/unknown_badge.png",
 ];
 
-
-
 // Creating the MapScreen
 function MapScreen() {
-  const { game, enemies, tick, audios } = useGame();
+  const { game, enemies, audios } = useGame();
   const { loading, loadAssets } = useLoading();
   const mapArea = structuredClone(game.get().mapArea);
+
+  // Stores
+  const startTick = useTick.use.start();
+  const stopTick = useTick.use.stop();
 
   // LOADING
   useEffect(() => {
@@ -58,7 +63,7 @@ function MapScreen() {
     if (loading) return;
 
     // Resuming the tick count
-    tick.start();
+    startTick();
 
     // Stopping the game music if it is playing
     if (audios.get("gameMusic")?.isPlaying()) audios.get("gameMusic")?.pause();
@@ -68,7 +73,7 @@ function MapScreen() {
     enemies.reset();
 
     return () => {
-      tick.stop();  // tick stops when the game exit the map component
+      stopTick();  // tick stops when the game exit the map component
     }
   }, [loading]);
 

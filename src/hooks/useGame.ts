@@ -2,7 +2,7 @@
 import { useMemo } from "react";
 
 // Contexts
-import { useTick } from "@/context/TickProvider";
+//import { useTick } from "@/context/TickProvider";
 import { useAudio } from "@/context/AudioProvider";
 import { usePlayer } from "@/context/PlayerProvider";
 import { useEnemies } from "@/context/EnemiesProvider";
@@ -11,7 +11,7 @@ import { useLogic } from "@/context/LogicProvider";
 
 // This hook will group all the other context hooks
 export function useGame() {
-  const tick = useTick();
+  //const tick = useTick();
   const audios = useAudio();
   const player = usePlayer();
   const enemies = useEnemies();
@@ -19,6 +19,6 @@ export function useGame() {
   const logic = useLogic();
 
   return useMemo(() => {
-    return { tick, audios, player, enemies, game, logic };
-  }, [tick, audios, player, enemies, game, logic]);
+    return { audios, player, enemies, game, logic };
+  }, [audios, player, enemies, game, logic]);
 }

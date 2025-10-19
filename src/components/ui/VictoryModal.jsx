@@ -1,22 +1,27 @@
 // Dependencies
-import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom'; // This is temporary
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom"; // This is temporary
 
 // Components
-import ValueIncrement from '../ui/ValueIncrement.jsx';
+import ValueIncrement from "../ui/ValueIncrement.jsx";
 
 // Hooks
-import { useGame } from '../../hooks/useGame';
+import { useGame } from "../../hooks/useGame";
+
+// Stores
+import { useTick } from "@/stores";
 
 // Stylesheet
-import styles from './VictoryModal.module.css';
+import styles from "./VictoryModal.module.css";
 
 function VictoryModal() {
-  const { tick, game } = useGame();
+  const { game } = useGame();
   const [eventTime, setEventTime] = useState(null);
   const [finished, setFinished] = useState(false);
-  const [timeForEach] = useState(1000)  // Time in MS to determine the time for each stat
+  const [timeForEach] = useState(1000); // Time in MS to determine the time for each stat
   const [infoId, setInfoId] = useState(0);
+  // Store
+  const getCurrentTick = useTick.use.getCurrent();
 
   useEffect(() => {
     if (!eventTime) setEventTime(getEventTime());
@@ -24,7 +29,7 @@ function VictoryModal() {
     // Changes the id after the time pass
     let times = 0;
     const interval = setInterval(() => {
-      setInfoId(prev => prev + 1)
+      setInfoId((prev) => prev + 1);
       times++;
       if (times >= 2) clearInterval(interval);
     }, timeForEach);
@@ -34,11 +39,11 @@ function VictoryModal() {
 
   useEffect(() => {
     if (infoId >= 2) setFinished(true);
-  }, [infoId])
+  }, [infoId]);
 
   function getEventTime() {
     const timeEntered = game.get().eventData.timeEntered;
-    const currentTime = tick.get();
+    const currentTime = getCurrentTick();
 
     const timeInEvent = currentTime - timeEntered;
 
@@ -56,20 +61,18 @@ function VictoryModal() {
           {(infoId ?? 0) >= 0 && (
             <p
               style={{
-                visibility: (infoId ?? 0) >= 0 ? 'visible' : 'hidden',
-              }}
-            >
-              Event Duration: {<ValueIncrement finalValue={eventTime} duration={timeForEach} type={"time"}/>}
+                visibility: (infoId ?? 0) >= 0 ? "visible" : "hidden",
+              }}>
+              Event Duration: {<ValueIncrement finalValue={eventTime} duration={timeForEach} type={"time"} />}
             </p>
           )}
           {/* ENEMIES KILLED */}
           {infoId >= 1 && (
             <p
               style={{
-                visibility: infoId >= 1 ? 'visible' : 'hidden',
-              }}
-            >
-              Enemies Killed: {<ValueIncrement finalValue={game.get().eventData.kills} duration={timeForEach}/>}
+                visibility: infoId >= 1 ? "visible" : "hidden",
+              }}>
+              Enemies Killed: {<ValueIncrement finalValue={game.get().eventData.kills} duration={timeForEach} />}
             </p>
           )}
         </div>
