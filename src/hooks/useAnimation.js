@@ -1,7 +1,7 @@
 // Dependencies
 import { useEffect, useState, useRef } from 'react';
 // Stores
-import { useTick } from '@/stores';
+import { useStore } from '@/stores';
 
 export function useAnimation(entity) {
   // React States
@@ -10,7 +10,7 @@ export function useAnimation(entity) {
   // Other Hooks
   const animInterval = useRef(null);
   // Stores
-  const tick = useTick.use.tick();
+  const tick = useStore("tick", s => s.tick);
 
   // Runs every time the game tick updates
   useEffect(() => {

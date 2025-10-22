@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { useAnimation } from "../../hooks/useAnimation";
 import { useGame } from "../../hooks/useGame";
+import { useStore } from "@/stores";
 
 // Components
 import HealthBar from "../ui/HealthBar";
@@ -15,10 +16,11 @@ import styles from "./Entity.module.css";
 function Entity({ entity }) {
   // React States
   const [firstLoad, setFirstLoad] = useState(true);
-
   // Custom Hooks
   const framePath = useAnimation(entity);
-  const { game, audios } = useGame();
+  const { game } = useGame();
+  // Stores
+  const audiosActions = useStore("audios", "actions");
 
   // First load useEffect
   useEffect(handleFirstLoad, []);
@@ -37,11 +39,11 @@ function Entity({ entity }) {
     if (firstLoad) return;
 
     if (entity?.states.includes("hit")) {
-      if (audios.get("hitSound")) audios.get("hitSound").start();
+      if (audiosActions.getAudio("hitSound")) audiosActions.getAudio("hitSound").start();
     }
 
     if (entity?.states.includes("leveling")) {
-      if (audios.get("levelUp")) audios.get("levelUp").start();
+      if (audiosActions.getAudio("levelUp")) audiosActions.getAudio("levelUp").start();
     }
   }, [entity?.states]);
 

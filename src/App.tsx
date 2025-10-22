@@ -4,19 +4,22 @@ import { useEffect, useRef } from "react";
 import { useLocalStorage } from "usehooks-ts";
 
 // Components
-import LogContainer from "./components/game/LogContainer.jsx";
+import LogContainer from "./components/game/LogContainer";
 
 // Contexts
-import { AppProviders } from "./context/AppProviders.jsx";
+import { AppProviders } from "./context/AppProviders";
+
+// Managers
+import { AudioManager, PlayerManager } from "@/managers";
 
 // Screens
-import Menu from "./screens/Menu.jsx";
-import Settings from "./screens/Settings.jsx";
-import MapScreen from "./screens/MapScreen.jsx";
-import BattleEvent from "./screens/BattleEvent.jsx";
-import Saves from "./screens/Saves.jsx";
-import DeathScreen from "./screens/DeathScreen.jsx";
-import Credits from "./screens/Credits.jsx";
+import Menu from "./screens/Menu";
+import Settings from "./screens/Settings";
+import MapScreen from "./screens/MapScreen";
+import BattleEvent from "./screens/BattleEvent";
+import Saves from "./screens/Saves";
+import DeathScreen from "./screens/DeathScreen";
+import Credits from "./screens/Credits";
 
 // Stylesheet
 import "./assets/css/App.css";
@@ -25,6 +28,7 @@ function App() {
   return (
     <BrowserRouter>
       <AppProviders>
+        <Managers />
         <AppRoutes />
       </AppProviders>
     </BrowserRouter>
@@ -74,6 +78,15 @@ function AppRoutes() {
       </Routes>
 
       {settings.showLog && <LogContainer />}
+    </>
+  );
+}
+
+function Managers() {
+  return (
+    <>
+      <AudioManager />
+      <PlayerManager />
     </>
   );
 }

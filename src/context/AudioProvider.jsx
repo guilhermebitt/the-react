@@ -45,7 +45,7 @@ export function AudioProvider({ children }) {
       return;
     }
     // Verifying if the audio already exists (won't rewrite)
-    if (audios[name]) return
+    if (audios[name]) return;
 
     // Creating the audio instance
     const audio = new Audio(src);

@@ -1,5 +1,5 @@
 {
-  "id": "player",
+  "id": 0,
   "entityType": "player",
   "name": "Hero",
   "level": 1,

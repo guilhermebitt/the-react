@@ -16,8 +16,8 @@ import Loading from '../components/common/Loading';
 import { useGame } from '../hooks/useGame';
 import { useLoading } from '../hooks/useLoading';
 
-// Stores
-import { useTick } from '@/stores';
+// Store
+import { useStore } from '@/stores';
 
 // Stylesheets
 import styles from './MapScreen.module.css';
@@ -42,13 +42,13 @@ var badgesUrl = [
 
 // Creating the MapScreen
 function MapScreen() {
-  const { game, enemies, audios } = useGame();
+  const { game, enemies } = useGame();
   const { loading, loadAssets } = useLoading();
   const mapArea = structuredClone(game.get().mapArea);
 
   // Stores
-  const startTick = useTick.use.start();
-  const stopTick = useTick.use.stop();
+  const [startTick, stopTick] = useStore("tick", state => [state.start, state.stop]);
+  const audiosActions = useStore("audios", "actions");
 
   // LOADING
   useEffect(() => {
@@ -66,7 +66,7 @@ function MapScreen() {
     startTick();
 
     // Stopping the game music if it is playing
-    if (audios.get("gameMusic")?.isPlaying()) audios.get("gameMusic")?.pause();
+    if (audiosActions.getAudio("gameMusic")?.isPlaying()) audiosActions.getAudio("gameMusic")?.pause();
 
     // Resetting all game eventData and enemies
     game.update({ "eventData": gameData.eventData });

@@ -53,9 +53,7 @@ import VictoryModal from '../components/ui/VictoryModal';
 // Hooks
 import { useGame } from '@/hooks';
 import { useLoading } from '@/hooks';
-
-// Stores
-import { useTick } from '@/stores';
+import { useStore } from '@/stores';
 
 // Stylesheet
 import styles from'./BattleEvent.module.css';
@@ -72,7 +70,7 @@ const hudAssets = [
 
 function BattleEvent() {
   // React Hooks
-  const { audios, player, enemies, game, logic } = useGame();
+  const { enemies, game, logic } = useGame();
   const { loading, loadAssets } = useLoading();
   const navigate = useNavigate();
   const location = useLocation();
@@ -80,12 +78,25 @@ function BattleEvent() {
   const [finishedEvent, setFinishedEvent] = useState(false);
 
   // Stores
-  const getCurrentTick = useTick.use.getCurrent();
-  const startTick = useTick.use.start();
-  const stopTick = useTick.use.stop();
+  const tickActions = useStore("tick", "actions");
+  const audioActions = useStore("audios", "actions");
+  const playerActions = useStore("player", "actions");
 
   // Initializing funcs
   funcs.init(game);
+
+  useEffect(() => {
+    // Adding event listener to death music
+    const handleAudioEnded = () => {
+      // Code if the player died
+      navigate("/deathscreen");
+    }
+    audioActions.getAudio("deathMusic")?.addEventListener('ended', handleAudioEnded);
+
+    return () => {
+      audioActions.getAudio("deathMusic")?.removeEventListener('ended', handleAudioEnded);
+    }
+  }, [audioActions?.getAudio("deathMusic")])
 
   // LOADING
   useEffect(() => {
@@ -94,7 +105,7 @@ function BattleEvent() {
       .map(enemy => {
         return createEntityObj(enemy?.name, enemy?.level);
     });
-    entitiesToLoad?.push(player?.get());
+    entitiesToLoad?.push(playerActions.getCurrent());
     const entitiesAssets = getEntitiesAssets(entitiesToLoad) ?? [];
 
     // Pushing all assets to an array
@@ -124,10 +135,10 @@ function BattleEvent() {
     }
 
     // Resetting the player's actions left
-    player.update({ actionsLeft: player.get().actions }) 
+    playerActions.update({ actionsLeft: playerActions.getCurrent().actions }) 
 
     // Resetting the game music
-    audios.get("gameMusic")?.stop()
+    audioActions.getAudio("gameMusic")?.stop()
   }, [loading]);
 
   // On game reload:
@@ -136,31 +147,31 @@ function BattleEvent() {
     if (location.pathname === "/battle") navigate("/battle/action", { replace: true });
 
     // Starting the gameTick
-    startTick;
+    tickActions.start();
 
     // If is the first time entering the event (going to settings and get back will not have any effect)
     if (game.get().eventData.type === null) {
       game.update({ "eventData.type": "battle" });
-      game.update({ "eventData.timeEntered": getCurrentTick() });  // I have to keep an eye here
+      game.update({ "eventData.timeEntered": tickActions.getCurrent() });  // I have to keep an eye here
     }
 
     // Creating audios
-    audios.create({ name: "gameMusic", src: "/assets/sounds/musics/the_music.ogg", loop: true, type: 'music' });
-    audios.create({ name: "deathMusic", src: "/assets/sounds/musics/you_died.ogg", type: 'music' });
-    audios.create({ name: "hitSound", src: "/assets/sounds/misc/hit_sound.ogg" });
-    audios.create({ name: 'pointSound', src: '/assets/sounds/misc/point.ogg' });
-    audios.create({ name: 'levelUp', src: '/assets/sounds/misc/level_up.ogg' });
+    audioActions.create({ name: "gameMusic", src: "/assets/sounds/musics/the_music.ogg", loop: true, type: 'music' });
+    audioActions.create({ name: "deathMusic", src: "/assets/sounds/musics/you_died.ogg", type: 'music' });
+    audioActions.create({ name: "hitSound", src: "/assets/sounds/misc/hit_sound.ogg" });
+    audioActions.create({ name: 'pointSound', src: '/assets/sounds/misc/point.ogg' });
+    audioActions.create({ name: 'levelUp', src: '/assets/sounds/misc/level_up.ogg' });
     
     // Changing the animations tickSpeed to fit with the game tick
-    player.update({ "animations.standBy.duration": game.get().tickSpeed })
+    playerActions.update({ "animations.standBy.duration": game.get().tickSpeed })
 
     enemies.get().forEach((enemy) => {
       enemy.update({ "animations.standBy.duration": game.get().tickSpeed })
     })
 
     return () => {
-      stopTick;  // tick stops when the game exit the battle component
-      audios.get("gameMusic")?.pause();
+      tickActions.stop();  // tick stops when the game exit the battle component
+      audioActions.getAudio("gameMusic")?.pause();
     };
     
   }, [loading]);
@@ -177,26 +188,26 @@ function BattleEvent() {
   useEffect(() => {
     if (loading) return;
 
-    if (player.get().isDead()) return;
-    if (!audios.get("gameMusic")?.isPlaying()) audios.get("gameMusic")?.play();
-  }, [audios.get("gameMusic"), loading])
+    if (playerActions.getCurrent().isDead()) return;
+    if (!audioActions.getAudio("gameMusic")?.isPlaying()) audioActions.getAudio("gameMusic").play();
+  }, [audioActions.getAudio("gameMusic"), loading])
 
   // Checking if it's the player turn
   useEffect(() => {
     if (loading) return;
 
     if (game.get().specificEnemyTurn !== 'player') return;
-      player.update({ actionsLeft: player.get().actions })  // resets the actionsLeft of the player
+      playerActions.update({ actionsLeft: playerActions.getCurrent().actions })  // resets the actionsLeft of the player
   }, [game.get().specificEnemyTurn]);
 
   // Checking if the player died
-  useEffect(() => {
+  /* useEffect(() => {
     if (loading) return
     if (player.get().isDead() && !audios.get("deathMusic")?.isPlaying()) {
       // Code if the player died and the death music is not playing anymore
       navigate("/deathscreen");
     }
-  }, [audios.get("deathMusic")?.isPlaying()])
+  }, [audios.get("deathMusic")?.isPlaying()]) */
 
   // Checking if ALL enemies are dead
   useEffect(() => {

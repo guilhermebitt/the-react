@@ -1,18 +1,21 @@
 // Dependencies
 import { useEffect, useRef } from "react";
 import { useGame } from "@/hooks";
+import { useStore } from "@/stores";
 
 // Importing TS types
 import { TurnTypes, EntityIds } from "@/types";
 import { validTurns } from "@/types/constants";
 import { init, phrase } from "@/utils/functions";
-import { Enemy, Entity } from "@/utils/entities";
+import { Enemy } from "@/utils/entities";
 
 // Functions that handle the context dependencies
 export function useTurnLogic() {
-  const { game, enemies, player } = useGame();
+  const { game, enemies } = useGame();
   const isFirstRender = useRef(true);
   const lastTurn = useRef<TurnTypes>(null);
+  // Stores
+  const playerActions = useStore("player", "actions")
 
   // Constantly checks if the turn changed
   useEffect(() => {
@@ -68,10 +71,10 @@ export function useTurnLogic() {
       game.update({ specificEntityTurn: 0 });
 
       // Skipping turn
-      if (player.get().skipTurn === true) this.handleEnemiesTurn();
+      if (playerActions.getCurrent().skipTurn === true) this.handleEnemiesTurn();
 
       // Resetting the player actions
-      player.update({ actionsLeft: player.get().actions });
+      playerActions.update({ actionsLeft: playerActions.getCurrent().actions });
     },
 
     // Function to handle the enemies turn. Starts from the enemy 1
@@ -91,7 +94,7 @@ export function useTurnLogic() {
         const nextEntity = enemyId + 1;
 
         // If the player died, will skip all turns
-        if (player.getRef().isDead()) {
+        if (playerActions.getCurrent().isDead()) {
           game.update({ currentTurn: null });
           return;
         }
@@ -132,7 +135,7 @@ export function useTurnLogic() {
         // Skipping turn
         if (enemy.skipTurn === true) {resolve(); return};
 
-        const turn = enemy.handleTurn(player.getRef());
+        const turn = enemy.handleTurn(playerActions.getCurrent());
 
         if (!turn) {
           console.error("turn is null at enemyTurn().");

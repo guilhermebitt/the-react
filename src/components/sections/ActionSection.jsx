@@ -10,13 +10,14 @@ import ConfirmDialog from '../common/ConfirmDialog';
 
 // Hooks
 import { useGame } from '../../hooks/useGame';
+import { useStore } from '@/stores';
 import { usePerkLogic } from '@/logic/usePerkLogic';
 
 // Stylesheet
 import styles from './sections.module.css'
 
 function ActionSection() {
-  const { player, enemies, game, logic } = useGame();
+  const { enemies, game, logic } = useGame();
   const { createPerk } = usePerkLogic();
   const [confirmDialog, setConfirmDialog] = useState({
     visible: false,
@@ -24,6 +25,8 @@ function ActionSection() {
     onConfirm: null,
     onCancel: null
   });
+  // Stores
+  const playerActions = useStore("player", "actions")
 
   // Passing the game controller to the funcs
   funcs.init(game);
@@ -32,10 +35,10 @@ function ActionSection() {
   function doAttack() {
     // Conditions
     if (typeof game.get().target !== 'number') return funcs.phrase('Select a target!');
-    if (player.get().actionsLeft <= 0) return funcs.phrase('You do not have actions left! End your turn.');
+    if (playerActions.getCurrent().actionsLeft <= 0) return funcs.phrase('You do not have actions left! End your turn.');
     if (enemies.get([game.get().target])?.currentAnim === 'death') return funcs.phrase('This enemy is dead.');
 
-    const { attackMsg, timeToWait, loot, isDead } = player.get().attack(enemies.get([game.get().target]));  // this function executes an attack and return some data
+    const { attackMsg, timeToWait, loot, isDead } = playerActions.getCurrent().attack(enemies.get([game.get().target]));  // this function executes an attack and return some data
     if (isDead) game.update({ "eventData.kills": prev => prev + 1 })
 
     // Changing the turn 
@@ -49,7 +52,7 @@ function ActionSection() {
 
     funcs.phrase(attackMsg);  // showing the result of the attack
     loot?.experience && funcs.phrase(`You gained ${loot.experience} points of experience.`);
-    player.update({ actionsLeft: prev => prev - 1 })
+    playerActions.update({ actionsLeft: prev => prev - 1 })
   }
 
   function confirmScreen(onConfirm, onCancel, msg='Are you sure?') {
@@ -91,7 +94,7 @@ function ActionSection() {
         }
       />
       <Terminal />
-      <Stats entity={player.get()} />
+      <Stats entity={playerActions.getCurrent()} />
     </div>
   );
 }

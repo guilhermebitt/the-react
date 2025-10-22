@@ -5,7 +5,7 @@ import { immerable } from "immer";
 import playerJson from "@/data/player.json";
 
 // Importing the interface of EntityData
-import { BaseEntityData, PlayerData, EnemyData, Increases } from "@/types";
+import { BaseEntityData, PlayerData, EnemyData, Increases, UpdaterPatch, EntityData } from "@/types";
 
 type EnemyActions = "attack";
 
@@ -21,8 +21,10 @@ export class Entity {
 
   public data!: BaseEntityData;
 
-  constructor(data: BaseEntityData) {
+  constructor(data: BaseEntityData, updater?: (patch: UpdaterPatch<EntityData>) => void) {
     Object.assign(this, data);
+    // If received an updater, assign it to the entity
+    if (updater) this.update = updater;
   }
 
   // Returns an pure object from the entity
@@ -168,45 +170,47 @@ export class Entity {
 
 // --- PLAYER ---
 export class Player extends Entity {
-  constructor(entity: PlayerData) {
-    super(entity);
+  constructor(entity: PlayerData, updater?: (patch: UpdaterPatch<PlayerData>) => void) {
+    super(entity, updater);
   }
 
   // Functions to calc the new player stats with increments
   incrementStats() {
     // Keys that is updated when the player levels up
-    const levelUpKeys = ["maxHealth", "health", "attack", "defense"]
+    const levelUpKeys = ["maxHealth", "health", "attack", "defense"];
 
     // For each stat of the player, applies an increment
     for (const [statKey, statValue] of Object.entries(playerJson.stats)) {
       // If there is not an increment for the stat, skips the calculation
       if (!Object.keys(this.increases).includes(statKey)) continue;
       // Dot path for the stat
-      const newStatKey = `stats.${statKey}`
+      const newStatKey = `stats.${statKey}`;
 
       // Updating the player
-      this.update({ [newStatKey]: () => {
-        // If the key to increment is one of the level up keys, returns the increment + the level value
-        if (levelUpKeys.includes(statKey)) {
-          let levelUppedValue: number = 0;
+      this.update({
+        [newStatKey]: () => {
+          // If the key to increment is one of the level up keys, returns the increment + the level value
+          if (levelUpKeys.includes(statKey)) {
+            let levelUppedValue: number = 0;
 
-          switch (statKey) {
-            case "maxHealth":
-            case "health":
-              levelUppedValue = this.levelUp(this.level, true).newHealth
-              break;
-            case "attack":
-              levelUppedValue = this.levelUp(this.level, true).newAttack
-              break;
-            case "defense":
-              levelUppedValue = this.levelUp(this.level, true).newDefense
-              break;
+            switch (statKey) {
+              case "maxHealth":
+              case "health":
+                levelUppedValue = this.levelUp(this.level, true).newHealth;
+                break;
+              case "attack":
+                levelUppedValue = this.levelUp(this.level, true).newAttack;
+                break;
+              case "defense":
+                levelUppedValue = this.levelUp(this.level, true).newDefense;
+                break;
+            }
+
+            return statValue + this.increases[statKey as keyof Increases] + levelUppedValue;
           }
-
-          return statValue + this.increases[statKey as keyof Increases] + levelUppedValue;
-        }
-        return statValue + this.increases[statKey as keyof Increases];
-      } })
+          return statValue + this.increases[statKey as keyof Increases];
+        },
+      });
     }
   }
 
@@ -277,8 +281,8 @@ export class Player extends Entity {
 
 // --- ENEMY ---
 export class Enemy extends Entity {
-  constructor(entity: EnemyData) {
-    super(entity);
+  constructor(entity: EnemyData, updater?: (patch: UpdaterPatch<EnemyData>) => void) {
+    super(entity, updater);
   }
 
   handleTurn(target: Entity): Partial<Action> | null {

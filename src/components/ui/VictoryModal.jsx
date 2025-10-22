@@ -7,9 +7,7 @@ import ValueIncrement from "../ui/ValueIncrement.jsx";
 
 // Hooks
 import { useGame } from "../../hooks/useGame";
-
-// Stores
-import { useTick } from "@/stores";
+import { useStore } from '@/stores';
 
 // Stylesheet
 import styles from "./VictoryModal.module.css";
@@ -21,7 +19,7 @@ function VictoryModal() {
   const [timeForEach] = useState(1000); // Time in MS to determine the time for each stat
   const [infoId, setInfoId] = useState(0);
   // Store
-  const getCurrentTick = useTick.use.getCurrent();
+  const getCurrentTick = useStore("tick", state => state.getCurrent);
 
   useEffect(() => {
     if (!eventTime) setEventTime(getEventTime());

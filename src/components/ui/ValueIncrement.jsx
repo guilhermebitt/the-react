@@ -4,6 +4,7 @@ import * as funcs from '../../utils/functions';
 
 // Hooks
 import { useGame } from "../../hooks/useGame";
+import { useStore } from "@/stores";
 
 /**
  * Counter Component
@@ -18,8 +19,9 @@ import { useGame } from "../../hooks/useGame";
 function ValueIncrement({ finalValue, duration = 1000, onFinish, type }) {
   // Holds the current number being displayed
   const [value, setValue] = useState(0);
-  // Get the audios to play the sound
-  const { audios, game } = useGame();
+  const { game } = useGame();
+  // Stores
+  const audiosActions = useStore("audios", "actions");
 
   useEffect(() => {
     let startTime = null; // stores the animation start time
@@ -27,7 +29,7 @@ function ValueIncrement({ finalValue, duration = 1000, onFinish, type }) {
     let lastSoundTime = 0;
 
     // Creates an audio if not exists for the tick sound
-    audios.create({ name: 'pointSound', src: '/assets/sounds/misc/point.ogg' });
+    audiosActions.create({ name: 'pointSound', src: '/assets/sounds/misc/point.ogg' });
 
     // Function that runs every frame (~60 times per second)
     const step = (timestamp) => {
@@ -46,10 +48,10 @@ function ValueIncrement({ finalValue, duration = 1000, onFinish, type }) {
       // Plays the audio
       if (
         currentValue !== lastValue &&
-        audios.get("pointSound") &&
+        audiosActions.getAudio("pointSound") &&
         timestamp - lastSoundTime >= 100 // minimal time to wait to play the sound again
       ) {
-        audios.get("pointSound").start();
+        audiosActions.getAudio("pointSound").start();
         lastSoundTime = timestamp; // atualiza o último timestamp do som
         lastValue = currentValue;  // atualiza último valor
       }
