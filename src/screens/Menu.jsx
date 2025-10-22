@@ -11,16 +11,17 @@ import { clearStorage } from '../utils/functions';
 import Changelog from '../components/common/Changelog';
 
 // Hooks
-import { useGame } from '../hooks/useGame';
-import { useSaveManager } from '../hooks/useSaveManager';
+import { useSaveManager } from '@/hooks/';
+import { useStore } from '@/stores';
 
 // Stylesheet
 import styles from './menus.module.css';
 
 function Menu() {
   const [settings, setSettings] = useLocalStorage('settings', settingsData);
-  const { audios } = useGame();
   const { resetGame } = useSaveManager();
+  // Stores
+  const audios = useStore("audios", s => ({getAudio: s.getAudio}));
 
   useEffect(() => {
     // Resets the game contexts
@@ -29,8 +30,8 @@ function Menu() {
     // Closes the log (if open)
     if (settings?.showLog) setSettings(prev => {return{...prev, showLog: false}});
     // Stop the music on menu
-    if (audios.get("gameMusic")?.isPlaying()) audios.get("gameMusic")?.stop()
-    if (audios.get("deathMusic")?.isPlaying()) audios.get("deathMusic")?.stop()
+    if (audios.getAudio("gameMusic")?.isPlaying()) audios.getAudio("gameMusic")?.stop()
+    if (audios.getAudio("deathMusic")?.isPlaying()) audios.getAudio("deathMusic")?.stop()
     
     return () => resetGameStorage(keysToKeep);
   }, []);

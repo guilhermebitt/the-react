@@ -1,13 +1,8 @@
+// Dependencies
+import { useGameStore } from "@/stores";
 // Data
 import mapsJson from "../data/maps.json";
 const maps: object | any = mapsJson;
-
-// ----- HOOKS MANAGER -----
-let game: any;
-
-export function init(gameState: any) {
-  game = gameState;
-}
 
 // ----- FUNCTIONS -----
 
@@ -15,8 +10,6 @@ export function init(gameState: any) {
 // creating an external variable for the messages queue
 const msgQueue: string[] = [];
 export function phrase(text: string, tag: string = "p", className: string = "default-msg") {
-  if (!game) return;
-
   // Creating the message prompt
   const msg = `<${tag} className="${className}">${text}</${tag}>`;
 
@@ -29,6 +22,9 @@ export function phrase(text: string, tag: string = "p", className: string = "def
 
 let updateScheduled = false;
 function scheduleTerminalUpdate() {
+  // Getting the game data
+  const {game, update} = useGameStore.getState();
+
   // Won't continue the code if the function is scheduling
   if (updateScheduled) return;
   updateScheduled = true;
@@ -40,8 +36,8 @@ function scheduleTerminalUpdate() {
   // batches all messages in the queue and updates the terminal once, preventing
   // newer messages from overwriting previous ones.
   setTimeout(() => {
-    const prevTerminal = game.get().terminalText;
-    const prevLog = game.get().logText;
+    const prevTerminal = game.terminalText;
+    const prevLog = game.logText;
 
     // Joins everything in an unique array
     const newTerminal = [...prevTerminal, ...msgQueue];
@@ -52,16 +48,18 @@ function scheduleTerminalUpdate() {
     updateScheduled = false;
 
     // Updates the game state
-    game.update({ terminalText: newTerminal });
-    game.update({ logText: newLog });
+    update({ terminalText: newTerminal });
+    update({ logText: newLog });
   }, 0);
 }
 
 // Function to handle turn changes
 export function endTurn() {
-  if (!game) return;
-  game.update({ currentTurn: "enemies" });
-  game.update({ specificEnemyTurn: 0 });
+  // Getting the game data
+  const {update} = useGameStore.getState();
+
+  update({ currentTurn: "enemies" });
+  update({ specificEntityTurn: 0 });
 }
 
 // Cleaning the localStorage
@@ -77,7 +75,14 @@ export function clearStorage(toKeep: string[]) {
 
 // Getting the current map the player is
 export function getCurrentMap(): any {
-  return maps[game.get().currentMap];
+  // Getting the game data
+  const {game} = useGameStore.getState();
+  
+  if (game.currentMap) {
+    return maps[game.currentMap];
+  } else {
+    return console.error("Game was no map at getCurrentMap() function")
+  }
 }
 
 // Get the tick and returns the time in format HH:MM:SS

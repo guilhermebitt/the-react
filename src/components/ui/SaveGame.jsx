@@ -13,7 +13,8 @@ import { useNavigate } from 'react-router-dom';
 import * as funcs from '@/utils/functions';
 
 // Custom Hooks
-import { useGame } from '@/hooks/useGame';
+import { useStore } from '@/stores';
+import { useLogic } from '@/hooks';
 import { useSaveManager } from '@/hooks/useSaveManager';
 import { useConfirmDialog } from '@/hooks/useConfirmDialog';
 
@@ -26,13 +27,15 @@ function SaveGame({ saveId }) {
   const [load, setLoad] = useState(false);
   const navigate = useNavigate();
   const { loadGame, deleteSave } = useSaveManager(saveId);
-  const { game, logic } = useGame();
+  const logic = useLogic();
+  // Store
+  const game = useStore("game", "actions");
 
   // Reacts to the change of the load (game load)
   useEffect(() => {
     if (!load) return;
 
-    navigate(game.get()?.eventData?.path);
+    navigate(game.getCurrent()?.eventData?.path);
   }, [load])
 
   function getMap(game) {
@@ -86,7 +89,7 @@ function SaveGame({ saveId }) {
 
   function getTime() {
     const savedState = saves[saveId]
-    return funcs.tickToTime(savedState.tick, game.get().tickSpeed)
+    return funcs.tickToTime(savedState.tick, game.getCurrent().tickSpeed)
   }
 
   return (

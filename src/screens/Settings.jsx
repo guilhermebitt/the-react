@@ -7,7 +7,7 @@ import { useLocalStorage } from 'usehooks-ts';
 import { useEffect, useState } from 'react';
 
 // Hooks
-import { useGame } from '../hooks/useGame';
+import { useStore } from '@/stores';
 
 // Stylesheet
 import styles from './menus.module.css';
@@ -17,19 +17,20 @@ function Settings() {
   const [lastScreen, setLastScreen] = useLocalStorage('lastScreen', '/');
   const [settings, setSettings] = useLocalStorage('settings', settingsData);
 
-  const { audios } = useGame();
-  
   const [gVolume, setGVolume] = useState(settings.volume);
   const [sfxVolume, setSfxVolume] = useState(settings.sfxVolume);
   const [musicVolume, setMusicVolume] = useState(settings.musicVolume);
+
+  // Stores
+  const audiosActions = useStore("audios", "actions")
 
   useEffect(() => {
     if (lastScreen === '/settings') {
       setLastScreen('/');
     }
     // Stopping the death music
-    if (audios.get('deathMusic')?.isPlaying()) {
-      audios.get('deathMusic').stop();
+    if (audiosActions.getAudio('deathMusic')?.isPlaying()) {
+      audiosActions.getAudio('deathMusic').stop();
     }
 
   }, []);
@@ -37,12 +38,12 @@ function Settings() {
   useEffect(() => {
     // Maintaining the music if the last screen was the game
       if (lastScreen.includes('/battle')) {
-        if (!audios.get('gameMusic')?.isPlaying()) {
-          audios.get('gameMusic')?.play();
+        if (!audiosActions.getAudio('gameMusic')?.isPlaying()) {
+          audiosActions.getAudio('gameMusic')?.play();
         }
       } else {
-        if (audios.get('gameMusic')?.isPlaying()) {
-          audios.get('gameMusic')?.stop();
+        if (audiosActions.getAudio('gameMusic')?.isPlaying()) {
+          audiosActions.getAudio('gameMusic')?.stop();
         }
       }
   }, [lastScreen])

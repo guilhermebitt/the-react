@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import ComponentBorder from '../ui/ComponentBorder';
 
 // Hooks
-import { useGame } from '../../hooks/useGame';
+import { useStore } from '@/stores';
 
 // Stylesheets
 import styles from './Terminal.module.css';
@@ -14,8 +14,8 @@ import '../../assets/css/scrollbar.css';
 
 
 function Terminal() {
-  const { game } = useGame();
-  const terminalText = game.get().terminalText;
+  const game = useStore("game", "actions");
+  const terminalText = game.getCurrent().terminalText;
 
   useEffect(() => {
     // Verifying if the terminal text change, when the

@@ -2,15 +2,16 @@
 import { useEffect, useState } from 'react';
 
 // Hooks
-import { useGame } from '../../hooks/useGame';
+import { useStore } from '@/stores';
 
 // Stylesheets
 import styles from './bars.module.css';
 
 function HealthBar({ entityId }) {
   const [transition, setTransition] = useState(null);
-  const { enemies } = useGame();
-  const entity = enemies.get(entityId);
+  const enemiesActions = useStore("enemies", "actions");
+
+  const entity = enemiesActions.getCurrent(entityId);
 
   const [healthPercent, setHealthPercent] = useState(100);
 

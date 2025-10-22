@@ -13,8 +13,10 @@ import MapSection from '../components/map/MapSection';
 import Loading from '../components/common/Loading';
 
 // Hooks
-import { useGame } from '../hooks/useGame';
 import { useLoading } from '../hooks/useLoading';
+
+// Store
+import { useStore } from '@/stores';
 
 // Stylesheets
 import styles from './MapScreen.module.css';
@@ -37,13 +39,16 @@ var badgesUrl = [
   "/assets/map_sections/events_badges/unknown_badge.png",
 ];
 
-
-
 // Creating the MapScreen
 function MapScreen() {
-  const { game, enemies, tick, audios } = useGame();
+  // Stores
+  const [startTick, stopTick] = useStore("tick", state => [state.start, state.stop]);
+  const audiosActions = useStore("audios", "actions");
+  const enemiesActions = useStore("enemies", "actions");
+  const game = useStore("game", "actions");
+
   const { loading, loadAssets } = useLoading();
-  const mapArea = structuredClone(game.get().mapArea);
+  const mapArea = structuredClone(game.getCurrent().mapArea);
 
   // LOADING
   useEffect(() => {
@@ -58,17 +63,17 @@ function MapScreen() {
     if (loading) return;
 
     // Resuming the tick count
-    tick.start();
+    startTick();
 
     // Stopping the game music if it is playing
-    if (audios.get("gameMusic")?.isPlaying()) audios.get("gameMusic")?.pause();
+    if (audiosActions.getAudio("gameMusic")?.isPlaying()) audiosActions.getAudio("gameMusic")?.pause();
 
     // Resetting all game eventData and enemies
     game.update({ "eventData": gameData.eventData });
-    enemies.reset();
+    enemiesActions.reset();
 
     return () => {
-      tick.stop();  // tick stops when the game exit the map component
+      stopTick();  // tick stops when the game exit the map component
     }
   }, [loading]);
 
@@ -115,7 +120,7 @@ function MapScreen() {
 
       {/* MAP SECTION */}
       <section className={`${styles.xSection} ${styles.map}`}>
-        <ComponentBorder title={mapsData[game.get()?.currentMap]?.name}>
+        <ComponentBorder title={mapsData[game.getCurrent()?.currentMap]?.name}>
 
           <div className={`${styles.mapSections} scrollbar`}>
             {/* MAP CONTENTS */}
@@ -125,8 +130,8 @@ function MapScreen() {
                 // Adding the map section components to the MapScreen
 
                 // Getting the next section (to configure the path)
-                const thisSeEv = game.get().mapArea[index + 0]?.events.length;
-                const nextSeEv = game.get().mapArea[index + 1]?.events.length;
+                const thisSeEv = game.getCurrent().mapArea[index + 0]?.events.length;
+                const nextSeEv = game.getCurrent().mapArea[index + 1]?.events.length;
 
                 const paths = getPath(thisSeEv, nextSeEv);
 

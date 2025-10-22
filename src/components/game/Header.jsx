@@ -1,29 +1,27 @@
 // Data
-import settingsJson from '../../data/settings.json' with { type: 'json' };
+import settingsJson from "../../data/settings.json";
 
 // Dependencies
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGear, faVolumeHigh, faVolumeMute } from '@fortawesome/free-solid-svg-icons';
-import { useState, useEffect } from 'react';
-import { useLocalStorage } from 'usehooks-ts';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGear, faVolumeHigh, faVolumeMute } from "@fortawesome/free-solid-svg-icons";
+import { useState, useEffect } from "react";
+import { useLocalStorage } from "usehooks-ts";
 import { produce } from "immer";
 
 // Components
-import OptionButtons from '../common/OptionButtons';
+import OptionButtons from "../common/OptionButtons";
 
 // Hooks
-import { useGame } from '../../hooks/useGame';
+import { useStore } from "@/stores";
 
 // Stylesheets
-import styles from './Header.module.css';
-
-
+import styles from "./Header.module.css";
 
 function Header() {
   const [showOptions, setShowOptions] = useState(false);
   const [volumeIcon, setVolumeIcon] = useState(faVolumeHigh);
-  const [settings, setSettings] = useLocalStorage('settings', settingsJson);
-  const { audios } = useGame();
+  const [settings, setSettings] = useLocalStorage("settings", settingsJson);
+  const audios = useStore("audios", "actions");
 
   useEffect(() => {
     settings.muted === true ? setVolumeIcon(faVolumeMute) : setVolumeIcon(faVolumeHigh);
@@ -34,20 +32,24 @@ function Header() {
   };
 
   function mute() {
-    settings.muted ?
-    setSettings(produce(draft => {
-      draft.muted = false;
-      Object.values(audios.get()).forEach(audio => {
-        audio.muted = false;
-      });
-    })) :
-    setSettings(produce(draft => {
-      draft.muted = true;
-      Object.values(audios.get()).forEach(audio => {
-        audio.muted = true;
-      });
-    }))
-  };
+    settings.muted
+      ? setSettings(
+          produce((draft) => {
+            draft.muted = false;
+            Object.values(audios.getAudios()).forEach((audio) => {
+              audio.muted = false;
+            });
+          })
+        )
+      : setSettings(
+          produce((draft) => {
+            draft.muted = true;
+            Object.values(audios.getAudios()).forEach((audio) => {
+              audio.muted = true;
+            });
+          })
+        );
+  }
 
   return (
     <header>
@@ -59,20 +61,15 @@ function Header() {
         </div>
       )}
       <div className={styles["h-btn-container"]}>
-        <button 
-          onClick={mute} 
-          className={styles["icon-btn"]}>
-            <FontAwesomeIcon 
-              id={styles["music-icon"]} 
-              icon={volumeIcon} />
+        <button onClick={mute} className={styles["icon-btn"]}>
+          <FontAwesomeIcon id={styles["music-icon"]} icon={volumeIcon} />
         </button>
-        <button 
-          onClick={handleOptions} 
-          className={styles["icon-btn"]}>
-            <FontAwesomeIcon 
+        <button onClick={handleOptions} className={styles["icon-btn"]}>
+          <FontAwesomeIcon
             id={styles["gear-icon"]}
-            className={showOptions ? styles.rotate : styles.noRotate} 
-            icon={faGear} />
+            className={showOptions ? styles.rotate : styles.noRotate}
+            icon={faGear}
+          />
         </button>
       </div>
       {showOptions && (
@@ -81,7 +78,7 @@ function Header() {
         </div>
       )}
     </header>
-  )
-};
+  );
+}
 
 export default Header;

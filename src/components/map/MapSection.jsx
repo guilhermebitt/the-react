@@ -6,7 +6,7 @@ import EventBadge from './EventBadge';
 import Clouds from './Clouds';
 
 // Hooks
-import { useGame } from '../../hooks/useGame';
+import { useStore } from '@/stores';
 
 // Stylesheets
 import styles from './MapSection.module.css';
@@ -14,18 +14,19 @@ import styles from './MapSection.module.css';
 
 
 function MapSection({ background, paths, badges, index }) {
-  const { game } = useGame();
   const [cloud, setCloud] = useState("");
+  // Stores
+  const game = useStore("game", "actions");
 
   useEffect(() => {
-    const currentMS = game.get().currentMapSection;
+    const currentMS = game.getCurrent().currentMapSection;
 
     // For some reason this need to be here and not in the MapScreen.jsx
     window.location.hash = currentMS;
-    if (currentMS < game.get().mapArea.length) {
+    if (currentMS < game.getCurrent().mapArea.length) {
       window.location.hash = currentMS;
     } else {
-      window.location.hash = game.get().mapArea.length - 1;
+      window.location.hash = game.getCurrent().mapArea.length - 1;
     }
 
     if (index <= currentMS) {

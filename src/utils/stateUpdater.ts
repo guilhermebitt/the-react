@@ -1,6 +1,9 @@
 import { produce } from 'immer';
 import { UpdaterPatch } from '@/types';
 
+// Type for the generic state
+type GenericSetState<T> = (fn: (prev: T) => T) => void;
+
 /**
  * Deeply updates a nested property in an object using dot notation.
  *
@@ -57,7 +60,7 @@ export const deepUpdate = <T extends Record<string, any>>(
  * @returns An updater function that applies the patch.
  */
 export const createUpdater = <T extends Record<string, any>>(
-  setState: React.Dispatch<React.SetStateAction<T>>
+  setState: GenericSetState<T>
 ) => (patch: UpdaterPatch<T>): void => {
   setState((prev) =>
     produce(prev, (draft) => {

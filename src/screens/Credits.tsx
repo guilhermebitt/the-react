@@ -4,27 +4,26 @@ import { useLocalStorage } from 'usehooks-ts';
 import { useEffect } from 'react';
 
 // Hooks
-import { useGame } from '../hooks/useGame';
+import { useStore } from '@/stores';
 
 // Stylesheet
 import styles from './menus.module.css';
 import '../assets/css/scrollbar.css'
 
-
-
 function Credits() {
   // Getting the lastScreen from localStorage
   const [lastScreen, setLastScreen] = useLocalStorage('lastScreen', '/');
   
-  const { audios } = useGame();
+  // Stores
+  const audiosActions = useStore("audios", "actions");
 
   useEffect(() => {
     if (lastScreen === '/settings') {
       setLastScreen('/');
     }
     // Stopping the death music
-    if (audios.get("deathMusic")?.isPlaying()) {
-      audios.get("deathMusic").stop();
+    if (audiosActions.getAudio("deathMusic")?.isPlaying()) {
+      audiosActions.getAudio("deathMusic")?.stop();
     }
   }, []);
 
