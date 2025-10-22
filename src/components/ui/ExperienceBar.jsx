@@ -2,7 +2,6 @@
 import { useEffect, useState } from "react";
 
 // Hooks
-import { useGame } from '../../hooks/useGame';
 import { useStore } from "@/stores";
 
 // Stylesheets

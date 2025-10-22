@@ -51,7 +51,7 @@ import PerksSection from '../components/sections/PerksSection';
 import VictoryModal from '../components/ui/VictoryModal';
 
 // Hooks
-import { useGame } from '@/hooks';
+import { useLogic } from '@/hooks';
 import { useLoading } from '@/hooks';
 import { useStore } from '@/stores';
 
@@ -70,7 +70,7 @@ const hudAssets = [
 
 function BattleEvent() {
   // React Hooks
-  const { logic } = useGame();
+  const logic = useLogic();
   const { loading, loadAssets } = useLoading();
   const navigate = useNavigate();
   const location = useLocation();
