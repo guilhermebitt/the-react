@@ -1,3 +1,10 @@
+# [1.2.0-beta.4](https://github.com/guilhermebitt/the-react/compare/v1.2.0-beta.3...v1.2.0-beta.4) (2025-10-22)
+
+
+### Performance Improvements
+
+* **tick:** improved the tick system with zustand, so it doesnt cause unnecessary re-render ([36e2bc1](https://github.com/guilhermebitt/the-react/commit/36e2bc10947043da3f5720a6daa7dc371264371f))
+
 # [1.2.0-beta.3](https://github.com/guilhermebitt/the-react/compare/v1.2.0-beta.2...v1.2.0-beta.3) (2025-10-18)
 
 
