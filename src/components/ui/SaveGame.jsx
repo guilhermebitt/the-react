@@ -13,8 +13,8 @@ import { useNavigate } from 'react-router-dom';
 import * as funcs from '@/utils/functions';
 
 // Custom Hooks
-import { useGame } from '@/hooks/useGame';
 import { useStore } from '@/stores';
+import { useLogic } from '@/hooks';
 import { useSaveManager } from '@/hooks/useSaveManager';
 import { useConfirmDialog } from '@/hooks/useConfirmDialog';
 
@@ -27,7 +27,7 @@ function SaveGame({ saveId }) {
   const [load, setLoad] = useState(false);
   const navigate = useNavigate();
   const { loadGame, deleteSave } = useSaveManager(saveId);
-  const { logic } = useGame();
+  const logic = useLogic();
   // Store
   const game = useStore("game", "actions");
 
