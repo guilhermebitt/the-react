@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import * as funcs from '../../utils/functions';
 
 // Hooks
-import { useGame } from "../../hooks/useGame";
 import { useStore } from "@/stores";
 
 /**
@@ -19,9 +18,9 @@ import { useStore } from "@/stores";
 function ValueIncrement({ finalValue, duration = 1000, onFinish, type }) {
   // Holds the current number being displayed
   const [value, setValue] = useState(0);
-  const { game } = useGame();
   // Stores
   const audiosActions = useStore("audios", "actions");
+  const game = useStore("game", "actions");
 
   useEffect(() => {
     let startTime = null; // stores the animation start time
@@ -70,7 +69,7 @@ function ValueIncrement({ finalValue, duration = 1000, onFinish, type }) {
   }, [finalValue, duration]); // re-run animation if finalValue or duration changes
 
   // Render the number on screen
-  if (type === "time") return <span>{funcs.tickToTime(value, game.get().tickSpeed)}</span>;
+  if (type === "time") return <span>{funcs.tickToTime(value, game.getCurrent().tickSpeed)}</span>;
   return <span>{value}</span>;
 }
 

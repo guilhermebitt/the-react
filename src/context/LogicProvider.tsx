@@ -1,6 +1,6 @@
 // Dependencies
 import { createContext, useContext } from "react";
-import { useGame } from '@/hooks';
+import { useStore } from "@/stores";
 
 // Logic
 import { createEventsLogic } from '@/logic/eventsLogic';
@@ -12,16 +12,17 @@ const LogicContext = createContext({});
 
 // Function to the game provider
 export function LogicProvider({ children }: { children: React.ReactNode }) {
-  const { game } = useGame();
+  // Game actions
+  const game = useStore("game", "actions")
   
   // Functions to handle the turns
   const turnLogic = useTurnLogic();
 
   // Functions to the events logic:
-  const eventsLogic = createEventsLogic({ getGame: game.get, updateGame: game.update });
+  const eventsLogic = createEventsLogic({ getGame: game.getCurrent, updateGame: game.update });
 
   // Functions to control the map and events generation:
-  const mapLogic = createMapLogic({ getGame: game.get, updateGame: game.update, eventsLogic });
+  const mapLogic = createMapLogic({ getGame: game.getCurrent, updateGame: game.update, eventsLogic });
 
   const logic = { ...turnLogic, ...eventsLogic, ...mapLogic };
 

@@ -9,7 +9,7 @@ import Stats from '../ui/Stats';
 import ConfirmDialog from '../common/ConfirmDialog';
 
 // Hooks
-import { useGame } from '../../hooks/useGame';
+import { useLogic } from '@/hooks';
 import { useStore } from '@/stores';
 import { usePerkLogic } from '@/logic/usePerkLogic';
 
@@ -17,7 +17,7 @@ import { usePerkLogic } from '@/logic/usePerkLogic';
 import styles from './sections.module.css'
 
 function ActionSection() {
-  const { enemies, game, logic } = useGame();
+  const logic = useLogic();
   const { createPerk } = usePerkLogic();
   const [confirmDialog, setConfirmDialog] = useState({
     visible: false,
@@ -26,23 +26,22 @@ function ActionSection() {
     onCancel: null
   });
   // Stores
-  const playerActions = useStore("player", "actions")
-
-  // Passing the game controller to the funcs
-  funcs.init(game);
+  const playerActions = useStore("player", "actions");
+  const enemiesActions = useStore("enemies", "actions");
+  const game = useStore("game", "actions")
 
   // Function to realize an attack
   function doAttack() {
     // Conditions
-    if (typeof game.get().target !== 'number') return funcs.phrase('Select a target!');
+    if (typeof game.getCurrent().target !== 'number') return funcs.phrase('Select a target!');
     if (playerActions.getCurrent().actionsLeft <= 0) return funcs.phrase('You do not have actions left! End your turn.');
-    if (enemies.get([game.get().target])?.currentAnim === 'death') return funcs.phrase('This enemy is dead.');
+    if (enemiesActions.getCurrent(game.getCurrent().target)?.currentAnim === 'death') return funcs.phrase('This enemy is dead.');
 
-    const { attackMsg, timeToWait, loot, isDead } = playerActions.getCurrent().attack(enemies.get([game.get().target]));  // this function executes an attack and return some data
+    const { attackMsg, timeToWait, loot, isDead } = playerActions.getCurrent().attack(enemiesActions.getCurrent(game.getCurrent().target));  // this function executes an attack and return some data
     if (isDead) game.update({ "eventData.kills": prev => prev + 1 })
 
     // Changing the turn 
-    const lastTurn = game.get().currentTurn;
+    const lastTurn = game.getCurrent().currentTurn;
     game.update({ currentTurn: 'onAction' });
 
     setTimeout(() => {
@@ -83,11 +82,11 @@ function ActionSection() {
 
       {/* Rest of the component */}
       <ActionButtons
-        attack={() => game.get().currentTurn === 'player' && doAttack()}
+        attack={() => game.getCurrent().currentTurn === 'player' && doAttack()}
         changeAnim={null}
         sendMsg={() => createPerk("critEye")}
         endTurn={() =>
-          game.get().currentTurn === 'player' &&
+          game.getCurrent().currentTurn === 'player' &&
           confirmScreen(() => {
             logic.switchTurn();
           })

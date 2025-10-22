@@ -1,10 +1,10 @@
 // Data
-import playerJson from "@/data/player.json"
-import rawPerksData from "@/data/perks.json"
+import playerJson from "@/data/player.json";
+import rawPerksData from "@/data/perks.json";
 
 // Dependencies
-import { useGame } from "@/hooks";
-import { useEffect, useMemo, useState } from "react";
+import { useStore } from "@/stores";
+import { useEffect, useState } from "react";
 
 // Types
 import { Increases, Perk, PerksKey, PerkUnion } from "@/types";
@@ -14,21 +14,25 @@ interface descKeys {
 }
 
 // Conversion of JSON to types
-const perksData = rawPerksData as unknown as {[key: string]: Perk}
+const perksData = rawPerksData as unknown as { [key: string]: Perk };
 
 // Functions that handle the context dependencies
 export function usePerkLogic() {
-  const { player, game } = useGame();
   const [firstLoad, setFirstLoad] = useState(true);
+  // Stores
+  const player = useStore("player", "actions");
+  const game = useStore("game", "actions");
 
-  useEffect(() => {setFirstLoad(false)}, [])
+  useEffect(() => {
+    setFirstLoad(false);
+  }, []);
 
   // Updating the player increments
   useEffect(() => {
     if (firstLoad) return;
 
-    functions.updatePlayerIncreases()
-  }, [game.get().perks])
+    functions.updatePlayerIncreases();
+  }, [game.getCurrent().perks]);
 
   // Functions
   const functions = {
@@ -38,9 +42,9 @@ export function usePerkLogic() {
       let newPerk = structuredClone(perksData[perkKey]);
 
       // Checks if the game already have this perk
-      if (Object.keys(game.get().perks).includes(perkKey)) {
+      if (Object.keys(game.getCurrent().perks).includes(perkKey)) {
         // First of all, gets the perk from the game data
-        const prevPerk = game.get().perks[perkKey]
+        const prevPerk = game.getCurrent().perks[perkKey];
         // Gets the new counting of the perks, after checking if it reached the limit of stacks
         if (prevPerk.stackCount < prevPerk.maxStackCount) {
           // Updating the stack count
@@ -50,17 +54,35 @@ export function usePerkLogic() {
           const updatedPerk = functions.updatePerkIncreases(newPerk);
 
           // Checking if the perk was updated
-          if (!updatedPerk) game.update({ perks: prev => {return {...prev, [perkKey]: newPerk}} });
-          else game.update({ perks: prev => {return {...prev, [perkKey]: updatedPerk}} });
+          if (!updatedPerk)
+            game.update({
+              perks: (prev) => {
+                return { ...prev, [perkKey]: newPerk };
+              },
+            });
+          else
+            game.update({
+              perks: (prev) => {
+                return { ...prev, [perkKey]: updatedPerk };
+              },
+            });
         } else {
           // Maintain the perk intact
-          console.log("Perk reached the max stack count")
-          return game.update({ perks: prev => {return {...prev, [perkKey]: prevPerk}} })
+          console.log("Perk reached the max stack count");
+          return game.update({
+            perks: (prev) => {
+              return { ...prev, [perkKey]: prevPerk };
+            },
+          });
         }
       }
 
       // Adding the perk to the game
-      game.update({ perks: prev => {return {...prev, [perkKey]: newPerk}} })
+      game.update({
+        perks: (prev) => {
+          return { ...prev, [perkKey]: newPerk };
+        },
+      });
     },
 
     // Functions that updates a perk increments based on its stacks
@@ -76,7 +98,7 @@ export function usePerkLogic() {
         if (!newPerk.effects.increases?.[incKey]) continue;
 
         // Incrementing its increment value
-        newPerk.effects.increases[incKey] = (incValue * newPerk.stackCount);
+        newPerk.effects.increases[incKey] = incValue * newPerk.stackCount;
       }
 
       // Returning the updated perk
@@ -89,17 +111,20 @@ export function usePerkLogic() {
       player.update({ increases: {} });
 
       // For thats navigates between all perks of game data
-      for (const [, perk] of Object.entries(game.get().perks)) {
+      for (const [, perk] of Object.entries(game.getCurrent().perks)) {
         // Catch the increases object of the perk
         const increases = perk["effects"]["increases"];
 
         // Another for that navigates between the increases object
         for (const [key, value] of Object.entries(increases as Increases)) {
-
           // Checks if the increase key is equals to a player stat
           if (Object.keys(playerJson.stats).includes(key)) {
             // Finally, adds the increase to the player's increases
-            player.update({ increases: (prev: any) => {return {...prev, [key]: value}} });
+            player.update({
+              increases: (prev: any) => {
+                return { ...prev, [key]: value };
+              },
+            });
           }
         }
       }
@@ -110,7 +135,7 @@ export function usePerkLogic() {
       const result = desc.replace(/\{(\w+)\}/g, (_, key) => keys[key]);
 
       return result;
-    }
+    },
   };
 
   return { ...functions };

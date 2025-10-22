@@ -10,7 +10,7 @@ import LogContainer from "./components/game/LogContainer";
 import { AppProviders } from "./context/AppProviders";
 
 // Managers
-import { AudioManager, PlayerManager } from "@/managers";
+import { AudioManager, PlayerManager, EnemiesManager } from "@/managers";
 
 // Screens
 import Menu from "./screens/Menu";
@@ -27,10 +27,8 @@ import "./assets/css/App.css";
 function App() {
   return (
     <BrowserRouter>
-      <AppProviders>
-        <Managers />
-        <AppRoutes />
-      </AppProviders>
+      <Managers />
+      <AppRoutes />
     </BrowserRouter>
   );
 }
@@ -87,6 +85,7 @@ function Managers() {
     <>
       <AudioManager />
       <PlayerManager />
+      <EnemiesManager />
     </>
   );
 }

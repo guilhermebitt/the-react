@@ -70,7 +70,7 @@ const hudAssets = [
 
 function BattleEvent() {
   // React Hooks
-  const { enemies, game, logic } = useGame();
+  const { logic } = useGame();
   const { loading, loadAssets } = useLoading();
   const navigate = useNavigate();
   const location = useLocation();
@@ -81,9 +81,9 @@ function BattleEvent() {
   const tickActions = useStore("tick", "actions");
   const audioActions = useStore("audios", "actions");
   const playerActions = useStore("player", "actions");
-
-  // Initializing funcs
-  funcs.init(game);
+  const enemiesActions = useStore("enemies", "actions");
+  const game = useStore("game", "actions");
+  const specificEntityTurn = useStore("game", s => s.game.specificEntityTurn);
 
   useEffect(() => {
     // Adding event listener to death music
@@ -101,7 +101,7 @@ function BattleEvent() {
   // LOADING
   useEffect(() => {
     // Getting the entities assets
-    const entitiesToLoad = game.get()?.eventData?.event?.enemiesToSpawn
+    const entitiesToLoad = game.getCurrent()?.eventData?.event?.enemiesToSpawn
       .map(enemy => {
         return createEntityObj(enemy?.name, enemy?.level);
     });
@@ -118,19 +118,19 @@ function BattleEvent() {
   // On event **FIRST LOAD** only
   useEffect(() => {
     // Conditions to skip:
-    if (!game.get().eventData.isFirstLoad || loading || location.pathname !== '/battle') return;
+    if (!game.getCurrent().eventData.isFirstLoad || loading || location.pathname !== '/battle') return;
 
     // Every code written here will be called only one time in the game tick history, until I update the game eventData to default!
     console.log("event loaded for the first time");  // I'll keep this for debugging
 
     // Getting the event object
-    const event = game.get()?.eventData?.event;
+    const event = game.getCurrent()?.eventData?.event;
     
     // Updating the game eventData to be sure that the game first loaded
     game.update({ "eventData.isFirstLoad": false });
 
     // Spawning the enemies
-    if (enemies.get().length < 1) {
+    if (enemiesActions.getCurrent().length < 1) {
       spawnEnemies(event?.enemiesToSpawn);
     }
 
@@ -150,7 +150,7 @@ function BattleEvent() {
     tickActions.start();
 
     // If is the first time entering the event (going to settings and get back will not have any effect)
-    if (game.get().eventData.type === null) {
+    if (game.getCurrent().eventData.type === null) {
       game.update({ "eventData.type": "battle" });
       game.update({ "eventData.timeEntered": tickActions.getCurrent() });  // I have to keep an eye here
     }
@@ -163,10 +163,10 @@ function BattleEvent() {
     audioActions.create({ name: 'levelUp', src: '/assets/sounds/misc/level_up.ogg' });
     
     // Changing the animations tickSpeed to fit with the game tick
-    playerActions.update({ "animations.standBy.duration": game.get().tickSpeed })
+    playerActions.update({ "animations.standBy.duration": game.getCurrent().tickSpeed })
 
-    enemies.get().forEach((enemy) => {
-      enemy.update({ "animations.standBy.duration": game.get().tickSpeed })
+    enemiesActions.getCurrent().forEach((enemy) => {
+      enemy.update?.({ "animations.standBy.duration": game.getCurrent().tickSpeed })
     })
 
     return () => {
@@ -196,9 +196,9 @@ function BattleEvent() {
   useEffect(() => {
     if (loading) return;
 
-    if (game.get().specificEnemyTurn !== 'player') return;
+    if (specificEntityTurn !== 'player') return;
       playerActions.update({ actionsLeft: playerActions.getCurrent().actions })  // resets the actionsLeft of the player
-  }, [game.get().specificEnemyTurn]);
+  }, [specificEntityTurn]);
 
   // Checking if the player died
   /* useEffect(() => {
@@ -212,15 +212,15 @@ function BattleEvent() {
   // Checking if ALL enemies are dead
   useEffect(() => {
     if (loading) return;
-    const aliveCount = enemies.get().reduce((acc, enemy) => {
+    const aliveCount = enemiesActions.getCurrent().reduce((acc, enemy) => {
       return enemy.stats.health > 0 ? acc + 1 : acc;
     }, 0);
 
     setEnemiesAlive(aliveCount);  // GAMBIARRA MALDITA
 
     // Finishing the battle event
-    if (enemiesAlive === 0 && enemies.get().length > 0) setFinishedEvent(true);
-  }, [enemies.get()]);
+    if (enemiesAlive === 0 && enemiesActions.getCurrent().length > 0) setFinishedEvent(true);
+  }, [enemiesActions.getCurrent()]);
 
   // --- MAIN FUNCTIONS ---
   function createEntityObj(name, level = 1) {
@@ -259,7 +259,7 @@ function BattleEvent() {
     enemiesToSpawn.forEach(enemy => {
       enemiesObjs.push(createEntityObj(enemy?.name, enemy?.level));
     })
-    enemies.spawnEnemies(enemiesObjs);
+    enemiesActions.spawnEnemies(enemiesObjs);
   }
 
   // -- RETURNING THE GAME ---
@@ -277,7 +277,7 @@ function BattleEvent() {
       {/* MAP SECTION */}
       <section className={`${styles['x-section']} ${styles['map']}`}>
         <PlayerHUD />
-        {enemies.get().length > 0 && <MapContainer map={funcs.getCurrentMap()}/>}
+        {enemiesActions.getCurrent().length > 0 && <MapContainer map={funcs.getCurrentMap()}/>}
       </section>
       
       {/* STATS AND TERMINAL */}

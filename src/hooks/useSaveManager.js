@@ -1,27 +1,24 @@
 // Dependencies
 import { useLocalStorage } from 'usehooks-ts';
 
-// Hooks
-import { useGame } from './useGame';
-
 // Store
 import { useStore } from '@/stores';
 
 export const useSaveManager = (saveId) => {
-  const { enemies, game } = useGame();
-
   // Store
   const [getCurrentTick, updateTick] = useStore("tick", state => [state.getCurrent, state.update]);
   const playerAc = useStore("player", "actions");
+  const enemiesAc = useStore("enemies", "actions");
+  const gameAc = useStore("game", "actions");
 
   const [saves, setSaves] = useLocalStorage('saves', {});
 
   const saveGame = () => {
     try {
       const gameState = {
-        player: playerAc.getPlayer(),
-        enemies: enemies.get(),
-        game: game.get(),
+        player: playerAc.getCurrent(),
+        enemies: enemiesAc.getCurrent(),
+        game: gameAc.getCurrent(),
         tick: getCurrentTick(),
       };
       setSaves((prevSaves) => ({
@@ -45,17 +42,17 @@ export const useSaveManager = (saveId) => {
 
       // Resetting all contexts
       playerAc.reset();
-      enemies.reset();
-      game.reset();
+      enemiesAc.reset();
+      gameAc.reset();
       updateTick(0);
 
       // Re-loading all contexts
       playerAc.loadSave(savedState.player);
-      enemies.loadSave(savedState.enemies);
-      game.loadSave(savedState.game);
+      enemiesAc.loadSave(savedState.enemies);
+      gameAc.loadSave(savedState.game);
       updateTick(savedState.tick)
 
-      game.update({ currentSave: saveId });
+      gameAc.update({ currentSave: saveId });
     } catch (error) {
       console.error('Error loading the game:', error);
     }
@@ -76,8 +73,8 @@ export const useSaveManager = (saveId) => {
   const resetGame = () => {
     // Resetting all contexts
     playerAc.reset();
-    enemies.reset();
-    game.reset();
+    enemiesAc.reset();
+    gameAc.reset();
     updateTick(0);
   };
 

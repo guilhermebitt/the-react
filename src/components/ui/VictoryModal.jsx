@@ -6,20 +6,19 @@ import { Link } from "react-router-dom"; // This is temporary
 import ValueIncrement from "../ui/ValueIncrement.jsx";
 
 // Hooks
-import { useGame } from "../../hooks/useGame";
 import { useStore } from '@/stores';
 
 // Stylesheet
 import styles from "./VictoryModal.module.css";
 
 function VictoryModal() {
-  const { game } = useGame();
   const [eventTime, setEventTime] = useState(null);
   const [finished, setFinished] = useState(false);
   const [timeForEach] = useState(1000); // Time in MS to determine the time for each stat
   const [infoId, setInfoId] = useState(0);
   // Store
   const getCurrentTick = useStore("tick", state => state.getCurrent);
+  const game = useStore("game", "actions");
 
   useEffect(() => {
     if (!eventTime) setEventTime(getEventTime());
@@ -40,12 +39,12 @@ function VictoryModal() {
   }, [infoId]);
 
   function getEventTime() {
-    const timeEntered = game.get().eventData.timeEntered;
+    const timeEntered = game.getCurrent().eventData.timeEntered;
     const currentTime = getCurrentTick();
 
     const timeInEvent = currentTime - timeEntered;
 
-    //return funcs.tickToTime(timeInEvent, game.get().tickSpeed);
+    //return funcs.tickToTime(timeInEvent, game.getCurrent().tickSpeed);
     return timeInEvent;
   }
 
@@ -70,7 +69,7 @@ function VictoryModal() {
               style={{
                 visibility: infoId >= 1 ? "visible" : "hidden",
               }}>
-              Enemies Killed: {<ValueIncrement finalValue={game.get().eventData.kills} duration={timeForEach} />}
+              Enemies Killed: {<ValueIncrement finalValue={game.getCurrent().eventData.kills} duration={timeForEach} />}
             </p>
           )}
         </div>

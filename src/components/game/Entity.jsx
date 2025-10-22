@@ -1,7 +1,6 @@
 // Dependencies
 import { useState, useEffect } from "react";
 import { useAnimation } from "../../hooks/useAnimation";
-import { useGame } from "../../hooks/useGame";
 import { useStore } from "@/stores";
 
 // Components
@@ -13,14 +12,16 @@ import ValueSpan from "../ui/ValueSpan";
 import styles from "./Entity.module.css";
 
 // Entity Component
-function Entity({ entity }) {
+function Entity({ entityId }) {
   // React States
   const [firstLoad, setFirstLoad] = useState(true);
-  // Custom Hooks
-  const framePath = useAnimation(entity);
-  const { game } = useGame();
   // Stores
   const audiosActions = useStore("audios", "actions");
+  const entity =
+    entityId === 0 ? useStore("player", (s) => s.getCurrent)() : useStore("enemies", (s) => s.getCurrent)(entityId);
+  const game = useStore("game", "actions");
+  // Custom Hooks
+  const framePath = useAnimation(entity);
 
   // First load useEffect
   useEffect(handleFirstLoad, []);
@@ -55,7 +56,7 @@ function Entity({ entity }) {
 
   // This function sets the game target to the current entity
   function selectTarget() {
-    if (game.get().currentTurn === "player" && typeof entity?.id === "number") {
+    if (game.getCurrent().currentTurn === "player" && typeof entity?.id === "number") {
       game.update({ target: entity?.id });
     }
   }
@@ -63,10 +64,10 @@ function Entity({ entity }) {
   // Entity container classes
   const entityContainerClasses = `
     ${styles.entityContainer}
-    ${entity?.id === game.get()?.target && ["player", "onAction"].includes(game.get().currentTurn) && styles.selected}
+    ${entity?.id === game.getCurrent()?.target && ["player", "onAction"].includes(game.getCurrent().currentTurn) && styles.selected}
     ${!entity?.isBoss && styles[`enemy${entity?.id}`]}
     ${entity?.isBoss && styles[`boss`]}
-    ${game.get().specificEntityTurn === entity?.id ? styles.turn : ""}
+    ${game.getCurrent().specificEntityTurn === entity?.id ? styles.turn : ""}
   `;
 
   // Entity image classes

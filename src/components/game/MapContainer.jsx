@@ -13,10 +13,9 @@ import styles from './MapContainer.module.css';
 
 
 function MapContainer({ map }) {
-  const { enemies } = useGame();
 
   // TEMPORARY STORE
-  const player = useStore("player", s => s.player)
+  const enemies = useStore("enemies", "actions");
 
   // Returning the Component
   return (
@@ -25,12 +24,12 @@ function MapContainer({ map }) {
         <img src={map.src} alt="game map" id={styles.map} />
         {/* Player on the left */}
         <div className={styles.playerSide}>
-          <Entity entity={player} />
+          <Entity entityId={0} />
         </div>
         {/* Enemies on the right */}
         <div className={styles.enemiesSide}>
-          {enemies.get().map((enemy, index) => (
-            <Entity key={enemy.id || index} entity={enemy} id={enemy.id}/>
+          {enemies.getCurrent().map((enemy, index) => (
+            <Entity key={enemy.id - 1 || index} entityId={enemy.id}/>
           ))}
         </div>
       </div>

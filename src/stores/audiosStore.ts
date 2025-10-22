@@ -24,6 +24,7 @@ type AudioStoreAction = {
   create: (params: CreateAudioParams) => void;
   remove: (name: string) => void;
   getAudio: (name: string) => CustomAudio | undefined;
+  getAudios: () => AudiosObj;
 };
 // Parameters type
 type CreateAudioParams = {
@@ -122,4 +123,6 @@ export const useAudiosStore = create<AudioStore>((set, get) => ({
       return undefined;
     }
   },
+
+  getAudios: () => get().audios,
 }));

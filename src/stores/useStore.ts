@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { useShallow } from "zustand/react/shallow";
-import { useTickStore, useAudiosStore, usePlayerStore } from "@/stores";
+import { useTickStore, useAudiosStore, usePlayerStore, useEnemiesStore, useGameStore } from "@/stores";
 
 /**
  * Statically extracts all function properties from a given type T.
@@ -60,16 +60,20 @@ type InstanceTypeFromStore<TStore extends StoreName> = StoreStateMap[TStore][TSt
 
 // Map of all available Zustand stores
 const stores = {
+  game: useGameStore,
   tick: useTickStore,
   audios: useAudiosStore,
   player: usePlayerStore,
+  enemies: useEnemiesStore,
 };
 
 // Map each store to its corresponding state type
 type StoreStateMap = {
+  game: ReturnType<typeof useGameStore.getState>
   tick: ReturnType<typeof useTickStore.getState>;
   audios: ReturnType<typeof useAudiosStore.getState>;
   player: ReturnType<typeof usePlayerStore.getState>;
+  enemies: ReturnType<typeof useEnemiesStore.getState>;
 };
 
 // Type representing each store name

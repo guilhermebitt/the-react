@@ -5,7 +5,7 @@ import playerJson from '../data/player.json' with { type: 'json' };
 import { createContext, useContext, useState, useEffect, useRef } from "react";
 import { createUpdater } from "../utils/stateUpdater";
 import { Player } from '../utils/entities';
-import { init, phrase } from '../utils/functions';
+import { phrase } from '../utils/functions';
 import { useGame } from '../hooks/useGame';
 
 const PlayerContext = createContext();
@@ -21,7 +21,6 @@ export function PlayerProvider({ children }) {
   // Player State
   const [player, setPlayer] = useState(() => new Player({ ...playerJson, update: () => {} }));
   const playerRef = useRef(player);
-  const { game, audios } = useGame();
 
   // Checking if the increments changed
   useEffect(() => {
@@ -35,7 +34,6 @@ export function PlayerProvider({ children }) {
   useEffect(() => {
     // Putting the update function directly to the player 
     if (!player.update) player.update = update;
-    init(game);
   }, []);
 
   // Tries to level up the player if he's xp value change

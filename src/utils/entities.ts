@@ -314,32 +314,32 @@ export class Enemy extends Entity {
 // --------- ENEMIES ---------
 // --- GOBLIN ---
 export class Goblin extends Enemy {
-  constructor(entity: EnemyData) {
-    super(entity);
+  constructor(entity: EnemyData, updater?: (patch: UpdaterPatch<EnemyData>) => void) {
+    super(entity, updater);
   }
 }
 
 // --- SNAKE ---
 export class Snake extends Enemy {
-  constructor(entity: EnemyData) {
-    super(entity);
+  constructor(entity: EnemyData, updater?: (patch: UpdaterPatch<EnemyData>) => void) {
+    super(entity, updater);
   }
 }
 export class VenomousSnake extends Enemy {
-  constructor(entity: EnemyData) {
-    super(entity);
+  constructor(entity: EnemyData, updater?: (patch: UpdaterPatch<EnemyData>) => void) {
+    super(entity, updater);
   }
 }
 export class Anaconda extends Enemy {
-  constructor(entity: EnemyData) {
-    super(entity);
+  constructor(entity: EnemyData, updater?: (patch: UpdaterPatch<EnemyData>) => void) {
+    super(entity, updater);
   }
 }
 
 // --- SLIME ---
 export class Slime extends Enemy {
-  constructor(entity: EnemyData) {
-    super(entity);
+  constructor(entity: EnemyData, updater?: (patch: UpdaterPatch<EnemyData>) => void) {
+    super(entity, updater);
   }
 }
 

@@ -5,14 +5,12 @@ import { useState, useEffect } from 'react';
 import ComponentBorder from './ComponentBorder.jsx';
 
 // Hooks
-import { useGame } from '../../hooks/useGame';
 import { useStore } from '@/stores/';
 
 // Stylesheets
 import styles from './PlayerHUD.module.css';
 
 function PlayerHUD() {
-  const { game } = useGame();
 
   const [healthPercent, setHealthPercent] = useState(100);
   const [manaPercent, setManaPercent] = useState(100);
@@ -25,6 +23,7 @@ function PlayerHUD() {
     mana: s.player.stats.mana,
     actionsLeft: s.player.actionsLeft
   }))
+  const game = useStore("game", "actions");
 
   useEffect(() => {
     setHealthPercent(calcPercent(player.health, player.maxHealth));
@@ -67,7 +66,7 @@ function PlayerHUD() {
 
       {/* TURN TITLE */}
       <div className={styles.turnContainer}>
-        {game.get().currentTurn === "player" || game.get().currentTurn === "onAction" ? "Your Turn" : "Enemies Turn"}
+        {game.getCurrent().currentTurn === "player" || game.getCurrent().currentTurn === "onAction" ? "Your Turn" : "Enemies Turn"}
       </div>
 
       {/* ACTIONS LEFT */}

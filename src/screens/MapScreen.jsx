@@ -13,7 +13,6 @@ import MapSection from '../components/map/MapSection';
 import Loading from '../components/common/Loading';
 
 // Hooks
-import { useGame } from '../hooks/useGame';
 import { useLoading } from '../hooks/useLoading';
 
 // Store
@@ -42,13 +41,14 @@ var badgesUrl = [
 
 // Creating the MapScreen
 function MapScreen() {
-  const { game, enemies } = useGame();
-  const { loading, loadAssets } = useLoading();
-  const mapArea = structuredClone(game.get().mapArea);
-
   // Stores
   const [startTick, stopTick] = useStore("tick", state => [state.start, state.stop]);
   const audiosActions = useStore("audios", "actions");
+  const enemiesActions = useStore("enemies", "actions");
+  const game = useStore("game", "actions");
+
+  const { loading, loadAssets } = useLoading();
+  const mapArea = structuredClone(game.getCurrent().mapArea);
 
   // LOADING
   useEffect(() => {
@@ -70,7 +70,7 @@ function MapScreen() {
 
     // Resetting all game eventData and enemies
     game.update({ "eventData": gameData.eventData });
-    enemies.reset();
+    enemiesActions.reset();
 
     return () => {
       stopTick();  // tick stops when the game exit the map component
@@ -120,7 +120,7 @@ function MapScreen() {
 
       {/* MAP SECTION */}
       <section className={`${styles.xSection} ${styles.map}`}>
-        <ComponentBorder title={mapsData[game.get()?.currentMap]?.name}>
+        <ComponentBorder title={mapsData[game.getCurrent()?.currentMap]?.name}>
 
           <div className={`${styles.mapSections} scrollbar`}>
             {/* MAP CONTENTS */}
@@ -130,8 +130,8 @@ function MapScreen() {
                 // Adding the map section components to the MapScreen
 
                 // Getting the next section (to configure the path)
-                const thisSeEv = game.get().mapArea[index + 0]?.events.length;
-                const nextSeEv = game.get().mapArea[index + 1]?.events.length;
+                const thisSeEv = game.getCurrent().mapArea[index + 0]?.events.length;
+                const nextSeEv = game.getCurrent().mapArea[index + 1]?.events.length;
 
                 const paths = getPath(thisSeEv, nextSeEv);
 

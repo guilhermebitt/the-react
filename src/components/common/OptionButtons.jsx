@@ -1,44 +1,43 @@
 // Data
-import settingsData from '../../data/settings.json' with { type: 'json' };
+import settingsData from "../../data/settings.json";
 
 // Dependencies
-import { Link } from 'react-router-dom';
-import { useState, useEffect } from 'react';
-import { useLocalStorage } from 'usehooks-ts';
+import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useLocalStorage } from "usehooks-ts";
 import { produce } from "immer";
 
 // Components
-import ComponentBorder from '../ui/ComponentBorder';
-import ConfirmDialog from './ConfirmDialog';
+import ComponentBorder from "../ui/ComponentBorder";
+import ConfirmDialog from "./ConfirmDialog";
 
 // Hooks
-import { useGame } from '../../hooks/useGame';
-import { useSaveManager } from '../../hooks/useSaveManager';
+import { useStore } from "@/stores";
+import { useSaveManager } from "../../hooks/useSaveManager";
 
 // Stylesheet
-import styles from './OptionButtons.module.css';
-
-
+import styles from "./OptionButtons.module.css";
 
 function OptionButtons() {
-  const { game } = useGame();
-  const { saveGame } = useSaveManager(game.get().currentSave);
+  // Stores
+  const game = useStore("game", "actions");
+  const { saveGame } = useSaveManager(game.getCurrent().currentSave);
   const [confirmDialog, setConfirmDialog] = useState({
     visible: false,
-    message: 'Are you sure?',
+    message: "Are you sure?",
     onConfirm: null,
-    onCancel: null
+    onCancel: null,
   });
   const [ShowLastCScreen, setShowLastCScreen] = useState(false);
-  const [, setSettings] = useLocalStorage('settings', settingsData);
+  const [, setSettings] = useLocalStorage("settings", settingsData);
 
   useEffect(() => {
     if (!ShowLastCScreen) return;
-    confirmScreen(null, null, "Game Saved!")
+    confirmScreen(null, null, "Game Saved!");
     setShowLastCScreen(false);
   }, [ShowLastCScreen]);
 
-  function confirmScreen(onConfirm, onCancel, msg='Are you sure?') {
+  function confirmScreen(onConfirm, onCancel, msg = "Are you sure?") {
     setConfirmDialog({
       visible: true,
       message: msg,
@@ -48,40 +47,66 @@ function OptionButtons() {
   }
 
   function showLog() {
-    setSettings(produce(draft => {
-      draft.showLog = true;
-    }));
+    setSettings(
+      produce((draft) => {
+        draft.showLog = true;
+      })
+    );
   }
 
   return (
     <>
-      <ConfirmDialog 
+      <ConfirmDialog
         visible={confirmDialog.visible}
         message={confirmDialog.message}
-        onConfirm={confirmDialog.onConfirm && (() => {
-          confirmDialog.onConfirm?.();
-          setConfirmDialog(prev => {return{...prev, visible: false}});
-        })}
-        onCancel={confirmDialog.onCancel && (() => {
-          confirmDialog.onCancel?.();
-          setConfirmDialog(prev => {return{...prev, visible: false}});
-        })}
+        onConfirm={
+          confirmDialog.onConfirm &&
+          (() => {
+            confirmDialog.onConfirm?.();
+            setConfirmDialog((prev) => {
+              return { ...prev, visible: false };
+            });
+          })
+        }
+        onCancel={
+          confirmDialog.onCancel &&
+          (() => {
+            confirmDialog.onCancel?.();
+            setConfirmDialog((prev) => {
+              return { ...prev, visible: false };
+            });
+          })
+        }
       />
       <ComponentBorder title="Options">
         <div className={styles["options-menu-container"]}>
-          <button className='default' onClick={showLog} disabled={!(game.get().currentTurn === "player")}>Log</button>
+          <button className="default" onClick={showLog} disabled={!(game.getCurrent().currentTurn === "player")}>
+            Log
+          </button>
           <Link to="/settings">
-            <button className='default' disabled={!(game.get().currentTurn === "player")}>Settings</button>
+            <button className="default" disabled={!(game.getCurrent().currentTurn === "player")}>
+              Settings
+            </button>
           </Link>
           <Link to="/menu">
-            <button className='default' disabled={!(game.get().currentTurn === "player")}>Menu</button>
+            <button className="default" disabled={!(game.getCurrent().currentTurn === "player")}>
+              Menu
+            </button>
           </Link>
-          <button className='default' onClick={() => {
-            confirmScreen(() => {
-              saveGame();
-              setShowLastCScreen(true);
-            }, () => setConfirmDialog(prev => ({ ...prev, visible: false })))
-          }} disabled={!(game.get().currentTurn === "player")}>Save Game</button>
+          <button
+            className="default"
+            onClick={() => {
+              confirmScreen(
+                () => {
+                  saveGame();
+                  setShowLastCScreen(true);
+                },
+                () => setConfirmDialog((prev) => ({ ...prev, visible: false }))
+              );
+            }}
+            disabled={!(game.getCurrent().currentTurn === "player")}>
+            Save Game
+          </button>
         </div>
       </ComponentBorder>
     </>

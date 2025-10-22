@@ -56,6 +56,7 @@ export interface BaseEntityData {
   // Atributes that differs the entities
   id: EntityIds;
   name: string;
+  className: string;
   entityType: "player" | "enemy" | "NPC";
   img: string;
   stats: Stats;

@@ -7,7 +7,6 @@ import * as funcs from "../utils/functions.ts";
 import ValueIncrement from "../components/ui/ValueIncrement.jsx";
 
 // Hooks
-import { useGame } from "@/hooks/";
 import { useStore } from "@/stores";
 
 // Stylesheet
@@ -18,10 +17,10 @@ function DeathScreen() {
   const [timeForEach] = useState(1000); // Time in MS to determine the time for each stat
   const [infoId, setInfoId] = useState(0);
   const [currentTick, setCurrentTick] = useState(0);
-  const { game } = useGame();
   // Store
   const getCurrentTick = useStore("tick", (state) => state.getCurrent);
   const playerActions = useStore("player", "actions");
+  const game = useStore("game", "actions");
 
   useEffect(() => {
     setCurrentTick(getCurrentTick())
@@ -55,7 +54,7 @@ function DeathScreen() {
             {infoId === 0 ? (
               <ValueIncrement finalValue={currentTick} duration={timeForEach} type={"time"} />
             ) : (
-              funcs.tickToTime(currentTick, game.get().tickSpeed)
+              funcs.tickToTime(currentTick, game.getCurrent().tickSpeed)
             )}
           </p>
         )}

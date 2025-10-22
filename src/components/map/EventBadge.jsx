@@ -3,10 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 // Hooks
-import { useGame } from '../../hooks/useGame';
+import { useStore } from '@/stores';
 
 // Stylesheets
 import styles from './EventBadge.module.css';
+import { useLogic } from '@/hooks';
 
 // Defining the badges URL
 var badgesUrl = [
@@ -19,7 +20,9 @@ var badgesUrl = [
 function EventBadge({ badge }) {
   const [badgeUrl, setBadgeUrl] = useState('');
   const navigate = useNavigate();
-  const { game, logic } = useGame();
+  const logic = useLogic();
+  // Stores
+  const game = useStore("game", "actions");
 
   useEffect(() => {
     // Verifying if there is a type
@@ -50,11 +53,11 @@ function EventBadge({ badge }) {
   function handleEvent() {
     // If the event as already finished, skip
     if (badge?.isFinished) return;
-    if (!game.get().eventsEnabled.includes(badge?.eventId)) return;
+    if (!game.getCurrent().eventsEnabled.includes(badge?.eventId)) return;
 
     // Getting the sections
-    const section = game.get()?.mapArea[game.get()?.currentMapSection];
-    const nextSection = game.get()?.mapArea[game.get()?.currentMapSection + 1];
+    const section = game.getCurrent()?.mapArea[game.getCurrent()?.currentMapSection];
+    const nextSection = game.getCurrent()?.mapArea[game.getCurrent()?.currentMapSection + 1];
 
     // Getting the side to block
     const otherSide = badge?.eventId === section?.events[0]?.eventId ? 1 : 0;
@@ -93,7 +96,7 @@ function EventBadge({ badge }) {
   return (
     <div className={styles.eventBadgeContainer}>
       <img
-        className={`${styles.eventImage} ${game.get()?.eventsEnabled?.includes(badge?.eventId) && styles.canSelect}`}
+        className={`${styles.eventImage} ${game.getCurrent()?.eventsEnabled?.includes(badge?.eventId) && styles.canSelect}`}
         src={badgeUrl}
         onClick={handleEvent}
       />

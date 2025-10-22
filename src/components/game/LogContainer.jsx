@@ -9,15 +9,16 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import ComponentBorder from '../ui/ComponentBorder';
 
 // Hooks
-import { useGame } from '../../hooks/useGame';
+import { useStore } from '@/stores';
 
 // Stylesheets
 import styles from './LogContainer.module.css';
 import '../../assets/css/scrollbar.css';
 
 function LogContainer() {
-  const { game } = useGame();
-  const logText = game.get().logText;
+  // Stores
+  const game = useStore("game", "actions")
+  const logText = game.getCurrent().logText;
   const [, setSettings] = useLocalStorage('settings');
 
   useEffect(() => {
