@@ -38,7 +38,7 @@ const ValueSpan = React.memo(function ValueSpan({ spanMessages, entityUpdater })
     <div className={styles.valueContainer}>
       {/* Render each message as a span */}
       {spanMessages.map((msg, index) => (
-        <span key={index}>{msg?.value}</span>
+        <span className={styles[msg?.type]} key={index}>{msg?.value}</span>
       ))}
     </div>
   );

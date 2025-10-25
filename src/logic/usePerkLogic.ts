@@ -22,6 +22,7 @@ export function usePerkLogic() {
   // Stores
   const player = useStore("player", "actions");
   const game = useStore("game", "actions");
+  const perks = useStore("game", s => s.game.perks)
 
   useEffect(() => {
     setFirstLoad(false);
@@ -32,7 +33,7 @@ export function usePerkLogic() {
     if (firstLoad) return;
 
     functions.updatePlayerIncreases();
-  }, [game.getCurrent().perks]);
+  }, [perks]);
 
   // Functions
   const functions = {
@@ -110,7 +111,7 @@ export function usePerkLogic() {
       // Resets the player increases
       player.update({ increases: {} });
 
-      // For thats navigates between all perks of game data
+      // "For" thats navigates between all perks of game data
       for (const [, perk] of Object.entries(game.getCurrent().perks)) {
         // Catch the increases object of the perk
         const increases = perk["effects"]["increases"];

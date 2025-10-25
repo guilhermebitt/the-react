@@ -12,7 +12,7 @@
     "category": "battle",
     "effects": {
       "increases": {
-        "critChance": 2
+        "critChance": 20
       }
     }
   }

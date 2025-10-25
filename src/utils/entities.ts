@@ -72,6 +72,7 @@ export class Entity {
     const strength = this.stats.strength;
 
     // Crit
+    console.log("crit chance:", this.stats.critChance)
     this.random(100) > this.stats.critChance ? (crit = 1) : (crit = this.stats.crit);
 
     // Generating damage

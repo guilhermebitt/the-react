@@ -32,3 +32,8 @@ div.valueContainer span {
     opacity: 0;
   }
 }
+
+div.valueContainer span.crit {
+  color: red;
+  font-size: 1.5rem;
+}
