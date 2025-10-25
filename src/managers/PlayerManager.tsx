@@ -14,8 +14,7 @@ export function PlayerManager() {
   const audios = useStore("audios", "actions");
 
   useEffect(() => {
-    console.log(player.getCurrent().increases)
-    console.log(player.getCurrent().stats.critChance)
+    player.getCurrent().incrementStats();
   }, [increases])
 
   // Tries to level up the player if he's xp value change
