@@ -1,3 +1,6 @@
+// Dependencies
+import { memo } from "react";
+
 // Components
 import Entity from "./Entity";
 import ComponentBorder from "../ui/ComponentBorder";
@@ -32,4 +35,4 @@ function MapContainer({ map }) {
   );
 }
 
-export default MapContainer;
+export default memo(MapContainer);

@@ -27,9 +27,6 @@ function ValueIncrement({ finalValue, duration = 1000, onFinish, type }) {
     let lastValue = 0;
     let lastSoundTime = 0;
 
-    // Creates an audio if not exists for the tick sound
-    audiosActions.create({ name: 'pointSound', src: '/assets/sounds/misc/point.ogg' });
-
     // Function that runs every frame (~60 times per second)
     const step = (timestamp) => {
       // Set the start time on the first frame

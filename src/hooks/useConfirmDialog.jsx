@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
 import ConfirmDialog from '../components/common/ConfirmDialog.jsx';
 
-export function useConfirmDialog() {
+export function useConfirmDialog(btnNumber=2) {
   const [dialog, setDialog] = useState({
     visible: false,
     message: '',
@@ -35,7 +35,7 @@ export function useConfirmDialog() {
       visible={dialog.visible}
       message={dialog.message}
       onConfirm={handleConfirm}
-      onCancel={handleCancel}
+      onCancel={btnNumber >= 2 && handleCancel}
     />
   );
 

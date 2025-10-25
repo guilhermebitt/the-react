@@ -1,5 +1,5 @@
 // Dependencies
-import { useEffect } from 'react';
+import { useEffect, memo } from 'react';
 
 // Components
 import ComponentBorder from '../ui/ComponentBorder';
@@ -11,11 +11,9 @@ import { useStore } from '@/stores';
 import styles from './Terminal.module.css';
 import '../../assets/css/scrollbar.css';
 
-
-
 function Terminal() {
   const game = useStore("game", "actions");
-  const terminalText = game.getCurrent().terminalText;
+  const terminalText = useStore("game", s => s.game.terminalText);
 
   useEffect(() => {
     // Verifying if the terminal text change, when the
@@ -55,4 +53,4 @@ function Terminal() {
   );
 }
 
-export default Terminal;
+export default memo(Terminal);

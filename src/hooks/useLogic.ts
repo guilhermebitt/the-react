@@ -1,26 +1,38 @@
 // Dependencies
 import { useStore } from "@/stores";
+import { useMemo } from "react";
 
 // Logic
 import { createEventsLogic } from "@/logic/eventsLogic";
 import { createMapLogic } from "@/logic/mapLogic";
-import { useTurnLogic } from "@/logic/useTurnLogic";
+import { createTurnLogic } from "@/logic/turnLogic";
 
-// Function to the game provider
+// Hook to provide all game logic
 export function useLogic() {
   // Game actions
   const game = useStore("game", "actions");
 
-  // Functions to handle the turns
-  const turnLogic = useTurnLogic();
+  // Memoize the creation of the logic objects
+  const logic = useMemo(() => {
+    const eventsLogic = createEventsLogic({
+      getGame: game.getCurrent,
+      updateGame: game.update,
+    });
 
-  // Functions to the events logic:
-  const eventsLogic = createEventsLogic({ getGame: game.getCurrent, updateGame: game.update });
+    const mapLogic = createMapLogic({
+      getGame: game.getCurrent,
+      updateGame: game.update,
+      eventsLogic,
+    });
 
-  // Functions to control the map and events generation:
-  const mapLogic = createMapLogic({ getGame: game.getCurrent, updateGame: game.update, eventsLogic });
+    const turnLogic = createTurnLogic();
 
-  const logic = { ...turnLogic, ...eventsLogic, ...mapLogic };
+    return {
+      ...turnLogic,
+      ...eventsLogic,
+      ...mapLogic,
+    };
+  }, []);
 
   return logic;
 }

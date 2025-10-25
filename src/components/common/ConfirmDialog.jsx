@@ -1,5 +1,5 @@
 // Dependencies
-import { useState } from 'react';
+import { useState, memo } from 'react';
 
 // Stylesheet
 import styles from './ConfirmDialog.module.css';
@@ -29,7 +29,7 @@ function ConfirmDialog({ visible, message, onConfirm, onCancel }) {
         <p>{message}</p>
 
         <div className={styles.buttons}>
-          {onConfirm && <button onClick={onConfirm}>{message === "Game Saved!" ? 'Ok' : 'Yes'}</button>}
+          {onConfirm && <button onClick={onConfirm}>{message === "Game saved!" ? 'Ok' : 'Yes'}</button>}
           {onCancel && <button onClick={onCancel}>No</button>}
         </div>
 
@@ -38,4 +38,4 @@ function ConfirmDialog({ visible, message, onConfirm, onCancel }) {
   );
 }
 
-export default ConfirmDialog;
+export default memo(ConfirmDialog);

@@ -43,7 +43,10 @@ export function createEventsLogic(deps: EventsLogicDeps) {
       const event = game?.eventData?.event;
       const pathToEvent = this.findEventPath(event?.eventId);
       if (pathToEvent) {
+        // Updating the event on mapArea
         updateGame({ [pathToEvent]: (prev: any) => ({...prev, "isFinished": true}) });
+        // Updating the event on eventData
+        updateGame({ "eventData.event.isFinished": true });
       }
       this.passEvents();
     },

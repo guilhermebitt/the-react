@@ -69,7 +69,7 @@ const stores = {
 
 // Map each store to its corresponding state type
 type StoreStateMap = {
-  game: ReturnType<typeof useGameStore.getState>
+  game: ReturnType<typeof useGameStore.getState>;
   tick: ReturnType<typeof useTickStore.getState>;
   audios: ReturnType<typeof useAudiosStore.getState>;
   player: ReturnType<typeof usePlayerStore.getState>;
@@ -118,17 +118,24 @@ export function useStore<TStore extends StoreName, TValue>(
 
   // Getting all methods of the store
   if (selector === "actions") {
-    // Grab all actions from the store
-    const actions = (storeHook as any)(
-      useShallow((s: StateOfStore<TStore>) => {
-        const stateObj = { ...s };
-        // Filter out non-functions (i.e., state)
-        return Object.fromEntries(Object.entries(stateObj).filter(([_, v]) => typeof v === "function")) as TValue;
-      })
-    );
+    // Cache estático por store (map global)
+    const staticCache = useMemo(() => new WeakMap<object, any>(), [storeName]);
 
-    // Memoize to avoid new object every render
-    return useMemo(() => actions, [actions]) as StoreFunctions<StateOfStore<TStore>>;
+    const useStoreActions = storeHook as unknown as { getState: () => StateOfStore<TStore> };
+    const state = useStoreActions.getState();
+
+    // Se já existe no cache, retorna direto
+    if (staticCache.has(storeHook)) {
+      return staticCache.get(storeHook);
+    }
+
+    // Cria só uma vez
+    const actions = Object.fromEntries(
+      Object.entries(state).filter(([_, v]) => typeof v === "function")
+    ) as StoreFunctions<StateOfStore<TStore>>;
+
+    staticCache.set(storeHook, actions);
+    return actions;
   }
 
   // Getting all methods of the object in the store with the same -storeName-. <- IMPORTANT

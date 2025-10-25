@@ -4,7 +4,7 @@ import settingsJson from "../../data/settings.json";
 // Dependencies
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGear, faVolumeHigh, faVolumeMute } from "@fortawesome/free-solid-svg-icons";
-import { useState, useEffect } from "react";
+import { useState, useEffect, memo, useCallback } from "react";
 import { useLocalStorage } from "usehooks-ts";
 import { produce } from "immer";
 
@@ -21,35 +21,28 @@ function Header() {
   const [showOptions, setShowOptions] = useState(false);
   const [volumeIcon, setVolumeIcon] = useState(faVolumeHigh);
   const [settings, setSettings] = useLocalStorage("settings", settingsJson);
-  const audios = useStore("audios", "actions");
 
   useEffect(() => {
     settings.muted === true ? setVolumeIcon(faVolumeMute) : setVolumeIcon(faVolumeHigh);
   }, [settings.muted]);
 
-  const handleOptions = () => {
+  const handleOptions = useCallback(() => {
     setShowOptions(!showOptions);
-  };
+  }, [showOptions]);
 
-  function mute() {
+  const mute = useCallback(() => {
     settings.muted
       ? setSettings(
           produce((draft) => {
             draft.muted = false;
-            Object.values(audios.getAudios()).forEach((audio) => {
-              audio.muted = false;
-            });
           })
         )
       : setSettings(
           produce((draft) => {
             draft.muted = true;
-            Object.values(audios.getAudios()).forEach((audio) => {
-              audio.muted = true;
-            });
           })
         );
-  }
+  }, [settings.muted]);
 
   return (
     <header>
@@ -72,13 +65,8 @@ function Header() {
           />
         </button>
       </div>
-      {showOptions && (
-        <div id={styles.options}>
-          <OptionButtons />
-        </div>
-      )}
     </header>
   );
 }
 
-export default Header;
+export default memo(Header);

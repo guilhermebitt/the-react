@@ -1,6 +1,5 @@
 // Dependencies
-import { useEffect, useRef } from "react";
-import { useStore } from "@/stores";
+import { useGameStore, useEnemiesStore, usePlayerStore } from "@/stores";
 
 // Importing TS types
 import { TurnTypes, EntityIds } from "@/types";
@@ -9,91 +8,45 @@ import * as funcs from "@/utils/functions";
 import { Enemy } from "@/utils/entities";
 
 // Functions that handle the context dependencies
-export function useTurnLogic() {
-  const isFirstRender = useRef(true);
-  const lastTurn = useRef<TurnTypes>(null);
+export function createTurnLogic() {
   // Stores
-  const playerActions = useStore("player", "actions");
-  const enemiesActions = useStore("enemies", "actions");
-  const game = useStore("game", s => ({currentTurn: s.game.currentTurn}));
-  const gameActions = useStore("game", "actions");
-
-  // Constantly checks if the turn changed
-  useEffect(() => {
-    if (isFirstRender.current) {
-      isFirstRender.current = false;
-      return; // ⛔ ignores the first execution
-    }
-
-    // Keeping the lastTurn
-    const lastTurnTemp: TurnTypes = lastTurn.current;
-
-    // Updates the last turn to the actual one
-    lastTurn.current = game.currentTurn;
-
-    // Verifying if the last turn was onAction.
-    // If the last turn was onAction, that means that
-    // the entity is just going back to its turn, but
-    // it don't need to executes the logic to the start
-    // of the turn.
-
-    if (lastTurnTemp === "onAction") {
-      return;
-    }
-
-    // Verify what kind of turn it is
-    switch (game.currentTurn) {
-      case "player":
-        functions.handlePlayerTurn();
-        break;
-
-      case "enemies":
-        functions.handleEnemiesTurn();
-        break;
-
-      case null:
-        // This says that there's not a entity turn
-        gameActions.update({ specificEntityTurn: -1 });
-        break;
-
-      default:
-        return;
-    }
-  }, [game.currentTurn]);
+  const player = usePlayerStore.getState();
+  const enemies = useEnemiesStore.getState();
+  const game = useGameStore.getState();
 
   // Functions
-  const functions = {
+  return {
     // Function to handle the player turn
     handlePlayerTurn() {
       // First of all, we reset the specific turn (0 is player)
-      gameActions.update({ specificEntityTurn: 0 });
+      game.update({ specificEntityTurn: 0 });
 
       // Skipping turn
-      if (playerActions.getCurrent().skipTurn === true) this.handleEnemiesTurn();
+      if (player.getCurrent().skipTurn === true) this.switchTurn();
 
       // Resetting the player actions
-      playerActions.update({ actionsLeft: playerActions.getCurrent().actions });
+      player.update({ actionsLeft: player.getCurrent().actions });
     },
 
     // Function to handle the enemies turn. Starts from the enemy 1
     handleEnemiesTurn(enemyId: EntityIds = 1) {
       // First of all, sets the specific entity turn
-      gameActions.update({ specificEntityTurn: enemyId });
+      game.update({ specificEntityTurn: enemyId });
 
       // Getting the entity by its id
-      const enemy = enemiesActions.getCurrent(enemyId);
+      const enemy = enemies.getCurrent(enemyId);
 
       // Executing its turn
       this.enemyTurn(enemy as Enemy).then(() => {
         // Getting the amount of enemies
-        const enemiesAmount = (enemiesActions.getCurrent() as Enemy[]).length;
+        const enemiesAmount = (enemies.getCurrent() as Enemy[]).length;
 
         // Setting the specific turn to the next enemy
         const nextEntity = enemyId + 1;
 
         // If the player died, will skip all turns
-        if (playerActions.getCurrent().isDead()) {
-          gameActions.update({ currentTurn: null });
+        if (player.getCurrent().isDead()) {
+          game.update({ currentTurn: null });
           return;
         }
 
@@ -108,21 +61,21 @@ export function useTurnLogic() {
       // Saving the variable locally
       let nextTurn = turnToSwitch;
 
-      // Verifying if the currentTurn is switchable
-      if (!validTurns.includes(game.currentTurn)) {
+      // Verifying if the game.getCurrent().currentTurn is switchable
+      if (!validTurns.includes(game.getCurrent().currentTurn)) {
         return console.warn("⚠️ At switchTurn function: the current turn is not switchable.");
       }
 
       // Switching the current turn
       if (!nextTurn) {
         nextTurn =
-          game.currentTurn === "player"
+          game.getCurrent().currentTurn === "player"
             ? "enemies" // If the current turn is "player", the next is "enemies"
             : "player"; // Same thing from above
       }
 
       // Defining the next turn
-      gameActions.update({ currentTurn: nextTurn });
+      game.update({ currentTurn: nextTurn });
     },
 
     // Handling the enemy's turn
@@ -136,7 +89,7 @@ export function useTurnLogic() {
           return;
         }
 
-        const turn = enemy.handleTurn(playerActions.getCurrent());
+        const turn = enemy.handleTurn(player.getCurrent());
 
         if (!turn) {
           console.error("turn is null at enemyTurn().");
@@ -162,6 +115,4 @@ export function useTurnLogic() {
       });
     },
   };
-
-  return { ...functions };
 }

@@ -1,5 +1,6 @@
 // Hooks
 import { useStore } from '@/stores';
+import { memo } from 'react';
 
 // Stylesheet
 import styles from './SectionButtons.module.css';
@@ -41,4 +42,4 @@ function SectionButtons(props) {
   );
 }
 
-export default SectionButtons;
+export default memo(SectionButtons);

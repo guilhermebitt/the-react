@@ -57,5 +57,6 @@
   "skipTurn": false,
   "kills": 0,
   "spanMessages": [],
-  "increases": {}
+  "increases": {},
+  "framePath": null
 }

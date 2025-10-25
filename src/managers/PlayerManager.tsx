@@ -1,5 +1,5 @@
 // Dependencies
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import { useStore } from "@/stores";
 
 // Player manager component

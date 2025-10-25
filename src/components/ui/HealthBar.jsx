@@ -1,5 +1,5 @@
 // Dependencies
-import { useEffect, useState } from 'react';
+import { useEffect, useState, memo } from 'react';
 
 // Hooks
 import { useStore } from '@/stores';
@@ -9,17 +9,19 @@ import styles from './bars.module.css';
 
 function HealthBar({ entityId }) {
   const [transition, setTransition] = useState(null);
-  const enemiesActions = useStore("enemies", "actions");
 
-  const entity = enemiesActions.getCurrent(entityId);
+  const entity =
+    entityId === 0 ?
+      useStore("player", s => s.player.stats) :
+      useStore("enemies", s => s.enemies[entityId - 1].stats)
 
   const [healthPercent, setHealthPercent] = useState(100);
 
   useEffect(() => setTransition(true), []);
 
   useEffect(() => {
-    setHealthPercent(calcPercent(entity.stats.health, entity.stats.maxHealth));
-  }, [entity.stats.health]);
+    setHealthPercent(calcPercent(entity.health, entity.maxHealth));
+  }, [entity.health]);
 
   const calcPercent = (hp, maxHp) => (hp / maxHp) * 100;
 
@@ -27,7 +29,7 @@ function HealthBar({ entityId }) {
     <div className={styles['bar-container']}>
       <div className={`${styles['bar-bg']} ${styles['hp']}`}>
         <p>
-          HP: {entity.stats.health}/{entity.stats.maxHealth}
+          HP: {entity.health}/{entity.maxHealth}
         </p>
         <div
           className={`${styles['hp']} ${styles['fill']} ${
@@ -42,4 +44,4 @@ function HealthBar({ entityId }) {
   );
 }
 
-export default HealthBar;
+export default memo(HealthBar);

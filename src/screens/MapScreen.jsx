@@ -1,6 +1,6 @@
 // Data
-import mapsData from '../data/maps.json' with { type: 'json' };
-import gameData from '../data/game.json' with { type: 'json' };
+import mapsData from '../data/maps.json';
+import gameData from '../data/game.json';
 
 // Dependencies
 import { useEffect } from 'react';
@@ -42,7 +42,7 @@ var badgesUrl = [
 // Creating the MapScreen
 function MapScreen() {
   // Stores
-  const [startTick, stopTick] = useStore("tick", state => [state.start, state.stop]);
+  const tick = useStore("tick", "actions");
   const audiosActions = useStore("audios", "actions");
   const enemiesActions = useStore("enemies", "actions");
   const game = useStore("game", "actions");
@@ -63,17 +63,17 @@ function MapScreen() {
     if (loading) return;
 
     // Resuming the tick count
-    startTick();
+    tick.start();
 
     // Stopping the game music if it is playing
     if (audiosActions.getAudio("gameMusic")?.isPlaying()) audiosActions.getAudio("gameMusic")?.pause();
 
     // Resetting all game eventData and enemies
-    game.update({ "eventData": gameData.eventData });
+    game.update({ eventData: gameData["eventData"] });
     enemiesActions.reset();
 
     return () => {
-      stopTick();  // tick stops when the game exit the map component
+      tick.stop();  // tick stops when the game exit the map component
     }
   }, [loading]);
 

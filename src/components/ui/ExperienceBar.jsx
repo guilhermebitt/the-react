@@ -1,5 +1,5 @@
 // Dependencies
-import { useEffect, useState } from "react";
+import { useEffect, useState, memo } from "react";
 
 // Hooks
 import { useStore } from "@/stores";
@@ -35,4 +35,4 @@ function ExperienceBar() {
   );
 };
 
-export default ExperienceBar;
+export default memo(ExperienceBar);

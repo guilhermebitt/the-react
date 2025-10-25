@@ -4,7 +4,7 @@ import { create } from "zustand";
 // Logic
 import { createEventsLogic } from '@/logic/eventsLogic';
 import { createMapLogic } from '@/logic/mapLogic';
-import { useTurnLogic } from "@/logic/useTurnLogic";
+import { useTurnLogic } from "@/logic/turnLogic";
 
 // State type
 type LogicStoreState = {

@@ -3,48 +3,29 @@ import settingsData from "../../data/settings.json";
 
 // Dependencies
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, memo } from "react";
 import { useLocalStorage } from "usehooks-ts";
 import { produce } from "immer";
 
 // Components
 import ComponentBorder from "../ui/ComponentBorder";
-import ConfirmDialog from "./ConfirmDialog";
 
 // Hooks
 import { useStore } from "@/stores";
 import { useSaveManager } from "../../hooks/useSaveManager";
+import { useConfirmDialog } from "@/hooks";
 
 // Stylesheet
 import styles from "./OptionButtons.module.css";
 
 function OptionButtons() {
   // Stores
-  const game = useStore("game", "actions");
-  const { saveGame } = useSaveManager(game.getCurrent().currentSave);
-  const [confirmDialog, setConfirmDialog] = useState({
-    visible: false,
-    message: "Are you sure?",
-    onConfirm: null,
-    onCancel: null,
-  });
-  const [ShowLastCScreen, setShowLastCScreen] = useState(false);
+  const currentTurn = useStore("game", (s) => s.game.currentTurn);
+  const currentSave = useStore("game", (s) => s.game.currentSave);
+  const { saveGame } = useSaveManager(currentSave);
+  const [CDComponent, confirm] = useConfirmDialog();
+  const [CDComponent2, confirm2] = useConfirmDialog(1);
   const [, setSettings] = useLocalStorage("settings", settingsData);
-
-  useEffect(() => {
-    if (!ShowLastCScreen) return;
-    confirmScreen(null, null, "Game Saved!");
-    setShowLastCScreen(false);
-  }, [ShowLastCScreen]);
-
-  function confirmScreen(onConfirm, onCancel, msg = "Are you sure?") {
-    setConfirmDialog({
-      visible: true,
-      message: msg,
-      onConfirm: onConfirm || (() => {}),
-      onCancel: onCancel,
-    });
-  }
 
   function showLog() {
     setSettings(
@@ -54,57 +35,38 @@ function OptionButtons() {
     );
   }
 
+  const handleSaveGame = async () => {
+    const result = await confirm("Do you want to save the game? This action cannot be undone.");
+    if (result) {
+      saveGame();
+      showLastCScreen();
+    }
+  };
+
+  const showLastCScreen = async () => {
+    const result = await confirm2("Game saved!");
+  }
+
   return (
     <>
-      <ConfirmDialog
-        visible={confirmDialog.visible}
-        message={confirmDialog.message}
-        onConfirm={
-          confirmDialog.onConfirm &&
-          (() => {
-            confirmDialog.onConfirm?.();
-            setConfirmDialog((prev) => {
-              return { ...prev, visible: false };
-            });
-          })
-        }
-        onCancel={
-          confirmDialog.onCancel &&
-          (() => {
-            confirmDialog.onCancel?.();
-            setConfirmDialog((prev) => {
-              return { ...prev, visible: false };
-            });
-          })
-        }
-      />
+      {CDComponent}
+      {CDComponent2}
       <ComponentBorder title="Options">
         <div className={styles["options-menu-container"]}>
-          <button className="default" onClick={showLog} disabled={!(game.getCurrent().currentTurn === "player")}>
+          <button className="default" onClick={showLog} disabled={!(currentTurn === "player")}>
             Log
           </button>
           <Link to="/settings">
-            <button className="default" disabled={!(game.getCurrent().currentTurn === "player")}>
+            <button className="default" disabled={!(currentTurn === "player")}>
               Settings
             </button>
           </Link>
           <Link to="/menu">
-            <button className="default" disabled={!(game.getCurrent().currentTurn === "player")}>
+            <button className="default" disabled={!(currentTurn === "player")}>
               Menu
             </button>
           </Link>
-          <button
-            className="default"
-            onClick={() => {
-              confirmScreen(
-                () => {
-                  saveGame();
-                  setShowLastCScreen(true);
-                },
-                () => setConfirmDialog((prev) => ({ ...prev, visible: false }))
-              );
-            }}
-            disabled={!(game.getCurrent().currentTurn === "player")}>
+          <button className="default" onClick={handleSaveGame} disabled={!(currentTurn === "player")}>
             Save Game
           </button>
         </div>
@@ -113,4 +75,4 @@ function OptionButtons() {
   );
 }
 
-export default OptionButtons;
+export default memo(OptionButtons);

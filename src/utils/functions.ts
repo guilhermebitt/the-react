@@ -53,15 +53,6 @@ function scheduleTerminalUpdate() {
   }, 0);
 }
 
-// Function to handle turn changes
-export function endTurn() {
-  // Getting the game data
-  const {update} = useGameStore.getState();
-
-  update({ currentTurn: "enemies" });
-  update({ specificEntityTurn: 0 });
-}
-
 // Cleaning the localStorage
 export function clearStorage(toKeep: string[]) {
   const storageKeys = Object.keys(localStorage); // saving the keys before remove since the length of storages changes

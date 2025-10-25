@@ -1,5 +1,5 @@
 // Dependencies
-import { useState, useEffect } from 'react';
+import { useState, useEffect, memo } from 'react';
 
 // Components
 import ComponentBorder from './ComponentBorder.jsx';
@@ -77,4 +77,4 @@ function PlayerHUD() {
   );
 }
 
-export default PlayerHUD;
+export default memo(PlayerHUD);

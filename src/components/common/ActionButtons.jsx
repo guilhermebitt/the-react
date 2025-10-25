@@ -1,5 +1,6 @@
 // Components
 import ComponentBorder from '../ui/ComponentBorder';
+import { memo } from 'react';
 
 // Hooks
 import { useStore } from '@/stores';
@@ -8,7 +9,7 @@ import { useStore } from '@/stores';
 import styles from './ActionButtons.module.css';
 
 function ActionButtons(props) {
-  const game = useStore("game", "actions");
+  const currentTurn = useStore("game", s => s.game.currentTurn);
 
   return (
     <ComponentBorder title="Action">
@@ -16,28 +17,28 @@ function ActionButtons(props) {
         <button
           className="default"
           onClick={props.attack}
-          disabled={game.getCurrent().currentTurn !== "player" ? true : false}
+          disabled={currentTurn !== "player" ? true : false}
         >
           Attack
         </button>
         <button
           className="default"
           onClick={props.sendMsg}
-          disabled={game.getCurrent().currentTurn !== "player" ? true : false}
+          disabled={currentTurn !== "player" ? true : false}
         >
           Spells
         </button>
         <button
           className="default"
           onClick={props.changeAnim}
-          disabled={game.getCurrent().currentTurn !== "player" ? true : false}
+          disabled={currentTurn !== "player" ? true : false}
         >
           WIP
         </button>
         <button
           className="default"
           onClick={props.endTurn}
-          disabled={game.getCurrent().currentTurn !== "player" ? true : false}
+          disabled={currentTurn !== "player" ? true : false}
         >
           End Turn
         </button>
@@ -46,4 +47,4 @@ function ActionButtons(props) {
   );
 }
 
-export default ActionButtons;
+export default memo(ActionButtons);

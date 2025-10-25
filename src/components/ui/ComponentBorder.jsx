@@ -1,12 +1,10 @@
 // Dependencies
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, memo } from "react";
 
 // Stylesheet
-import styles from './ComponentBorder.module.css';
+import styles from "./ComponentBorder.module.css";
 
-
-
-function ComponentBorder({ title='title', boxStyles={}, titleStyles={}, borderStyles={}, children}) {
+function ComponentBorder({ title = "title", boxStyles = {}, titleStyles = {}, borderStyles = {}, children }) {
   const boxRef = useRef(null); // This will be used to link this component with the HTML element
   const [titleWidth, setTitleWidth] = useState(null);
 
@@ -17,17 +15,20 @@ function ComponentBorder({ title='title', boxStyles={}, titleStyles={}, borderSt
     setTitleWidth(boxRef.current.children[0].clientWidth); // plus +10px of padding
 
     // Updates the CSS Variable
-    boxRef.current.style.setProperty('--title-wdt', titleWidth + 'px');
-
+    boxRef.current.style.setProperty("--title-wdt", titleWidth + "px");
   }, [titleWidth]);
 
   return (
     // Here I am using boxRef, where each one will be different within the components
     <div ref={boxRef} className={styles.boxContainer} style={boxStyles}>
-      <h2 className={styles.boxTitle} style={titleStyles}>{title}</h2>
-      <div className={styles.boxBorder} style={borderStyles}>{children}</div>
+      <h2 className={styles.boxTitle} style={titleStyles}>
+        {title}
+      </h2>
+      <div className={styles.boxBorder} style={borderStyles}>
+        {children}
+      </div>
     </div>
   );
 }
 
-export default ComponentBorder;
+export default memo(ComponentBorder);

@@ -6,11 +6,11 @@ import { useLocalStorage } from "usehooks-ts";
 // Components
 import LogContainer from "./components/game/LogContainer";
 
-// Contexts
-import { AppProviders } from "./context/AppProviders";
-
 // Managers
 import { AudioManager, PlayerManager, EnemiesManager } from "@/managers";
+
+// Logics
+import { BattleEventLogic } from "@/logic";
 
 // Screens
 import Menu from "./screens/Menu";
@@ -28,6 +28,7 @@ function App() {
   return (
     <BrowserRouter>
       <Managers />
+      <Logics />
       <AppRoutes />
     </BrowserRouter>
   );
@@ -50,10 +51,10 @@ function AppRoutes() {
 
   // when the user refreshes the page, the game back to /menu
   useEffect(() => {
-    if (location.pathname !== "/menu") {
+    if (location.pathname !== "/menu" && location.pathname !== "/") {
       navigate("/menu", { replace: true });
     }
-  }, []); // <- só na montagem
+  }, []);
 
   return (
     <>
@@ -80,6 +81,7 @@ function AppRoutes() {
   );
 }
 
+// Game Managers
 function Managers() {
   return (
     <>
@@ -88,6 +90,15 @@ function Managers() {
       <EnemiesManager />
     </>
   );
+}
+
+// Game Logics
+function Logics() {
+  return (
+    <>
+      <BattleEventLogic />
+    </>
+  )
 }
 
 // Export

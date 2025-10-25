@@ -17,11 +17,20 @@ function Entity({ entityId }) {
   const [firstLoad, setFirstLoad] = useState(true);
   // Stores
   const audiosActions = useStore("audios", "actions");
+  // --== entity ==--
   const entity =
-    entityId === 0 ? useStore("player", (s) => s.getCurrent)() : useStore("enemies", (s) => s.getCurrent)(entityId);
+    entityId === 0 ? useStore("player", (s) => s.player) : useStore("enemies", (s) => s.enemies[entityId - 1]);
+
+  // spanMessages
+  const spanMessages =
+    entityId === 0
+      ? useStore("player", (s) => s.player.spanMessages)
+      : useStore("enemies", (s) => s.enemies[entityId - 1].spanMessages);
+
   const game = useStore("game", "actions");
+  const target = useStore("game", (s) => s.game.target);
   // Custom Hooks
-  const framePath = useAnimation(entity);
+  const framePath = useAnimation(entityId);
 
   // First load useEffect
   useEffect(handleFirstLoad, []);
@@ -56,7 +65,7 @@ function Entity({ entityId }) {
 
   // This function sets the game target to the current entity
   function selectTarget() {
-    if (game.getCurrent().currentTurn === "player" && typeof entity?.id === "number") {
+    if (game.getCurrent().currentTurn === "player" && entity.id !== 0) {
       game.update({ target: entity?.id });
     }
   }
@@ -64,7 +73,7 @@ function Entity({ entityId }) {
   // Entity container classes
   const entityContainerClasses = `
     ${styles.entityContainer}
-    ${entity?.id === game.getCurrent()?.target && ["player", "onAction"].includes(game.getCurrent().currentTurn) && styles.selected}
+    ${entity?.id === target && ["player", "onAction"].includes(game.getCurrent().currentTurn) && styles.selected}
     ${!entity?.isBoss && styles[`enemy${entity?.id}`]}
     ${entity?.isBoss && styles[`boss`]}
     ${game.getCurrent().specificEntityTurn === entity?.id ? styles.turn : ""}
@@ -96,7 +105,7 @@ function Entity({ entityId }) {
         <div className={styles.selectedArrow}>▼</div>
 
         {/* Component that controls the span message when the entity is hit, levelUps, etc */}
-        <ValueSpan spanMessages={entity?.spanMessages} entityUpdater={entity?.update} />
+        <ValueSpan spanMessages={spanMessages} entityUpdater={entity?.update} />
       </div>
     </>
   );
