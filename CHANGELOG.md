@@ -1,3 +1,10 @@
+# [1.2.0-beta.5](https://github.com/guilhermebitt/the-react/compare/v1.2.0-beta.4...v1.2.0-beta.5) (2025-10-25)
+
+
+### Performance Improvements
+
+* **improved the hooks systems:** I have created a new system to manage some stores and logics to control some stuf wihout causing extra re-render on some components ([9474bc0](https://github.com/guilhermebitt/the-react/commit/9474bc02d6c052b513f42a552985dea04cd58696))
+
 # [1.2.0-beta.4](https://github.com/guilhermebitt/the-react/compare/v1.2.0-beta.3...v1.2.0-beta.4) (2025-10-22)
 
 
