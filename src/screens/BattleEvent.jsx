@@ -50,6 +50,7 @@ import ActionSection from "../components/sections/ActionSection";
 import InventorySection from "../components/sections/InventorySection";
 import PerksSection from "../components/sections/PerksSection";
 import VictoryModal from "../components/ui/VictoryModal";
+import LevelUpModal from "@/components/Perks/LevelUpModal";
 
 // Hooks
 import { useLogic } from "@/hooks";
@@ -144,13 +145,6 @@ function BattleEvent() {
     });
   }, [loading]);
 
-  // On event finish
-  /* useEffect(() => {
-    if (loading) return;
-
-    logic.finishEvent();
-  }, [finishedEvent]); */
-
   // Starting the gameMusic
   useEffect(() => {
     if (loading) return;
@@ -159,19 +153,6 @@ function BattleEvent() {
     // The music only starts if its not playing and it exists
     if (!audioActions.getAudio("gameMusic")?.isPlaying()) audioActions.getAudio("gameMusic").play();
   }, [audioActions.getAudio("gameMusic"), loading]);
-
-  // Checking if ALL enemies are dead
-  /* useEffect(() => {
-    if (loading) return;
-    const aliveCount = enemiesActions.getCurrent().reduce((acc, enemy) => {
-      return enemy.stats.health > 0 ? acc + 1 : acc;
-    }, 0);
-
-    setEnemiesAlive(aliveCount); // GAMBIARRA MALDITA
-
-    // Finishing the battle event
-    if (enemiesAlive === 0 && enemiesActions.getCurrent().length > 0) setFinishedEvent(true);
-  }, [enemiesActions.getCurrent()]); */
 
   // --- MAIN FUNCTIONS ---
   const createEntityObj = useCallback((name, level = 1) => {
@@ -225,6 +206,7 @@ function BattleEvent() {
     <main id={styles["game"]}>
       {/* VictoryModal */}
       {event?.isFinished && <VictoryModal />}
+      <LevelUpModal />
 
       {/* TOP SECTION */}
       <section className={`${styles["x-section"]} ${styles["top"]}`}>

@@ -2,23 +2,23 @@
 import { EventData, Section, EntityIds, MapsKey, UpdaterPatch, Perk } from "@/types";
 import { validTurns } from "@/types/constants";
 
-type TurnTypes = typeof validTurns[number];
+type TurnTypes = (typeof validTurns)[number];
 
 // Main interface
 interface GameData {
   // Gameplay settings
   firstLoad: boolean;
   specificEntityTurn: EntityIds;
-  target: any;  // ID of the entity
+  target: any; // ID of the entity
   tickSpeed: number;
 
   // Temporary gameplay atributes
-  currentSave: number | null,  // ID of the save at localStorage
-  currentTurn: TurnTypes,
-  currentMap: MapsKey | null,
-  currentMapSection: number,  // ID of the section
-  currentMusic: [string, boolean],  // [URL, loop(?)]
-  currentPath: any;  // This will be depreciated
+  currentSave: number | null; // ID of the save at localStorage
+  currentTurn: TurnTypes;
+  currentMap: MapsKey | null;
+  currentMapSection: number; // ID of the section
+  currentMusic: [string, boolean]; // [URL, loop(?)]
+  currentPath: any; // This will be depreciated
 
   // Terminal atributes
   terminalText: string[];
@@ -33,7 +33,8 @@ interface GameData {
   mapArea: Section[];
 
   // Skills
-  perks: {[key: string]: Perk};
+  perks: { [key: string]: Perk };
+  showLevelUpModal: boolean;
 }
 
 // Game updater type

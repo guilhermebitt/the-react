@@ -4,10 +4,12 @@ import rawPerksData from "@/data/perks.json";
 
 // Dependencies
 import { useStore } from "@/stores";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
+import * as funcs from "@/utils/functions";
 
 // Types
 import { Increases, Perk, PerksKey, PerkUnion } from "@/types";
+import { rarities } from "@/types/constants";
 
 interface descKeys {
   [key: string]: any;
@@ -22,7 +24,7 @@ export function usePerkLogic() {
   // Stores
   const player = useStore("player", "actions");
   const game = useStore("game", "actions");
-  const perks = useStore("game", s => s.game.perks)
+  const perks = useStore("game", (s) => s.game.perks);
 
   useEffect(() => {
     setFirstLoad(false);
@@ -37,7 +39,39 @@ export function usePerkLogic() {
 
   // Functions
   const functions = {
-    // Functions that add a perk to the perks object of game data
+    // Function to create random perks
+    generatePerks(amount = 3) {
+      // Array to return the perks
+      const generatedPerks = [];
+      const arrayEntries = structuredClone(Object.entries(rarities));
+
+      // Getting the chances of rarity
+      const sortedArray = structuredClone(arrayEntries).sort((a, b) => b[1].appearChance - a[1].appearChance);
+
+      // Adding the perks to generated perks array
+      for (let i = 0; i < amount; i++) {
+        // The roll is different for each perk generation
+        const roll = funcs.random(100);
+
+        // Iterating into the chances
+        let cumulative = 0;
+        for (const [rarity, properties] of sortedArray) {
+          cumulative += properties.appearChance;
+          if (roll <= cumulative) {
+            // When the code enter here, it will create a random perk based on it rarity
+            // need to improve this later
+            const perksToCreate = Object.values(perksData).filter((perk) => perk.rarity === rarity);
+            const perkRoll = funcs.random(perksToCreate.length - 1);
+            generatedPerks.push(perksToCreate[perkRoll]);
+            break;
+          }
+        }
+      }
+
+      return generatedPerks;
+    },
+
+    // Function that add a perk to the perks object of game data
     createPerk(perkKey: PerksKey) {
       // Variable that holds the new perk
       let newPerk = structuredClone(perksData[perkKey]);
@@ -86,7 +120,7 @@ export function usePerkLogic() {
       });
     },
 
-    // Functions that updates a perk increments based on its stacks
+    // Function that updates a perk increments based on its stacks
     updatePerkIncreases(perk: PerkUnion): PerkUnion | void {
       // Checks if the perk has an increases attribute
       if (!perk.effects?.increases) return console.warn("⚠️ perk does not have an increases attribute.");
@@ -139,5 +173,5 @@ export function usePerkLogic() {
     },
   };
 
-  return { ...functions };
+  return useMemo(() => ({ ...functions }), []);
 }

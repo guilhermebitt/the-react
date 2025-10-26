@@ -38,7 +38,7 @@ type PerkUnion =
   | Perk<"economy">;
 
 interface Perk<T extends PerkType = PerkType> {
-  id: string;
+  id: PerksKey;
   name: string;
   description: string;
   rarity: Rarity;

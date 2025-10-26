@@ -249,24 +249,33 @@ export class Player extends Entity {
   }
 
   // Functions that verify if the player can levelUp
-  tryLevelUp() {
+  tryLevelUp(level = this.level): number | undefined {
     // Verifies if the player has sufficient experience to levelup
     if (this.xp >= this.getNextLvXP()) {
-      const newLevel = this.level + 1;
+      let newLevel = level + 1;
 
+      // Trying to levelup again
+      while (this.xp >= this.getNextLvXP(newLevel)) {
+        // the "as number" is because, in this case, the function will return number for sure.
+        return this.tryLevelUp(newLevel) as number;
+      }
+
+      // Updating player with new stats
       this.update({ level: newLevel });
       this.levelUp(newLevel);
+
+      // Returning the new level number
       return newLevel;
     }
   }
 
   // Calculates the experience needed to levelup
-  getNextLvXP() {
+  getNextLvXP(level = this.level) {
     const BASE_XP = 10;
     const GROWTH = 1.6;
     // Square formula to get the next level needed experience
-    //return Math.floor(BASE_XP * (this.level + 1) ** 2 * SCALE - BASE_XP * this.level);
-    return Math.floor(BASE_XP * Math.pow(this.level, GROWTH));
+    //return Math.floor(BASE_XP * (level + 1) ** 2 * SCALE - BASE_XP * level);
+    return Math.floor(BASE_XP * Math.pow(level, GROWTH));
   }
 
   // Generating player attack message

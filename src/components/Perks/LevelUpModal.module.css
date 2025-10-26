@@ -1,0 +1,62 @@
+div.levelUpBox {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+
+  width: fit-content;
+  min-height: 256px;
+
+  background-color: #161618;
+  border: white solid 1px;
+  border-radius: 5px;
+  padding: 1rem;
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  span {
+    color: rgb(23, 150, 76);
+  }
+
+  div.perksContainer {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    gap: 10px;
+
+    div.perkBox {
+      border: white solid 1px;
+      border-radius: 5px;
+      padding: 0.5rem;
+      cursor: pointer;
+      transition: transform 200ms ease-in-out;
+      width: 196px;
+
+      img {
+        width: 128px;
+      }
+    }
+
+    div.perkBox:hover {
+      transform: translateY(-5px);
+    }
+    div.perkBox:active {
+      transition: none;
+      transform: translateY(-5px) scale(1.02);
+    }
+  }
+  button {
+    padding: 0.25rem 1rem;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    transition: transform 200ms ease-in-out;
+  }
+  button:hover {
+    background-color: color-mix(in srgb, white 70%, black);
+    transform: translateY(-2px);
+  }
+}

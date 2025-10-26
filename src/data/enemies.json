@@ -87,7 +87,7 @@
       "crit": 2,
       "critChance": 10,
       "accuracy": 90,
-      "evasion": 10
+      "evasion": 8
     },
     "loot": {
       "xp": [5, 10]
@@ -166,7 +166,7 @@
       "crit": 2,
       "critChance": 20,
       "accuracy": 80,
-      "evasion": 10
+      "evasion": 5
     },
     "loot": {
       "xp": [1, 5]

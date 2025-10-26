@@ -102,7 +102,7 @@ function ActionSection() {
         }
       />
       <Terminal />
-      <Stats entity={playerActions.getCurrent()} />
+      <Stats />
     </div>
   );
 }

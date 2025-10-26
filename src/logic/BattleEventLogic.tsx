@@ -1,6 +1,6 @@
 // This manager will control all the logic of the game without causing a unnecessary re-render on any component
 // Dependencies
-import { useEffect, useRef, useCallback } from "react";
+import { useEffect, useRef, useCallback, useState } from "react";
 import { useStore } from "@/stores";
 import { EnemyData, SpawnableEnemy, TurnTypes } from "@/types";
 import { useLogic } from "@/hooks";
@@ -23,12 +23,14 @@ export function BattleEventLogic() {
   const currentTurn = useStore("game", s => s.game.currentTurn);
   const isFirstLoad = useStore("game", s => s.game.eventData.isFirstLoad);
   const event = useStore("game", s => s.game.eventData?.event);
+  const showLevelUpModal = useStore("game", s => s.game.showLevelUpModal);
   // Individual enemies
   const enemy1 = useStore("enemies", s => s.enemies?.[0]);
   const enemy2 = useStore("enemies", s => s.enemies?.[1]);
   const enemy3 = useStore("enemies", s => s.enemies?.[2]);
   // Other hooks
   const logic = useLogic();
+  const [endEvent, setEndEvent] = useState(false);
 
   // USE EFFECTS
   // Checking if the event is "battle" (ONLY EXECUTES ONCE PER BATTLE EVENT)
@@ -55,6 +57,17 @@ export function BattleEventLogic() {
     // Resetting the game music
     audios.getAudio("gameMusic")?.stop();
   }, [event]);
+
+  // Code that ends the event
+  useEffect(() => {
+    if (isFirstLoad) return;
+    if (showLevelUpModal) return;
+
+    if (endEvent) logic.finishEvent();
+
+    // Resetting the endEvent variable
+    setEndEvent(false);
+  }, [endEvent, showLevelUpModal])
 
   // Constantly checks if the turn changed
   useEffect(() => {
@@ -104,8 +117,8 @@ export function BattleEventLogic() {
     if (event?.isFinished) return;
     // This will check if: A) the enemy exists and B) the enemy is dead
     if (enemy1?.isDead() && (enemy2?.isDead() ?? true) && (enemy3?.isDead() ?? true)) {
-      // Finishing the event if all enemies are dead
-      logic.finishEvent();
+      // Triggering the event finisher if all enemies are dead
+      setEndEvent(true)
     }
   }, [enemy1, enemy2, enemy3])
 

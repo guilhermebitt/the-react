@@ -15,5 +15,90 @@
         "critChance": 2
       }
     }
+  },
+  "strength": {
+    "id": "strength",
+    "name": "Strength",
+    "description": "Increases the value of the player's strength by {strength}",
+    "rarity": "uncommon",
+    "iconURL": "/assets/perks/battle/crit_eye.png",
+
+    "stackCount": 1,
+    "maxStackCount": 2,
+
+    "category": "battle",
+    "effects": {
+      "increases": {
+        "strength": 1
+      }
+    }
+  },
+  "constitution": {
+    "id": "constitution",
+    "name": "Constitution",
+    "description": "Increases the value of the player's constitution by {constitution}",
+    "rarity": "uncommon",
+    "iconURL": "/assets/perks/battle/crit_eye.png",
+
+    "stackCount": 1,
+    "maxStackCount": 2,
+
+    "category": "battle",
+    "effects": {
+      "increases": {
+        "constitution": 1
+      }
+    }
+  },
+  "powerBoost": {
+    "id": "powerBoost",
+    "name": "Power Boost",
+    "description": "Increases the value of player's attack by {attack}",
+    "rarity": "rare",
+    "iconURL": "/assets/perks/battle/crit_eye.png",
+
+    "stackCount": 1,
+    "maxStackCount": 5,
+
+    "category": "battle",
+    "effects": {
+      "increases": {
+        "attack": 5
+      }
+    }
+  },
+  "defenseBoost": {
+    "id": "defenseBoost",
+    "name": "Defense Boost",
+    "description": "Increases the value of player's defense by {defense}",
+    "rarity": "rare",
+    "iconURL": "/assets/perks/battle/crit_eye.png",
+
+    "stackCount": 1,
+    "maxStackCount": 5,
+
+    "category": "battle",
+    "effects": {
+      "increases": {
+        "defense": 5
+      }
+    }
+  },
+  "aimBot": {
+    "id": "aimBot",
+    "name": "Aim Bot",
+    "description": "Improve the player's aim, increasing the accuracy by {accuracy}%",
+    "rarity": "legendary",
+    "iconURL": "/assets/perks/battle/crit_eye.png",
+
+    "stackCount": 1,
+    "maxStackCount": 1,
+
+    "category": "battle",
+    "effects": {
+      "increases": {
+        "accuracy": 15
+      }
+    }
   }
 }

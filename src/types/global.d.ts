@@ -1,8 +1,9 @@
 // Importing types
 import { EntityData, GameData } from "@/types";
+import { rarities } from "./constants";
 
 // Default rarities
-type Rarity = "common" | "uncommon" | "rare" | "legendary";
+type Rarity = keyof typeof rarities;
 
 // Creates all possible paths for a T object
 type DotPaths<T> = T extends object

@@ -20,7 +20,7 @@ interface ActivePerkProps {
 function ActivePerk({ perk }: ActivePerkProps) {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [visible, setVisible] = useState(false);
-  const { createDescription, updatePlayerIncreases } = usePerkLogic();
+  const { createDescription } = usePerkLogic();
 
   const handleMouseEnter = (e: React.MouseEvent) => {
     setPosition({ x: e.clientX, y: e.clientY });

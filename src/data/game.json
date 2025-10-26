@@ -21,5 +21,6 @@
   "doubleEventChance": 40,
   "eventsEnabled": [0],
   "mapArea": [],
-  "perks": []
+  "perks": [],
+  "showLevelUpModal": false
 }
