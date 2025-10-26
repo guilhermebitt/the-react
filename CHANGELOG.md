@@ -1,3 +1,15 @@
+# [1.2.0-beta.6](https://github.com/guilhermebitt/the-react/compare/v1.2.0-beta.5...v1.2.0-beta.6) (2025-10-26)
+
+
+### Bug Fixes
+
+* fixed the perks and the crit value span ([f6f1d53](https://github.com/guilhermebitt/the-react/commit/f6f1d53c52ba10df52b75e0c4bb4eac6ad7bf072))
+
+
+### Features
+
+* **level system:** new levelup system that allow you to choose a new perk ([413f274](https://github.com/guilhermebitt/the-react/commit/413f2746786541c5e9af82d0da3e6017506f3179))
+
 # [1.2.0-beta.5](https://github.com/guilhermebitt/the-react/compare/v1.2.0-beta.4...v1.2.0-beta.5) (2025-10-25)
 
 
