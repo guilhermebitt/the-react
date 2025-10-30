@@ -1,3 +1,10 @@
+# [1.2.0-beta.7](https://github.com/guilhermebitt/the-react/compare/v1.2.0-beta.6...v1.2.0-beta.7) (2025-10-30)
+
+
+### Bug Fixes
+
+* **level up and perks system:** These systems were fixed. ([ed4745e](https://github.com/guilhermebitt/the-react/commit/ed4745e7bb280daf3f0481493d13b674096adeff))
+
 # [1.2.0-beta.6](https://github.com/guilhermebitt/the-react/compare/v1.2.0-beta.5...v1.2.0-beta.6) (2025-10-26)
 
 
