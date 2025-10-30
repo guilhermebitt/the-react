@@ -5,7 +5,7 @@ import { immerable } from "immer";
 import playerJson from "@/data/player.json";
 
 // Importing the interface of EntityData
-import { BaseEntityData, PlayerData, EnemyData, Increases, UpdaterPatch, EntityData } from "@/types";
+import { BaseEntityData, PlayerData, EnemyData, Increases, UpdaterPatch, EntityData, Stats } from "@/types";
 
 type EnemyActions = "attack";
 
@@ -188,7 +188,7 @@ export class Player extends Entity {
 
       // Updating the player
       this.update({
-        [newStatKey]: () => {
+        [newStatKey]: () => {/* 
           // If the key to increment is one of the level up keys, returns the increment + the level value
           if (levelUpKeys.includes(statKey)) {
             let levelUppedValue: number = 0;
@@ -206,12 +206,26 @@ export class Player extends Entity {
                 break;
             }
 
-            return statValue + this.increases[statKey as keyof Increases] + levelUppedValue;
-          }
+            console.log(this.increases[statKey as keyof Increases])
+            return levelUppedValue + this.increases[statKey as keyof Increases];
+          } */
           return statValue + this.increases[statKey as keyof Increases];
         },
       });
     }
+  }
+
+  // Function that returns the updated value that corresponds with the level of the player
+  getLevelUpStat(key: keyof Stats, level: number = this.level) {
+    // Getting the base stat value
+    const baseValue = playerJson["stats"][key];
+    const growthRate = 1.5;
+
+    // Calculating the next value of the stat
+    const newValue = Math.floor(baseValue * (1 + (level - 1) * (growthRate - 1)));
+
+    // Returning the difference between the base value and the new value
+    return newValue - baseValue;
   }
 
   // Function that levels up the player
@@ -223,18 +237,24 @@ export class Player extends Entity {
     const GROWTH_RATE = 1.5;
 
     // Setting up the next player stats
-    const newHealth = Math.floor(BASE_HEALTH * (1 + (level - 1) * (GROWTH_RATE - 1)) - this.stats.maxHealth);
-    const newAttack = Math.floor(BASE_ATTACK * (1 + (level - 1) * (GROWTH_RATE - 1)) - this.stats.attack);
-    const newDefense = Math.floor(BASE_DEFENSE * (1 + (level - 1) * (GROWTH_RATE - 1)) - this.stats.defense);
+    const newHealth = Math.floor(BASE_HEALTH * (1 + (level - 1) * (GROWTH_RATE - 1)));
+    const newAttack = Math.floor(BASE_ATTACK * (1 + (level - 1) * (GROWTH_RATE - 1)));
+    const newDefense = Math.floor(BASE_DEFENSE * (1 + (level - 1) * (GROWTH_RATE - 1)));
+
+    const oldHealth = (level > 1) ? (Math.floor(BASE_HEALTH * (1 + (level - 2) * (GROWTH_RATE - 1)))) : BASE_HEALTH;
 
     // Skipping the update
+    console.log("attack:", newAttack, "defense:", newDefense)
     if (skipUpdate) return { newHealth, newAttack, newDefense };
 
     // Updating player stats
-    this.update({ "stats.maxHealth": (prev) => prev + newHealth });
-    this.update({ "stats.health": (prev) => prev + newHealth });
-    this.update({ "stats.attack": (prev) => prev + newAttack });
-    this.update({ "stats.defense": (prev) => prev + newDefense });
+    this.update({ "stats.health": (prev) => prev + (newHealth - oldHealth) });
+    this.update({ "stats.maxHealth": newHealth });
+    this.update({ "stats.attack": newAttack });
+    this.update({ "stats.defense": newDefense });
+
+    // Now, recalculating the player increments
+    this.incrementStats();
 
     // Setting levelup state animation
     const newStatesAnim = structuredClone(this.states);
@@ -262,7 +282,6 @@ export class Player extends Entity {
 
       // Updating player with new stats
       this.update({ level: newLevel });
-      this.levelUp(newLevel);
 
       // Returning the new level number
       return newLevel;

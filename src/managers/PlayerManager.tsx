@@ -2,6 +2,12 @@
 import { useEffect, useState } from "react";
 import { useStore } from "@/stores";
 import * as funcs from "@/utils/functions";
+import playerJson from "@/data/player.json";
+import { Increases, PlayerData, Stats } from "@/types";
+import { STATS_UPDATED_ON_LEVEL_UP } from "@/types/constants";
+
+// Setting up the player data
+const playerData = playerJson as unknown as PlayerData
 
 // Player manager component
 export function PlayerManager() {
@@ -30,6 +36,9 @@ export function PlayerManager() {
 
       // Changing the amount of levels upped
       setLevelsUpped(newLevel - oldLevel); // the minus one is to equalize the amount of levels upped
+
+      // Calling the function to update the stats
+      updateStats();
     };
   }, [experience]);
 
@@ -50,7 +59,8 @@ export function PlayerManager() {
 
   // useEffect that increment the players stats every time the increases changes
   useEffect(() => {
-    player.getCurrent().incrementStats();
+    // Calling the function to update the stats
+    updateStats();
   }, [increases]);
   
   // Code if the player dies
@@ -66,6 +76,38 @@ export function PlayerManager() {
       audios.getAudio("deathMusic")?.start();
     }
   }, [actions.isDead()]);
-  
+
+  // Function that controls the stats of the player, so when the player levelup,
+  // this function will be called, when the player get a perk, this function will be called.
+  const updateStats = () => {
+    // Getting the base stats
+    const baseStats = playerData.stats;
+
+    // Traveling for each stat of the player:
+    // key = stat name | value = value of the stat
+    for (const [key, value] of Object.entries(baseStats)) {
+      // Defining the base value of the stat
+      let newStatValue = value as number;
+      
+      // Now, verifies if the stat changes on levelup
+      if (STATS_UPDATED_ON_LEVEL_UP.includes(key as any)) {
+        // Adding the difference between the base value and the levelup value
+        newStatValue += actions.getLevelUpStat(key as keyof Stats);
+      }
+      
+      // Checking if the player has any increases for that stat, if not, skips this for run
+      if (Object.keys(increases).includes(key)) {
+        // Adding the increase to the stat
+        newStatValue += increases[key as keyof Increases];
+      };
+      
+      // Setting the new stat dotted path
+      const newStatKey = `stats.${key}`;
+
+      // Updating the player stat
+      player.update({[newStatKey]: newStatValue});
+    }
+  }
+
   return null;
 }

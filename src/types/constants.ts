@@ -1,10 +1,13 @@
 // Constants for some stuff
 
 // Turns types
-export const validTurns = ["player", "enemies", "onAction", null] as const;
+export const VALID_TURNS = ["player", "enemies", "onAction", null] as const;
 
 // Events constants
-export const eventsTypes = ["battle", "bossBattle"] as const;
+export const EVENTS_TYPES = ["battle", "bossBattle"] as const;
+
+// Stats that are changed at the players level up
+export const STATS_UPDATED_ON_LEVEL_UP = ["maxHealth", "health", "maxMana", "mana", "attack", "defense"] as const;
 
 // Rarities
 export const rarities = {

@@ -3,7 +3,7 @@ import { useGameStore, useEnemiesStore, usePlayerStore } from "@/stores";
 
 // Importing TS types
 import { TurnTypes, EntityIds } from "@/types";
-import { validTurns } from "@/types/constants";
+import { VALID_TURNS } from "@/types/constants";
 import * as funcs from "@/utils/functions";
 import { Enemy } from "@/utils/entities";
 
@@ -62,7 +62,7 @@ export function createTurnLogic() {
       let nextTurn = turnToSwitch;
 
       // Verifying if the game.getCurrent().currentTurn is switchable
-      if (!validTurns.includes(game.getCurrent().currentTurn)) {
+      if (!VALID_TURNS.includes(game.getCurrent().currentTurn)) {
         return console.warn("⚠️ At switchTurn function: the current turn is not switchable.");
       }
 
