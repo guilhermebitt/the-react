@@ -1,3 +1,10 @@
+# [1.2.0-beta.8](https://github.com/guilhermebitt/the-react/compare/v1.2.0-beta.7...v1.2.0-beta.8) (2025-11-01)
+
+
+### Bug Fixes
+
+* **perks:** fixed the status bug with the perks that improves the attack and defense, also I have fixed the recover of full life ([400efe7](https://github.com/guilhermebitt/the-react/commit/400efe7174da84e5dc5ecaebd7e8eb52e35a66ec))
+
 # [1.2.0-beta.7](https://github.com/guilhermebitt/the-react/compare/v1.2.0-beta.6...v1.2.0-beta.7) (2025-10-30)
 
 
