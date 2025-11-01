@@ -91,13 +91,13 @@ export function usePerkLogic() {
           // Checking if the perk was updated
           if (!updatedPerk)
             game.update({
-              perks: (prev) => {
+              perks: (prev: any) => {
                 return { ...prev, [perkKey]: newPerk };
               },
             });
           else
             game.update({
-              perks: (prev) => {
+              perks: (prev: any) => {
                 return { ...prev, [perkKey]: updatedPerk };
               },
             });
@@ -105,7 +105,7 @@ export function usePerkLogic() {
           // Maintain the perk intact
           console.log("Perk reached the max stack count");
           return game.update({
-            perks: (prev) => {
+            perks: (prev: any) => {
               return { ...prev, [perkKey]: prevPerk };
             },
           });
@@ -114,7 +114,7 @@ export function usePerkLogic() {
 
       // Adding the perk to the game
       game.update({
-        perks: (prev) => {
+        perks: (prev: any) => {
           return { ...prev, [perkKey]: newPerk };
         },
       });

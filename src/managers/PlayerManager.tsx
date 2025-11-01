@@ -82,6 +82,14 @@ export function PlayerManager() {
   const updateStats = () => {
     // Getting the base stats
     const baseStats = playerData.stats;
+    const playerStats = player.getCurrent().stats;
+
+    // Saving the difference of stat / maxStat
+    // ⚠️ THIS WILL REGENERATE THOSE STATS BY THE AMOUNT LEVEL UPPED
+    const statsDifference = {
+      health: playerStats.maxHealth - playerStats.health,
+      mana: playerStats?.mana && (playerStats.maxMana as any - playerStats.mana) || 0
+    };
 
     // Traveling for each stat of the player:
     // key = stat name | value = value of the stat
@@ -94,7 +102,7 @@ export function PlayerManager() {
         // Adding the difference between the base value and the levelup value
         newStatValue += actions.getLevelUpStat(key as keyof Stats);
       }
-      
+
       // Checking if the player has any increases for that stat, if not, skips this for run
       if (Object.keys(increases).includes(key)) {
         // Adding the increase to the stat
@@ -103,6 +111,9 @@ export function PlayerManager() {
       
       // Setting the new stat dotted path
       const newStatKey = `stats.${key}`;
+
+      // Removing the difference
+      if (Object.keys(statsDifference).includes(key)) newStatValue -= (statsDifference as any)[key]
 
       // Updating the player stat
       player.update({[newStatKey]: newStatValue});

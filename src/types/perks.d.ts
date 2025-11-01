@@ -4,38 +4,41 @@ import perkJson from "@/data/perks.json"
 // perks keys
 type PerksKey = keyof typeof perkJson;
 
-type PerkType = "battle" | "stats" | "economy";
+type PerkType = "battle" | "utility" | "economy" | "magic";
 
-interface BattlePerkEffects {
+interface GlobalPerkEffects {
   increases?: {
     [key: keyof Increases]: number;
   }
 }
 
-interface StatsPerkEffects {
-  increases?: {
-    [key: keyof Increases]: number;
-  }
+interface BattlePerkEffects extends GlobalPerkEffects {
 }
 
-interface EconomyPerkEffects {
-  increases?: {
-    [key: keyof Increases]: number;
-  }
+interface UtilityPerkEffects extends GlobalPerkEffects {
+}
+
+interface EconomyPerkEffects extends GlobalPerkEffects {
+}
+
+interface MagicPerkEffects extends GlobalPerkEffects {
 }
 
 type PerkEffects<T extends PerkType> = T extends "battle"
   ? BattlePerkEffects
-  : T extends "stats"
-  ? StatsPerkEffects
+  : T extends "utility"
+  ? UtilityPerkEffects
   : T extends "economy"
   ? EconomyPerkEffects
+  : T extends "magic"
+  ? MagicPerkEffects
   : never;
 
 type PerkUnion =
-  | Perk<"stats">
   | Perk<"battle">
-  | Perk<"economy">;
+  | Perk<"utility">
+  | Perk<"economy">
+  | Perk<"magic">;
 
 interface Perk<T extends PerkType = PerkType> {
   id: PerksKey;
@@ -49,4 +52,8 @@ interface Perk<T extends PerkType = PerkType> {
 
   category: T;
   effects: PerkEffects<T>;
+
+  translates: {
+    [key: string]: any;
+  }
 }

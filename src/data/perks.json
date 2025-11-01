@@ -14,14 +14,18 @@
       "increases": {
         "critChance": 2
       }
+    },
+
+    "translates": {
+      "critChance": 2
     }
   },
   "strength": {
     "id": "strength",
     "name": "Strength",
     "description": "Increases the value of the player's strength by {strength}",
-    "rarity": "uncommon",
-    "iconURL": "/assets/perks/battle/crit_eye.png",
+    "rarity": "rare",
+    "iconURL": "/assets/perks/battle/strength.png",
 
     "stackCount": 1,
     "maxStackCount": 2,
@@ -31,14 +35,18 @@
       "increases": {
         "strength": 1
       }
+    },
+
+    "translates": {
+      "strength": 1
     }
   },
   "constitution": {
     "id": "constitution",
     "name": "Constitution",
     "description": "Increases the value of the player's constitution by {constitution}",
-    "rarity": "uncommon",
-    "iconURL": "/assets/perks/battle/crit_eye.png",
+    "rarity": "rare",
+    "iconURL": "/assets/perks/battle/constitution.png",
 
     "stackCount": 1,
     "maxStackCount": 2,
@@ -48,14 +56,18 @@
       "increases": {
         "constitution": 1
       }
+    },
+    
+    "translates": {
+      "constitution": 1
     }
   },
   "powerBoost": {
     "id": "powerBoost",
     "name": "Power Boost",
     "description": "Increases the value of player's attack by {attack}",
-    "rarity": "rare",
-    "iconURL": "/assets/perks/battle/crit_eye.png",
+    "rarity": "uncommon",
+    "iconURL": "/assets/perks/battle/power_boost.png",
 
     "stackCount": 1,
     "maxStackCount": 5,
@@ -65,14 +77,18 @@
       "increases": {
         "attack": 5
       }
+    },
+    
+    "translates": {
+      "attack": 5
     }
   },
   "defenseBoost": {
     "id": "defenseBoost",
     "name": "Defense Boost",
     "description": "Increases the value of player's defense by {defense}",
-    "rarity": "rare",
-    "iconURL": "/assets/perks/battle/crit_eye.png",
+    "rarity": "uncommon",
+    "iconURL": "/assets/perks/battle/defense_boost.png",
 
     "stackCount": 1,
     "maxStackCount": 5,
@@ -82,6 +98,10 @@
       "increases": {
         "defense": 5
       }
+    },
+    
+    "translates": {
+      "defense": 5
     }
   },
   "aimBot": {
@@ -89,7 +109,7 @@
     "name": "Aim Bot",
     "description": "Improve the player's aim, increasing the accuracy by {accuracy}%",
     "rarity": "legendary",
-    "iconURL": "/assets/perks/battle/crit_eye.png",
+    "iconURL": "/assets/perks/battle/aim_bot.png",
 
     "stackCount": 1,
     "maxStackCount": 1,
@@ -99,6 +119,10 @@
       "increases": {
         "accuracy": 15
       }
+    },
+    
+    "translates": {
+      "accuracy": 15
     }
   }
 }

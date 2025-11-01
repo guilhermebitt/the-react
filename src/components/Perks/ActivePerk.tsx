@@ -6,7 +6,7 @@ import { usePerkLogic } from "@/logic/usePerkLogic";
 import PerkModal from "./PerkModal";
 
 // Types
-import { PerkUnion, StatsPerkEffects } from "@/types"
+import { PerkUnion } from "@/types"
 
 // Stylesheets
 import styles from "./ActivePerk.module.css";
@@ -50,7 +50,7 @@ function ActivePerk({ perk }: ActivePerkProps) {
           topPos={position.y + 10}
           leftPos={position.x + 10}
           title={`${perk.name} ${(perk.stackCount >= perk.maxStackCount) ? "(MAX)" : ""}`}
-          description={createDescription(perk.description, perk.effects.increases as StatsPerkEffects)}
+          description={createDescription(perk.description, perk.translates)}
         />
       }
     </div>
