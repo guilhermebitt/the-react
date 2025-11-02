@@ -67,6 +67,9 @@ function MapScreen() {
 
     // Stopping the game music if it is playing
     if (audiosActions.getAudio("gameMusic")?.isPlaying()) audiosActions.getAudio("gameMusic")?.pause();
+    if (audiosActions.getAudio("menuMusic")?.isPlaying()) audiosActions.getAudio("menuMusic")?.pause();
+
+    audiosActions.getAudio("mapMusic")?.start();
 
     // Resetting all game eventData and enemies
     game.update({ eventData: gameData["eventData"] });
@@ -74,6 +77,7 @@ function MapScreen() {
 
     return () => {
       tick.stop();  // tick stops when the game exit the map component
+      if (audiosActions.getAudio("mapMusic").isPlaying()) audiosActions.getAudio("mapMusic").pause();
     }
   }, [loading]);
 

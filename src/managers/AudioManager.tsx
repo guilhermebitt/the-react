@@ -15,6 +15,8 @@ export function AudioManager() {
   useEffect(() => {
     // Creating audios
     audios.create({ name: "gameMusic", src: "/assets/sounds/musics/the_music.ogg", loop: true, type: 'music' });
+    audios.create({ name: "menuMusic", src: "/assets/sounds/musics/the_music.ogg", loop: true, type: 'music' }); //Will be replaced later
+    audios.create({ name: "mapMusic", src: "/assets/sounds/musics/the_music.ogg", loop: true, type: 'music' }); //Will be replaced later
     audios.create({ name: "deathMusic", src: "/assets/sounds/musics/you_died.ogg", type: 'music' });
     audios.create({ name: "hitSound", src: "/assets/sounds/misc/hit_sound.ogg" });
     audios.create({ name: 'pointSound', src: '/assets/sounds/misc/point.ogg' });

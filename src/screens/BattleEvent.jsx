@@ -149,6 +149,8 @@ function BattleEvent() {
   useEffect(() => {
     if (loading) return;
 
+    if (audioActions.getAudio("menuMusic")?.isPlaying()) audioActions.getAudio("menuMusic").stop();
+
     if (playerActions.getCurrent().isDead()) return; // Guaranteeing that the music won't start if the player is dead
     // The music only starts if its not playing and it exists
     if (!audioActions.getAudio("gameMusic")?.isPlaying()) audioActions.getAudio("gameMusic").play();

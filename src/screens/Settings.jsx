@@ -12,6 +12,11 @@ import { useStore } from '@/stores';
 // Stylesheet
 import styles from './menus.module.css';
 
+/*function SfxChanges(volume,audio) {
+  setSfxVolume(Number(volume.target.value / 100))
+  audio.getAudio("pointSound").play(); 
+}*/
+
 function Settings() {
   // Getting the lastScreen from localStorage
   const [lastScreen, setLastScreen] = useLocalStorage('lastScreen', '/');
@@ -102,6 +107,7 @@ function Settings() {
             style={getSliderBackground(sfxVolume)}
             className={styles.slider}
             onChange={(e) => setSfxVolume(Number(e.target.value / 100))}
+            onVolumeChange={audiosActions.getAudio("pointSound").play()}
           />
         </div>
         <div className={styles.sliderOption}>
