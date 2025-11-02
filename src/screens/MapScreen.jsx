@@ -67,7 +67,6 @@ function MapScreen() {
 
     // Stopping the game music if it is playing
     if (audiosActions.getAudio("gameMusic")?.isPlaying()) audiosActions.getAudio("gameMusic")?.pause();
-    if (audiosActions.getAudio("menuMusic")?.isPlaying()) audiosActions.getAudio("menuMusic")?.pause();
 
     audiosActions.getAudio("mapMusic")?.start();
 

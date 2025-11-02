@@ -34,7 +34,8 @@ function ActionSection() {
   const doAttack = useCallback(() => {
     // Conditions
     if (game.getCurrent().currentTurn !== "player") return;
-    if (typeof game.getCurrent().target !== "number") return funcs.phrase("Select a target!");
+
+   // if (typeof game.getCurrent().target !== "number") return funcs.phrase("Select a target!");
     if (playerActions.getCurrent().actionsLeft <= 0)
       return funcs.phrase("You do not have actions left! End your turn.");
     if (enemiesActions.getCurrent(game.getCurrent().target)?.currentAnim === "death")

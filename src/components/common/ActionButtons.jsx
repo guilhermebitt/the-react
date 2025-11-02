@@ -15,32 +15,36 @@ function ActionButtons(props) {
     <ComponentBorder title="Action">
       <div className={styles.actBtnContainer}>
         <button
-          className="default"
+          id='attack'
+          className="default leftanchor"
           onClick={props.attack}
           disabled={currentTurn !== "player" ? true : false}
         >
-          Attack
+          (Q) Attack
         </button>
         <button
-          className="default"
+          id='spells'
+          className="default leftanchor"
           onClick={props.sendMsg}
           disabled={currentTurn !== "player" ? true : false}
         >
-          Spells
+          (W) Spells
         </button>
         <button
-          className="default"
+          id='wip2'
+          className="default leftanchor"
           onClick={props.changeAnim}
           disabled={currentTurn !== "player" ? true : false}
         >
-          WIP
+          (E) WIP
         </button>
         <button
-          className="default"
+          id='endturn'
+          className="default leftanchor"
           onClick={props.endTurn}
           disabled={currentTurn !== "player" ? true : false}
         >
-          End Turn
+          (R) End Turn
         </button>
       </div>
     </ComponentBorder>

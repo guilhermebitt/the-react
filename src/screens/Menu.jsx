@@ -33,8 +33,6 @@ function Menu() {
     if (audios.getAudio("gameMusic")?.isPlaying()) audios.getAudio("gameMusic")?.stop()
     if (audios.getAudio("deathMusic")?.isPlaying()) audios.getAudio("deathMusic")?.stop()
     if (audios.getAudio("mapMusic")?.isPlaying()) audios.getAudio("mapMusic")?.stop()
-
-    if (!audios.getAudio("menuMusic")?.isPlaying()) audios.getAudio("menuMusic")?.play()
     
     return () => resetGameStorage(keysToKeep);
   }, []);

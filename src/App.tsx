@@ -52,6 +52,7 @@ function AppRoutes() {
   // when the user refreshes the page, the game back to /menu
   useEffect(() => {
     if (location.pathname !== "/menu" && location.pathname !== "/") {
+      //navigate("/menu", { replace: true });
       navigate("/menu", { replace: true });
     }
   }, []);

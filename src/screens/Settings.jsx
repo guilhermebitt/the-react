@@ -50,6 +50,9 @@ function Settings() {
         if (audiosActions.getAudio('gameMusic')?.isPlaying()) {
           audiosActions.getAudio('gameMusic')?.stop();
         }
+        if (!audiosActions.getAudio('mapMusic')?.isPlaying()) {
+          audiosActions.getAudio('mapMusic')?.play();
+        }
       }
   }, [lastScreen])
 
@@ -107,7 +110,7 @@ function Settings() {
             style={getSliderBackground(sfxVolume)}
             className={styles.slider}
             onChange={(e) => setSfxVolume(Number(e.target.value / 100))}
-            onVolumeChange={audiosActions.getAudio("pointSound").play()}
+            onVolumeChange={audiosActions.getAudio("pointSound")?.play()}
           />
         </div>
         <div className={styles.sliderOption}>

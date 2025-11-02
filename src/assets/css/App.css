@@ -3,6 +3,19 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    background-image: url("/assets/scenarios/dark_forest_bg.jpg");
+    background-size: cover;        /* Scale to fill screen */
+    background-position: center;   /* Center the image */
+    background-repeat: no-repeat;  /* Prevent tiling */
+}
+
+#backgroundfilter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    backdrop-filter: blur(5px) saturate(0.5);
 }
 
 #root {

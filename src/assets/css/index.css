@@ -27,6 +27,11 @@ button.default {
   border: none;
 }
 
+button.leftanchor {
+  text-align: left;
+  padding-left: 12px;
+}
+
 button.default:hover {
   background-color: rgb(103, 103, 103);
 }

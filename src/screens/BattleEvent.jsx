@@ -149,12 +149,50 @@ function BattleEvent() {
   useEffect(() => {
     if (loading) return;
 
-    if (audioActions.getAudio("menuMusic")?.isPlaying()) audioActions.getAudio("menuMusic").stop();
+    if (audioActions.getAudio("mapMusic")?.isPlaying()) audioActions.getAudio("mapMusic").stop();
 
     if (playerActions.getCurrent().isDead()) return; // Guaranteeing that the music won't start if the player is dead
     // The music only starts if its not playing and it exists
     if (!audioActions.getAudio("gameMusic")?.isPlaying()) audioActions.getAudio("gameMusic").play();
   }, [audioActions.getAudio("gameMusic"), loading]);
+
+  // Keybinds
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      switch(e.key) {
+        //Section
+        case "1":
+          document.getElementById("action").click()
+          break;
+        case "2":
+          document.getElementById("inventory").click()
+          break;
+        case "3":
+          document.getElementById("perks").click()
+          break;
+        case "4":
+          document.getElementById("wip").click()
+          break;
+        //Action
+        case "q":
+          document.getElementById("attack").click()
+          break;
+        case "w":
+          document.getElementById("spells").click()
+          break;
+        case "e":
+          document.getElementById("wip2").click()
+          break;
+        case "r":
+          document.getElementById("endturn").click()
+          break;
+        default:
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
 
   // --- MAIN FUNCTIONS ---
   const createEntityObj = useCallback((name, level = 1) => {

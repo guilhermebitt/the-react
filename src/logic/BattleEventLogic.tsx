@@ -32,6 +32,10 @@ export function BattleEventLogic() {
   const logic = useLogic();
   const [endEvent, setEndEvent] = useState(false);
 
+  // Variable for enemy selection keybind
+  var selected = 1;
+  var selectedmax = 1;
+
   // USE EFFECTS
   // Checking if the event is "battle" (ONLY EXECUTES ONCE PER BATTLE EVENT)
   useEffect(() => {
@@ -50,9 +54,11 @@ export function BattleEventLogic() {
     if ((enemies.getCurrent() as Enemy[]).length < 1) {
       spawnEventEnemies(event.enemiesToSpawn);
     }
+    
 
     // Resetting the player's actions
     player.update({ actionsLeft: player.getCurrent().actions })
+    game.update({target : 1})
 
     // Resetting the game music
     audios.getAudio("gameMusic")?.stop();
@@ -121,6 +127,27 @@ export function BattleEventLogic() {
       setEndEvent(true)
     }
   }, [enemy1, enemy2, enemy3])
+
+  useEffect(() => {
+    const handleKeyDown = (e) => 
+    {
+      if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return
+      if (e.key === "ArrowRight") selected ++;
+      if (e.key === "ArrowLeft") selected --;
+
+      // Something weird is happening here, sometimes it works, 
+      //others it thinks enemies from previous battles exist, maybe something to with how enemies are 'erased?'
+      selectedmax = [enemy1,enemy2,enemy3].filter(x => x != undefined).length;
+
+      if (selected < 1) selected = 1;
+      if (selected > selectedmax) selected = selectedmax;
+
+      game.update({target : selected})
+    }
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
 
   // FUNCTIONS
   // Creates a object (EnemyData) of the enemy to spawn
