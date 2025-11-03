@@ -107,7 +107,7 @@ function Entity({ entityId }) {
             height: `${entity?.entityType === "player" ? 100 : 300}px`,
             backgroundImage: `url(${framePath.img})`,
             backgroundPosition: `-${framePath?.coords?.x}px -${framePath?.coords?.y}px`,
-            backgroundSize: `${entity.animations.collums * 100}px ${entity.animations.rows * 100}px`, // new sheet size
+            backgroundSize: `${framePath.collums * 100}px ${framePath.rows * 100}px`, // new sheet size
           }}/>
 
         {/* Extra div (those ones are displayed as "none" by default) */}

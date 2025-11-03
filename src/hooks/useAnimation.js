@@ -63,6 +63,8 @@ export function useAnimation(entityId) {
     setFramePath({
       img: entity.img, // The sprite sheet image path
       coords: frameToUse, // The coordinates especified in the json {x, y}
+      collums: entity.animations.collums, // The amount collums in the image (on 320x320 pieces)
+      rows: entity.animations.rows // The amount rows in the image (on 320x320 pieces)
     });
   }, [standByIndex, entity]);
 
@@ -82,17 +84,17 @@ export function useAnimation(entityId) {
   
       // Start from the first frame
       let index = 0;
-
-      console.log(anim.frames)
   
       const nextFrame = () => {
         // Determine the frame to use
         const frameCoords = anim.frames[index];
         setFramePath({
-          img: animName == "death" ? "/assets/entities/death/death.png" : entity.img,       // Sprite sheet path again
-          coords: frameCoords,   // {x, y}
+          img: animName === "death" ? "/assets/entities/death/death.png" : entity.img,       // Sprite sheet path again
+          coords: frameCoords,  // {x, y}
+          collums: animName === "death" ? 3 : entity.animations.collums, // collums
+          rows: animName === "death" ? 2 : entity.animations.rows // rows
         });
-  
+        
         index += 1;
   
         // If we reached the end
