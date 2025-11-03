@@ -109,6 +109,7 @@ div.shadow {
   border-radius: 50%;
   pointer-events: none;
   background: radial-gradient(ellipse, rgba(0,0,0,0.4), transparent);
+  margin-bottom: -5px;
 }
 
 .turn div.shadow {

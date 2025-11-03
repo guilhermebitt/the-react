@@ -36,7 +36,7 @@ function OptionButtons() {
   }
 
   const handleSaveGame = async () => {
-    const result = await confirm("Do you want to save the game? This action cannot be undone.");
+    const result = await confirm("Do you want to overwrite your save? This action cannot be undone.");
     if (result) {
       saveGame();
       showLastCScreen();

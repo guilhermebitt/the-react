@@ -1,4 +1,5 @@
 import { EntityData, Section } from "@/types";
+import { Player } from "./entities";
 
 export function getEntitiesAssets(entities: EntityData[]) {
   const entitiesAssets: string[] = [];
@@ -17,8 +18,10 @@ export function getEntitiesAssets(entities: EntityData[]) {
     // Adding the entity to the list of checked entities
     checkedEntities.push(entity?.name);
 
-    // Executing the rest of the code
-    const entityAnimations = Object.values(entity?.animations);
+    // Executing the rest of the code {this is PROBABILY not nedded anymore}
+    /*const entityAnimations = Object.values(entity?.animations);
+
+    if (entity.name != "Hero") return;
 
     entityAnimations.forEach((animation) => {
       for (let i = 0; i < animation.frames.length; i++) {
@@ -28,7 +31,7 @@ export function getEntitiesAssets(entities: EntityData[]) {
         // Adding the asset to the list of assets
         entitiesAssets.push(animation.frames[i]);
       }
-    });
+    });*/
   });
 
   return entitiesAssets;

@@ -52,18 +52,117 @@ export function useAnimation(entityId) {
 
   // Runs the standBy animation
   const runStandByAnim = useCallback(() => {
-    // Gets the standBy animation from the entity
-    const standByAnim = entity?.animations?.standBy;
+    if (!entity) return;
+  
+    const standByFrames = entity?.animations?.standBy?.frames; // To get the frames
+    if (!standByFrames || standByFrames.length === 0) return; 
+  
+    const frameIndex = standByIndex % standByFrames.length; // To get the array with all frames
+    const frameToUse = standByFrames[frameIndex];
+  
+    setFramePath({
+      img: entity.img, // The sprite sheet image path
+      coords: frameToUse, // The coordinates especified in the json {x, y}
+    });
+  }, [standByIndex, entity]);
 
-    // If there is not a standBy animation, returns undefined
-    if (!standByAnim) return;
+  const runAnim = useCallback(
+    (animName) => {
+      if (!entity) return;
+  
+      // Clears previous interval
+      clearInterval(animInterval.current);
+  
+      // Skip if already dead    PS:::::: Im not sure how you should do the death thing, because of that, I havent deleted the individual pngs
+      // PS::::::: remember too that the coords of the death sheet would be {x0,y0}{x100,y0}{x200,y0}{x0,y100}{x100,y100} cause its five frames and all one animation
+      if (animName === "death" && entity.img === "/assets/entities/death/death4.png") return;
+  
+      const anim = entity?.animations[animName];
+      if (!anim || !anim.frames || anim.frames.length === 0) return;
+  
+      // Start from the first frame
+      let index = 0;
+  
+      const nextFrame = () => {
+        // Determine the frame to use
+        const frameCoords = anim.frames[index];
+        setFramePath({
+          img: entity.img,       // Sprite sheet path again
+          coords: frameCoords,   // {x, y}
+        });
+  
+        index += 1;
+  
+        // If we reached the end
+        if (index >= anim.frames.length) {
+          clearInterval(animInterval.current);
+  
+          // If not death, return to standBy
+          if (animName !== "death") {
+            entity.update({ currentAnim: "standBy" });
+          } else {
+            entity.update({ img: "/assets/entities/death/death4.png" });
+          }
+        }
+      };
+  
+      // Immediately show first frame
+      nextFrame();
+  
+      // Run subsequent frames at animation duration
+      animInterval.current = setInterval(nextFrame, anim.duration);
+    },
+    [entity, animInterval]
+  );
 
-    // Updates the frame path to the path of the standBy animation index
-    setFramePath(standByAnim["frames"][standByIndex]);
-  }, [standByIndex]);
+  /*const runAnim = useCallback(
+    (animName) => {
+      // Clears the interval to prevent many intervals at the same time
+      clearInterval(animInterval.current);
+
+      // If the enemy is dead and the current animation is death, skips
+      if (animName === "death" && entity?.img === "/assets/entities/death/death4.png") return;
+
+      // Gets the animation by the animation name
+      const anim = entity?.animations[animName];
+
+      // Set the first frame and changes the index to next frames
+      const atkFrames = entity?.animations?.atk?.frames;
+      if (!atkFrames || atkFrames.length === 0) return;
+  
+      const atkframeIndex = index % atkFrames.length;
+      const atkframeToUse = atkFrames[atkframeIndex];
+  
+      // Changes the path according to the animation duration
+      animInterval.current = setInterval(() => {
+        // When the animation get to the last frame
+        if (index === atkFrames.length) {
+          // If the current animation is death, will not return it to standBy
+          if (animName !== "death") {
+            entity.update({ currentAnim: "standBy" });
+          } else {
+            entity.update({ img: "/assets/entities/death/death4.png" });
+          }
+
+          // Clears the interval
+          clearInterval(animInterval.current);
+        } else {
+          // Updates the next frame path to the path of the animation index
+          setFramePath({
+            img: entity.img,
+            coords: atkframeToUse,
+          });
+
+          // updates the next index
+          index = index + 1;
+        }
+      }, anim["duration"]);
+    },
+    [entity?.img, animInterval.current]
+  );*/
 
   // Runs the current animation
-  const runAnim = useCallback(
+  /*const runAnim = useCallback(
     (animName) => {
       // Clears the interval to prevent many intervals at the same time
       clearInterval(animInterval.current);
@@ -101,7 +200,7 @@ export function useAnimation(entityId) {
       }, anim["duration"]);
     },
     [entity?.img, animInterval.current]
-  );
+  );*/
 
   // Clears the animation interval
   const clearAnimationInterval = useCallback(() => {

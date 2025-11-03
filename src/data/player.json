@@ -4,35 +4,30 @@
   "name": "Hero",
   "level": 1,
   "xp": 0,
-  "img": "/assets/entities/player/hero0.png",
+  "img": "/assets/entities/player/hero.png",
   "currentAnim": "standBy",
   "states": [],
   "animations": {
+    "collums": 3,
+    "rows": 2,
     "standBy": {
       "frames": [
-        "/assets/entities/player/hero0.png",
-        "/assets/entities/player/hero1.png"
+        { "x":0, "y":100 },
+        { "x":100,"y":100 }
       ],
       "duration": 1000
     },
     "atk": {
       "frames": [
-        "/assets/entities/player/hero_atk0.png",
-        "/assets/entities/player/hero_atk1.png",
-        "/assets/entities/player/hero_atk2.png",
-        "/assets/entities/player/hero_atk1.png",
-        "/assets/entities/player/hero_atk0.png",
-        "/assets/entities/player/hero0.png"
+        { "x":0, "y":0 },
+        { "x":100,"y":0 },
+        { "x":200,"y":0 }
       ],
-      "duration": 100
+      "duration": 300
     },
     "death": {
       "frames": [
-      "/assets/entities/death/death0.png",
-      "/assets/entities/death/death1.png",
-      "/assets/entities/death/death2.png",
-      "/assets/entities/death/death3.png",
-      "/assets/entities/death/death4.png"
+        { "x":0, "y":0 }
       ],
       "duration": 100
     }

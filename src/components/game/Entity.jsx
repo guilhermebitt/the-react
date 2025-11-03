@@ -98,7 +98,17 @@ function Entity({ entityId }) {
         {entity?.entityType !== "player" ? <HealthBar entityId={entity.id} /> : <ExperienceBar />}
 
         {/* Entity image */}
-        <img className={entityImageClasses} src={framePath || entity?.img} alt="entity image" onClick={selectTarget} />
+        {/*<img className={entityImageClasses} src={framePath || entity?.img} alt="entity image" onClick={selectTarget} />*/}
+
+        {/* reminder: every individual sprite is 320x320px, for later, also this div below is volatile so touch with caution*/}
+        <div
+          style={{
+            width: `${100}px`,
+            height: `${300}px`,
+            backgroundImage: `url(${framePath.img})`,
+            backgroundPosition: `-${framePath?.coords?.x}px -${framePath?.coords?.y}px`,
+            backgroundSize: `${entity.animations.collums * 100}px ${entity.animations.rows * 100}px`, // new sheet size
+          }}/>
 
         {/* Extra div (those ones are displayed as "none" by default) */}
         <div className={styles.shadow}></div>
