@@ -3,7 +3,7 @@ import settingsJson from "../../data/settings.json";
 
 // Dependencies
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGear, faVolumeHigh, faVolumeMute } from "@fortawesome/free-solid-svg-icons";
+import { faArrowRightRotate, faGear, faPauseCircle, faVolumeHigh, faVolumeMute } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect, memo, useCallback } from "react";
 import { useLocalStorage } from "usehooks-ts";
 import { produce } from "immer";
@@ -20,11 +20,13 @@ import styles from "./Header.module.css";
 function Header() {
   const [showOptions, setShowOptions] = useState(false);
   const [volumeIcon, setVolumeIcon] = useState(faVolumeHigh);
+  const [autoIcon, setAutoIcon] = useState(faArrowRightRotate);
   const [settings, setSettings] = useLocalStorage("settings", settingsJson);
 
   useEffect(() => {
     settings.muted === true ? setVolumeIcon(faVolumeMute) : setVolumeIcon(faVolumeHigh);
-  }, [settings.muted]);
+    settings.auto === true ? setAutoIcon(faArrowRightRotate) : setAutoIcon(faPauseCircle);
+  }, [settings.muted, settings.auto]);
 
   const handleOptions = useCallback(() => {
     setShowOptions(!showOptions);
@@ -44,6 +46,21 @@ function Header() {
         );
   }, [settings.muted]);
 
+  const auto = useCallback(() => {
+    settings.auto
+      ? setSettings(
+          produce((draft) => {
+            draft.auto = false;
+          })
+        )
+      : setSettings(
+          produce((draft) => {
+            draft.auto = true;
+          })
+        );
+        console.log(settingsJson);
+  }, [settings.auto]);
+
   return (
     <header>
       <h1>The</h1>
@@ -56,6 +73,9 @@ function Header() {
       <div className={styles["h-btn-container"]}>
         <button onClick={mute} className={styles["icon-btn"]}>
           <FontAwesomeIcon id={styles["music-icon"]} icon={volumeIcon} />
+        </button>
+        <button onClick={auto} className={styles["icon-btn"]}>
+          <FontAwesomeIcon id={styles["auto-icon"]} icon={autoIcon} />
         </button>
         <button onClick={handleOptions} className={styles["icon-btn"]}>
           <FontAwesomeIcon

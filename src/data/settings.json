@@ -1,5 +1,6 @@
 {
   "muted": false,
+  "auto": false,
   "volume": 1,
   "sfxVolume": 1,
   "musicVolume": 0.5,

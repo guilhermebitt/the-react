@@ -29,6 +29,11 @@ header #music-icon {
   width: auto;
   color: rgba(255, 255, 255, 0.87);
 }
+header #auto-icon {
+  height: 70%;
+  width: auto;
+  color: rgba(255, 255, 255, 0.87);
+}
 
 div#options {
   position: absolute;

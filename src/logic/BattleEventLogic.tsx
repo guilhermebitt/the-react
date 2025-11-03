@@ -1,4 +1,8 @@
 // This manager will control all the logic of the game without causing a unnecessary re-render on any component
+
+// Data
+import settingsJson from "../data/settings.json";
+
 // Dependencies
 import { useEffect, useRef, useCallback, useState } from "react";
 import { useStore } from "@/stores";
@@ -6,6 +10,7 @@ import { EnemyData, SpawnableEnemy, TurnTypes } from "@/types";
 import { useLogic } from "@/hooks";
 import enemiesJson from "@/data/enemies.json";
 import { Enemy } from "@/utils/entities";
+import { useLocalStorage } from "usehooks-ts";
 
 // Logic manager
 export function BattleEventLogic() {
@@ -31,6 +36,7 @@ export function BattleEventLogic() {
   // Other hooks
   const logic = useLogic();
   const [endEvent, setEndEvent] = useState(false);
+  const [settings] = useLocalStorage("settings", settingsJson);
 
   // Variable for enemy selection keybind
   var selected = 1;
@@ -85,6 +91,12 @@ export function BattleEventLogic() {
     // Updates the last turn to the actual one
     lastTurn.current = currentTurn;
 
+    // auto skip turn
+    if (player.getCurrent().actionsLeft == 0 && settings.auto === true) {
+      logic.switchTurn("enemies");
+    }
+
+
     // Verifying if the last turn was onAction.
     // If the last turn was onAction, that means that
     // the entity is just going back to its turn, but
@@ -94,6 +106,8 @@ export function BattleEventLogic() {
     if (lastTurnTemp === "onAction") {
       return;
     }
+
+    
 
     // Verify what kind of turn it is
     switch (currentTurn) {
