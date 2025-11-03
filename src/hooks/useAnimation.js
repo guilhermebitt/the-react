@@ -75,19 +75,21 @@ export function useAnimation(entityId) {
   
       // Skip if already dead    PS:::::: Im not sure how you should do the death thing, because of that, I havent deleted the individual pngs
       // PS::::::: remember too that the coords of the death sheet would be {x0,y0}{x100,y0}{x200,y0}{x0,y100}{x100,y100} cause its five frames and all one animation
-      if (animName === "death" && entity.img === "/assets/entities/death/death4.png") return;
+      /*if (animName === "death" && entity.img === "/assets/entities/death/death.png") return;*/
   
       const anim = entity?.animations[animName];
       if (!anim || !anim.frames || anim.frames.length === 0) return;
   
       // Start from the first frame
       let index = 0;
+
+      console.log(anim.frames)
   
       const nextFrame = () => {
         // Determine the frame to use
         const frameCoords = anim.frames[index];
         setFramePath({
-          img: entity.img,       // Sprite sheet path again
+          img: animName == "death" ? "/assets/entities/death/death.png" : entity.img,       // Sprite sheet path again
           coords: frameCoords,   // {x, y}
         });
   

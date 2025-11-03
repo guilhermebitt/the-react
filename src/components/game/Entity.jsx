@@ -104,7 +104,7 @@ function Entity({ entityId }) {
         <div
           style={{
             width: `${100}px`,
-            height: `${300}px`,
+            height: `${entity?.entityType === "player" ? 100 : 300}px`,
             backgroundImage: `url(${framePath.img})`,
             backgroundPosition: `-${framePath?.coords?.x}px -${framePath?.coords?.y}px`,
             backgroundSize: `${entity.animations.collums * 100}px ${entity.animations.rows * 100}px`, // new sheet size
