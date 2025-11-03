@@ -28,6 +28,5 @@ build/
 .vite/
 
 # Other files
-todo.md
 project
 src-tauri/
