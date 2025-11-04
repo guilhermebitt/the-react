@@ -14,7 +14,10 @@
           "appearChance": 15
         },
         "slime": {
-          "appearChance": 50
+          "appearChance": 45
+        },
+        "goldenSlime": {
+          "appearChance": 5
         }
       },
       "bossBattle": {

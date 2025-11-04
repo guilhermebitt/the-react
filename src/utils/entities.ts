@@ -371,6 +371,13 @@ export class Slime extends Enemy {
   }
 }
 
+// --- GOLDEN SLIME ---
+export class GoldenSlime extends Enemy {
+  constructor(entity: EnemyData, updater?: (patch: UpdaterPatch<EnemyData>) => void) {
+    super(entity, updater);
+  }
+}
+
 // Saying to TS that Entity has all atributes of EntityData
 export interface Entity extends BaseEntityData {}
 export interface Player extends PlayerData {}
