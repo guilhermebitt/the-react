@@ -31,7 +31,7 @@
   transform: translateY(-10px)scale(1.4)translateX(-25%);
 }
 
-.entityContainer img.hit {
+.entityContainer div.hit {
   animation: takeDamage 1s ease 1;
 }
 
@@ -68,7 +68,7 @@
   }
 }
 
-.entityContainer img.levelingUp {
+.entityContainer div.levelingUp {
   animation: levelUp 1.5s ease-out 1;
 }
 

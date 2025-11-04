@@ -151,7 +151,10 @@ export function BattleEventLogic() {
 
       // Something weird is happening here, sometimes it works, 
       //others it thinks enemies from previous battles exist, maybe something to with how enemies are 'erased?'
-      selectedmax = [enemy1,enemy2,enemy3].filter(x => x != undefined).length;
+      const enemiesArray = [enemy1,enemy2,enemy3]; 
+      selectedmax = enemiesArray.filter(x => x != undefined).length;
+
+      console.log(enemiesArray)
 
       if (selected < 1) selected = 1;
       if (selected > selectedmax) selected = selectedmax;

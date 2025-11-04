@@ -102,6 +102,8 @@ function Entity({ entityId }) {
 
         {/* reminder: every individual sprite is 320x320px, for later, also this div below is volatile so touch with caution*/}
         <div
+          className={entityImageClasses}
+          onClick={selectTarget}
           style={{
             width: `${100}px`,
             height: `${entity?.entityType === "player" ? 100 : 300}px`,
