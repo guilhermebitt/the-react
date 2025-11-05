@@ -1,3 +1,10 @@
+# [1.2.0-beta.9](https://github.com/guilhermebitt/the-react/compare/v1.2.0-beta.8...v1.2.0-beta.9) (2025-11-05)
+
+
+### Features
+
+* **perk:** added 6 new perks ([b1133fd](https://github.com/guilhermebitt/the-react/commit/b1133fd0387b9cfa34b286b8998d8b2d6d95336e))
+
 # [1.2.0-beta.8](https://github.com/guilhermebitt/the-react/compare/v1.2.0-beta.7...v1.2.0-beta.8) (2025-11-01)
 
 
