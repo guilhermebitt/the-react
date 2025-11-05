@@ -90,7 +90,7 @@ function LevelUpModal() {
       <div className={styles.levelUpBox}>
         {/* Title and tiny message */}
         <h2><span>Level Up!</span></h2>
-        <p>You can choose one perk to maintain.</p>
+        <p>You can choose one perk to gain.</p>
         {/* Perks container */}
         <div className={styles.perksContainer}>
           {/* Perk container */}

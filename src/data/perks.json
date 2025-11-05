@@ -20,48 +20,73 @@
       "critChance": 2
     }
   },
-  "strength": {
-    "id": "strength",
-    "name": "Strength",
-    "description": "Increases the value of the player's strength by {strength}",
-    "rarity": "rare",
-    "iconURL": "/assets/perks/battle/strength.png",
+  "reflexes": {
+    "id": "reflexes",
+    "name": "Reflexes",
+    "description": "Increases the value of player's evasion by {evasion}%",
+    "rarity": "common",
+    "iconURL": "/assets/perks/battle/reflexes.png",
 
     "stackCount": 1,
-    "maxStackCount": 2,
+    "maxStackCount": 10,
 
     "category": "battle",
     "effects": {
       "increases": {
-        "strength": 1
-      }
-    },
-
-    "translates": {
-      "strength": 1
-    }
-  },
-  "constitution": {
-    "id": "constitution",
-    "name": "Constitution",
-    "description": "Increases the value of the player's constitution by {constitution}",
-    "rarity": "rare",
-    "iconURL": "/assets/perks/battle/constitution.png",
-
-    "stackCount": 1,
-    "maxStackCount": 2,
-
-    "category": "battle",
-    "effects": {
-      "increases": {
-        "constitution": 1
+        "evasion": 2
       }
     },
     
     "translates": {
-      "constitution": 1
+      "evasion": 2
     }
   },
+  "healthBoost": {
+    "id": "healthBoost",
+    "name": "Health Boost",
+    "description": "Increases the value of player's Max Health by {health}",
+    "rarity": "common",
+    "iconURL": "/assets/perks/battle/health_boost.png",
+
+    "stackCount": 1,
+    "maxStackCount": 20,
+
+    "category": "battle",
+    "effects": {
+      "increases": {
+        "health": 2,
+        "maxHealth": 2
+      }
+    },
+    
+    "translates": {
+      "health": 2
+    }
+  },
+  "manaBoost": {
+    "id": "manaBoost",
+    "name": "Mana Boost",
+    "description": "Increases the value of player's Max Mana by {mana}",
+    "rarity": "common",
+    "iconURL": "/assets/perks/battle/mana_boost.png",
+
+    "stackCount": 1,
+    "maxStackCount": 20,
+
+    "category": "battle",
+    "effects": {
+      "increases": {
+        "mana": 2,
+        "maxMana": 2
+      }
+    },
+    
+    "translates": {
+      "mana": 2
+    }
+  },
+
+
   "powerBoost": {
     "id": "powerBoost",
     "name": "Power Boost",
@@ -104,6 +129,98 @@
       "defense": 5
     }
   },
+  "powerMode": {
+    "id": "powerMode",
+    "name": "Power Mode",
+    "description": "Increases the value of player's attack by {attack}, but decreases defense by {defense}",
+    "rarity": "uncommon",
+    "iconURL": "/assets/perks/battle/power_mode.png",
+
+    "stackCount": 1,
+    "maxStackCount": 5,
+
+    "category": "battle",
+    "effects": {
+      "increases": {
+        "attack": 8,
+        "defense": -3
+      }
+    },
+    
+    "translates": {
+      "attack": 8,
+      "defense": 3
+    }
+  },
+  "defenseMode": {
+    "id": "defenseMode",
+    "name": "Defense Mode",
+    "description": "Increases the value of player's defense by {defense}, but decreases attack by {attack}",
+    "rarity": "uncommon",
+    "iconURL": "/assets/perks/battle/defense_mode.png",
+
+    "stackCount": 1,
+    "maxStackCount": 5,
+
+    "category": "battle",
+    "effects": {
+      "increases": {
+        "defense": 8,
+        "attack": -3
+      }
+    },
+    
+    "translates": {
+      "defense": 8,
+      "attack": 3
+    }
+  },
+
+
+  "strength": {
+    "id": "strength",
+    "name": "Strength",
+    "description": "Increases the value of the player's strength by {strength}",
+    "rarity": "rare",
+    "iconURL": "/assets/perks/battle/strength.png",
+
+    "stackCount": 1,
+    "maxStackCount": 2,
+
+    "category": "battle",
+    "effects": {
+      "increases": {
+        "strength": 1
+      }
+    },
+
+    "translates": {
+      "strength": 1
+    }
+  },
+  "constitution": {
+    "id": "constitution",
+    "name": "Constitution",
+    "description": "Increases the value of the player's constitution by {constitution}",
+    "rarity": "rare",
+    "iconURL": "/assets/perks/battle/constitution.png",
+
+    "stackCount": 1,
+    "maxStackCount": 2,
+
+    "category": "battle",
+    "effects": {
+      "increases": {
+        "constitution": 1
+      }
+    },
+    
+    "translates": {
+      "constitution": 1
+    }
+  },
+
+
   "aimBot": {
     "id": "aimBot",
     "name": "Aim Bot",
@@ -123,6 +240,27 @@
     
     "translates": {
       "accuracy": 15
+    }
+  },
+  "evilEye": {
+    "id": "evilEye",
+    "name": "Evil Eye",
+    "description": "Improve the player's critical damage, increasing the critical by {crit}",
+    "rarity": "legendary",
+    "iconURL": "/assets/perks/battle/evil_eye.png",
+
+    "stackCount": 1,
+    "maxStackCount": 1,
+
+    "category": "battle",
+    "effects": {
+      "increases": {
+        "crit": 1
+      }
+    },
+    
+    "translates": {
+      "crit": 1
     }
   }
 }
