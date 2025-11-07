@@ -1,3 +1,10 @@
+# [1.2.0-beta.11](https://github.com/guilhermebitt/the-react/compare/v1.2.0-beta.10...v1.2.0-beta.11) (2025-11-07)
+
+
+### Features
+
+* **perks:** new perk: Soul Capture ([32e937f](https://github.com/guilhermebitt/the-react/commit/32e937fa29b1bc362f5bc29eb7d2abf64bfc9c7f))
+
 # [1.2.0-beta.10](https://github.com/guilhermebitt/the-react/compare/v1.2.0-beta.9...v1.2.0-beta.10) (2025-11-07)
 
 
