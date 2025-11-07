@@ -1,3 +1,10 @@
+# [1.2.0-beta.10](https://github.com/guilhermebitt/the-react/compare/v1.2.0-beta.9...v1.2.0-beta.10) (2025-11-07)
+
+
+### Features
+
+* **perks:** new perk: Vampirism ([c3dda12](https://github.com/guilhermebitt/the-react/commit/c3dda123bd22a72ebe424aa3f1e0bebd20f4c404))
+
 # [1.2.0-beta.9](https://github.com/guilhermebitt/the-react/compare/v1.2.0-beta.8...v1.2.0-beta.9) (2025-11-05)
 
 
