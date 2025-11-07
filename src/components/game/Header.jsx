@@ -63,7 +63,7 @@ function Header() {
 
   return (
     <header>
-      <h1>The</h1>
+      <h1>THE</h1>
       {/* SETTINGS BUTTON LOGIC */}
       {showOptions && (
         <div id={styles.options}>

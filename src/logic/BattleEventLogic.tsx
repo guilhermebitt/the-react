@@ -149,12 +149,10 @@ export function BattleEventLogic() {
       if (e.key === "ArrowRight") selected ++;
       if (e.key === "ArrowLeft") selected --;
 
-      // Something weird is happening here, sometimes it works, 
-      //others it thinks enemies from previous battles exist, maybe something to with how enemies are 'erased?'
-      const enemiesArray = [enemy1,enemy2,enemy3]; 
-      selectedmax = enemiesArray.filter(x => x != undefined).length;
+      // I think this works now
+      const enemiesArray = enemies.getCurrent(); 
 
-      console.log(enemiesArray)
+      selectedmax = enemiesArray.length;
 
       if (selected < 1) selected = 1;
       if (selected > selectedmax) selected = selectedmax;

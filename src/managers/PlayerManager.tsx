@@ -18,6 +18,7 @@ export function PlayerManager() {
   const player = useStore("player", "actions");
   const experience = useStore("player", s => s.player.xp);
   const increases = useStore("player", s => s.player.increases);
+  const onKill = useStore("player", s => s.player.onKill);
 
   // Getting the other datas
   const actions = useStore("player", "instanceActions");
@@ -61,7 +62,7 @@ export function PlayerManager() {
   useEffect(() => {
     // Calling the function to update the stats
     updateStats();
-  }, [increases]);
+  }, [increases, onKill]);
   
   // Code if the player dies
   useEffect(() => {

@@ -10,7 +10,7 @@
   padding: 5px;
   gap: 5px;
   z-index: 1;
-  background-image: linear-gradient(to right, black, transparent);
+  background-image: linear-gradient(to right, black 20%, transparent);
 }
 
 /* Health Bar */

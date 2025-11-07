@@ -80,6 +80,7 @@ export interface BaseEntityData {
   level: number;
 
   increases: Increases;
+  onKill: OnKill;
 
   // Others
   spanMessages?: SpanMessage[];

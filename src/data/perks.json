@@ -222,7 +222,7 @@
   "vampirism": {
     "id": "vampirism",
     "name": "Vampirism",
-    "description": "Recovers health by {health} from each kill",
+    "description": "Recovers health by {health} for each kill",
     "rarity": "rare",
     "iconURL": "/assets/perks/battle/vampirism.png",
 
@@ -238,6 +238,27 @@
 
     "translates": {
       "health": 2
+    }
+  },
+  "soulCapture": {
+    "id": "soulCapture",
+    "name": "Soul Capture",
+    "description": "Recovers mana by {mana} for each kill",
+    "rarity": "rare",
+    "iconURL": "/assets/perks/battle/soul_capture.png",
+
+    "stackCount": 1,
+    "maxStackCount": 2,
+
+    "category": "battle",
+    "effects": {
+      "onKill": {
+        "mana": 2
+      }
+    },
+
+    "translates": {
+      "mana": 2
     }
   },
 

@@ -44,7 +44,7 @@ function PlayerHUD() {
           title={`HP: ${player.health}/${player.maxHealth}`}
           borderStyles={{ borderColor: 'red', padding: '5px' }}
           titleStyles={{ borderColor: 'red', padding: '0 5px', fontSize: "0.75rem", height: "0.75rem", width: "70px" }}
-          boxStyles={{ color: 'red', marginTop: "0.75rem", width: "150px" }}
+          boxStyles={{ color: 'red', marginTop: "0.75rem", width: `${100 + player.maxHealth * 2}px`, maxWidth: "300px", minWidth: "100px" }}
         >
           <div className={styles.hpContainer} style={{width: healthPercent + "%"}}>
             <div className={`${styles.hpBar} ${healthPercent <= 20 ? styles.low : ""}`}></div>
@@ -56,7 +56,7 @@ function PlayerHUD() {
           title={`MN: ${player.mana}/${player.maxMana}`}
           borderStyles={{ borderColor: 'aqua', padding: '5px' }}
           titleStyles={{ borderColor: 'aqua', padding: '0 5px', fontSize: "0.75rem", height: "0.75rem", width: "70px" }}
-          boxStyles={{ color: 'aqua', marginTop: "0.75rem", width: "100px" }}
+          boxStyles={{ color: 'aqua', marginTop: "0.75rem", width: `${100 + player.maxMana * 2}px`, maxWidth: "300px", minWidth: "100px" }}
         >
           <div className={styles.mnContainer} style={{width: manaPercent + "%"}}>
             <div className={styles.mnBar}></div>
