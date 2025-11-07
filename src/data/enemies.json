@@ -15,7 +15,7 @@
   "deathAnimation": {
     "img": "/assets/entities/death/death.png",
     "animations": {
-      "collums": 3,
+      "columns": 3,
       "rows": 2,
       "death": {
         "frames": [
@@ -63,7 +63,7 @@
     "className": "Snake",
     "img": "/assets/entities/snake/snake.png",
     "animations": {
-      "collums": 3,
+      "columns": 3,
       "rows": 2,
       "standBy": {
         "frames": [
@@ -76,9 +76,11 @@
         "frames": [
           { "x":0, "y":0 },
           { "x":100,"y":0 },
-          { "x":200,"y":0 }
+          { "x":200,"y":0 },
+          { "x":100,"y":0 },
+          { "x":0, "y":0 }
         ],
-        "duration": 300
+        "duration": 100
       },
       "death": {
         "frames": [
@@ -113,7 +115,7 @@
     "className": "VenomousSnake",
     "img": "/assets/entities/snake/venomous_snake.png",
     "animations": {
-      "collums": 3,
+      "columns": 3,
       "rows": 2,
       "standBy": {
         "frames": [
@@ -126,9 +128,11 @@
         "frames": [
           { "x":0, "y":0 },
           { "x":100,"y":0 },
-          { "x":200,"y":0 }
+          { "x":200,"y":0 },
+          { "x":100,"y":0 },
+          { "x":0, "y":0 }
         ],
-        "duration": 300
+        "duration": 100
       },
       "death": {
         "frames": [
@@ -163,7 +167,7 @@
     "className": "Slime",
     "img": "/assets/entities/slime/slime.png",
     "animations": {
-      "collums": 3,
+      "columns": 3,
       "rows": 2,
       "standBy": {
         "frames": [
@@ -178,7 +182,7 @@
           { "x":100,"y":0 },
           { "x":200,"y":0 }
         ],
-        "duration": 300
+        "duration": 100
       },
       "death": {
         "frames": [
@@ -213,7 +217,7 @@
     "className": "GoldenSlime",
     "img": "/assets/entities/slime/goldslime.png",
     "animations": {
-      "collums": 3,
+      "columns": 3,
       "rows": 2,
       "standBy": {
         "frames": [
@@ -228,7 +232,7 @@
           { "x":100,"y":0 },
           { "x":200,"y":0 }
         ],
-        "duration": 300
+        "duration": 100
       },
       "death": {
         "frames": [
@@ -264,7 +268,7 @@
     "className": "Anaconda",
     "img": "/assets/entities/boss/anaconda.png",
     "animations": {
-      "collums": 3,
+      "columns": 3,
       "rows": 2,
       "standBy": {
         "frames": [
@@ -277,9 +281,11 @@
         "frames": [
           { "x":0, "y":0 },
           { "x":100,"y":0 },
-          { "x":200,"y":0 }
+          { "x":200,"y":0 },
+          { "x":100,"y":0 },
+          { "x":0, "y":0 }
         ],
-        "duration": 300
+        "duration": 100
       },
       "death": {
         "frames": [

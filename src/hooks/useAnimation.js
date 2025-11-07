@@ -55,15 +55,15 @@ export function useAnimation(entityId) {
     if (!entity) return;
   
     const standByFrames = entity?.animations?.standBy?.frames; // To get the frames
-    if (!standByFrames || standByFrames.length === 0) return; 
+    if (!standByFrames || standByFrames.length === 0) return;
   
     const frameIndex = standByIndex % standByFrames.length; // To get the array with all frames
     const frameToUse = standByFrames[frameIndex];
   
     setFramePath({
       img: entity.img, // The sprite sheet image path
-      coords: frameToUse, // The coordinates especified in the json {x, y}
-      collums: entity.animations.collums, // The amount collums in the image (on 320x320 pieces)
+      coords: frameToUse, // The coordinates specified in the json {x, y}
+      columns: entity.animations.columns, // The amount columns in the image (on 320x320 pieces)
       rows: entity.animations.rows // The amount rows in the image (on 320x320 pieces)
     });
   }, [standByIndex, entity]);
@@ -86,12 +86,13 @@ export function useAnimation(entityId) {
       let index = 0;
   
       const nextFrame = () => {
+        console.log("called", anim.duration)
         // Determine the frame to use
         const frameCoords = anim.frames[index];
         setFramePath({
           img: animName === "death" ? "/assets/entities/death/death.png" : entity.img,       // Sprite sheet path again
           coords: frameCoords,  // {x, y}
-          collums: animName === "death" ? 3 : entity.animations.collums, // collums
+          columns: animName === "death" ? 3 : entity.animations.columns, // columns
           rows: animName === "death" ? 2 : entity.animations.rows // rows
         });
         
@@ -103,6 +104,8 @@ export function useAnimation(entityId) {
   
           // If not death, return to standBy
           if (animName !== "death") {
+            // Instantly running the standBy animation
+            runStandByAnim();
             entity.update({ currentAnim: "standBy" });
           } else {
             entity.update({ img: "/assets/entities/death/death4.png" });
@@ -112,7 +115,6 @@ export function useAnimation(entityId) {
   
       // Immediately show first frame
       nextFrame();
-  
       // Run subsequent frames at animation duration
       animInterval.current = setInterval(nextFrame, anim.duration);
     },
