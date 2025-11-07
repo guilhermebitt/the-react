@@ -1,4 +1,4 @@
-import { Rarity, Increases } from "./global";
+import { Rarity, Increases, OnKill } from "./global";
 import perkJson from "@/data/perks.json"
 
 // perks keys
@@ -9,6 +9,9 @@ type PerkType = "battle" | "utility" | "economy" | "magic";
 interface GlobalPerkEffects {
   increases?: {
     [key: keyof Increases]: number;
+  },
+  onKill?: {
+    [key: keyof OnKill]: number;
   }
 }
 

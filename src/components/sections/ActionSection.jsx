@@ -18,7 +18,7 @@ import styles from "./sections.module.css";
 
 function ActionSection() {
   const logic = useLogic();
-  const { createPerk } = usePerkLogic();
+  const perkLogic = usePerkLogic();
   const [confirmDialog, setConfirmDialog] = useState({
     visible: false,
     message: "Are you sure?",
@@ -44,7 +44,13 @@ function ActionSection() {
     const { attackMsg, timeToWait, loot, isDead } = playerActions
       .getCurrent()
       .attack(enemiesActions.getCurrent(game.getCurrent().target)); // this function executes an attack and return some data
-    if (isDead) game.update({ "eventData.kills": (prev) => prev + 1 });
+    if (isDead) 
+    {
+      // For OnKill Perks
+      perkLogic.updatePlayerOnKill();
+
+      game.update({ "eventData.kills": (prev) => prev + 1 });
+    }
 
     // Changing the turn
     const lastTurn = game.getCurrent().currentTurn;
@@ -94,7 +100,7 @@ function ActionSection() {
       <ActionButtons
         attack={doAttack}
         changeAnim={null}
-        sendMsg={() => createPerk("critEye")}
+        sendMsg={() => perkLogic.createPerk("critEye")}
         endTurn={() =>
           game.getCurrent().currentTurn === "player" &&
           confirmScreen(() => {

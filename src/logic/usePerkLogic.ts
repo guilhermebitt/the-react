@@ -8,7 +8,7 @@ import { useEffect, useState, useMemo } from "react";
 import * as funcs from "@/utils/functions";
 
 // Types
-import { Increases, Perk, PerksKey, PerkUnion } from "@/types";
+import { Increases, OnKill , Perk, PerksKey, PerkUnion, Stats } from "@/types";
 import { rarities } from "@/types/constants";
 
 interface descKeys {
@@ -122,18 +122,32 @@ export function usePerkLogic() {
 
     // Function that updates a perk increments based on its stacks
     updatePerkIncreases(perk: PerkUnion): PerkUnion | void {
-      // Checks if the perk has an increases attribute
-      if (!perk.effects?.increases) return console.warn("⚠️ perk does not have an increases attribute.");
+      // Checks if the perk has an increases attribute (not needed)
+      //if (!perk.effects?.increases) return console.warn("⚠️ perk does not have an increases attribute.");
 
       // newPerk variable
       let newPerk = perk;
 
-      // Traveling between the perk increases
-      for (const [incKey, incValue] of Object.entries(perk.effects.increases)) {
-        if (!newPerk.effects.increases?.[incKey]) continue;
+      if (perk.effects.increases !== undefined) 
+      {
+        // Traveling between the perk increases
+        for (const [incKey, incValue] of Object.entries(perk.effects.increases)) {
+          if (!newPerk.effects.increases?.[incKey]) continue;
 
-        // Incrementing its increment value
-        newPerk.effects.increases[incKey] = incValue * newPerk.stackCount;
+          // Incrementing its increment value
+          newPerk.effects.increases[incKey] = incValue * newPerk.stackCount;
+        }
+      }
+
+      if (perk.effects.onKill !== undefined) 
+      {
+        // Traveling between the perk increases
+        for (const [killKey, killValue] of Object.entries(perk.effects.onKill)) {
+          if (!newPerk.effects.onKill?.[killKey]) continue;
+
+          // Incrementing its increment value
+          newPerk.effects.onKill[killKey] = killValue * newPerk.stackCount;
+        }
       }
 
       // Returning the updated perk
@@ -147,6 +161,8 @@ export function usePerkLogic() {
 
       // "For" thats navigates between all perks of game data
       for (const [, perk] of Object.entries(game.getCurrent().perks)) {
+        if (perk["effects"]["increases"] === undefined) continue;
+
         // Catch the increases object of the perk
         const increases = perk["effects"]["increases"];
 
@@ -160,6 +176,41 @@ export function usePerkLogic() {
                 return { ...prev, [key]: value };
               },
             });
+          }
+        }
+      }
+    },
+
+    // Function that runs everytime the player kills an enemy
+    updatePlayerOnKill() {
+      // "For" thats navigates between all perks of game data
+      for (const [, perk] of Object.entries(game.getCurrent().perks)) {
+        // Catch the increases object of the perk
+        if (perk["effects"]["onKill"] === undefined) continue;
+
+        const onKill = perk["effects"]["onKill"];
+
+        // Another for that navigates between the onkill object
+        for (const [key, value] of Object.entries(onKill as OnKill)) {
+          // Checks if the onkill key is equals to a player stat
+
+          let skipUpdate = false;
+
+          if (Object.keys(playerJson.stats).includes(key)) {
+
+            // These two IFs are to prevent over recovering
+            if (key === "health" && player.getCurrent().stats.health + value > player.getCurrent().stats.maxHealth) {
+              player.update({ "stats.health": player.getCurrent().stats.maxHealth })
+              skipUpdate = true;
+            }
+            if (key === "mana" && player.getCurrent().stats.mana + value > player.getCurrent().stats.maxMana) {
+              player.update({ "stats.mana": player.getCurrent().stats.maxMana })
+              skipUpdate = true;
+            }
+
+            if (skipUpdate === true) continue;
+
+            player.update({ [`stats.${key}`] : player.getCurrent().stats[key as keyof Stats] + value });
           }
         }
       }

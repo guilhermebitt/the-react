@@ -51,6 +51,10 @@ interface Increases {
   [key: keyof Stats]: number;
 }
 
+interface OnKill {
+  [key: keyof Stats]: number;
+}
+
 // Common atributes for all entities
 export interface BaseEntityData {
   // Atributes that differs the entities

@@ -5,7 +5,7 @@ import { useStore } from "@/stores";
 
 // Stylesheets
 import styles from "./LevelUpModal.module.css";
-import { Perk, StatsPerkEffects } from "@/types";
+import { Perk } from "@/types";
 
 // Perks, just for testing
 let perks = [
@@ -103,7 +103,7 @@ function LevelUpModal() {
                 {/* Image */}
                 <img src={perk.iconURL} alt="" />
                 {/* Description */}
-                <p>{perkLogic.createDescription(perk.description, perk.effects.increases as StatsPerkEffects)}</p>
+                <p>{perkLogic.createDescription(perk.description, perk.translates)}</p>
               </div>
             )
           })}
