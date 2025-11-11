@@ -93,6 +93,7 @@ interface PlayerData extends BaseEntityData {
 
 interface EnemyData extends BaseEntityData {
   isBoss: boolean;
+  isDiscovered: boolean;
   loot: Loot;
 }
 

@@ -21,6 +21,7 @@
   height: 50px;
   background-size: 150px 100px;
   background-position: 0px 50px;
+  cursor: pointer;
 }
 
 .selectedImage {

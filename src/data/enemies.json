@@ -31,6 +31,7 @@
   },
 
   "snake": {
+    "isDiscovered": true,
     "name": "Snake",
     "className": "Snake",
     "img": "/assets/entities/snake/snake.png",
@@ -83,6 +84,7 @@
   },
 
   "venomousSnake": {
+    "isDiscovered": false,
     "name": "Venomous Snake",
     "className": "VenomousSnake",
     "img": "/assets/entities/snake/venomous_snake.png",
@@ -135,6 +137,7 @@
   },
 
   "slime": {
+    "isDiscovered": false,
     "name": "Slime",
     "className": "Slime",
     "img": "/assets/entities/slime/slime.png",
@@ -185,6 +188,7 @@
   },
 
   "goldenSlime": {
+    "isDiscovered": false,
     "name": "Golden Slime",
     "className": "GoldenSlime",
     "img": "/assets/entities/slime/goldslime.png",
@@ -236,6 +240,7 @@
 
   "anaconda": {
     "isBoss": true,
+    "isDiscovered": false,
     "name": "Anaconda",
     "className": "Anaconda",
     "img": "/assets/entities/boss/anaconda.png",
