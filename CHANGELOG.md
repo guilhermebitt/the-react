@@ -1,3 +1,10 @@
+# [1.2.0-beta.12](https://github.com/guilhermebitt/the-react/compare/v1.2.0-beta.11...v1.2.0-beta.12) (2025-11-11)
+
+
+### Features
+
+* **game:** new Bestiary system ([b919227](https://github.com/guilhermebitt/the-react/commit/b9192273e05ca13dab1944f0e9e2b7bb60f38c82))
+
 # [1.2.0-beta.11](https://github.com/guilhermebitt/the-react/compare/v1.2.0-beta.10...v1.2.0-beta.11) (2025-11-07)
 
 
