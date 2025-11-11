@@ -5,6 +5,7 @@ import { useLocalStorage } from "usehooks-ts";
 
 // Components
 import LogContainer from "./components/game/LogContainer";
+import BestiaryContainer from "./components/game/BestiaryContainer";
 
 // Managers
 import { AudioManager, PlayerManager, EnemiesManager } from "@/managers";
@@ -38,7 +39,7 @@ function AppRoutes() {
   const navigate = useNavigate();
   const location = useLocation();
   const [, setLastScreen] = useLocalStorage("lastScreen", "/");
-  const [settings] = useLocalStorage("settings", {showLog: false});
+  const [settings] = useLocalStorage("settings", {showLog: false, showBestiary: false});
 
   // Keeping the last route
   const prevLocationRef = useRef(location.pathname);
@@ -78,6 +79,7 @@ function AppRoutes() {
       </Routes>
 
       {settings.showLog && <LogContainer />}
+      {settings.showBestiary && <BestiaryContainer />}
     </>
   );
 }

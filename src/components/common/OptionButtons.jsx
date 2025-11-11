@@ -35,6 +35,14 @@ function OptionButtons() {
     );
   }
 
+  function showBestiary() {
+    setSettings(
+      produce((draft) => {
+        draft.showBestiary = true;
+      })
+    );
+  }
+
   const handleSaveGame = async () => {
     const result = await confirm("Do you want to overwrite your save? This action cannot be undone.");
     if (result) {
@@ -55,6 +63,9 @@ function OptionButtons() {
         <div className={styles["options-menu-container"]}>
           <button className="default" onClick={showLog} disabled={!(currentTurn === "player")}>
             Log
+          </button>
+          <button className="default" onClick={showBestiary} disabled={!(currentTurn === "player")}>
+            Bestiary
           </button>
           <Link to="/settings">
             <button className="default" disabled={!(currentTurn === "player")}>

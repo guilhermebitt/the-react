@@ -5,5 +5,6 @@
   "sfxVolume": 1,
   "musicVolume": 0.5,
   "lastScreen": "menu",
-  "showLog": false
+  "showLog": false,
+  "showBestiary": false
 }

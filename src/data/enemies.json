@@ -30,34 +30,6 @@
     }
   },
 
-  "goblin": {
-    "name": "Goblin",
-    "img": "/assets/entities/goblin/goblin0.png",
-    "animations": {
-      "standBy": {
-        "frames": [
-          "/assets/entities/goblin/goblin0.png",
-          "/assets/entities/goblin/goblin1.png"
-        ],
-        "duration": 1000
-      }
-    },
-    "stats": {
-      "maxHealth": 10,
-      "health": 10,
-      "attack": 10,
-      "strength": 1,
-      "defense": 5,
-      "constitution": 1,
-      "crit": 2,
-      "critChance": 10,
-      "accuracy": 90,
-      "evasion": 10
-    },
-    "loot": {
-    }
-  },
-
   "snake": {
     "name": "Snake",
     "className": "Snake",

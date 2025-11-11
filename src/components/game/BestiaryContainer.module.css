@@ -1,0 +1,95 @@
+.textContainer {
+  display: flex;
+  height: 100%;
+  width: 33%;
+  flex-direction: row;
+  align-content: flex-start;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  overflow-y: scroll;
+  border: 1px solid white;
+  border-radius: 5px;
+  padding: 0.25rem 0.3rem;
+  padding-right: 0px;
+  gap: 1%;
+}
+
+.enemyImages {
+  border: 1px solid white;
+  border-radius: 5px;
+  width: 50px;
+  height: 50px;
+  background-size: 150px 100px;
+  background-position: 0px 50px;
+}
+
+.selectedImage {
+  width: 100%;
+  height: 100%;
+  background-size: 150% 200%;
+  background-position: 0px 100%;
+}
+
+.selectedContainer  {
+  display: flex;
+  flex-direction: column;
+  width: 66%;
+  gap: 1%;
+}
+
+.statsContainer  {
+  overflow: hidden;
+  width: 100%;
+  height: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  align-content: center;
+  flex-wrap: nowrap;
+}
+
+.innerStatsContainer  {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: flex-start;
+  align-content: center;
+  flex-wrap: wrap;
+}
+.innerStatsContainer > h3  {
+  width: 50%;
+  height: 20%;
+  text-align: left;
+  padding-left: 80px;
+  font-size: 1.30rem;
+}
+.innerStatsContainer > h3 > span  {
+  color: red;
+}
+
+.bestiaryContainer {
+  display: flex;
+  flex-direction: column;
+  height: 500px;
+}
+
+.innerBestiaryContainer {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  gap: 1%;
+}
+
+button.close {
+  background: none;
+  color: rgb(255, 0, 0);
+  border: none;
+  cursor: pointer;
+  width: 3rem;
+  height: 3rem;
+  font-size: 1.5rem;
+  align-self: end;
+}
