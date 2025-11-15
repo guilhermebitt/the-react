@@ -177,48 +177,6 @@
   },
 
 
-  "strength": {
-    "id": "strength",
-    "name": "Strength",
-    "description": "Increases the value of the player's strength by {strength}",
-    "rarity": "rare",
-    "iconURL": "/assets/perks/battle/strength.png",
-
-    "stackCount": 1,
-    "maxStackCount": 2,
-
-    "category": "battle",
-    "effects": {
-      "increases": {
-        "strength": 1
-      }
-    },
-
-    "translates": {
-      "strength": 1
-    }
-  },
-  "constitution": {
-    "id": "constitution",
-    "name": "Constitution",
-    "description": "Increases the value of the player's constitution by {constitution}",
-    "rarity": "rare",
-    "iconURL": "/assets/perks/battle/constitution.png",
-
-    "stackCount": 1,
-    "maxStackCount": 2,
-
-    "category": "battle",
-    "effects": {
-      "increases": {
-        "constitution": 1
-      }
-    },
-    
-    "translates": {
-      "constitution": 1
-    }
-  },
   "vampirism": {
     "id": "vampirism",
     "name": "Vampirism",
@@ -263,11 +221,53 @@
   },
 
 
+  "strength": {
+    "id": "strength",
+    "name": "Strength",
+    "description": "Increases the value of the player's strength by {strength}",
+    "rarity": "epic",
+    "iconURL": "/assets/perks/battle/strength.png",
+
+    "stackCount": 1,
+    "maxStackCount": 2,
+
+    "category": "battle",
+    "effects": {
+      "increases": {
+        "strength": 1
+      }
+    },
+
+    "translates": {
+      "strength": 1
+    }
+  },
+  "constitution": {
+    "id": "constitution",
+    "name": "Constitution",
+    "description": "Increases the value of the player's constitution by {constitution}",
+    "rarity": "epic",
+    "iconURL": "/assets/perks/battle/constitution.png",
+
+    "stackCount": 1,
+    "maxStackCount": 2,
+
+    "category": "battle",
+    "effects": {
+      "increases": {
+        "constitution": 1
+      }
+    },
+    
+    "translates": {
+      "constitution": 1
+    }
+  },
   "aimBot": {
     "id": "aimBot",
     "name": "Aim Bot",
     "description": "Improve the player's aim, increasing the accuracy by {accuracy}%",
-    "rarity": "legendary",
+    "rarity": "epic",
     "iconURL": "/assets/perks/battle/aim_bot.png",
 
     "stackCount": 1,
@@ -276,14 +276,16 @@
     "category": "battle",
     "effects": {
       "increases": {
-        "accuracy": 15
+        "accuracy": 20
       }
     },
     
     "translates": {
-      "accuracy": 15
+      "accuracy": 20
     }
   },
+
+
   "evilEye": {
     "id": "evilEye",
     "name": "Evil Eye",
