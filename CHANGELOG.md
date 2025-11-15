@@ -1,3 +1,10 @@
+# [1.2.0-beta.13](https://github.com/guilhermebitt/the-react/compare/v1.2.0-beta.12...v1.2.0-beta.13) (2025-11-15)
+
+
+### Features
+
+* **bestiary:** bestiary now shows only the enemies discovered ([dc1c8f7](https://github.com/guilhermebitt/the-react/commit/dc1c8f7eb5fff0f0b6d37e670aa2f3438d735e31))
+
 # [1.2.0-beta.12](https://github.com/guilhermebitt/the-react/compare/v1.2.0-beta.11...v1.2.0-beta.12) (2025-11-11)
 
 
