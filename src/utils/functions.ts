@@ -9,9 +9,9 @@ const maps: object | any = mapsJson;
 // Function to send a message to the terminal
 // creating an external variable for the messages queue
 const msgQueue: string[] = [];
-export function phrase(text: string, tag: string = "p", className: string = "default-msg") {
+export function phrase(text: string,  color: string = "white", tag: string = "p", className: string = "default-msg") {
   // Creating the message prompt
-  const msg = `<${tag} className="${className}">${text}</${tag}>`;
+  const msg = `<${tag} className="${className}" style="color:${color}">${text}</${tag}>`;
 
   // Adding the message to the queue
   msgQueue.push(msg);

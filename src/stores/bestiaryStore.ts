@@ -24,11 +24,11 @@ export const useBestiaryStore = create<BestiaryStore>((set, get) => ({
     })),
 
     // Returns the current state without causing components to rerender
-  getCurrent: () => get().discovered,
+  getCurrent: () => get().discovered ?? {},
 
   // Function to reset the game data
   reset: () => set({ discovered: {}}),
 
   // Function to load the game data
-  loadSave: (saved) => set({ discovered: saved }),
+  loadSave: (saved) => set({ discovered: saved ?? {}}),
 }));

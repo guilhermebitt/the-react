@@ -2,6 +2,7 @@
 
 // Data
 import settingsJson from "../data/settings.json";
+import * as funcs from "../utils/functions";
 
 // Dependencies
 import { useEffect, useRef, useCallback, useState } from "react";
@@ -61,10 +62,14 @@ export function BattleEventLogic() {
     if ((enemies.getCurrent() as Enemy[]).length < 1) {
       spawnEventEnemies(event.enemiesToSpawn);
     }
-
-    // to save the discovered enemy to the bestiary store
+    
+    // to discover then save the enemy to the bestiary store
     enemies.getCurrent().forEach((e) => {
-      bestiary.discover(e.className); 
+      if (!(e.className in bestiary.getCurrent())) 
+      {
+        bestiary.discover(e.className);
+        funcs.phrase("New bestiary entry: " + e.name, "lightskyblue");
+      } 
     });
     
     // Resetting the player's actions

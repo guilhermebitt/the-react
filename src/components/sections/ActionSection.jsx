@@ -41,7 +41,7 @@ function ActionSection() {
     if (enemiesActions.getCurrent(game.getCurrent().target)?.currentAnim === "death")
       return funcs.phrase("This enemy is dead.");
 
-    const { attackMsg, timeToWait, loot, isDead } = playerActions
+    const { attackMsg, timeToWait, loot, isDead, crit } = playerActions
       .getCurrent()
       .attack(enemiesActions.getCurrent(game.getCurrent().target)); // this function executes an attack and return some data
     if (isDead) 
@@ -61,7 +61,7 @@ function ActionSection() {
     }, timeToWait);
     // ------------------
 
-    funcs.phrase(attackMsg); // showing the result of the attack
+    funcs.phrase(attackMsg, crit > 1 ? "salmon" : "white"); // showing the result of the attack
     loot?.experience && funcs.phrase(`You gained ${loot.experience} points of experience.`);
     playerActions.update({ actionsLeft: (prev) => prev - 1 });
   }, []);

@@ -33,7 +33,7 @@ export function PlayerManager() {
     const newLevel = actions.tryLevelUp();
     if (newLevel) {
       // Showing the message to the terminal
-      funcs.phrase('Level Up!');
+      funcs.phrase('Level Up!', "moccasin");
 
       // Changing the amount of levels upped
       setLevelsUpped(newLevel - oldLevel); // the minus one is to equalize the amount of levels upped

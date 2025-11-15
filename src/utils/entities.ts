@@ -105,7 +105,7 @@ export class Entity {
     const animationFrames = anim.frames;
     const timeToWait = anim.duration * animationFrames.length;
 
-    return { attackMsg, dmg, timeToWait, isDead, loot };
+    return { attackMsg, dmg, timeToWait, isDead, loot, crit };
   }
 
   getAttackMessage(realDmg: number, crit: number) {

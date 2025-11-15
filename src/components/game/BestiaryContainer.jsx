@@ -86,6 +86,8 @@ function BestiaryContainer() {
                   <h3> DEF </h3><span>{`${selectedEnemy.stats.defense}`}</span>
                   <h3> ACC </h3><span>{`${selectedEnemy.stats.accuracy}`}</span>
                   <h3> EVA </h3><span>{`${selectedEnemy.stats.evasion}`}</span>
+                  <h3> CCH </h3><span>{`${selectedEnemy.stats.critChance}`}</span>
+                  <h3> CRT </h3><span>{`${selectedEnemy.stats.crit}`}</span>
                 </div>
 
               </div>
