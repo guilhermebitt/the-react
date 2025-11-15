@@ -86,7 +86,7 @@ export function useAnimation(entityId) {
       let index = 0;
   
       const nextFrame = () => {
-        console.log("called", anim.duration)
+        //console.log("called", anim.duration)
         // Determine the frame to use
         const frameCoords = anim.frames[index];
         setFramePath({

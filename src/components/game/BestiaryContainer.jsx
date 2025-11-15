@@ -22,9 +22,11 @@ import { Enemy } from "@/utils/entities";
 function BestiaryContainer() {
   // Stores
   const game = useStore("game", "actions")
-  const [selectedEnemy, setSelectedEnemy] = useState(enemiesJson.snake);
+  const bestiary = useStore("bestiary", "actions");
+  const [selectedEnemy, setSelectedEnemy] = useState(enemiesJson.null);
   const [, setSettings] = useLocalStorage('settings');
-  const [enemies, setEnemies] = useLocalStorage("enemies", enemiesJson);
+
+  const discovered = bestiary.getCurrent() || {};
 
   function closeBestiary() {
     setSettings(
@@ -60,8 +62,7 @@ function BestiaryContainer() {
           <div className={styles.innerBestiaryContainer}>
             <div className={`${styles.textContainer} scrollbar-black`}>
               {Object.entries(enemiesJson)
-              .slice(2) // skip first two entries who aren't enemies
-              //.filter(([key, n]) => n.isDiscovered === true) Leaving this here for later, (to filter only discovered enemies)
+              .filter(([key,n]) => discovered[n.className]) // to filter only discovered enemies using bestiary store
               .map(([key, n]) => (
               <div key={key} style={{ backgroundImage: `url(${n.img})` }} className={`${styles.enemyImages}`} onClick={() => selectBestiary(n)}/>
               ))}
@@ -70,21 +71,21 @@ function BestiaryContainer() {
             <div className={`${styles.selectedContainer} scrollbar-black`}>
 
               <div className={`${styles.textContainer} ${styles.statsContainer} scrollbar-black`}>
-                <div style={{ backgroundImage: `url(${selectedEnemy.img})` }} className={`${styles.selectedImage}`}/>
+                <div style={selectedEnemy.name != '‎' ? { backgroundImage: `url(${selectedEnemy.img})` } : { backgroundColor: 'black' }} className={`${styles.selectedImage}`}/>
               </div>
 
               <div className={`${styles.textContainer} ${styles.statsContainer} scrollbar-black`}>
                 
                 <h1 style={{ color: selectedEnemy.isBoss === true ? "red" : "white"}}>{`${selectedEnemy.name}`}</h1>
                 <div className={`${styles.innerStatsContainer}`}>
-                  <h3> HP  <span>{`${selectedEnemy.stats.maxHealth}`}</span></h3>
-                  <h3> XP  <span>{`${selectedEnemy.loot.xp}`.replace(","," ~ ")}</span></h3>
-                  <h3> STR <span>{`${selectedEnemy.stats.strength}`}</span></h3>
-                  <h3> ATK <span>{`${selectedEnemy.stats.attack}`}</span></h3>
-                  <h3> CON <span>{`${selectedEnemy.stats.constitution}`}</span></h3>
-                  <h3> DEF <span>{`${selectedEnemy.stats.defense}`}</span></h3>
-                  <h3> ACC <span>{`${selectedEnemy.stats.accuracy}`}</span></h3>
-                  <h3> EVA <span>{`${selectedEnemy.stats.evasion}`}</span></h3>
+                  <h3> HP  </h3><span>{`${selectedEnemy.stats.maxHealth}`}</span>
+                  <h3> XP  </h3><span>{`${selectedEnemy.loot.xp}`.replace(","," ~ ")}</span>
+                  <h3> STR </h3><span>{`${selectedEnemy.stats.strength}`}</span>
+                  <h3> ATK </h3><span>{`${selectedEnemy.stats.attack}`}</span>
+                  <h3> CON </h3><span>{`${selectedEnemy.stats.constitution}`}</span>
+                  <h3> DEF </h3><span>{`${selectedEnemy.stats.defense}`}</span>
+                  <h3> ACC </h3><span>{`${selectedEnemy.stats.accuracy}`}</span>
+                  <h3> EVA </h3><span>{`${selectedEnemy.stats.evasion}`}</span>
                 </div>
 
               </div>

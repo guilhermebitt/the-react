@@ -10,6 +10,7 @@ export const useSaveManager = (saveId) => {
   const playerAc = useStore("player", "actions");
   const enemiesAc = useStore("enemies", "actions");
   const gameAc = useStore("game", "actions");
+  const bestiaryAc = useStore("bestiary", "actions");
 
   const [saves, setSaves] = useLocalStorage('saves', {});
 
@@ -19,6 +20,7 @@ export const useSaveManager = (saveId) => {
         player: playerAc.getCurrent(),
         enemies: enemiesAc.getCurrent(),
         game: gameAc.getCurrent(),
+        bestiary: bestiaryAc.getCurrent(),
         tick: getCurrentTick(),
       };
       setSaves((prevSaves) => ({
@@ -44,12 +46,14 @@ export const useSaveManager = (saveId) => {
       playerAc.reset();
       enemiesAc.reset();
       gameAc.reset();
+      bestiaryAc.reset(),
       updateTick(0);
 
       // Re-loading all contexts
       playerAc.loadSave(savedState.player);
       enemiesAc.loadSave(savedState.enemies);
       gameAc.loadSave(savedState.game);
+      bestiaryAc.loadSave(savedState.bestiary),
       updateTick(savedState.tick)
 
       gameAc.update({ currentSave: saveId });
@@ -75,6 +79,7 @@ export const useSaveManager = (saveId) => {
     playerAc.reset();
     enemiesAc.reset();
     gameAc.reset();
+    bestiaryAc.reset(),
     updateTick(0);
   };
 

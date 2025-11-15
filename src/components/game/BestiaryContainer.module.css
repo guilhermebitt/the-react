@@ -44,14 +44,14 @@
   height: 50%;
   display: flex;
   flex-direction: column;
-  align-items: stretch;
+  align-items: center;
   justify-content: flex-start;
   align-content: center;
   flex-wrap: nowrap;
 }
 
 .innerStatsContainer  {
-  width: 100%;
+  width: 80%;
   height: 100%;
   display: flex;
   flex-direction: row;
@@ -61,14 +61,19 @@
   flex-wrap: wrap;
 }
 .innerStatsContainer > h3  {
-  width: 50%;
+  width: 25%;
   height: 20%;
   text-align: left;
-  padding-left: 80px;
+  padding-left: 30px;
   font-size: 1.30rem;
 }
-.innerStatsContainer > h3 > span  {
+.innerStatsContainer > span  {
   color: red;
+  width: 25%;
+  font-size: 1.30rem;
+  height: 20%;
+  text-align: left;
+  padding-left: 20px;
 }
 
 .bestiaryContainer {

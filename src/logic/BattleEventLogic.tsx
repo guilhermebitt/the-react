@@ -25,6 +25,7 @@ export function BattleEventLogic() {
   const enemies = useStore("enemies", "actions");
   const player = useStore("player", "actions");
   const audios = useStore("audios", "actions");
+  const bestiary = useStore("bestiary", "actions");
   const currentTurn = useStore("game", s => s.game.currentTurn);
   const isFirstLoad = useStore("game", s => s.game.eventData.isFirstLoad);
   const event = useStore("game", s => s.game.eventData?.event);
@@ -60,8 +61,12 @@ export function BattleEventLogic() {
     if ((enemies.getCurrent() as Enemy[]).length < 1) {
       spawnEventEnemies(event.enemiesToSpawn);
     }
-    
 
+    // to save the discovered enemy to the bestiary store
+    enemies.getCurrent().forEach((e) => {
+      bestiary.discover(e.className); 
+    });
+    
     // Resetting the player's actions
     player.update({ actionsLeft: player.getCurrent().actions })
     game.update({target : 1})
