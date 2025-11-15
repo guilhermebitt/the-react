@@ -1,3 +1,10 @@
+# [1.2.0-beta.14](https://github.com/guilhermebitt/the-react/compare/v1.2.0-beta.13...v1.2.0-beta.14) (2025-11-15)
+
+
+### Features
+
+* **rarity:** added new rarity: epic ([4f0b018](https://github.com/guilhermebitt/the-react/commit/4f0b0187c8abd066972f5a4575074434f7d75386))
+
 # [1.2.0-beta.13](https://github.com/guilhermebitt/the-react/compare/v1.2.0-beta.12...v1.2.0-beta.13) (2025-11-15)
 
 
