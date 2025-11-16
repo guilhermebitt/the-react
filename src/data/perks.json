@@ -41,6 +41,27 @@
       "evasion": 2
     }
   },
+  "precision": {
+    "id": "precision",
+    "name": "Precision",
+    "description": "Increases the accuracy by {accuracy}%",
+    "rarity": "common",
+    "iconURL": "/assets/perks/battle/precision.png",
+
+    "stackCount": 1,
+    "maxStackCount": 10,
+
+    "category": "battle",
+    "effects": {
+      "increases": {
+        "accuracy": 2
+      }
+    },
+
+    "translates": {
+      "accuracy": 2
+    }
+  },
   "healthBoost": {
     "id": "healthBoost",
     "name": "Health Boost",
@@ -175,6 +196,30 @@
       "attack": 3
     }
   },
+  "crystalHeart": {
+    "id": "crystalHeart",
+    "name": "Crystal Heart",
+    "description": "Increases the value of player's Max Mana and Max Health by {health}",
+    "rarity": "common",
+    "iconURL": "/assets/perks/battle/crystal_heart.png",
+
+    "stackCount": 1,
+    "maxStackCount": 10,
+
+    "category": "battle",
+    "effects": {
+      "increases": {
+        "health": 2,
+        "maxHealth": 2,
+        "mana": 2,
+        "maxMana": 2
+      }
+    },
+    
+    "translates": {
+      "health": 2
+    }
+  },
 
 
   "vampirism": {
@@ -217,6 +262,69 @@
 
     "translates": {
       "mana": 2
+    }
+  },
+  "illusion": {
+    "id": "illusion",
+    "name": "Illusion",
+    "description": "Improve the player's reflexes, increasing evasion by {evasion}%",
+    "rarity": "rare",
+    "iconURL": "/assets/perks/battle/illusion.png",
+
+    "stackCount": 1,
+    "maxStackCount": 2,
+
+    "category": "battle",
+    "effects": {
+      "increases": {
+        "evasion": 10
+      }
+    },
+    
+    "translates": {
+      "evasion": 10
+    }
+  },
+  "aimBot": {
+    "id": "aimBot",
+    "name": "Aim Bot",
+    "description": "Improve the player's aim, increasing the accuracy by {accuracy}%",
+    "rarity": "rare",
+    "iconURL": "/assets/perks/battle/aim_bot.png",
+
+    "stackCount": 1,
+    "maxStackCount": 2,
+
+    "category": "battle",
+    "effects": {
+      "increases": {
+        "accuracy": 10
+      }
+    },
+    
+    "translates": {
+      "accuracy": 10
+    }
+  },
+  "laserTarget": {
+    "id": "laserTarget",
+    "name": "Laser Target",
+    "description": "Improve the player's aim, increasing the critical chance by {critChance}%",
+    "rarity": "rare",
+    "iconURL": "/assets/perks/battle/laser_target.png",
+
+    "stackCount": 1,
+    "maxStackCount": 2,
+
+    "category": "battle",
+    "effects": {
+      "increases": {
+        "critChance": 10
+      }
+    },
+    
+    "translates": {
+      "critChance": 10
     }
   },
 
@@ -263,25 +371,67 @@
       "constitution": 1
     }
   },
-  "aimBot": {
-    "id": "aimBot",
-    "name": "Aim Bot",
-    "description": "Improve the player's aim, increasing the accuracy by {accuracy}%",
+  "bloodLust": {
+    "id": "bloodLust",
+    "name": "Blood lust",
+    "description": "increases the value of player's attack by {attack} for each kill",
     "rarity": "epic",
-    "iconURL": "/assets/perks/battle/aim_bot.png",
+    "iconURL": "/assets/perks/battle/blood_lust.png",
 
     "stackCount": 1,
-    "maxStackCount": 1,
+    "maxStackCount": 3,
+
+    "category": "battle",
+    "effects": {
+      "onKill": {
+        "attack": 1
+      }
+    },
+
+    "translates": {
+      "attack": 1
+    }
+  },
+  "scavenger": {
+    "id": "scavenger",
+    "name": "Scavenger",
+    "description": "increases the value of player's defense by {defense} for each kill",
+    "rarity": "epic",
+    "iconURL": "/assets/perks/battle/scavenger.png",
+
+    "stackCount": 1,
+    "maxStackCount": 3,
+
+    "category": "battle",
+    "effects": {
+      "onKill": {
+        "defense": 1
+      }
+    },
+
+    "translates": {
+      "defense": 1
+    }
+  },
+  "philosopherStone": {
+    "id": "philosopherStone",
+    "name": "Philosopher's Stone",
+    "description": "Replenish up to {money} money each time you level up if current money is less than ({money} * stack)",
+    "rarity": "epic",
+    "iconURL": "/assets/perks/battle/philosopher_stone.png",
+
+    "stackCount": 1,
+    "maxStackCount": 5,
 
     "category": "battle",
     "effects": {
       "increases": {
-        "accuracy": 20
+        "money": 20
       }
     },
     
     "translates": {
-      "accuracy": 20
+      "money": 20
     }
   },
 
@@ -294,7 +444,7 @@
     "iconURL": "/assets/perks/battle/evil_eye.png",
 
     "stackCount": 1,
-    "maxStackCount": 1,
+    "maxStackCount": 2,
 
     "category": "battle",
     "effects": {
@@ -305,6 +455,35 @@
     
     "translates": {
       "crit": 1
+    }
+  },
+  "powerStar": {
+    "id": "powerStar",
+    "name": "Power Star",
+    "description": "Increases most of the player's stats by {health}",
+    "rarity": "legendary",
+    "iconURL": "/assets/perks/battle/power_star.png",
+
+    "stackCount": 1,
+    "maxStackCount": 1,
+
+    "category": "battle",
+    "effects": {
+      "increases": {
+        "maxHealth": 5,
+        "health": 5,
+        "maxMana": 5,
+        "mana": 5,
+        "attack": 5,
+        "defense": 5,
+        "critChance": 5,
+        "accuracy": 5,
+        "evasion": 5
+      }
+    },
+    
+    "translates": {
+      "health": 5
     }
   }
 }
