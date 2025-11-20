@@ -54,6 +54,21 @@ function Credits() {
           <p>Email: guilherme.assis.bittencourt@gmail.com/</p>
         </div>
         <hr />
+        {/* CONCEPTS: */}
+        <h2>Game Concepts</h2>
+        {/* Guilherme Bittencourt */}
+        <div className={styles['credits']}>
+          <h3>Guilherme Bittencourt</h3>
+          <p>GitHub: <a href='https://github.com/guilhermebitt' target='_blank'>https://github.com/guilhermebitt</a></p>
+          <p>Email: guilherme.assis.bittencourt@gmail.com/</p>
+        </div>
+        {/* Adrian Smith */}
+        <div className={styles['credits']}>
+          <h3>Adrian Smith</h3>
+          <p>GitHub: <a href='https://github.com/GOAT-ASG' target='_blank'>https://github.com/GOAT-ASG</a></p>
+          <p>Email: adrian13smith@gmail.com/</p>
+        </div>
+        <hr />
         {/* SOUNDS: */}
         <h2>Sound FX and music</h2>
         {/* Guilherme Bittencourt */}
@@ -71,6 +86,12 @@ function Credits() {
           <p>GitHub: <a href='https://github.com/guilhermebitt' target='_blank'>https://github.com/guilhermebitt</a></p>
           <p>Email: guilherme.assis.bittencourt@gmail.com/</p>
         </div>
+        {/* Adrian Smith */}
+        <div className={styles['credits']}>
+          <h3>Adrian Smith</h3>
+          <p>GitHub: <a href='https://github.com/GOAT-ASG' target='_blank'>https://github.com/GOAT-ASG</a></p>
+          <p>Email: adrian13smith@gmail.com/</p>
+        </div>
         <hr />
         {/* BETA TESTERS */}
         <h2>Beta Testers</h2>
@@ -83,6 +104,7 @@ function Credits() {
         <h2>Special thanks to</h2>
         {/* Guilherme Bittencourt */}
         <div className={styles['credits']}>
+          <h3>Adrian Smith</h3>
           <h3>Vinícius Duarte</h3>
           <h3>Emanuel Resende</h3>
           <h3>Matheus Dutra</h3>
