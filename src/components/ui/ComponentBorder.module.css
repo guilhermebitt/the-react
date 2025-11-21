@@ -33,3 +33,13 @@
   mask-composite: add;
   mask-repeat: no-repeat;
 }
+
+ /* This is specifically for the options menu to have a black background*/
+ .boxBorder:has(:global(.options-menu-container)) {
+  background-color: black;
+    mask-image: 
+    linear-gradient(to right, black 0px 1px, transparent 1px calc(var(--title-wdt) + 1px), black calc(var(--title-wdt) + 1px) 100%), 
+    linear-gradient(to bottom, transparent 2px 0px, black 6px 100%);
+    mask-composite: add;
+    mask-repeat: no-repeat;
+}

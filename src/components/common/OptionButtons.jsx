@@ -15,7 +15,7 @@ import { useStore } from "@/stores";
 import { useSaveManager } from "../../hooks/useSaveManager";
 import { useConfirmDialog } from "@/hooks";
 
-// Stylesheet
+// Stylesheet (Not Entirely sur3e this is needed anymore)
 import styles from "./OptionButtons.module.css";
 
 function OptionButtons() {
@@ -60,7 +60,7 @@ function OptionButtons() {
       {CDComponent}
       {CDComponent2}
       <ComponentBorder title="Options">
-        <div className={styles["options-menu-container"]}>
+        <div className="options-menu-container">
           <button className="default" onClick={showLog} disabled={!(currentTurn === "player")}>
             Log
           </button>

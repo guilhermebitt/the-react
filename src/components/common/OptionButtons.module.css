@@ -1,12 +1,13 @@
-.options-menu-container {
+/* global is for the module to not add a hash to the name of the class, that way, 'has()' can target it*/
+:global(.options-menu-container button) {
+  height: 100%;
+  border: black solid 3px !important;
+}
+
+:global(.options-menu-container) {
   display: flex;
   flex-direction: column;
   width: 150px;
   height: 160px;
   gap: 5px;
-}
-
-.options-menu-container button {
-  height: 100%;
-  border: black solid 3px !important;
 }
