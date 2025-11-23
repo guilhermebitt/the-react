@@ -19,7 +19,7 @@
   border-radius: 5px;
   width: 50px;
   height: 50px;
-  background-size: 150px 100px;
+  background-size: calc(var(--cols) * 50px) calc(var(--rows) * 50px);
   background-position: 0px 50px;
   cursor: pointer;
 }
@@ -27,7 +27,7 @@
 .selectedImage {
   width: 100%;
   height: 100%;
-  background-size: 150% 200%;
+  background-size: calc(var(--cols) * 50%) calc(var(--rows) * 100%);
   background-position: 0px 100%;
 }
 

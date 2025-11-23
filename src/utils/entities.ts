@@ -340,43 +340,23 @@ export class Enemy extends Entity {
 }
 
 // --------- ENEMIES ---------
-// --- GOBLIN ---
-export class Goblin extends Enemy {
-  constructor(entity: EnemyData, updater?: (patch: UpdaterPatch<EnemyData>) => void) {
-    super(entity, updater);
-  }
+
+function createEnemyClass(name: string) {
+  return class extends Enemy {
+    constructor(entity: EnemyData, updater?: (patch: UpdaterPatch<Enemy>) => void) {
+      super(entity, updater);
+    }
+  };
 }
 
-// --- SNAKE ---
-export class Snake extends Enemy {
-  constructor(entity: EnemyData, updater?: (patch: UpdaterPatch<EnemyData>) => void) {
-    super(entity, updater);
-  }
-}
-export class VenomousSnake extends Enemy {
-  constructor(entity: EnemyData, updater?: (patch: UpdaterPatch<EnemyData>) => void) {
-    super(entity, updater);
-  }
-}
-export class Anaconda extends Enemy {
-  constructor(entity: EnemyData, updater?: (patch: UpdaterPatch<EnemyData>) => void) {
-    super(entity, updater);
-  }
-}
+export const Snake = createEnemyClass("Snake");
+export const VenomousSnake = createEnemyClass("VenomousSnake");
+export const Slime = createEnemyClass("Slime");
+export const GoldenSlime = createEnemyClass("GoldenSlime");
+export const Anaconda = createEnemyClass("Anaconda");
 
-// --- SLIME ---
-export class Slime extends Enemy {
-  constructor(entity: EnemyData, updater?: (patch: UpdaterPatch<EnemyData>) => void) {
-    super(entity, updater);
-  }
-}
-
-// --- GOLDEN SLIME ---
-export class GoldenSlime extends Enemy {
-  constructor(entity: EnemyData, updater?: (patch: UpdaterPatch<EnemyData>) => void) {
-    super(entity, updater);
-  }
-}
+export const Goblin = createEnemyClass("Goblin");
+export const Echo = createEnemyClass("Echo");
 
 // Saying to TS that Entity has all atributes of EntityData
 export interface Entity extends BaseEntityData {}

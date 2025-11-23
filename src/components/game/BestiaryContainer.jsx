@@ -64,14 +64,14 @@ function BestiaryContainer() {
               {Object.entries(enemiesJson)
               .filter(([key,n]) => discovered[n.className]) // to filter only discovered enemies using bestiary store
               .map(([key, n]) => (
-              <div key={key} style={{ backgroundImage: `url(${n.img})` }} className={`${styles.enemyImages}`} onClick={() => selectBestiary(n)}/>
+              <div key={key} style={{ backgroundImage: `url(${n.img})`, "--cols": n.animations.columns, "--rows": n.animations.rows }} className={`${styles.enemyImages}`} onClick={() => selectBestiary(n)}/>
               ))}
             </div>
 
             <div className={`${styles.selectedContainer} scrollbar-black`}>
 
               <div className={`${styles.textContainer} ${styles.statsContainer} scrollbar-black`}>
-                <div style={selectedEnemy.name != '‎' ? { backgroundImage: `url(${selectedEnemy.img})` } : { backgroundColor: 'black' }} className={`${styles.selectedImage}`}/>
+                <div style={selectedEnemy.name != '‎' ? { backgroundImage: `url(${selectedEnemy.img})`, "--cols": selectedEnemy.animations.columns, "--rows": selectedEnemy.animations.rows } : { backgroundColor: 'black' }} className={`${styles.selectedImage}`}/>
               </div>
 
               <div className={`${styles.textContainer} ${styles.statsContainer} scrollbar-black`}>

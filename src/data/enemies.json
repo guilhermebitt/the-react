@@ -52,7 +52,7 @@
   "snake": {
     "name": "Snake",
     "className": "Snake",
-    "img": "/assets/entities/snake/snake.png",
+    "img": "/assets/entities/WildForest/snake.png",
     "animations": {
       "columns": 3,
       "rows": 2,
@@ -104,7 +104,7 @@
   "venomousSnake": {
     "name": "Venomous Snake",
     "className": "VenomousSnake",
-    "img": "/assets/entities/snake/venomous_snake.png",
+    "img": "/assets/entities/WildForest/venomous_snake.png",
     "animations": {
       "columns": 3,
       "rows": 2,
@@ -156,7 +156,7 @@
   "slime": {
     "name": "Slime",
     "className": "Slime",
-    "img": "/assets/entities/slime/slime.png",
+    "img": "/assets/entities/WildForest/slime.png",
     "animations": {
       "columns": 3,
       "rows": 2,
@@ -206,7 +206,7 @@
   "goldenSlime": {
     "name": "Golden Slime",
     "className": "GoldenSlime",
-    "img": "/assets/entities/slime/goldslime.png",
+    "img": "/assets/entities/WildForest/goldslime.png",
     "animations": {
       "columns": 3,
       "rows": 2,
@@ -303,6 +303,60 @@
     },
     "loot": {
       "xp": [15, 25]
+    }
+  },
+
+  "echo": {
+    "name": "Echo",
+    "className": "Echo",
+    "img": "/assets/entities/TEMP/echo.png",
+    "animations": {
+      "columns": 4,
+      "rows": 2,
+      "standBy": {
+        "frames": [
+          { "x":300, "y":0 },
+          { "x":0,"y":100 },
+          { "x":100, "y":100 },
+          { "x":200,"y":100 }
+        ],
+        "duration": 1000
+      },
+      "atk": {
+        "frames": [
+          { "x":300,"y":0 },
+          { "x":0, "y":0 },
+          { "x":100,"y":0 },
+          { "x":200,"y":0 },
+          { "x":300,"y":0 }
+        ],
+        "duration": 150
+      },
+      "death": {
+        "frames": [
+          { "x":0, "y":0 },
+          { "x":100,"y":0 },
+          { "x":200,"y":0 },
+          { "x":0, "y":100 },
+          { "x":100,"y":100 }
+        ],
+        "duration": 100
+      }
+    },
+    "stats": {
+      "maxHealth": 18,
+      "health": 18,
+      "attack": 5,
+      "strength": 2,
+      "defense": 4,
+      "constitution": 2,
+      "crit": 2,
+      "critChance": 5,
+      "accuracy": 80,
+      "evasion": 20
+    },
+    "loot": {
+      "xp": [10, 20]
     }
   }
 }
