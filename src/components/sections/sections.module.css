@@ -1,13 +1,36 @@
+/* INVENTORY SECTION */
 .invContainer {
-  width: 100%;
+  display: grid;
+  grid: 1fr / 1fr 3fr 1fr;
+  gap: 10px;
   height: 100%;
 }
+.inventory {
+  display: grid;
+  grid: repeat(4, 1fr) / repeat(9, 1fr);
+  place-items: center;
+  height: 100%;
+}
+.slot {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
 
+  width: 32px;
+  height: 32px;
+
+  border: 1px solid white;
+  border-radius: 3px;
+}
+
+/* SKILLS SECTION */
 .skillsContainer {
   width: 100%;
   height: 100%;
 }
 
+/* ACTION SECTION */
 .actSecContainer {
   display: grid;
   grid: 1fr / 1fr 3fr 1fr;
@@ -15,6 +38,7 @@
   height: 100%;
 }
 
+/* PERKS SECTION */
 .perksContainer {
   display: grid;
   grid-template-columns: 50px 50px;
