@@ -1,3 +1,51 @@
+# [1.2.0](https://github.com/guilhermebitt/the-react/compare/v1.1.0...v1.2.0) (2025-12-05)
+
+
+### Bug Fixes
+
+* all bugs has been fixed ([900f1ae](https://github.com/guilhermebitt/the-react/commit/900f1ae4931d682799c8714034e844ec6cd1c846))
+* **animation:** animation was changing at every section change ([11c0fc4](https://github.com/guilhermebitt/the-react/commit/11c0fc4097ca896446daf86faf5668cc028efdfd))
+* **combat:** the combat mechanics as fixed ([6cbceca](https://github.com/guilhermebitt/the-react/commit/6cbcecab8dbe350b280fcc6d10e0e5b250f93c38))
+* **enemies turn:** added more delay to change the enemies turn ([3555821](https://github.com/guilhermebitt/the-react/commit/35558218b3899ffa52bc6b5477ab3126e7649d85))
+* fixed the perks and the crit value span ([f6f1d53](https://github.com/guilhermebitt/the-react/commit/f6f1d53c52ba10df52b75e0c4bb4eac6ad7bf072))
+* **hr:** hr ([5b92641](https://github.com/guilhermebitt/the-react/commit/5b92641cfd83317be36dc625db748fb4604a6bf5))
+* **level up and perks system:** These systems were fixed. ([ed4745e](https://github.com/guilhermebitt/the-react/commit/ed4745e7bb280daf3f0481493d13b674096adeff))
+* **perks:** fixed the status bug with the perks that improves the attack and defense, also I have fixed the recover of full life ([400efe7](https://github.com/guilhermebitt/the-react/commit/400efe7174da84e5dc5ecaebd7e8eb52e35a66ec))
+* **saves:** HOLY SH1T! FORGET THE OTHER COMMITgit add .! ([6e42823](https://github.com/guilhermebitt/the-react/commit/6e428238e4e8bf4098348b7ef5747a38946de1a1))
+
+
+### Features
+
+* added the value increment mechanic to the death screen and improved the save game button in options ([7d24a29](https://github.com/guilhermebitt/the-react/commit/7d24a2902dc4b44e1f3bedecdc6d25073c5e1d3e))
+* **animations:** cloud animations and more badges ([0068f70](https://github.com/guilhermebitt/the-react/commit/0068f7029477462e5850cf058c4daa4c2a99b2d2))
+* **audio & death:** fixed the audio and add an DeathScreen ([f2d4a35](https://github.com/guilhermebitt/the-react/commit/f2d4a35211b6da29c283a7ee9dc6930d0ab2efb5))
+* **audio options and more:** I added somethings to the game, but it may be instable ([6c0b032](https://github.com/guilhermebitt/the-react/commit/6c0b0329a0578e464e997367fb8eb81e2bbd58cc))
+* **bestiary:** bestiary now shows only the enemies discovered ([dc1c8f7](https://github.com/guilhermebitt/the-react/commit/dc1c8f7eb5fff0f0b6d37e670aa2f3438d735e31))
+* **clear data:** the clear data button returned (if something in the game feels wrong, reset your data) ([b99fadc](https://github.com/guilhermebitt/the-react/commit/b99fadc31f9054262c42718a120270d05245c8a0))
+* **credts and background:** Updated the menus background and added the credits to the artist and other people ([32803f1](https://github.com/guilhermebitt/the-react/commit/32803f1947da3b486f0895a66b85d25db7798577))
+* fixing the health bar of the enemies ([69bddf8](https://github.com/guilhermebitt/the-react/commit/69bddf8e3a6c42e5e076de22465fea01c6ff8735))
+* **game:** new Bestiary system ([b919227](https://github.com/guilhermebitt/the-react/commit/b9192273e05ca13dab1944f0e9e2b7bb60f38c82))
+* **level system:** new levelup system that allow you to choose a new perk ([413f274](https://github.com/guilhermebitt/the-react/commit/413f2746786541c5e9af82d0da3e6017506f3179))
+* **level:** new leveling system and some code fixes and changes ([652383a](https://github.com/guilhermebitt/the-react/commit/652383a9e7e36ec6f94cc585f1fcb5568d1b1b22))
+* **map screen:** New screen to navigate through the mapgit add .! ([57cbf53](https://github.com/guilhermebitt/the-react/commit/57cbf5306fcf40c98e72f92caa9afeebfdc01829))
+* **map system:** the map is now 50% done ([60aac52](https://github.com/guilhermebitt/the-react/commit/60aac5292d3223acd0b295699f3e3f228568c0df))
+* **perk:** added 6 new perks ([b1133fd](https://github.com/guilhermebitt/the-react/commit/b1133fd0387b9cfa34b286b8998d8b2d6d95336e))
+* **perks:** added 8 new perks ([82cafb9](https://github.com/guilhermebitt/the-react/commit/82cafb939d96da5410e51949d98ded5c2d59bde8))
+* **perks:** new perk: Soul Capture ([32e937f](https://github.com/guilhermebitt/the-react/commit/32e937fa29b1bc362f5bc29eb7d2abf64bfc9c7f))
+* **perks:** new perk: Vampirism ([c3dda12](https://github.com/guilhermebitt/the-react/commit/c3dda123bd22a72ebe424aa3f1e0bebd20f4c404))
+* **perks:** starting to implement a perk feature to the game ([fdcef3d](https://github.com/guilhermebitt/the-react/commit/fdcef3d0f507cafbbc17855af14d38c56ff91439))
+* **rarity:** added new rarity: epic ([4f0b018](https://github.com/guilhermebitt/the-react/commit/4f0b0187c8abd066972f5a4575074434f7d75386))
+* **route:** starting to implement more sections on the game screen ([c0600e6](https://github.com/guilhermebitt/the-react/commit/c0600e6ea4233a1ce7b392b99a76c501dda6499d))
+* **terminal log:** added a log with the last 200 messages and fixed the audio os the points at the death screen and victory component ([f649b58](https://github.com/guilhermebitt/the-react/commit/f649b58685e90d868384e9b1104fb69e07bf9b2b))
+* **victory and defeat:** The game was a screen for death and a modal for victory ([deb7e7d](https://github.com/guilhermebitt/the-react/commit/deb7e7d38f735afa2146b93991e264fe3b7d4baf))
+* **victory modal:** new victory modal system (I'll implement to death screen too) ([9b58713](https://github.com/guilhermebitt/the-react/commit/9b587131a67c5c1448e0b2efbc0a7b0de3881ed0))
+
+
+### Performance Improvements
+
+* **improved the hooks systems:** I have created a new system to manage some stores and logics to control some stuf wihout causing extra re-render on some components ([9474bc0](https://github.com/guilhermebitt/the-react/commit/9474bc02d6c052b513f42a552985dea04cd58696))
+* **tick:** improved the tick system with zustand, so it doesnt cause unnecessary re-render ([36e2bc1](https://github.com/guilhermebitt/the-react/commit/36e2bc10947043da3f5720a6daa7dc371264371f))
+
 # [1.2.0-beta.15](https://github.com/guilhermebitt/the-react/compare/v1.2.0-beta.14...v1.2.0-beta.15) (2025-11-16)
 
 
