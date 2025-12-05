@@ -24,7 +24,7 @@ export default InventorySection
 function Equipments() {
   return (
     <ComponentBorder title="Equipments">
-      
+      Oi
     </ComponentBorder>
   )
 }
