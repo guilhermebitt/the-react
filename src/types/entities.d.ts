@@ -89,6 +89,7 @@ export interface BaseEntityData {
 
 interface PlayerData extends BaseEntityData {
   xp: number;
+  status: { [key: string]: Status };
 }
 
 interface EnemyData extends BaseEntityData {

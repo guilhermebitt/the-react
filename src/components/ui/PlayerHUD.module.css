@@ -83,3 +83,39 @@
   z-index: 1;
   background-image: linear-gradient(to left, black, transparent);
 }
+
+/* STATUS */
+div.statusContainer {
+  position: absolute;
+  left: 20px;
+  top: 110px;
+  width: 125px;
+  height: 150px;
+  display: grid;
+
+  align-content: center;
+  justify-content: start;
+  align-items: start;
+  justify-items: start;
+  
+  grid-template-columns: 30px 30px 30px;
+  grid-template-rows: 30px 30px 30px 30px;
+  gap: 0.25rem;
+  overflow: auto;
+  max-height: 100%;
+
+  padding: 0.5rem;
+  z-index: 10;
+}
+
+div.statusHolder {
+  position: relative;
+  
+  align-items: center;
+  width: 30px;
+  height: 30px;
+}
+
+div.statusHolder img {
+  width: 100%;
+}

@@ -13,6 +13,9 @@ import enemiesJson from "@/data/enemies.json";
 import { Enemy } from "@/utils/entities";
 import { useLocalStorage } from "usehooks-ts";
 
+// for testing :
+import { useStatusLogic } from "@/logic/statusLogic";
+
 // Logic manager
 export function BattleEventLogic() {
   // Debugging
@@ -39,6 +42,9 @@ export function BattleEventLogic() {
   const logic = useLogic();
   const [endEvent, setEndEvent] = useState(false);
   const [settings] = useLocalStorage("settings", settingsJson);
+
+  //temp:
+  const statusLogic = useStatusLogic();
 
   // Variable for enemy selection keybind
   var selected = 1;
@@ -117,8 +123,6 @@ export function BattleEventLogic() {
       return;
     }
 
-    
-
     // Verify what kind of turn it is
     switch (currentTurn) {
       case "player":
@@ -127,6 +131,8 @@ export function BattleEventLogic() {
 
       case "enemies":
         logic.handleEnemiesTurn();
+        statusLogic.updateStatusOnRoundEnd();
+        statusLogic.updateStatusOnRoundEndTimer();
         break;
 
       case null:
@@ -158,6 +164,10 @@ export function BattleEventLogic() {
       if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return
       if (e.key === "ArrowRight") selected ++;
       if (e.key === "ArrowLeft") selected --;
+
+      statusLogic.createStatus("Burn", 3);// TESTING TEMP
+      statusLogic.createStatus("WeakPoison", 4);// TESTING TEMP
+      statusLogic.createStatus("Combustion", 6);// TESTING TEMP
 
       // I think this works now
       const enemiesArray = enemies.getCurrent(); 

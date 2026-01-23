@@ -1,0 +1,82 @@
+{
+  "WeakPoison": {
+    "id": "WeakPoison",
+    "name": "Weak Poison",
+    "description": "Takes fixed {health} damage at the end of every round, lasts for {stackCount} rounds, decreases by {decreaseStack} every round",
+    "category": "poison",
+    "type": "DeBuff",
+    "iconURL": "/assets/status/poison.png",
+
+    "stackCount": 1,
+    "maxStackCount": 99,
+
+    "fixed": "fixed",
+    "decreaseStack": 1,
+
+    "effects": {
+      "onRoundEnd": {
+        "health": 3
+      }
+    },
+
+    "translates": {
+      "health": 3,
+      "stackCount": 1,
+      "decreaseStack": 1
+    }
+  },
+
+  "Burn": {
+    "id": "Burn",
+    "name": "Burn",
+    "description": "Takes {health} damage at the end of the round, lasts for {stackCount} rounds, decreases by {decreaseStack} every round",
+    "category": "burn",
+    "type": "DeBuff",
+    "iconURL": "/assets/status/burn.png",
+
+    "stackCount": 1,
+    "maxStackCount": 99,
+
+    "fixed": "no",
+    "decreaseStack": 1,
+
+    "effects": {
+      "onRoundEnd": {
+        "health": 1
+      }
+    },
+
+    "translates": {
+      "health": 1,
+      "stackCount": 1,
+      "decreaseStack": 1
+    }
+  },
+
+  "Combustion": {
+    "id": "Combustion",
+    "name": "Combustion",
+    "description": "Takes {health} damage when stack reaches 0, {stackCount} rounds remaining, decreases by {decreaseStack} every round",
+    "category": "burn",
+    "type": "DeBuff",
+    "iconURL": "/assets/status/combustion.png",
+
+    "stackCount": 1,
+    "maxStackCount": 99,
+
+    "fixed": "fixed",
+    "decreaseStack": 1,
+
+    "effects": {
+      "onRoundEndTimer": {
+        "health": 5
+      }
+    },
+
+    "translates": {
+      "health": 5,
+      "stackCount": 1,
+      "decreaseStack": 1
+    }
+  }
+}

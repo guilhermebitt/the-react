@@ -1,8 +1,12 @@
+// Data
+import statusJson from "../../data/status.json";
+
 // Dependencies
 import { useState, useEffect, memo } from 'react';
 
 // Components
 import ComponentBorder from './ComponentBorder.jsx';
+import ActiveStatus from "./StatusEffects";
 
 // Hooks
 import { useStore } from '@/stores/';
@@ -21,7 +25,8 @@ function PlayerHUD() {
     health: s.player.stats.health,
     maxMana: s.player.stats.maxMana,
     mana: s.player.stats.mana,
-    actionsLeft: s.player.actionsLeft
+    actionsLeft: s.player.actionsLeft,
+    status: s.player.status
   }))
   const game = useStore("game", "actions");
 
@@ -62,7 +67,20 @@ function PlayerHUD() {
             <div className={styles.mnBar}></div>
           </div>
         </ComponentBorder>
+
       </div>
+
+      {/* STATUS EFFECTS */}
+      <div className={styles.statusContainer}>
+        {Object.entries(player.status).map(([statusKey, statusInstance]) => {
+          return (
+            <ActiveStatus key={statusKey} status={statusInstance}></ActiveStatus>
+          );
+        })}
+      </div>
+
+
+      
 
       {/* TURN TITLE */}
       <div className={styles.turnContainer}>

@@ -1,0 +1,62 @@
+div.statusContainer {
+    width: 100%;
+    height: 100%;
+    display: grid;
+
+    align-content: center;
+    justify-content: start;
+    align-items: start;
+    justify-items: start;
+
+    display: grid;
+    grid-template-columns: 30px 30px;
+    gap: 0.5rem;
+    overflow: auto;
+    max-height: 100%;
+
+    padding: 0.5rem;
+}
+
+div.statusHolder {
+    position: relative;
+    
+    align-items: center;
+    width: 30px;
+    height: 30px;
+}
+
+p.statusCount {
+    position: relative;
+    bottom: 26px;
+    color: black;
+}
+
+img.statusImg {
+    width: 100%;
+}
+
+div.statusModalContainer {
+    position: fixed;
+    z-index: 10;
+  
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+  
+    border: white solid 1px;
+    background-color: #222;
+    border-radius: 0px 5px 5px 5px;
+    padding: 0.5rem;
+    margin-top: 1rem;
+  
+    pointer-events: none;
+  }
+  
+  div.statusModalContainer h2,
+  div.statusModalContainer p {
+    text-align: start;
+  }
+  
+  div.statusModalContainer h2 {
+    color: rgb(167, 66, 66);
+  }
