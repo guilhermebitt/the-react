@@ -53,8 +53,14 @@ div.statusModalContainer {
   }
   
   div.statusModalContainer h2,
-  div.statusModalContainer p {
+  div.statusModalContainer p,
+  div.statusModalContainer a {
     text-align: start;
+  }
+
+  div.statusModalContainer a {
+    color: rgb(107, 107, 107);
+    font-size: smaller;
   }
   
   div.statusModalContainer h2 {

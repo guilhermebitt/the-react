@@ -6,15 +6,17 @@ interface StatusModalProps {
   leftPos: number;
   title: string;
   description: string;
+  flavor: string;
 }
 
 // Modal component
-function StatusModal({topPos, leftPos, title, description}: StatusModalProps) {
+function StatusModal({topPos, leftPos, title, description, flavor}: StatusModalProps) {
 
   return (
     <div className={styles.statusModalContainer} style={{top: topPos, left: leftPos}}>
       <h2>{title}</h2>
       <p>{description}</p>
+      <a>{flavor}</a>
     </div>
   )
 }

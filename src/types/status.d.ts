@@ -33,6 +33,7 @@ interface Status<T extends StatusType = StatusType> {
   id: StatusKey;
   name: string;
   description: string;
+  flavorText: string;
   category: string;
   iconURL?: string;
 

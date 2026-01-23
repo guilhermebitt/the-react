@@ -51,6 +51,7 @@ function ActiveStatus({ status }: ActiveStatusProps) {
           leftPos={position.x + 10}
           title={`${status.name}`}
           description={createDescription(status.description, status.translates)}
+          flavor={status.flavorText}
         />
       }
     </div>

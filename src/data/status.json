@@ -3,9 +3,10 @@
     "id": "WeakPoison",
     "name": "Weak Poison",
     "description": "Takes fixed {health} damage at the end of every round, lasts for {stackCount} rounds, decreases by {decreaseStack} every round",
+    "flavorText": "you feel dizzy",
     "category": "poison",
     "type": "DeBuff",
-    "iconURL": "/assets/status/poison.png",
+    "iconURL": "/assets/status/weak_poison.png",
 
     "stackCount": 1,
     "maxStackCount": 99,
@@ -26,10 +27,67 @@
     }
   },
 
+  "Poison": {
+    "id": "Poison",
+    "name": "Poison",
+    "description": "Takes fixed {health} damage at the end of every round, lasts for {stackCount} rounds, decreases by {decreaseStack} every round",
+    "flavorText": "you feel sick",
+    "category": "poison",
+    "type": "DeBuff",
+    "iconURL": "/assets/status/poison.png",
+
+    "stackCount": 1,
+    "maxStackCount": 99,
+
+    "fixed": "fixed",
+    "decreaseStack": 1,
+
+    "effects": {
+      "onRoundEnd": {
+        "health": 6
+      }
+    },
+
+    "translates": {
+      "health": 6,
+      "stackCount": 1,
+      "decreaseStack": 1
+    }
+  },
+
+  "StrongPoison": {
+    "id": "StrongPoison",
+    "name": "Strong Poison",
+    "description": "Takes fixed {health} damage at the end of every round, lasts for {stackCount} rounds, decreases by {decreaseStack} every round",
+    "flavorText": "You feel like you could die at any moment",
+    "category": "poison",
+    "type": "DeBuff",
+    "iconURL": "/assets/status/strong_poison.png",
+
+    "stackCount": 1,
+    "maxStackCount": 99,
+
+    "fixed": "fixed",
+    "decreaseStack": 1,
+
+    "effects": {
+      "onRoundEnd": {
+        "health": 10
+      }
+    },
+
+    "translates": {
+      "health": 10,
+      "stackCount": 1,
+      "decreaseStack": 1
+    }
+  },
+
   "Burn": {
     "id": "Burn",
     "name": "Burn",
     "description": "Takes {health} damage at the end of the round, lasts for {stackCount} rounds, decreases by {decreaseStack} every round",
+    "flavorText": "Don't play with fire",
     "category": "burn",
     "type": "DeBuff",
     "iconURL": "/assets/status/burn.png",
@@ -57,6 +115,7 @@
     "id": "Combustion",
     "name": "Combustion",
     "description": "Takes {health} damage when stack reaches 0, {stackCount} rounds remaining, decreases by {decreaseStack} every round",
+    "flavorText": "you are about to explode",
     "category": "burn",
     "type": "DeBuff",
     "iconURL": "/assets/status/combustion.png",

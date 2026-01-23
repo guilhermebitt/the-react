@@ -158,7 +158,7 @@ export function useStatusLogic() {
         if (typeof onRoundEnd.health === "number") {
           player.update({
             ["stats.health"]:
-              player.getCurrent().stats.health - onRoundEnd.health,
+            player.getCurrent().stats.health - onRoundEnd.health < 0 ? 0 : player.getCurrent().stats.health - onRoundEnd.health,
           });
         }
 
@@ -188,7 +188,7 @@ export function useStatusLogic() {
         if (typeof onRoundEnd.health === "number") {
           player.update({
             ["stats.health"]:
-              player.getCurrent().stats.health - onRoundEnd.health,
+              player.getCurrent().stats.health - onRoundEnd.health < 0 ? 0 : player.getCurrent().stats.health - onRoundEnd.health,
           });
         }
 

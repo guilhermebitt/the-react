@@ -77,7 +77,7 @@ function BestiaryContainer() {
               <div className={`${styles.textContainer} ${styles.statsContainer} scrollbar-black`}>
                 
                 <h1 style={{ color: selectedEnemy.isBoss === true ? "red" : "white"}}>{`${selectedEnemy.name}`}</h1>
-                <div className={`${styles.innerStatsContainer}`}>
+                <div className={`${styles.innerStatsContainer}`} style={selectedEnemy.name != '‎' ? { display: `flex` } : { display: 'none' }}>
                   <h3> HP  </h3><span>{`${selectedEnemy.stats.maxHealth}`}</span>
                   <h3> XP  </h3><span>{`${selectedEnemy.loot.xp}`.replace(","," ~ ")}</span>
                   <h3> STR </h3><span>{`${selectedEnemy.stats.strength}`}</span>
@@ -89,6 +89,7 @@ function BestiaryContainer() {
                   <h3> CCH </h3><span>{`${selectedEnemy.stats.critChance}`}</span>
                   <h3> CRT </h3><span>{`${selectedEnemy.stats.crit}`}</span>
                 </div>
+                <a>{`${selectedEnemy.flavorText != undefined ? selectedEnemy.flavorText : ""}`}</a>
 
               </div>
 

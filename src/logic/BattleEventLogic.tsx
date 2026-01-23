@@ -168,6 +168,7 @@ export function BattleEventLogic() {
       statusLogic.createStatus("Burn", 3);// TESTING TEMP
       statusLogic.createStatus("WeakPoison", 4);// TESTING TEMP
       statusLogic.createStatus("Combustion", 6);// TESTING TEMP
+      statusLogic.createStatus("Poison", 1);// TESTING TEMP
 
       // I think this works now
       const enemiesArray = enemies.getCurrent(); 
