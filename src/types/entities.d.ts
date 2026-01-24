@@ -95,6 +95,7 @@ interface PlayerData extends BaseEntityData {
 interface EnemyData extends BaseEntityData {
   isBoss: boolean;
   flavorText: string;
+  effects: Effects;
   loot: Loot;
 }
 

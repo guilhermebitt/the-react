@@ -12,8 +12,6 @@ import { useLogic } from "@/hooks";
 import enemiesJson from "@/data/enemies.json";
 import { Enemy } from "@/utils/entities";
 import { useLocalStorage } from "usehooks-ts";
-
-// for testing :
 import { useStatusLogic } from "@/logic/statusLogic";
 
 // Logic manager
@@ -43,7 +41,7 @@ export function BattleEventLogic() {
   const [endEvent, setEndEvent] = useState(false);
   const [settings] = useLocalStorage("settings", settingsJson);
 
-  //temp:
+  // Status
   const statusLogic = useStatusLogic();
 
   // Variable for enemy selection keybind
@@ -165,10 +163,10 @@ export function BattleEventLogic() {
       if (e.key === "ArrowRight") selected ++;
       if (e.key === "ArrowLeft") selected --;
 
-      statusLogic.createStatus("Burn", 3);// TESTING TEMP
-      statusLogic.createStatus("WeakPoison", 4);// TESTING TEMP
-      statusLogic.createStatus("Combustion", 6);// TESTING TEMP
-      statusLogic.createStatus("Poison", 1);// TESTING TEMP
+      statusLogic.createStatus("Burn", 3); // TESTING TEMP
+      statusLogic.createStatus("WeakPoison", 4); // TESTING TEMP
+      statusLogic.createStatus("Combustion", 6); // TESTING TEMP
+      statusLogic.createStatus("Poison", 1); // TESTING TEMP
 
       // I think this works now
       const enemiesArray = enemies.getCurrent(); 

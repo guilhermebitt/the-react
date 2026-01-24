@@ -99,6 +99,12 @@
     },
     "loot": {
       "xp": [5, 10]
+    },
+    "effects": {
+      "WeakPoison": {
+        "stack": 2,
+        "chance": 10
+      }
     }
   },
 
@@ -152,6 +158,12 @@
     },
     "loot": {
       "xp": [10, 15]
+    },
+    "effects": {
+      "WeakPoison": {
+        "stack": 2,
+        "chance": 25
+      }
     }
   },
 
@@ -203,7 +215,8 @@
     },
     "loot": {
       "xp": [1, 5]
-    }
+    },
+    "effects": null
   },
 
   "goldenSlime": {
@@ -254,7 +267,8 @@
     },
     "loot": {
       "xp": [20, 30]
-    }
+    },
+    "effects": null
   },
 
   "anaconda": {
@@ -308,6 +322,12 @@
     },
     "loot": {
       "xp": [15, 25]
+    },
+    "effects": {
+      "Poison": {
+        "stack": 1,
+        "chance": 25
+      }
     }
   },
 
@@ -363,6 +383,7 @@
     },
     "loot": {
       "xp": [10, 20]
-    }
+    },
+    "effects": null
   }
 }
