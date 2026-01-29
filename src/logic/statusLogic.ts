@@ -7,7 +7,7 @@ import { useStore } from "@/stores";
 import { useEffect, useState, useMemo } from "react";
 
 // Types
-import { OnRoundEnd, Status, StatusKey, StatusUnion } from "@/types";
+import { OnRoundEnd, Stats, Status, StatusKey, StatusUnion } from "@/types";
 import { Entity } from "@/utils/entities";
 import { stat } from "node:fs/promises";
 
@@ -63,8 +63,6 @@ export function useStatusLogic() {
               },
             });
         } else {
-          // Maintain the perk intact
-          console.log("Status reached the max stack count");
           return game.update({
             status: (prev: any) => {
               return { ...prev, [statusKey]: prevStatus };
@@ -99,7 +97,7 @@ export function useStatusLogic() {
       if (status.translates.stackCount !== undefined) 
       {
         // Incrementing its stack value
-        newStatus.translates.stackCount = newStatus.stackCount;
+        newStatus.translates.stackCount = Math.ceil(newStatus.stackCount / newStatus.decreaseStack);
       }
 
       if (status.fixed == "fixed")
@@ -136,8 +134,10 @@ export function useStatusLogic() {
       if (!currentStatus) return;
     
       this.createStatus(statusKey, -currentStatus.decreaseStack);
+
+      console.log(currentStatus.stackCount - currentStatus.decreaseStack)
     
-      if (currentStatus.stackCount <= 1) {
+      if (currentStatus.stackCount - currentStatus.decreaseStack <= 0) {
         player.update({
           status: (prev) => {
             const { [statusKey]: _, ...rest } = prev;
@@ -152,47 +152,86 @@ export function useStatusLogic() {
       const statuses = player.getCurrent().status;
     
       for (const [, status] of Object.entries(statuses)) {
-        const onRoundEnd = status.effects.onRoundEnd;
-        if (!onRoundEnd) continue;
-    
-        if (typeof onRoundEnd.health === "number") {
-          player.update({
-            ["stats.health"]:
-            player.getCurrent().stats.health - onRoundEnd.health < 0 ? 0 : player.getCurrent().stats.health - onRoundEnd.health,
-          });
+
+        // ROUND END
+
+        if (status.effects.onRoundEnd)
+        {
+          const onRoundEnd = status.effects.onRoundEnd;
+
+          for (const [StatKey, values] of Object.entries(onRoundEnd) as [keyof Stats, number][]) {
+            if (typeof values === "number") {
+              player.update({
+                [`stats.${StatKey}`]:
+                Math.max(0 ,player.getCurrent().stats[StatKey] - values),
+              });
+            }
+
+            funcs.phrase("Player took " + values + " " + status.category + " damage", "lightgreen");
+          }
         }
 
-        funcs.phrase("Player took " + onRoundEnd.health + " " + status.category + " damage", "lightgreen");
+        // ROUND END %
+
+        if (status.effects.onRoundEndPercentile)
+        {
+          const onRoundEndPercentile = status.effects.onRoundEndPercentile;
+          let value = 0;
+
+          if (onRoundEndPercentile.health) {
+            value = Math.ceil(onRoundEndPercentile.health/100 * player.getCurrent().stats.maxHealth);
+            player.update({
+              [`stats.health`]:
+              Math.max(0 ,player.getCurrent().stats.health - value),
+            });
+            
+            funcs.phrase("Player took " + value + " " + status.category + " damage", "lightgreen");
+          }
+
+          if (onRoundEndPercentile.mana) {
+            value = Math.ceil(onRoundEndPercentile.mana/100 * player.getCurrent().stats.maxMana);
+            player.update({
+              [`stats.mana`]:
+              Math.max(0 ,player.getCurrent().stats.mana - value),
+            });
+            
+            funcs.phrase("Player took " + value + " " + status.category + " damage", "lightgreen");
+          }
+        }
+
+        // ROUND END TIMER
+        // (needs to be last)
+
+        if (status.effects.onRoundEndTimer)
+        {
+          console.log("timer0")
+    
+          // IMPORTANT: pass the ID (key), not the whole object
+          this.removeStatus(status.id)
+    
+          let timer = player.getCurrent().status[status.id];
+          console.log("timer1")
+            
+          if (timer !== undefined) continue;
+    
+          const onRoundEnd = status.effects.onRoundEndTimer;
+
+          for (const [StatKey, values] of Object.entries(onRoundEnd) as [keyof Stats, number][]) {
+            if (typeof values === "number") {
+              player.update({
+                [`stats.${StatKey}`]:
+                Math.max(0 ,player.getCurrent().stats[StatKey] - values),
+              });
+            }
+
+            funcs.phrase("Player took " + values + " " + status.category + " damage", "lightgreen");
+          }
+        }
+
+        if (status.effects.onRoundEndTimer) continue;
     
         // IMPORTANT: pass the ID (key), not the whole object
         this.removeStatus(status.id);
-      }
-    },
-
-    // Function that runs everytime the round ends but only activates when stack reaches 0
-    updateStatusOnRoundEndTimer() {
-      const statuses = player.getCurrent().status;
-    
-      for (const [, status] of Object.entries(statuses)) {
-        const onRoundEnd = status.effects.onRoundEndTimer;
-        if (!onRoundEnd) continue;
-
-        // IMPORTANT: pass the ID (key), not the whole object
-        this.removeStatus(status.id)
-
-        let timer = player.getCurrent().status[status.id];
-        console.log(timer)
-        
-        if (timer !== undefined) continue;
-
-        if (typeof onRoundEnd.health === "number") {
-          player.update({
-            ["stats.health"]:
-              player.getCurrent().stats.health - onRoundEnd.health < 0 ? 0 : player.getCurrent().stats.health - onRoundEnd.health,
-          });
-        }
-
-        funcs.phrase("Player took " + onRoundEnd.health + " " + status.category + " damage", "lightgreen");
       }
     },
 

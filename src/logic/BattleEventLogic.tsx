@@ -130,7 +130,6 @@ export function BattleEventLogic() {
       case "enemies":
         logic.handleEnemiesTurn();
         statusLogic.updateStatusOnRoundEnd();
-        statusLogic.updateStatusOnRoundEndTimer();
         break;
 
       case null:
@@ -163,10 +162,17 @@ export function BattleEventLogic() {
       if (e.key === "ArrowRight") selected ++;
       if (e.key === "ArrowLeft") selected --;
 
-      statusLogic.createStatus("Burn", 3); // TESTING TEMP
-      statusLogic.createStatus("WeakPoison", 4); // TESTING TEMP
-      statusLogic.createStatus("Combustion", 6); // TESTING TEMP
-      statusLogic.createStatus("Poison", 1); // TESTING TEMP
+      statusLogic.createStatus("IntenseBurn", 5); // TESTING TEMP
+      statusLogic.createStatus("ManaWell", 4); // TESTING TEMP
+      statusLogic.createStatus("Bleeding", 6); // TESTING TEMP
+      statusLogic.createStatus("Burn", 5); // TESTING TEMP
+      statusLogic.createStatus("IntenseBleeding", 4); // TESTING TEMP
+      statusLogic.createStatus("SevereBleeding", 1); // TESTING TEMP
+      statusLogic.createStatus("WeakPoison", 6); // TESTING TEMP
+      statusLogic.createStatus("Poison", 5); // TESTING TEMP
+      statusLogic.createStatus("ManaBleeding", 8); // TESTING TEMP
+      statusLogic.createStatus("Combustion", 4); // TESTING TEMP
+      statusLogic.createStatus("CombustionBurn", 3); // TESTING TEMP
 
       // I think this works now
       const enemiesArray = enemies.getCurrent(); 

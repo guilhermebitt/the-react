@@ -71,7 +71,7 @@ function PlayerHUD() {
       </div>
 
       {/* STATUS EFFECTS */}
-      <div className={styles.statusContainer}>
+      <div className={`${styles.statusContainer} scrollbar`}>
         {Object.entries(player.status).map(([statusKey, statusInstance]) => {
           return (
             <ActiveStatus key={statusKey} status={statusInstance}></ActiveStatus>
