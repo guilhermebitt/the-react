@@ -54,6 +54,9 @@ function Menu() {
         <Link to="/settings">
           <button className={styles['menus']}>Settings</button>
         </Link>
+        <Link to="/test">
+          <button className={styles['menus']}>Dev Screen</button>
+        </Link>
         <Link to="/credits">
           <button className={styles['menus']}>Credits</button>
         </Link>

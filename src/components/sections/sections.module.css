@@ -17,11 +17,20 @@
   align-items: center;
   align-self: center;
 
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
 
   border: 1px solid white;
   border-radius: 3px;
+}
+
+.slot img {
+  width: 100%;
+  height: 100%;
+}
+
+.slot:hover {
+  background-color: rgba(214, 214, 214, 0.285);
 }
 
 /* SKILLS SECTION */

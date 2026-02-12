@@ -1,4 +1,8 @@
-//Components
+// Dependencies
+import { useState, useEffect } from "react"
+import { useStore } from "@/stores"
+
+// Components
 import ComponentBorder from "../ui/ComponentBorder"
 import Stats from "../ui/Stats"
 
@@ -24,28 +28,44 @@ export default InventorySection
 function Equipments() {
   return (
     <ComponentBorder title="Equipments">
-      
+      WIP
     </ComponentBorder>
   )
 }
 
 // Part of the inventory itself
 function Inventory() {
+  // This state will control which slots are selected by they ID.
+
+  // NOTE: this will be a array because, in the future, maybe you going to be able to hold control to select
+  // more than one slot per time.
+  const [slotsSelected, setSlotsSelected] = useState<number[]>([]);
+
+  useEffect(() => {console.log(slotsSelected)}, [slotsSelected])
+
   return (
     <ComponentBorder title="Inventory">
       <div className={styles.inventory}>
         {Array.from({ length: 36 }).map((_, i) => (
-          <Slot key={i} />
+          <Slot key={i} id={i + 1} select={setSlotsSelected}/>
         ))}
       </div>
     </ComponentBorder>
   );
 }
+
 // Inventory slot (for equipments and inventory)
-function Slot() {
+function Slot({id, select}: {id: number, select: Function}) {
+  // Getting the slot data of the inventory by the id in the store
+  const slotData = useStore("inventory", (s) => s.inventory[id])
+
   return (
-    <div className={styles.slot}>
-      
+    <div 
+      className={styles.slot}
+      // Updates the selected array to the ID of this slot
+      onClick={() => select([id])}
+    >
+      {slotData?.item?.imagePath && <img src={slotData?.item?.imagePath} alt="" draggable={true}/>}
     </div>
   )
 }
