@@ -36,18 +36,18 @@ function Equipments() {
 // Part of the inventory itself
 function Inventory() {
   // This state will control which slots are selected by they ID.
-
   // NOTE: this will be a array because, in the future, maybe you going to be able to hold control to select
   // more than one slot per time.
-  const [slotsSelected, setSlotsSelected] = useState<number[]>([]);
+  /* const [slotsSelected, setSlotsSelected] = useState<number[]>([]);
 
-  useEffect(() => {console.log(slotsSelected)}, [slotsSelected])
-
+  useEffect(() => {console.log("inventory slots selected:", slotsSelected)}, [slotsSelected])
+ */
   return (
     <ComponentBorder title="Inventory">
       <div className={styles.inventory}>
+        {/* Adding 36 Slot components */}
         {Array.from({ length: 36 }).map((_, i) => (
-          <Slot key={i} id={i + 1} select={setSlotsSelected}/>
+          <Slot key={i} id={i} select={() => {}}/>
         ))}
       </div>
     </ComponentBorder>
@@ -57,7 +57,7 @@ function Inventory() {
 // Inventory slot (for equipments and inventory)
 function Slot({id, select}: {id: number, select: Function}) {
   // Getting the slot data of the inventory by the id in the store
-  const slotData = useStore("inventory", (s) => s.inventory[id])
+  const slotItem = useStore("inventory", (s) => s.inventory[id].item)
 
   return (
     <div 
@@ -65,7 +65,7 @@ function Slot({id, select}: {id: number, select: Function}) {
       // Updates the selected array to the ID of this slot
       onClick={() => select([id])}
     >
-      {slotData?.item?.imagePath && <img src={slotData?.item?.imagePath} alt="" draggable={true}/>}
+      {slotItem?.imagePath && <img src={slotItem?.imagePath} alt="" draggable={true}/>}
     </div>
   )
 }

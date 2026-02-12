@@ -1,6 +1,7 @@
 // Dependencies
 import { Link } from 'react-router-dom';
 import { useLocalStorage } from 'usehooks-ts';
+import { useStore } from '@/stores';
 
 // Components
 import InventorySection from '@/components/sections/InventorySection';
@@ -12,6 +13,9 @@ import InventorySection from '@/components/sections/InventorySection';
 function TestingScreen() {
   // Getting the lastScreen from localStorage
   const [lastScreen, setLastScreen] = useLocalStorage('lastScreen', '/');
+
+  // Inventory store
+  const inv = useStore("inventory", "actions");
 
   return (
     <main>
@@ -26,6 +30,7 @@ function TestingScreen() {
       {/* New Features Section */}
       <section>
         <InventorySection />
+        <button onClick={() => {inv.addItem("iron_sword")}}>Add item</button>
       </section>
     </main>
   );

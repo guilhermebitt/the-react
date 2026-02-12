@@ -1,5 +1,3 @@
-import { Consumable, Weapon } from "@/types";
-
 // Items constant
 export const items = {
 
@@ -17,7 +15,7 @@ export const items = {
       type: "weapon",
       baseDamage: 10
     }
-  }/*  as {[key: string]: Weapon} */,
+  },
 
   // CONSUMABLES
   consumables: {
@@ -32,5 +30,5 @@ export const items = {
 
       type: "consumable"
     }
-  }/*  as {[key: string]: Consumable} */,
+  },
 } as const;

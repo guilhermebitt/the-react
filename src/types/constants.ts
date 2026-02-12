@@ -1,6 +1,7 @@
 // Constants for some stuff
 // Importing types
 import { items } from "@/data/items";
+import { ItemType } from "./items";
 
 // Turns types
 export const VALID_TURNS = ["player", "enemies", "onAction", null] as const;
@@ -13,7 +14,6 @@ export const ITEM_TYPES = ["weapon", "armor", "consumable", "artifact"] as const
 
 // Stats that are changed at the players level up
 export const STATS_UPDATED_ON_LEVEL_UP = ["maxHealth", "health", "maxMana", "mana", "attack", "defense"] as const;
-
 
 // Rarities
 export const rarities = {
@@ -39,7 +39,6 @@ export const rarities = {
   },
 } as const;
 
-
 // --- ITEMS / INVENTORY ---
 // Weapon Ids
 export type WeaponIds = keyof typeof items.weapons;
@@ -54,5 +53,5 @@ export const ITEM_IDS = [...WEAPON_IDS, ...CONSUMABLE_IDS] as ItemIds[];
 export const ITEM_REGISTRY = Object.fromEntries(
   Object.values(items).flatMap((category) => Object.entries(category))
 ) as {
-  [K in keyof (typeof items)[keyof typeof items]]: (typeof items)[keyof typeof items][K];
+  [K in ItemIds]: ItemType;
 };

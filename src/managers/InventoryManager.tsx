@@ -1,9 +1,9 @@
 // Dependencies
-import { useStore } from "@/stores";
+import { useEffect } from "react";
+import { useInventoryStore, useStore } from "@/stores";
 
 // Inventory manager component
 export function InventoryManager() {
-  const inventory = useStore("inventory", "actions");
 
   return null;
 }
