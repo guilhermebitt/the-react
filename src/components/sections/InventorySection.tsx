@@ -58,8 +58,6 @@ function Equipments() {
 function Inventory() {
   // This state will control which slots are selected by they ID.
   const [slotSelected, setSlotSelected] = useState<number>();
-
-  //useEffect(() => {console.log("inventory slots selected:", slotSelected)}, [slotSelected])
  
   return (
     <ComponentBorder title="Inventory">
@@ -208,16 +206,25 @@ function Modal({mousePosX, mousePosY, close, slotId, where="inventory"}: {mouseP
       className={styles.modal}
       style={{top: mousePosY, left: mousePosX}}
     >
+      {/* USE ITEM */}
       {item?.type === "consumable" && 
         <button>
-          Use item
+          Use
         </button>
       }
-      {item?.type === "weapon" && 
-        <button>
+      {/* EQUIP ITEM */}
+      {(item?.type === "weapon" && where !== "equipments") && 
+        <button onClick={() => {inv.equipItem(item, slotId); close()}}>
           Equip
         </button>
       }
+      {/* UNEQUIP */}
+      {(item && where === "equipments") && 
+        <button onClick={() => {inv.unequipItem(item, slotId); close()}}>
+          Unequip
+        </button>
+      }
+      {/* DELETE */}
       <button id={styles.delete} onClick={handleDelete}>
         Delete
       </button>
