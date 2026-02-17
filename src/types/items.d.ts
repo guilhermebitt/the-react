@@ -3,7 +3,7 @@ import { ITEM_TYPES } from "@/types/constants"
 import { Rarity } from "./global";
 
 // Exporting types
-export type ItemType = Item | Weapon | Consumable;
+export type ItemType = Weapon | Consumable;
 
 // Type for item object
 type Item = {  // Base for all items

@@ -17,10 +17,6 @@ div.levelUpBox {
     font-size: 1.5rem;
   }
 
-  span {
-    color: rgb(23, 150, 76);
-  }
-
   div.perksContainer {
     display: flex;
     justify-content: space-around;

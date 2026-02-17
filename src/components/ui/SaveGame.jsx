@@ -30,6 +30,7 @@ function SaveGame({ saveId }) {
   const logic = useLogic();
   // Store
   const game = useStore("game", "actions");
+  const inv = useStore("inventory", "actions");
 
   // Reacts to the change of the load (game load)
   useEffect(() => {
@@ -57,6 +58,7 @@ function SaveGame({ saveId }) {
       player: playerData,
       enemies: [],
       game: gameData,
+      inventory: inv.generateInventory(36),
       tick: 0
     });
 

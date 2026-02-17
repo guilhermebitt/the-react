@@ -19,7 +19,7 @@ export const STATS_UPDATED_ON_LEVEL_UP = ["maxHealth", "health", "maxMana", "man
 export const rarities = {
   common: {
     appearChance: 45,
-    color: "red",
+    color: "green",
   },
   uncommon: {
     appearChance: 30,
@@ -27,7 +27,7 @@ export const rarities = {
   },
   rare: {
     appearChance: 15,
-    color: "green",
+    color: "red",
   },
   epic: {
     appearChance: 8,

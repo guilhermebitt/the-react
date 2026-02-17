@@ -1,18 +1,19 @@
 // Dependencies
-import { useLocalStorage } from 'usehooks-ts';
+import { useLocalStorage } from "usehooks-ts";
 
 // Store
-import { useStore } from '@/stores';
+import { useStore } from "@/stores";
 
 export const useSaveManager = (saveId) => {
   // Store
-  const [getCurrentTick, updateTick] = useStore("tick", state => [state.getCurrent, state.update]);
+  const [getCurrentTick, updateTick] = useStore("tick", (state) => [state.getCurrent, state.update]);
   const playerAc = useStore("player", "actions");
   const enemiesAc = useStore("enemies", "actions");
   const gameAc = useStore("game", "actions");
   const bestiaryAc = useStore("bestiary", "actions");
+  const invAc = useStore("inventory", "actions");
 
-  const [saves, setSaves] = useLocalStorage('saves', {});
+  const [saves, setSaves] = useLocalStorage("saves", {});
 
   const saveGame = () => {
     try {
@@ -22,13 +23,14 @@ export const useSaveManager = (saveId) => {
         game: gameAc.getCurrent(),
         bestiary: bestiaryAc.getCurrent(),
         tick: getCurrentTick(),
+        inventory: invAc.getCurrent(),
       };
       setSaves((prevSaves) => ({
         ...prevSaves,
         [saveId]: gameState,
       }));
     } catch (error) {
-      console.error('Error saving the game:', error);
+      console.error("Error saving the game:", error);
     }
   };
 
@@ -46,19 +48,21 @@ export const useSaveManager = (saveId) => {
       playerAc.reset();
       enemiesAc.reset();
       gameAc.reset();
-      bestiaryAc.reset(),
+      bestiaryAc.reset();
+      invAc.reset();
       updateTick(0);
 
       // Re-loading all contexts
       playerAc.loadSave(savedState.player);
       enemiesAc.loadSave(savedState.enemies);
       gameAc.loadSave(savedState.game);
-      bestiaryAc.loadSave(savedState.bestiary),
-      updateTick(savedState.tick)
+      bestiaryAc.loadSave(savedState.bestiary);
+      invAc.loadSave(savedState.inventory);
+      updateTick(savedState.tick);
 
       gameAc.update({ currentSave: saveId });
     } catch (error) {
-      console.error('Error loading the game:', error);
+      console.error("Error loading the game:", error);
     }
   };
 
@@ -70,7 +74,7 @@ export const useSaveManager = (saveId) => {
         return newSaves;
       });
     } catch (error) {
-      console.error('Error deleting the save:', error);
+      console.error("Error deleting the save:", error);
     }
   };
 
@@ -79,7 +83,8 @@ export const useSaveManager = (saveId) => {
     playerAc.reset();
     enemiesAc.reset();
     gameAc.reset();
-    bestiaryAc.reset(),
+    bestiaryAc.reset();
+    invAc.reset();
     updateTick(0);
   };
 
