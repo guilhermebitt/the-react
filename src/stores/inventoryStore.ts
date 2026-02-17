@@ -3,6 +3,12 @@ import { create } from "zustand";
 import { ItemType } from "@/types/items";
 import { ITEM_REGISTRY, ItemIds } from "@/types/constants";
 
+// Type for save
+type InvData = {
+  inventory: Inventory,
+  equipments: Inventory
+}
+
 // Slot type
 type Slot = {
   item?: ItemType;
@@ -13,19 +19,23 @@ type Inventory = Slot[];
 // Inventory States
 type InventoryStoreState = {
   inventory: Inventory;
-  draggedIndex: number | null;
+  equipments: Inventory;
+  draggedIndex: {
+    inventory: number | null,
+    equipments: number | null
+  }
 };
 
 // Inventory Methods
 type InventoryStoreAction = {
-  setDraggedIndex: (index: number) => void;
-  moveItem: (targetIndex: number) => void;
-  getCurrent: () => Inventory;
-  addItem: (itemId: ItemIds) => void;
-  removeItem: (index: number) => void;
+  setDraggedIndex: (index: number, where?: "inventory" | "equipments") => void;
+  moveItem: (targetIndex: number, where?: "inventory" | "equipments") => void;
+  getCurrent: (attr?: "inventory" | "equipments") => Inventory;
+  addItem: (itemId: ItemIds, where?: "inventory" | "equipments") => void;
+  removeItem: (index: number, where?: "inventory" | "equipments") => void;
   generateInventory: (size: number) => Inventory;
   reset: () => void;
-  loadSave: (invData: Inventory) => void;
+  loadSave: (invData: InvData) => void;
 };
 
 // Store type
@@ -41,7 +51,11 @@ const generateInventory = (size: number) => {
 export const useInventoryStore = create<InventoryStore>((set, get) => ({
   // Inventory slots
   inventory: generateInventory(36),
-  draggedIndex: null,
+  equipments: generateInventory(8),
+  draggedIndex: {
+    inventory: null,
+    equipments: null
+  },
 
   // Function to generate inventory slots
   generateInventory: (size: number) => {
@@ -50,29 +64,42 @@ export const useInventoryStore = create<InventoryStore>((set, get) => ({
     }));
   },
 
-  setDraggedIndex: (index) => set({ draggedIndex: index }),
+  setDraggedIndex: (index, where="inventory") => {
+    const { draggedIndex } = get();
+    const newDraggedIndex = structuredClone(draggedIndex);
 
-  moveItem: (targetIndex) => {
-    const { inventory, draggedIndex } = get();
-    if (draggedIndex === null) return;
+    newDraggedIndex[where] = index
 
-    const newInventory = [...inventory];
+    set({ draggedIndex: newDraggedIndex })
+  },
+
+  moveItem: (targetIndex, where="inventory") => {
+    const { draggedIndex } = get();
+
+    const newInventory = structuredClone(get()[where]);
+    const newDraggedIndex = structuredClone(draggedIndex);
+
+    if (newDraggedIndex[where] === null) return;
+
+    const index = newDraggedIndex[where] as number;
 
     // troca os itens
-    [newInventory[draggedIndex], newInventory[targetIndex]] = [newInventory[targetIndex], newInventory[draggedIndex]];
+    [newInventory[index], newInventory[targetIndex]] = [newInventory[targetIndex], newInventory[index]];
+
+    newDraggedIndex[where] = null;
 
     set({
-      inventory: newInventory,
-      draggedIndex: null,
+      [where]: newInventory,
+      draggedIndex: newDraggedIndex,
     });
   },
 
   // Gets the inventory state
-  getCurrent: () => get().inventory,
+  getCurrent: (attr="inventory") => get()[attr],
 
   // Adds an item to the inventory
-  addItem: (itemId) => {
-    const inventory = [...get().inventory];
+  addItem: (itemId, where="inventory") => {
+    const inventory = [...get()[where]];
 
     inventory.some((slot, index) => {
       if (!slot.item) {
@@ -82,20 +109,20 @@ export const useInventoryStore = create<InventoryStore>((set, get) => ({
       return false;
     });
 
-    set({ inventory: inventory });
+    set({ [where]: inventory });
   },
 
   // Removes an item from the inventory
-  removeItem: (index) => {
-    const inventory = [...get().inventory];
+  removeItem: (index, where="inventory") => {
+    const inventory = [...get()[where]];
     inventory[index].item = undefined;
 
-    set({ inventory: inventory });
+    set({ [where]: inventory });
   },
 
-  // Resets all the items in the inventory
-  reset: () => set({ inventory: generateInventory(36) }),
+  // Resets all the items in the inventory store
+  reset: () => set({ inventory: generateInventory(36), equipments: generateInventory(8) }),
 
   // Load data from save
-  loadSave: (invData: Inventory) => set({ inventory: invData }),
+  loadSave: (invData: InvData) => set({ inventory: invData.inventory, equipments: invData.equipments }),
 }));

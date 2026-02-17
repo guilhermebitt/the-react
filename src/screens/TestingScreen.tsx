@@ -31,6 +31,7 @@ function TestingScreen() {
       <section>
         <InventorySection />
         <button onClick={() => {inv.addItem("iron_sword")}}>Add item</button>
+        <button onClick={() => {inv.addItem("iron_sword", 'equipments')}}>Add equipment</button>
       </section>
     </main>
   );

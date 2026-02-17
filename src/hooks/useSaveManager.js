@@ -24,6 +24,7 @@ export const useSaveManager = (saveId) => {
         bestiary: bestiaryAc.getCurrent(),
         tick: getCurrentTick(),
         inventory: invAc.getCurrent(),
+        equipments: invAc.getCurrent("equipments")
       };
       setSaves((prevSaves) => ({
         ...prevSaves,
@@ -57,7 +58,10 @@ export const useSaveManager = (saveId) => {
       enemiesAc.loadSave(savedState.enemies);
       gameAc.loadSave(savedState.game);
       bestiaryAc.loadSave(savedState.bestiary);
-      invAc.loadSave(savedState.inventory);
+      invAc.loadSave({
+        inventory: savedState.inventory,
+        equipments: savedState.equipments
+      });
       updateTick(savedState.tick);
 
       gameAc.update({ currentSave: saveId });

@@ -76,6 +76,41 @@
   color: brown;
 }
 
+.eqImg {
+  max-width: 100%;
+  height: fit-content;
+  opacity: 0.4;
+}
+
+.equipments {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  position: relative;
+
+  width: 100%;
+  height: 100%;
+}
+
+.eqArmor {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  position: absolute;
+  left: 0px;
+}
+
+.eqOthers {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  position: absolute;
+  right: 0;
+}
+
 /* SKILLS SECTION */
 .skillsContainer {
   width: 100%;
