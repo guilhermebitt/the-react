@@ -17,7 +17,7 @@ import { useStatusLogic } from "@/logic/statusLogic";
 // Logic manager
 export function BattleEventLogic() {
   // Debugging
-  console.log("battle event logics reloaded...")
+  // console.log("battle event logics reloaded...")
 
   // VARIABLES
   // References (Won't re-render the component)

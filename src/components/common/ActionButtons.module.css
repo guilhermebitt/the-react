@@ -8,3 +8,21 @@ div.actBtnContainer {
   gap: 10px;
   grid: 1fr 1fr 1fr 1fr / 100%;
 }
+
+@keyframes endturnAlert {
+  from {
+    background-color: rgb(208, 208, 208);
+  }
+  to {
+    background-color: rgb(250, 220, 108);
+    box-shadow: 0 0 20px rgb(250, 220, 108);
+  }
+}
+
+.endturnAlert {
+  animation: endturnAlert 1s ease infinite alternate !important;
+}
+
+.endturnAlert:hover {
+  filter: brightness(70%) !important;
+}
