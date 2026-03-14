@@ -1,10 +1,10 @@
 /* global is for the module to not add a hash to the name of the class, that way, 'has()' can target it*/
-:global(.options-menu-container button) {
+.optionsMenuContainer button {
   height: 100%;
   border: black solid 3px !important;
 }
 
-:global(.options-menu-container) {
+.optionsMenuContainer {
   display: flex;
   flex-direction: column;
   width: 150px;

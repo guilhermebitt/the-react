@@ -59,8 +59,8 @@ function OptionButtons() {
     <>
       {CDComponent}
       {CDComponent2}
-      <ComponentBorder title="Options">
-        <div className="options-menu-container">
+      <ComponentBorder title="Options" borderStyles={{backgroundColor: "#112"}} titleStyles={{backgroundColor: "#112"}}>
+        <div className={styles.optionsMenuContainer}>
           <button className="default" onClick={showLog} disabled={!(currentTurn === "player")}>
             Log
           </button>
