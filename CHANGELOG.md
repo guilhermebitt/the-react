@@ -1,3 +1,10 @@
+## [1.2.1-beta.1](https://github.com/guilhermebitt/the-react/compare/v1.2.0...v1.2.1-beta.1) (2026-04-16)
+
+
+### Bug Fixes
+
+* **ui:** trying to fix the option menu ([00f3322](https://github.com/guilhermebitt/the-react/commit/00f3322366fd7725166b11c1b534aa7e0a80766d))
+
 # [1.2.0](https://github.com/guilhermebitt/the-react/compare/v1.1.0...v1.2.0) (2025-12-05)
 
 
