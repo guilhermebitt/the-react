@@ -1,13 +1,13 @@
 /* global is for the module to not add a hash to the name of the class, that way, 'has()' can target it*/
-.optionsMenuContainer button {
+.opContainer button {
   height: 100%;
   border: black solid 3px !important;
 }
 
-.optionsMenuContainer {
-  display: flex;
-  flex-direction: column;
-  width: 150px;
-  height: 160px;
-  gap: 5px;
+.opContainer {
+  display: flex !important;
+  flex-direction: column !important;
+  width: 150px !important;
+  height: 160px !important;
+  gap: 5px !important;
 }

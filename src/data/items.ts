@@ -8,7 +8,7 @@ export const items = {
       name: "Iron Sword",
       description: "WIP",
       rarity: "common",
-      imagePath: "/public/assets/items/weapons/iron_sword.png",
+      imagePath: "/assets/items/weapons/iron_sword.png",
 
       stackable: false,
 
@@ -24,7 +24,7 @@ export const items = {
       name: "Small Healing Potion",
       description: "WIP",
       rarity: "common",
-      imagePath: "/public/assets/items/consumables/small_healing_potion.png",
+      imagePath: "/assets/items/consumables/small_healing_potion.png",
 
       stackable: false,
 

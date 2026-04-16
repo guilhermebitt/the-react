@@ -34,7 +34,7 @@ function Equipments() {
   return (
     <ComponentBorder title="Equipments">
       <div className={styles.equipments}>
-        <img src="/public/assets/hud/hero_base.png" alt="hero sprite but all white" className={styles.eqImg}/>
+        <img src="/assets/hud/hero_base.png" alt="hero sprite but all white" className={styles.eqImg}/>
 
         {/* Equipments Slots */}
         {/* Armor */}
