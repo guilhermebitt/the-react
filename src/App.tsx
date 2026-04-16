@@ -8,7 +8,7 @@ import LogContainer from "./components/game/LogContainer";
 import BestiaryContainer from "./components/game/BestiaryContainer";
 
 // Managers
-import { AudioManager, PlayerManager, EnemiesManager } from "@/managers";
+import { AudioManager, PlayerManager, EnemiesManager, InventoryManager } from "@/managers";
 
 // Logics
 import { BattleEventLogic } from "@/logic";
@@ -21,6 +21,7 @@ import BattleEvent from "./screens/BattleEvent";
 import Saves from "./screens/Saves";
 import DeathScreen from "./screens/DeathScreen";
 import Credits from "./screens/Credits";
+import TestingScreen from "./screens/TestingScreen";
 
 // Stylesheet
 import "./assets/css/App.css";
@@ -74,6 +75,9 @@ function AppRoutes() {
         {/* Event Screens */}
         <Route path="/battle/*" element={<BattleEvent />} />
 
+        {/* Testing New Features */}
+        <Route path="/test" element={<TestingScreen />} />
+
         {/* In Case of Page Not Found */}
         <Route path="*" element={<Menu />} />
       </Routes>
@@ -91,6 +95,7 @@ function Managers() {
       <AudioManager />
       <PlayerManager />
       <EnemiesManager />
+      <InventoryManager />
     </>
   );
 }

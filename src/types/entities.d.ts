@@ -89,10 +89,13 @@ export interface BaseEntityData {
 
 interface PlayerData extends BaseEntityData {
   xp: number;
+  status: { [key: string]: Status };
 }
 
 interface EnemyData extends BaseEntityData {
   isBoss: boolean;
+  flavorText: string;
+  effects: Effects;
   loot: Loot;
 }
 

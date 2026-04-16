@@ -6,61 +6,10 @@ import { useStore } from "@/stores";
 // Stylesheets
 import styles from "./LevelUpModal.module.css";
 import { Perk } from "@/types";
+import { rarities } from "@/types/constants";
 
 // Perks, just for testing
-let perks = [
-{
-  "id": "critEye",
-  "name": "Crit Eye",
-  "description": "Increases the critic attack chance by {critChance}%",
-  "rarity": "common",
-  "iconURL": "/assets/perks/battle/crit_eye.png",
-
-  "stackCount": 1,
-  "maxStackCount": 10,
-
-  "category": "battle",
-  "effects": {
-    "increases": {
-      "critChance": 2
-    }
-  }
-} as Perk,
-{
-  "id": "critEye",
-  "name": "Crit Eye",
-  "description": "Increases the critic attack chance by {critChance}%",
-  "rarity": "common",
-  "iconURL": "/assets/perks/battle/crit_eye.png",
-
-  "stackCount": 1,
-  "maxStackCount": 10,
-
-  "category": "battle",
-  "effects": {
-    "increases": {
-      "critChance": 2
-    }
-  }
-} as Perk,
-{
-  "id": "critEye",
-  "name": "Crit Eye",
-  "description": "Increases the critic attack chance by {critChance}%",
-  "rarity": "common",
-  "iconURL": "/assets/perks/battle/crit_eye.png",
-
-  "stackCount": 1,
-  "maxStackCount": 10,
-
-  "category": "battle",
-  "effects": {
-    "increases": {
-      "critChance": 2
-    }
-  }
-} as Perk,
-]
+let perks: any = []
 
 // Level up Component
 function LevelUpModal() {
@@ -96,10 +45,11 @@ function LevelUpModal() {
           {/* Perk container */}
           {perks.map((perk, index) => {
             // Returning the perk div
+
             return (
               <div key={index} className={styles.perkBox} onClick={() => handleChoosePerk(perk)}>
                 {/* Title */}
-                <h3><span>{perk.name} {game.getCurrent().perks[perk.id]?.stackCount === perk.maxStackCount && "(MAX)"}</span></h3>
+                <h3><span style={{color: rarities[perk.rarity].color}}>{perk.name} {game.getCurrent().perks[perk.id]?.stackCount === perk.maxStackCount && "(MAX)"}</span></h3>
                 {/* Image */}
                 <img src={perk.iconURL} alt="" />
                 {/* Description */}

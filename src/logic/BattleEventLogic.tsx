@@ -12,11 +12,12 @@ import { useLogic } from "@/hooks";
 import enemiesJson from "@/data/enemies.json";
 import { Enemy } from "@/utils/entities";
 import { useLocalStorage } from "usehooks-ts";
+import { useStatusLogic } from "@/logic/statusLogic";
 
 // Logic manager
 export function BattleEventLogic() {
   // Debugging
-  console.log("battle event logics reloaded...")
+  // console.log("battle event logics reloaded...")
 
   // VARIABLES
   // References (Won't re-render the component)
@@ -39,6 +40,9 @@ export function BattleEventLogic() {
   const logic = useLogic();
   const [endEvent, setEndEvent] = useState(false);
   const [settings] = useLocalStorage("settings", settingsJson);
+
+  // Status
+  const statusLogic = useStatusLogic();
 
   // Variable for enemy selection keybind
   var selected = 1;
@@ -117,8 +121,6 @@ export function BattleEventLogic() {
       return;
     }
 
-    
-
     // Verify what kind of turn it is
     switch (currentTurn) {
       case "player":
@@ -127,6 +129,7 @@ export function BattleEventLogic() {
 
       case "enemies":
         logic.handleEnemiesTurn();
+        statusLogic.updateStatusOnRoundEnd();
         break;
 
       case null:
@@ -158,6 +161,18 @@ export function BattleEventLogic() {
       if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return
       if (e.key === "ArrowRight") selected ++;
       if (e.key === "ArrowLeft") selected --;
+
+      statusLogic.createStatus("IntenseBurn", 5); // TESTING TEMP
+      statusLogic.createStatus("ManaWell", 4); // TESTING TEMP
+      statusLogic.createStatus("Bleeding", 6); // TESTING TEMP
+      statusLogic.createStatus("Burn", 5); // TESTING TEMP
+      statusLogic.createStatus("IntenseBleeding", 4); // TESTING TEMP
+      statusLogic.createStatus("SevereBleeding", 1); // TESTING TEMP
+      statusLogic.createStatus("WeakPoison", 6); // TESTING TEMP
+      statusLogic.createStatus("Poison", 5); // TESTING TEMP
+      statusLogic.createStatus("ManaBleeding", 8); // TESTING TEMP
+      statusLogic.createStatus("Combustion", 4); // TESTING TEMP
+      statusLogic.createStatus("CombustionBurn", 3); // TESTING TEMP
 
       // I think this works now
       const enemiesArray = enemies.getCurrent(); 

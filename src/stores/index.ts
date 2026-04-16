@@ -7,6 +7,7 @@ export * from "./playerStore";
 export * from "./enemiesStore";
 export * from "./gameStore";
 export * from "./bestiaryStore";
+export * from "./inventoryStore";
 
 // useStore hook
 export * from "./useStore";

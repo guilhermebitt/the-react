@@ -23,7 +23,7 @@ export const useBestiaryStore = create<BestiaryStore>((set, get) => ({
       discovered: { ...state.discovered, [id]: true }
     })),
 
-    // Returns the current state without causing components to rerender
+  // Returns the current state without causing components to rerender
   getCurrent: () => get().discovered ?? {},
 
   // Function to reset the game data

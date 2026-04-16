@@ -3,10 +3,10 @@
 import enemiesJson from "@/data/enemies.json";
 
 // importing constant
-import { eventsTypes } from "@/types/constants";
+import { EVENTS_TYPES } from "@/types/constants";
 
 // Event types and path
-type EventType = typeof eventsTypes[number];
+type EventType = typeof EVENTS_TYPES[number];
 type EventPath = `/${EventType}`;
 
 // This will take all keys of the enemiesJson, with exception of "commonProperties" and "deathAnimation"

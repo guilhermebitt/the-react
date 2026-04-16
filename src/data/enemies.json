@@ -53,6 +53,7 @@
     "name": "Snake",
     "className": "Snake",
     "img": "/assets/entities/WildForest/snake.png",
+    "flavorText": "Just a normal snake, a common predator around the forest",
     "animations": {
       "columns": 3,
       "rows": 2,
@@ -98,6 +99,12 @@
     },
     "loot": {
       "xp": [5, 10]
+    },
+    "effects": {
+      "WeakPoison": {
+        "stack": 2,
+        "chance": 10
+      }
     }
   },
 
@@ -105,6 +112,7 @@
     "name": "Venomous Snake",
     "className": "VenomousSnake",
     "img": "/assets/entities/WildForest/venomous_snake.png",
+    "flavorText": "A more dangerous species of snake, be very careful with its fangs. Don't let it bite you",
     "animations": {
       "columns": 3,
       "rows": 2,
@@ -150,6 +158,12 @@
     },
     "loot": {
       "xp": [10, 15]
+    },
+    "effects": {
+      "WeakPoison": {
+        "stack": 2,
+        "chance": 25
+      }
     }
   },
 
@@ -157,6 +171,7 @@
     "name": "Slime",
     "className": "Slime",
     "img": "/assets/entities/WildForest/slime.png",
+    "flavorText": "Slimes are very simple creatures, they are just nuisances but there is a lot of them around, do they even think?",
     "animations": {
       "columns": 3,
       "rows": 2,
@@ -200,13 +215,15 @@
     },
     "loot": {
       "xp": [1, 5]
-    }
+    },
+    "effects": null
   },
 
   "goldenSlime": {
     "name": "Golden Slime",
     "className": "GoldenSlime",
     "img": "/assets/entities/WildForest/goldslime.png",
+    "flavorText": "Its your lucky day!",
     "animations": {
       "columns": 3,
       "rows": 2,
@@ -250,7 +267,8 @@
     },
     "loot": {
       "xp": [20, 30]
-    }
+    },
+    "effects": null
   },
 
   "anaconda": {
@@ -258,6 +276,7 @@
     "name": "Anaconda",
     "className": "Anaconda",
     "img": "/assets/entities/boss/anaconda.png",
+    "flavorText": "Massive snake that slithers around in the forest, despite not being a territorial creature, it seems to be very aggressive, many people have been killed by these snakes, good luck",
     "animations": {
       "columns": 3,
       "rows": 2,
@@ -303,6 +322,12 @@
     },
     "loot": {
       "xp": [15, 25]
+    },
+    "effects": {
+      "Poison": {
+        "stack": 1,
+        "chance": 25
+      }
     }
   },
 
@@ -310,6 +335,7 @@
     "name": "Echo",
     "className": "Echo",
     "img": "/assets/entities/TEMP/echo.png",
+    "flavorText": "#@%$@#!$$#@!!@",
     "animations": {
       "columns": 4,
       "rows": 2,
@@ -357,6 +383,7 @@
     },
     "loot": {
       "xp": [10, 20]
-    }
+    },
+    "effects": null
   }
 }

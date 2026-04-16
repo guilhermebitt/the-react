@@ -10,6 +10,7 @@ import styles from './ActionButtons.module.css';
 
 function ActionButtons(props) {
   const currentTurn = useStore("game", s => s.game.currentTurn);
+  const playerActionsLeft = useStore("player", s => s.player.actionsLeft);
 
   return (
     <ComponentBorder title="Action">
@@ -39,8 +40,8 @@ function ActionButtons(props) {
           (E) WIP
         </button>
         <button
-          id='endturn'
-          className="default leftanchor"
+          id="endturn"
+          className={`${(playerActionsLeft == 0 && currentTurn == "player") && styles.endturnAlert} default leftanchor`}
           onClick={props.endTurn}
           disabled={currentTurn !== "player" ? true : false}
         >
