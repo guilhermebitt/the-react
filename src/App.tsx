@@ -8,7 +8,7 @@ import LogContainer from "./components/game/LogContainer";
 import BestiaryContainer from "./components/game/BestiaryContainer";
 
 // Managers
-import { AudioManager, PlayerManager, EnemiesManager, InventoryManager } from "@/managers";
+import { AudioManager, PlayerManager, EnemiesManager, InventoryManager, MapManager } from "@/managers";
 
 // Logics
 import { BattleEventLogic } from "@/logic";
@@ -96,6 +96,7 @@ function Managers() {
       <PlayerManager />
       <EnemiesManager />
       <InventoryManager />
+      {/* <MapManager /> */}
     </>
   );
 }

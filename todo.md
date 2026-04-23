@@ -2,7 +2,7 @@
 
 ## Features
 - [ ] Sistema de looting
-- [ ] Sistema de nível
+- [x] Sistema de nível
 - [ ] Sistema de inventário (será complicado)
 - [x] Sistema de geração de mapas e eventos aleatórios
 
@@ -11,6 +11,9 @@
 - [x] Arrumar a mensagem de dano (critico não tá vermelho)
 
 ## Addons / Improvements
+- [ ] Mudar taxa de spawn de entidade sobe as camadas do mapa
+- [ ] Notificação em "Perks" quando upar de nivel
+- [ ] Animação de espada no player
 - [ ] Player fica com a skin machucada conforme leva dano
 - [ ] Tela de confirmação para o "clear all data" no menu principal
 - [x] Sistema de geração de inimigos

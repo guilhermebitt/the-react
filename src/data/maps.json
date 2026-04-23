@@ -12,7 +12,8 @@
         },
         "venomousSnake": {
           "appearChance": 15
-        },        "slime": {
+        },        
+        "slime": {
           "appearChance": 45
         },
         "goldenSlime": {
