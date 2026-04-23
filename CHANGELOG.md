@@ -1,3 +1,10 @@
+# [1.3.0-beta.1](https://github.com/guilhermebitt/the-react/compare/v1.2.1-beta.1...v1.3.0-beta.1) (2026-04-23)
+
+
+### Features
+
+* **infinite mode:** starting to implement an infinite mode ([887815c](https://github.com/guilhermebitt/the-react/commit/887815c9bd2b7f978340d2e46c93ea1fe1c9b5b1))
+
 ## [1.2.1-beta.1](https://github.com/guilhermebitt/the-react/compare/v1.2.0...v1.2.1-beta.1) (2026-04-16)
 
 
