@@ -2,36 +2,42 @@
 import { useEffect, useState } from "react";
 import { useStore } from "@/stores";
 
+// Hooks
+import { useLogic } from "@/hooks";
+
+// Types
+import { Event } from "@/types";
+
 // Map manager component
 export function MapManager() {
   const game = useStore("game", "actions")
-  const [bossState, setBossState] = useState<any>()
+  const map = useStore("game", s => s.game.mapArea)
+  const [lastEvent, setLastEvent] = useState<null|Event>()
   const [loading, setLoading] = useState(false)
+  const logic = useLogic()
 
-  useEffect(() => {
-    setLoading(true)
-  }, [loading])
+  // Loading useEffect
+  useEffect(() => setLoading(true), [loading])
 
-  // PROBABLY TEMPORARY
-  useEffect(() => {
-      // Getting the boss event
-    const map = game.getCurrent().mapArea
-
-    // Searching for the last event
-    const last_section = map[-1]
-    const bossEvent = last_section.events[0]
-
-    setBossState(bossEvent)
-  }, [game.getCurrent()])
-
-
-
-  // Executes only if the player beat the boss
+  // Getting the current lastEvent of the mapArea
   useEffect(() => {
     if (!loading) return
 
-    console.log(bossState)
-  }, [bossState, loading])
+    const last = map?.[map?.length-1]?.events[0]
+    last && setLastEvent(last)
+  }, [map])
+
+  // Effect when the lastEvent is finished
+  useEffect(() => {
+    if (lastEvent?.isFinished) {
+      // Creating the new region and updating the game
+      const newRegion = logic.createRegion()?.mapData
+      game.update({ "mapArea": (prev: any) => [...prev, ...newRegion as any] })
+
+      // Passing the events manually
+      logic.passEvents()
+    }
+  }, [lastEvent])
 
   return null;
 }

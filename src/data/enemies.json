@@ -1,6 +1,7 @@
 {
   "commonProperties": {
     "level": 1,
+    "levelMod": 0,
     "entityType": "enemy",
     "isBoss": false,
     "currentAnim": "standBy",
@@ -51,6 +52,7 @@
 
   "snake": {
     "name": "Snake",
+    "levelMod": 0,
     "className": "Snake",
     "img": "/assets/entities/WildForest/snake.png",
     "flavorText": "Just a normal snake, a common predator around the forest",
@@ -110,6 +112,7 @@
 
   "venomousSnake": {
     "name": "Venomous Snake",
+    "levelMod": 0,
     "className": "VenomousSnake",
     "img": "/assets/entities/WildForest/venomous_snake.png",
     "flavorText": "A more dangerous species of snake, be very careful with its fangs. Don't let it bite you",
@@ -169,6 +172,7 @@
 
   "slime": {
     "name": "Slime",
+    "levelMod": -1,
     "className": "Slime",
     "img": "/assets/entities/WildForest/slime.png",
     "flavorText": "Slimes are very simple creatures, they are just nuisances but there is a lot of them around, do they even think?",
@@ -221,6 +225,7 @@
 
   "goldenSlime": {
     "name": "Golden Slime",
+    "levelMod": 0,
     "className": "GoldenSlime",
     "img": "/assets/entities/WildForest/goldslime.png",
     "flavorText": "Its your lucky day!",
@@ -273,6 +278,7 @@
 
   "anaconda": {
     "isBoss": true,
+    "levelMod": 1,
     "name": "Anaconda",
     "className": "Anaconda",
     "img": "/assets/entities/boss/anaconda.png",

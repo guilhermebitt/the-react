@@ -96,7 +96,7 @@ function Managers() {
       <PlayerManager />
       <EnemiesManager />
       <InventoryManager />
-      {/* <MapManager /> */}
+      <MapManager />
     </>
   );
 }

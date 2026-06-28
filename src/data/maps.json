@@ -5,6 +5,7 @@
     "src": "/assets/scenarios/wild_forest.jpg",
     "section": "/assets/map_sections/wild_forest_section.png",
     "multipleEnemiesChance": 25,
+    "baseLevel": [1, 2],
     "mapEnemies": {
       "battle": {
         "snake": {

@@ -97,6 +97,7 @@ interface EnemyData extends BaseEntityData {
   flavorText: string;
   effects: Effects;
   loot: Loot;
+  levelMod: number;
 }
 
 type EntityData = PlayerData | EnemyData;

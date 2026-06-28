@@ -26,6 +26,7 @@ interface MapData {
   src: string;
   section: string;
   multipleEnemiesChance: number;
+  baseLevel: number[];
   mapEnemies: MapEnemies;
 }
 

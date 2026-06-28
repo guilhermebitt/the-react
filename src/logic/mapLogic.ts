@@ -1,9 +1,10 @@
 // Data
 import rawMapsData from '../data/maps.json' with { type: 'json' };
 import rawEventsData from '../data/events.json' with { type: 'json' };
+import rawEnemiesData from '../data/enemies.json' with { type: 'json' };
 
 // Importing TS types
-import { GameData, GameUpdater, MapsData, MapsKey, Event, SpawnableEnemy, EventType } from "@/types";
+import { GameData, GameUpdater, MapsData, MapsKey, Event, SpawnableEnemy, EventType, EnemyData } from "@/types";
 
 // Other 
 import { random } from "@/utils/functions";
@@ -11,6 +12,7 @@ import { random } from "@/utils/functions";
 // Conversion of JSON to types
 const mapsData = rawMapsData as unknown as MapsData;
 const eventsData = rawEventsData as unknown as Record<EventType, Event>;
+const enemiesData = rawEnemiesData as unknown as {[key in SpawnableEnemy]: EnemyData};
 
 // EventsLogicManager
 interface EventManager {
@@ -148,14 +150,13 @@ export function createMapLogic(deps: MapLogicDeps) {
     },
 
     // Function to generate the enemies of an battle event
-    generateEnemies(regionKey: MapsKey, eventType: EventType, allowMultipleEnemies = true) {
+    generateEnemies(regionKey: MapsKey, eventType: EventType, allowMultipleEnemies = true, sectionNum: number) {
       let enemiesToSpawn = [];
       const MAX_OF_ENEMIES = 3;
+      const SECTION_LEVEL_MULTIPLIER = 0.4;
 
       // Getting the enemies list of the region and event type from the maps json
-      const enemiesList: Record<SpawnableEnemy, { appearChance: number }> = mapsData[regionKey]["mapEnemies"][
-        eventType
-      ] as Record<SpawnableEnemy, { appearChance: number }>;
+      const enemiesList = mapsData[regionKey]["mapEnemies"][eventType] as Record<SpawnableEnemy, {appearChance: number }>;
 
       // Trying to spawn multiple enemies
       for (let i = 0; i < MAX_OF_ENEMIES; i++) {
@@ -168,12 +169,21 @@ export function createMapLogic(deps: MapLogicDeps) {
           break;
         }
 
+        // Getting the name of the enemy
         const result = this.ponderedChance(enemiesList);
         if (!result) return null;
         const [enemyKey] = result as [SpawnableEnemy, Ponderable];
 
+        // Getting the level of the enemy
+        const regionLevel = random(mapsData[regionKey]["baseLevel"][1], mapsData[regionKey]["baseLevel"][0])
+        const enemyBonus = enemiesData[enemyKey]["levelMod"]
+        const sectionBonus = sectionNum * SECTION_LEVEL_MULTIPLIER
+        const enemyLevel = Math.round(Math.max((regionLevel + enemyBonus + sectionBonus), 1))
+
+        console.log("name:", enemyKey, "level:", enemyLevel)
+
         // Adding the enemies to the enemies to spawn list
-        enemiesToSpawn.push({ name: enemyKey });
+        enemiesToSpawn.push({ name: enemyKey, level: enemyLevel });
 
         // If the allow multiples enemies is false, break the loop
         if (!allowMultipleEnemies) {
@@ -189,6 +199,7 @@ export function createMapLogic(deps: MapLogicDeps) {
     createSection(regionKey: MapsKey, events: Event[], startingId: number) {
       // Updating the event with an ID and enemies to spawn
       let lastEventId = startingId;
+      let sectionNum = getGame().currentMapSection;
       for (let event of events) {
         // ID
         event.eventId = lastEventId + 1;
@@ -196,10 +207,17 @@ export function createMapLogic(deps: MapLogicDeps) {
 
         // Enemies
         if (["battle", "bossBattle"].includes(event?.type)) {
-          const enemiesToSpawn = this.generateEnemies(regionKey, event?.type, event.allowMultipleEnemies);
+          const enemiesToSpawn = this.generateEnemies(
+            regionKey, 
+            event?.type, 
+            event.allowMultipleEnemies,
+            sectionNum
+          );
 
           event.enemiesToSpawn = enemiesToSpawn;
         }
+
+        sectionNum++;
       }
 
       return [
