@@ -67,6 +67,15 @@ function DeathScreen() {
             Enemies Killed: {<ValueIncrement finalValue={playerActions.getCurrent().kills} duration={timeForEach} />}
           </p>
         )}
+        {/* SECTION REACHED */}
+        {infoId >= 2 && (
+          <p
+            style={{
+              visibility: infoId >= 1 ? "visible" : "hidden",
+            }}>
+            Section Reached: {<ValueIncrement finalValue={game.getCurrent().currentMapSection} duration={timeForEach} />}
+          </p>
+        )}
       </div>
       <Link to="/menu">
         <button disabled={finished ? false : true} className={`${styles.returnBtn} default`}>
