@@ -1,3 +1,10 @@
+# [1.3.0-beta.2](https://github.com/guilhermebitt/the-react/compare/v1.3.0-beta.1...v1.3.0-beta.2) (2026-06-28)
+
+
+### Features
+
+* **infinite:** the game is now temporaly infinity ([2df6fad](https://github.com/guilhermebitt/the-react/commit/2df6fadd0e793952f893795818afe4720f78b466))
+
 # [1.3.0-beta.1](https://github.com/guilhermebitt/the-react/compare/v1.2.1-beta.1...v1.3.0-beta.1) (2026-04-23)
 
 
