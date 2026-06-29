@@ -1,7 +1,10 @@
 // inventoryStore.ts
 import { create } from "zustand";
-import { Item, ItemType } from "@/types/items";
-import { ITEM_REGISTRY, ItemIds } from "@/types/constants";
+import { ItemType } from "@/types/items";
+import { ITEM_IDS, ITEM_REGISTRY, ITEM_TYPES, ITEM_TYPES_SUBTYPES, ItemIds, rarities, SUB_TYPES } from "@/types/constants";
+import { Rarity } from "@/types";
+import { ponderedChance, random } from "@/utils/functions";
+import { items } from "@/data/items";
 
 // Type for save
 type InvData = {
@@ -10,7 +13,7 @@ type InvData = {
 };
 
 // Slots types
-const SLOT_TYPES = ["helmet", "chestplate", "legging", "boots", "weapon", "shield", "charm1", "charm2"] as const;
+const SLOT_TYPES = ["helmet", "chestplate", "legging", "boots", "weapon", "shield", "charm", "charm"] as const;
 
 // Slot type
 type Slot = {
@@ -41,6 +44,10 @@ type InventoryStoreAction = {
   removeItem: (index: number, where?: "inventory" | "equipments") => void;
   generateInventory: (size: number) => Inventory;
   generateEquipments: () => Inventory;
+  generateItem: (
+    rarity?: Rarity, 
+    category?: (typeof ITEM_TYPES)[number], 
+    type?: (typeof SUB_TYPES)[number]) => ItemType;
   reset: () => void;
   loadSave: (invData: InvData) => void;
   checkSlotType: (where: "inventory" | "equipments", index: number, item: ItemType) => boolean;
@@ -66,6 +73,35 @@ const generateEquipments = () => {
   }));
 };
 
+// Generate random items properties
+const generateItemProperties = (itemCategory?: (typeof ITEM_TYPES)[number]): [Rarity, (typeof ITEM_TYPES)[number], (typeof SUB_TYPES)[number]] => {
+  const result = ponderedChance(rarities);
+  let category = itemCategory;
+
+  const rarity = result?.[0] as Rarity;
+  if (!category) category = ITEM_TYPES[random(ITEM_TYPES.length - 1)];
+  const type = ITEM_TYPES_SUBTYPES[category][random(ITEM_TYPES_SUBTYPES[category].length - 1)];
+
+  return [rarity, category, type];
+}
+
+// Get the possible items filtered by properties
+const generatePossibleItems = (rarity: Rarity, category: (typeof ITEM_TYPES)[number], type: (typeof SUB_TYPES)[number]) => {
+  return Object.entries(items)
+      .flatMap(([category, categoryItems]) =>
+        Object.values(categoryItems).map(item => ({
+          ...item,
+          category,
+        }))
+      )
+      .filter(item => {
+        if (rarity && item.rarity !== rarity) return false;
+        if (category && item.type !== category) return false;
+        if (type && item.subtype !== type) return false;
+        return true;
+      }).map(item => item.id);
+}
+
 export const useInventoryStore = create<InventoryStore>((set, get) => ({
   // Inventory slots
   inventory: generateInventory(36),
@@ -84,10 +120,38 @@ export const useInventoryStore = create<InventoryStore>((set, get) => ({
 
   // Function to generate equipments slots
   generateEquipments: () => {
-    return Array.from({ length: 8 }, (i: number) => ({
-      item: undefined,
-      slotType: SLOT_TYPES[i],
-    }));
+    return Array.from({ length: 8 }).map((_, i) => ({
+    item: undefined,
+    slotType: SLOT_TYPES[i],
+  }));
+  },
+
+  // Function that generates an item
+  generateItem: (rarity, category, type) => {
+    let itemRarity = rarity;
+    let itemCategory = category;
+    let itemType = type;
+    
+    // Getting a random rarity
+    if (!itemRarity) itemRarity = generateItemProperties()[0];
+    // Getting a random category
+    if (!itemCategory) itemCategory = generateItemProperties()[1];
+    // Getting a random type
+    if (!itemType) itemType = generateItemProperties(itemCategory)[2];
+    
+    // Getting possible items ids
+    let ids = generatePossibleItems(itemRarity, itemCategory, itemType);
+    
+    // If there is not an item with that properties
+    if (ids.length === 0) {
+      while (ids.length === 0) {
+        const [rarity, category, type] = generateItemProperties()
+        ids = generatePossibleItems(rarity, category, type)
+      }
+    };
+
+    // Getting a random item and returning it
+    return ids[random(ids.length - 1)];
   },
 
   setDraggedIndex: (index, where = "inventory") => {
@@ -119,9 +183,7 @@ export const useInventoryStore = create<InventoryStore>((set, get) => ({
 
     if (newDraggedIndex[where] === null || !result) return;
 
-    //if ()
-
-    // troca os itens
+    // Change the items
     [newInventory[index], newInventory[targetIndex]] = [newInventory[targetIndex], newInventory[index]];
 
     newDraggedIndex[where] = null;
@@ -199,7 +261,10 @@ export const useInventoryStore = create<InventoryStore>((set, get) => ({
     const slot = get()[where][index];
 
     // Creating the result of the operation
-    let result = slot?.slotType === item.type;
+    let result = 
+    item.type === "armor" ?
+      slot?.slotType === (item.subtype as any) :
+      slot?.slotType === item.type
 
     // If the slot does not have an item type, it will accept the item
     if (!slot?.slotType) {

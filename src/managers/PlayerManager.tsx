@@ -18,6 +18,7 @@ export function PlayerManager() {
   const player = useStore("player", "actions");
   const experience = useStore("player", s => s.player.xp);
   const increases = useStore("player", s => s.player.increases);
+  const levelIncreases = useStore("player", s => s.player.levelIncreases);
   const onKill = useStore("player", s => s.player.onKill);
 
   // Getting the other datas
@@ -78,9 +79,41 @@ export function PlayerManager() {
     }
   }, [actions.isDead()]);
 
+  // value = baseValue + increases + levelIncreases
+  const updateStats = () => {
+    const baseStats = playerData.stats;
+    const playerStats = player.getCurrent().stats;
+
+    // Saving the difference of stat / maxStat
+    const statsDifference = {
+      health: playerStats.maxHealth - playerStats.health,
+      mana: playerStats?.mana && (playerStats.maxMana as any - playerStats.mana) || 0
+    };
+
+    // Traveling for each stat of the player:
+    // key = stat name | value = value of the stat
+    for (const [key, baseValue] of Object.entries(baseStats)) {
+      // value = baseValue + increases + levelIncreases
+      let value = baseValue as number + 
+        (increases?.[key as keyof Increases] ?? 0) + 
+        (levelIncreases?.[key as keyof Increases]  ?? 0);
+
+      // Removing the difference
+      if (Object.keys(statsDifference).includes(key)) value -= (statsDifference as any)[key];
+
+      // Safety
+      if (key === "maxAttack" && value < playerStats.minAttack) value = playerStats.minAttack;
+      if (key === "maxDefense" && value < playerStats.minDefense) value = playerStats.minDefense
+
+      // Updating the player stat
+      player.update({[`stats.${key}`]: value});
+    }
+  }
+
   // Function that controls the stats of the player, so when the player levelup,
   // this function will be called, when the player get a perk, this function will be called.
-  const updateStats = () => {
+  // DEPRECIATED
+  const updateStats2 = () => {
     // Getting the base stats
     const baseStats = playerData.stats;
     const playerStats = player.getCurrent().stats;

@@ -4,6 +4,15 @@ import { useGameStore } from "@/stores";
 import mapsJson from "../data/maps.json";
 const maps: object | any = mapsJson;
 
+// Custom interface for ponderable objects
+interface Ponderable {
+  // All ponderable objects must have an appearChance
+  appearChance: number;
+
+  // All other keys can be any
+  [key: string]: any;
+};
+
 // ----- FUNCTIONS -----
 
 // Function to send a message to the terminal
@@ -97,4 +106,40 @@ export function random(max: number, min: number = 0) {
   const array = new Uint32Array(1);
   crypto.getRandomValues(array);
   return min + (array[0] % (max + 1 - min));
+}
+
+// Creates the ponderedChance of an array of objects with appearChance
+export function ponderedChance(PonderableArray: { [key: string]: Ponderable }): [string, Ponderable] | null {
+  // Converts the entries of the array to [key, value]
+  let arrayEntries = structuredClone(Object.entries(PonderableArray));
+
+  for (const item of arrayEntries) {
+    // If the obj appearChance is equals to 0, skip this for
+    if (item[1]?.appearChance === 0) continue;
+
+    // If the obj does not have an appearChance, returns
+    if (!item[1]?.appearChance) {
+      console.warn("⚠️ obj of array in ponderedChance() does not have an appearChance.");
+      return null;
+    }
+  }
+
+  // Sorting the array
+  const sortedArray = structuredClone(arrayEntries).sort((a, b) => b[1].appearChance - a[1].appearChance);
+
+  // Variable to storage sum of all chances
+  const totalChance = sortedArray.reduce((acc, [, obj]) => acc + obj.appearChance, 0);
+
+  // Generating the roll random number
+  const roll = random(totalChance);
+  let cumulative = 0;
+
+  for (const [key, obj] of sortedArray) {
+    cumulative += obj.appearChance;
+    //console.log("Object:", key, "Roll:", roll, "Cumulative:", cumulative);
+    if (roll <= cumulative) return [key, obj];
+  }
+
+  // Just in case that something went wrong
+  return ponderedChance(PonderableArray);
 }

@@ -30,10 +30,11 @@ interface Stats {
   maxMana?: number;
   mana?: number;
 
-  attack: number;
-  strength: number;
-  defense: number;
-  constitution: number;
+  minAttack: number;
+  maxAttack: number;
+  minDefense: number;
+  maxDefense: number;
+  
   crit: number;
   critChance: number;
   accuracy: number;
@@ -79,6 +80,7 @@ export interface BaseEntityData {
   kills: number;
   level: number;
 
+  levelIncreases: Increases;
   increases: Increases;
   onKill: OnKill;
 

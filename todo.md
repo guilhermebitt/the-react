@@ -26,3 +26,8 @@
 - [ ] Novo sistema de "iniciativa" para as entidades
 - [ ] Converter todos os arquivos para .tsx ou .ts (pode ser feito aos poucos)
 - [ ] Adicionar Kobold
+
+## Filosofia do The
+Nível: garante uma progressão estável (vida, ataque, defesa e um pouco de mana).
+Equipamentos: são a principal fonte de aumento de atributos.
+Perks: mudam a forma de jogar, não apenas aumentam números.

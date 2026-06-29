@@ -11,6 +11,18 @@ export const EVENTS_TYPES = ["battle", "bossBattle"] as const;
 
 // Items constants (DO NOT ALTER THE ORDER!)
 export const ITEM_TYPES = ["weapon", "armor", "consumable", "artifact"] as const;
+export const ARMOR_TYPES = ["helmet", "chestplate", "legging", "boots"] as const;
+
+export const ITEM_TYPES_SUBTYPES = {
+  "weapon": [],
+  "armor": ARMOR_TYPES,
+  "consumable": [],
+  "artifact": [],
+};
+
+export const SUB_TYPES = [...ARMOR_TYPES]
+
+
 
 // Stats that are changed at the players level up
 export const STATS_UPDATED_ON_LEVEL_UP = ["maxHealth", "health", "maxMana", "mana", "attack", "defense"] as const;
@@ -43,12 +55,19 @@ export const rarities = {
 // Weapon Ids
 export type WeaponIds = keyof typeof items.weapons;
 export const WEAPON_IDS = Object.keys(items.weapons) as WeaponIds[];
+
+// Armor Ids
+export type ArmorIds = keyof typeof items.armors;
+export const ARMOR_IDS = Object.keys(items.armors) as ArmorIds[];
+
 // Consumable Ids
 export type ConsumableIds = keyof typeof items.consumables;
 export const CONSUMABLE_IDS = Object.keys(items.consumables) as ConsumableIds[];
+
 // Item Ids
-export type ItemIds = WeaponIds | ConsumableIds;
-export const ITEM_IDS = [...WEAPON_IDS, ...CONSUMABLE_IDS] as ItemIds[];
+export type ItemIds = WeaponIds | ArmorIds | ConsumableIds;
+export const ITEM_IDS = [...WEAPON_IDS, ...ARMOR_IDS, ...CONSUMABLE_IDS] as ItemIds[];
+
 // Items Registry
 export const ITEM_REGISTRY = Object.fromEntries(
   Object.values(items).flatMap((category) => Object.entries(category))

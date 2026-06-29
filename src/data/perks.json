@@ -111,7 +111,7 @@
   "powerBoost": {
     "id": "powerBoost",
     "name": "Power Boost",
-    "description": "Increases the value of player's attack by {attack}",
+    "description": "Increases the value of player's max attack by {maxAttack}",
     "rarity": "uncommon",
     "iconURL": "/assets/perks/battle/power_boost.png",
 
@@ -121,18 +121,18 @@
     "category": "battle",
     "effects": {
       "increases": {
-        "attack": 5
+        "maxAttack": 2
       }
     },
     
     "translates": {
-      "attack": 5
+      "maxAttack": 2
     }
   },
   "defenseBoost": {
     "id": "defenseBoost",
     "name": "Defense Boost",
-    "description": "Increases the value of player's defense by {defense}",
+    "description": "Increases the value of player's defense by {maxDefense}",
     "rarity": "uncommon",
     "iconURL": "/assets/perks/battle/defense_boost.png",
 
@@ -142,18 +142,20 @@
     "category": "battle",
     "effects": {
       "increases": {
-        "defense": 5
+        "maxDefense": 1,
+        "minDefense": 1
       }
     },
     
     "translates": {
-      "defense": 5
+      "maxDefense": 1,
+      "minDefense": 1
     }
   },
   "powerMode": {
     "id": "powerMode",
     "name": "Power Mode",
-    "description": "Increases the value of player's attack by {attack}, but decreases defense by {defense}",
+    "description": "Increases the value of player's max attack by {maxAttack}, but decreases max defense by {maxDefense}",
     "rarity": "uncommon",
     "iconURL": "/assets/perks/battle/power_mode.png",
 
@@ -163,20 +165,20 @@
     "category": "battle",
     "effects": {
       "increases": {
-        "attack": 8,
-        "defense": -3
+        "maxAttack": 3,
+        "maxDefense": -1
       }
     },
     
     "translates": {
-      "attack": 8,
-      "defense": 3
+      "maxAttack": 3,
+      "maxDefense": 1
     }
   },
   "defenseMode": {
     "id": "defenseMode",
     "name": "Defense Mode",
-    "description": "Increases the value of player's defense by {defense}, but decreases attack by {attack}",
+    "description": "Increases the value of player's defense by {maxDefense}, but decreases attack by {maxAttack}",
     "rarity": "uncommon",
     "iconURL": "/assets/perks/battle/defense_mode.png",
 
@@ -186,14 +188,14 @@
     "category": "battle",
     "effects": {
       "increases": {
-        "defense": 8,
-        "attack": -3
+        "maxDefense": 3,
+        "maxAttack": -1
       }
     },
     
     "translates": {
-      "defense": 8,
-      "attack": 3
+      "maxDefense": 3,
+      "maxAttack": 1
     }
   },
   "crystalHeart": {
@@ -332,7 +334,7 @@
   "strength": {
     "id": "strength",
     "name": "Strength",
-    "description": "Increases the value of the player's strength by {strength}",
+    "description": "Increases the value of the player's attack by {strength}",
     "rarity": "epic",
     "iconURL": "/assets/perks/battle/strength.png",
 
@@ -342,18 +344,19 @@
     "category": "battle",
     "effects": {
       "increases": {
-        "strength": 1
+        "maxAttack": 3,
+        "minAttack": 3
       }
     },
 
     "translates": {
-      "strength": 1
+      "strength": 3
     }
   },
   "constitution": {
     "id": "constitution",
     "name": "Constitution",
-    "description": "Increases the value of the player's constitution by {constitution}",
+    "description": "Increases the value of the player's defense by {constitution}",
     "rarity": "epic",
     "iconURL": "/assets/perks/battle/constitution.png",
 
@@ -363,12 +366,13 @@
     "category": "battle",
     "effects": {
       "increases": {
-        "constitution": 1
+        "maxDefense": 3,
+        "minDefense": 3
       }
     },
     
     "translates": {
-      "constitution": 1
+      "constitution": 3
     }
   },
   "bloodLust": {
@@ -384,7 +388,8 @@
     "category": "battle",
     "effects": {
       "onKill": {
-        "attack": 1
+        "maxAttack": 1,
+        "minAttack": 1
       }
     },
 
@@ -405,7 +410,8 @@
     "category": "battle",
     "effects": {
       "onKill": {
-        "defense": 1
+        "maxDefense": 1,
+        "minDefense": 1
       }
     },
 
@@ -474,8 +480,10 @@
         "health": 5,
         "maxMana": 5,
         "mana": 5,
-        "attack": 5,
-        "defense": 5,
+        "maxAttack": 5,
+        "minAttack": 5,
+        "maxDefense": 5,
+        "minDefense": 5,
         "critChance": 5,
         "accuracy": 5,
         "evasion": 5

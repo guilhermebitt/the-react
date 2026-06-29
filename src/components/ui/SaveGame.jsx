@@ -59,7 +59,7 @@ function SaveGame({ saveId }) {
       enemies: [],
       game: gameData,
       inventory: inv.generateInventory(36),
-      equipments: inv.generateInventory(8),
+      equipments: inv.generateEquipments(),
       tick: 0
     });
 

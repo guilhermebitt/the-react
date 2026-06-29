@@ -1,15 +1,17 @@
 // Importing constants
-import { ITEM_TYPES } from "@/types/constants"
+import { ARMOR_TYPES, ITEM_TYPES } from "@/types/constants"
 import { Rarity } from "./global";
 
 // Exporting types
-export type ItemType = Weapon | Consumable;
+export type ItemType = Weapon | Shield | Armor | Consumable | Charm;
+export type ArmorType = Helmet | Chestplate | Legging | Boots;
 
 // Type for item object
 type Item = {  // Base for all items
   id: string
   name: string
   description: string
+  subDescription?: string
   imagePath: string
 
   rarity: Rarity
@@ -21,7 +23,15 @@ type Item = {  // Base for all items
 // WEAPON
 type Weapon = Item & {
   type: typeof ITEM_TYPES[0]
-  baseDamage: number
+  damage: number,
+  multiplier: number
+}
+
+// WEAPON
+type Armor = Item & {
+  type: typeof ITEM_TYPES[1]
+  subtype: typeof ARMOR_TYPES,
+  defense: number
 }
 
 // CONSUMABLE

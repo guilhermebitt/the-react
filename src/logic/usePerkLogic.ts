@@ -166,7 +166,7 @@ export function usePerkLogic() {
         // Catch the increases object of the perk
         const increases = perk["effects"]["increases"];
 
-        // Another for that navigates between the increases object
+        // Another "for" that navigates between the increases object
         for (const [key, value] of Object.entries(increases as Increases)) {
           // Checks if the increase key is equals to a player stat
           if (Object.keys(playerJson.stats).includes(key)) {
@@ -203,7 +203,7 @@ export function usePerkLogic() {
               player.update({ "stats.health": player.getCurrent().stats.maxHealth })
               skipUpdate = true;
             }
-            if (key === "mana" && player.getCurrent().stats.mana + value > player.getCurrent().stats.maxMana) {
+            if (key === "mana" && player.getCurrent().stats.mana + value > player.getCurrent().stats.maxMana!) {
               player.update({ "stats.mana": player.getCurrent().stats.maxMana })
               skipUpdate = true;
             }

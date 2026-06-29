@@ -42,7 +42,8 @@
 
   position: absolute;
 
-  width: 100px;
+  width: fit-content;
+  max-width: 300px;
   height: fit-content;
 
   background-color: black;
@@ -51,7 +52,7 @@
 }
 
 .modal button {
-  width: 100%;
+  width: 100px;
   padding: 5px 0px;
 
   align-items: center;

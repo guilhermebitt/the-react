@@ -7,7 +7,7 @@ import rawEnemiesData from '../data/enemies.json' with { type: 'json' };
 import { GameData, GameUpdater, MapsData, MapsKey, Event, SpawnableEnemy, EventType, EnemyData } from "@/types";
 
 // Other 
-import { random } from "@/utils/functions";
+import { random, ponderedChance } from "@/utils/functions";
 
 // Conversion of JSON to types
 const mapsData = rawMapsData as unknown as MapsData;
@@ -44,47 +44,10 @@ export function createMapLogic(deps: MapLogicDeps) {
   const { getGame, updateGame, eventsLogic } = deps;
 
   return {
-    // Creates the ponderedChance of an array of objects with appearChance
-    ponderedChance(PonderableArray: { [key: string]: Ponderable }): [string, Ponderable] | null {
-      // Converts the entries of the array to [key, value]
-      let arrayEntries = structuredClone(Object.entries(PonderableArray));
-
-      for (const item of arrayEntries) {
-        // If the obj appearChance is equals to 0, skip this for
-        if (item[1]?.appearChance === 0) continue;
-
-        // If the obj does not have an appearChance, returns
-        if (!item[1]?.appearChance) {
-          console.warn("⚠️ obj of array in ponderedChance() does not have an appearChance.");
-          return null;
-        }
-      }
-
-      // Sorting the array
-      const sortedArray = structuredClone(arrayEntries).sort((a, b) => b[1].appearChance - a[1].appearChance);
-
-      // Variable to storage sum of all chances
-      const totalChance = sortedArray.reduce((acc, [, obj]) => acc + obj.appearChance, 0);
-
-      // Generating the roll random number
-      const roll = random(totalChance);
-      let cumulative = 0;
-
-      for (const [key, obj] of sortedArray) {
-        cumulative += obj.appearChance;
-        const validKeys = Object.keys(mapsData) as MapsKey[];
-        //console.log("Object:", key, "Roll:", roll, "Cumulative:", cumulative);
-        if (roll <= cumulative) return [key, obj];
-      }
-
-      // Just in case that something went wrong
-      return this.ponderedChance(PonderableArray);
-    },
-
     // Generates a map region
     createRegion() {
       // Getting a region by generating it from a pondered chance
-      const result = this.ponderedChance(mapsData as { [key: string]: Ponderable }) as [MapsKey, Ponderable];
+      const result = ponderedChance(mapsData as { [key: string]: Ponderable }) as [MapsKey, Ponderable];
 
       // Returns null if the result fails
       if (!result) return null;
@@ -130,7 +93,7 @@ export function createMapLogic(deps: MapLogicDeps) {
       let events = [];
 
       // Getting a event by generating it from a pondered chance
-      const result = this.ponderedChance(eventsData as unknown as { [key: string]: Ponderable });
+      const result = ponderedChance(eventsData as unknown as { [key: string]: Ponderable });
       if (!result) return null;
       const [, eventTemplate] = result; // Deconstructing the result
       events.push(structuredClone(eventTemplate));
@@ -138,7 +101,7 @@ export function createMapLogic(deps: MapLogicDeps) {
       // Verifies if the section will have two events
       const doubleEventRoll = random(100);
       if (doubleEventRoll < game?.doubleEventChance && allowMultipleEvents) {
-        const secondResult = this.ponderedChance(eventsData as unknown as { [key: string]: Ponderable });
+        const secondResult = ponderedChance(eventsData as unknown as { [key: string]: Ponderable });
         if (secondResult) {
           const [, secondEventTemplate] = secondResult;
           events.push(structuredClone(secondEventTemplate));
@@ -170,7 +133,7 @@ export function createMapLogic(deps: MapLogicDeps) {
         }
 
         // Getting the name of the enemy
-        const result = this.ponderedChance(enemiesList);
+        const result = ponderedChance(enemiesList);
         if (!result) return null;
         const [enemyKey] = result as [SpawnableEnemy, Ponderable];
 
@@ -179,8 +142,6 @@ export function createMapLogic(deps: MapLogicDeps) {
         const enemyBonus = enemiesData[enemyKey]["levelMod"]
         const sectionBonus = sectionNum * SECTION_LEVEL_MULTIPLIER
         const enemyLevel = Math.round(Math.max((regionLevel + enemyBonus + sectionBonus), 1))
-
-        console.log("name:", enemyKey, "level:", enemyLevel)
 
         // Adding the enemies to the enemies to spawn list
         enemiesToSpawn.push({ name: enemyKey, level: enemyLevel });

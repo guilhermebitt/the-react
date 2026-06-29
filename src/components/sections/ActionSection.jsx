@@ -28,6 +28,7 @@ function ActionSection() {
   // Stores
   const playerActions = useStore("player", "actions");
   const enemiesActions = useStore("enemies", "actions");
+  const inventory = useStore("inventory", "actions");
   const game = useStore("game", "actions");
 
   // Function to realize an attack
@@ -100,7 +101,7 @@ function ActionSection() {
       <ActionButtons
         attack={doAttack}
         changeAnim={null}
-        sendMsg={() => perkLogic.createPerk("critEye")}
+        sendMsg={() => inventory.addItem("iron_sword")}
         endTurn={() =>
           game.getCurrent().currentTurn === "player" &&
           confirmScreen(() => {

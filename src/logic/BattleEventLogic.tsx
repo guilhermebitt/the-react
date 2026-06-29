@@ -68,13 +68,13 @@ export function BattleEventLogic() {
     }
     
     // to discover then save the enemy to the bestiary store
-    enemies.getCurrent().forEach((e) => {
+    (enemies.getCurrent() as Enemy[]).forEach((e: Enemy) => {
       if (!(e.className in bestiary.getCurrent())) 
       {
         bestiary.discover(e.className);
         funcs.phrase("New bestiary entry: " + e.name, "lightskyblue");
       } 
-    });
+    }) ;
     
     // Resetting the player's actions
     player.update({ actionsLeft: player.getCurrent().actions })
@@ -156,7 +156,7 @@ export function BattleEventLogic() {
   }, [enemy1, enemy2, enemy3])
 
   useEffect(() => {
-    const handleKeyDown = (e) => 
+    const handleKeyDown = (e: any) => 
     {
       if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return
       if (e.key === "ArrowRight") selected ++;
@@ -175,7 +175,7 @@ export function BattleEventLogic() {
       statusLogic.createStatus("CombustionBurn", 3); // TESTING TEMP
 
       // I think this works now
-      const enemiesArray = enemies.getCurrent(); 
+      const enemiesArray = enemies.getCurrent() as Enemy[]; 
 
       selectedmax = enemiesArray.length;
 

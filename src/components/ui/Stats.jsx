@@ -16,13 +16,21 @@ function Stats() {
       <div className={styles.statsContainer}>
         <div className={styles.statHolder}>
           <img src="/assets/hud/sword.png" alt="" />
-          Str: <span>{stats?.strength}</span>
-          Atk: <span>{stats?.attack}</span>
+          Atk: <span>{stats?.minAttack} - {stats?.maxAttack}</span>
+        </div>
+        <div className={styles.statHolder}>
+          <img src="/assets/hud/crit.png" alt="" />
+          Crit: <span>{stats?.critChance}%</span>
+          Mult: <span>{stats?.crit}</span>
         </div>
         <div className={styles.statHolder}>
           <img src="/assets/hud/shield.png" alt="" />
-          Con: <span>{stats?.constitution}</span>
-          Def: <span>{stats?.defense}</span>
+          Def: <span>{stats?.minDefense} - {stats?.maxDefense}</span>
+        </div>
+        <div className={styles.statHolder}>
+          <img src="/assets/hud/stamina.png" alt="" />
+          Acc: <span>{stats?.accuracy}%</span>
+          Eva: <span>{stats?.evasion}%</span>
         </div>
         <div className={styles.statHolder}>
           <img src="/assets/hud/coin.png" alt="" />

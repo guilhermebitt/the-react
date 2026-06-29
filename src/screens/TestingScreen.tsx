@@ -30,8 +30,9 @@ function TestingScreen() {
       {/* New Features Section */}
       <section>
         <InventorySection />
-        <button onClick={() => {inv.addItem("iron_sword")}}>Add item</button>
+        <button onClick={() => {inv.addItem("unknown_helmet")}}>Add item</button>
         <button onClick={() => {inv.addItem("iron_sword", 'equipments')}}>Add equipment</button>
+        <button onClick={() => {inv.generateItem()}}>Generate Item</button>
       </section>
     </main>
   );

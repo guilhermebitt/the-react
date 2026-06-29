@@ -1,11 +1,13 @@
 // Dependencies
 import { immerable } from "immer";
+import { useInventoryStore } from "@/stores";
 
 // Importing player data from player.json
 import playerJson from "@/data/player.json";
 
 // Importing the interface of EntityData
-import { BaseEntityData, PlayerData, EnemyData, Increases, UpdaterPatch, EntityData, Stats } from "@/types";
+import { BaseEntityData, PlayerData, EnemyData, Increases, UpdaterPatch, EntityData, Stats, Weapon, Armor } from "@/types";
+import { phrase } from "./functions";
 
 type EnemyActions = "attack";
 
@@ -68,15 +70,19 @@ export class Entity {
     let loot = null;
     let dmg = 0;
     let crit = 0;
-    const attack = this.stats.attack;
-    const strength = this.stats.strength;
+    const minAtk = this.stats.minAttack
+    const maxAtk = this.stats.maxAttack
+    const weapon = useInventoryStore.getState().equipments[4]?.item as Weapon
 
     // Crit
     this.random(100) > this.stats.critChance ? (crit = 1) : (crit = this.stats.crit);
 
     // Generating damage
-    for (let i = 0; i < strength * crit; i++) {
-      dmg += this.random(attack, 1); // 1 -> attack
+    dmg += this.random(maxAtk, minAtk) * crit; // 1 -> baseAtk
+    if (this.entityType === "player" && weapon) {
+      for(let i = 0; i < weapon.multiplier; i++) {
+        dmg += this.random(weapon.damage, 1); // 1 -> damage
+      }
     }
 
     // Reducing the enemy's life
@@ -118,13 +124,22 @@ export class Entity {
 
   calcDamageReduction() {
     // This function can be used later for effectiveness (e.g. Water is super effectiveness against Fire)
-    const constitution = this?.stats?.constitution;
-    const defense = this?.stats?.defense;
+    const minDef = this?.stats?.minDefense;
+    const maxDef = this?.stats?.maxDefense;
     let damageReduction = 0;
+    // Getting armor
+    const helmet = useInventoryStore.getState().equipments[0]?.item as Armor
+    const chestplate = useInventoryStore.getState().equipments[0]?.item as Armor
+    const legging = useInventoryStore.getState().equipments[0]?.item as Armor
+    const boots = useInventoryStore.getState().equipments[0]?.item as Armor
 
     // Generating damage reduction
-    for (let i = 0; i < constitution; i++) {
-      damageReduction += this.random(defense, 1); // 1 -> defense
+    damageReduction += this.random(maxDef, minDef); // 1 -> defense
+    if (this.entityType === "player") {
+      helmet?.defense && (damageReduction += this.random(helmet?.defense, 1)); // 1 -> armorDef
+      chestplate?.defense && (damageReduction += this.random(chestplate?.defense, 1)); // 1 -> armorDef
+      legging?.defense && (damageReduction += this.random(legging?.defense, 1)); // 1 -> armorDef
+      boots?.defense && (damageReduction += this.random(boots?.defense, 1)); // 1 -> armorDef
     }
 
     return damageReduction;
@@ -139,7 +154,8 @@ export class Entity {
     const realDmg = Math.max(1, amount - dmgRed); // The min damage that will be done if the attacker hits, is 1
 
     // Debugging
-    console.log("Damage: ", amount, "Reduction: ", dmgRed, "Real Damage", realDmg);
+    console.log("Damage: ", amount, "Reduction: ", dmgRed, "Real Damage: ", realDmg);
+    phrase(`Damage: ${amount} Reduction: ${dmgRed} Real Damage: ${realDmg}`);
 
     // Reduce the health, never below 0
     this.update({
@@ -175,7 +191,7 @@ export class Player extends Entity {
   }
 
   // Functions to calc the new player stats with increments
-  incrementStats() {
+  incrementStats2() {
     // Keys that is updated when the player levels up
     const levelUpKeys = ["maxHealth", "health", "attack", "defense"];
 
@@ -228,33 +244,65 @@ export class Player extends Entity {
     return newValue - baseValue;
   }
 
-  // Function that levels up the player
   levelUp(level: number, skipUpdate = false) {
+    // Constants
+    const STATS_TO_INCREASE = 
+      ["maxHealth", "health", "maxMana", "mana", "maxAttack", "minAttack", "maxDefense","minDefense"];
+    const GROWTH_RATE = 1;
+
+    if (skipUpdate) return GROWTH_RATE * (level - 1);
+
+    for(const stat of STATS_TO_INCREASE) {
+      if (["maxHealth", "health", "maxMana", "mana"].includes(stat)) {
+        this.update({ [`levelIncreases.${stat}`]: GROWTH_RATE * (level - 1) + 1})  // Updates more
+      } else {
+        this.update({ [`levelIncreases.${stat}`]: GROWTH_RATE * (level - 1) })
+      }
+    }
+
+    // Setting levelup state animation
+    const newStatesAnim = structuredClone(this.states);
+    newStatesAnim.push("leveling");
+    this.update({ states: newStatesAnim });
+    setTimeout(() => {
+      this.update({ states: (prev) => prev.filter((item) => item !== "leveling") });
+    }, 1000);
+  }
+
+  // Function that levels up the player
+  levelUp2(level: number, skipUpdate = false) {
     // Getting the base stats values
     const BASE_HEALTH = playerJson["stats"]["health"];
-    const BASE_ATTACK = playerJson["stats"]["attack"];
-    const BASE_DEFENSE = playerJson["stats"]["defense"];
-    const GROWTH_RATE = 1.5;
+    const [MIN_ATTACK, MAX_ATTACK] = [playerJson["stats"]["minAttack"], playerJson["stats"]["maxAttack"]];
+    const [MIN_DEFENSE, MAX_DEFENSE] = [playerJson["stats"]["minDefense"], playerJson["stats"]["maxDefense"]];
+    const GROWTH_RATE = 1;
 
     // Setting up the next player stats
-    const newHealth = Math.floor(BASE_HEALTH * (1 + (level - 1) * (GROWTH_RATE - 1)));
-    const newAttack = Math.floor(BASE_ATTACK * (1 + (level - 1) * (GROWTH_RATE - 1)));
-    const newDefense = Math.floor(BASE_DEFENSE * (1 + (level - 1) * (GROWTH_RATE - 1)));
+    //const newHealth = Math.floor(BASE_HEALTH * (1 + (level - 1) * (GROWTH_RATE - 1)));
+    //const newAttack = Math.floor(BASE_ATTACK * (1 + (level - 1) * (GROWTH_RATE - 1)));
+    //const newDefense = Math.floor(BASE_DEFENSE * (1 + (level - 1) * (GROWTH_RATE - 1)));
+    const newHealth = BASE_HEALTH + ((GROWTH_RATE * 2) * level)  // The health will increase faster
+    const newMinAtk = MIN_ATTACK + (GROWTH_RATE * level)
+    const newMaxAtk = MAX_ATTACK + (GROWTH_RATE * level)
+    const newMinDef = MIN_DEFENSE + (GROWTH_RATE * level)
+    const newMaxDef = MAX_DEFENSE + (GROWTH_RATE * level)
 
-    const oldHealth = (level > 1) ? (Math.floor(BASE_HEALTH * (1 + (level - 2) * (GROWTH_RATE - 1)))) : BASE_HEALTH;
+    const oldHealth = (level > 1) ? this.stats.health : BASE_HEALTH;
 
     // Skipping the update
-    console.log("attack:", newAttack, "defense:", newDefense)
-    if (skipUpdate) return { newHealth, newAttack, newDefense };
+    console.log("attack:", [newMinAtk, newMaxAtk], "defense:", [newMinDef, newMaxDef])
+    if (skipUpdate) return { newHealth, newMinAtk, newMaxAtk, newMinDef, newMaxDef };
 
     // Updating player stats
     this.update({ "stats.health": (prev) => prev + (newHealth - oldHealth) });
     this.update({ "stats.maxHealth": newHealth });
-    this.update({ "stats.attack": newAttack });
-    this.update({ "stats.defense": newDefense });
+    this.update({ "stats.minAttack": newMinAtk });
+    this.update({ "stats.maxAttack": newMaxAtk });
+    this.update({ "stats.minDefense": newMinDef });
+    this.update({ "stats.maxDefense": newMaxDef });
 
     // Now, recalculating the player increments
-    this.incrementStats();
+    //this.incrementStats();
 
     // Setting levelup state animation
     const newStatesAnim = structuredClone(this.states);
@@ -265,7 +313,7 @@ export class Player extends Entity {
     }, 1000);
 
     // Returning the new stats
-    return { newHealth, newAttack, newDefense };
+    return { newHealth, newMinAtk, newMaxAtk, newMinDef, newMaxDef };
   }
 
   // Functions that verify if the player can levelUp
@@ -273,6 +321,7 @@ export class Player extends Entity {
     // Verifies if the player has sufficient experience to levelup
     if (this.xp >= this.getNextLvXP()) {
       let newLevel = level + 1;
+      this.levelUp(newLevel)
 
       // Trying to levelup again
       while (this.xp >= this.getNextLvXP(newLevel)) {
