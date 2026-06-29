@@ -1,3 +1,10 @@
+# [1.3.0-beta.3](https://github.com/guilhermebitt/the-react/compare/v1.3.0-beta.2...v1.3.0-beta.3) (2026-06-29)
+
+
+### Features
+
+* **combat system:** The combat system was changed and improved. ([7905eba](https://github.com/guilhermebitt/the-react/commit/7905eba4b9d3e6e3046337269e8c0cd1511e56d5))
+
 # [1.3.0-beta.2](https://github.com/guilhermebitt/the-react/compare/v1.3.0-beta.1...v1.3.0-beta.2) (2026-06-28)
 
 
