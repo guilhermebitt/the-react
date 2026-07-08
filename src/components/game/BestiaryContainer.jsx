@@ -80,10 +80,8 @@ function BestiaryContainer() {
                 <div className={`${styles.innerStatsContainer}`} style={selectedEnemy.name != '‎' ? { display: `flex` } : { display: 'none' }}>
                   <h3> HP  </h3><span>{`${selectedEnemy.stats.maxHealth}`}</span>
                   <h3> XP  </h3><span>{`${selectedEnemy.loot.xp}`.replace(","," ~ ")}</span>
-                  <h3> STR </h3><span>{`${selectedEnemy.stats.strength}`}</span>
-                  <h3> ATK </h3><span>{`${selectedEnemy.stats.attack}`}</span>
-                  <h3> CON </h3><span>{`${selectedEnemy.stats.constitution}`}</span>
-                  <h3> DEF </h3><span>{`${selectedEnemy.stats.defense}`}</span>
+                  <h3> ATK </h3><span>{`${selectedEnemy.stats.minAttack} ~ ${selectedEnemy.stats.maxAttack}`}</span>
+                  <h3> DEF </h3><span>{`${selectedEnemy.stats.minDefense} ~ ${selectedEnemy.stats.maxDefense}`}</span>
                   <h3> ACC </h3><span>{`${selectedEnemy.stats.accuracy}`}</span>
                   <h3> EVA </h3><span>{`${selectedEnemy.stats.evasion}`}</span>
                   <h3> CCH </h3><span>{`${selectedEnemy.stats.critChance}`}</span>
