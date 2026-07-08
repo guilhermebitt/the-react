@@ -16,6 +16,62 @@ export const items = {
       type: "weapon",
       damage: 10,
       multiplier: 1
+    },
+    gold_sword: {
+      id: "gold_sword",
+      name: "Gold Sword",
+      description: "An expensive sword, forged with gold.",
+      subDescription: "Damage: 12",
+      rarity: "rare",
+      imagePath: "/assets/items/weapons/gold_sword.png",
+
+      stackable: false,
+
+      type: "weapon",
+      damage: 12,
+      multiplier: 1
+    },
+    silver_sword: {
+      id: "silver_sword",
+      name: "Silver Sword",
+      description: "A gleaming silver sword, perfect for killing werewolves.",
+      subDescription: "Damage: 15",
+      rarity: "rare",
+      imagePath: "/assets/items/weapons/silver_sword.png",
+
+      stackable: false,
+
+      type: "weapon",
+      damage: 15,
+      multiplier: 1
+    },
+    cleaver: {
+      id: "cleaver",
+      name: "Cleaver",
+      description: "A cleaver, good for butchering, not so much for fighting.",
+      subDescription: "Damage: 6",
+      rarity: "common",
+      imagePath: "/assets/items/weapons/cleaver.png",
+
+      stackable: false,
+
+      type: "weapon",
+      damage: 6,
+      multiplier: 1
+    },
+    cursed_cleaver: {
+      id: "cursed_cleaver",
+      name: "Cursed Cleaver",
+      description: "A cursed weapon previously wielded by a butcher, better to not let this thing out of your sight.",
+      subDescription: "Damage: 10 Multiplier: 1.5",
+      rarity: "rare",
+      imagePath: "/assets/items/weapons/cursed_cleaver.png",
+
+      stackable: false,
+
+      type: "weapon",
+      damage: 10,
+      multiplier: 1.5
     }
   },
 
@@ -36,6 +92,34 @@ export const items = {
       subtype: "helmet",
       defense: 20
     },
+    crusade_helmet: {
+      id: "crusade_helmet",
+      name: "Crusade Helmet",
+      description: 'A simple but sturdy knight helmet',
+      subDescription: "Defense: 5",
+      rarity: "common",
+      imagePath: "/assets/items/armors/crusade_helmet.png",
+
+      stackable: false,
+
+      type: "armor",
+      subtype: "helmet",
+      defense: 5
+    },
+    demonic_helmet: {
+      id: "demonic_helmet",
+      name: "Demonic Helmet",
+      description: 'A helmet made of 100% demon materials! ... well technically 60%',
+      subDescription: "Defense: 10",
+      rarity: "rare",
+      imagePath: "/assets/items/armors/demonic_helmet.png",
+
+      stackable: false,
+
+      type: "armor",
+      subtype: "helmet",
+      defense: 10
+    },
   },
 
   // CONSUMABLES
@@ -47,7 +131,18 @@ export const items = {
       rarity: "common",
       imagePath: "/assets/items/consumables/small_healing_potion.png",
 
-      stackable: false,
+      stackable: true,
+
+      type: "consumable"
+    },
+    small_mana_potion: {
+      id: "small_mana_potion",
+      name: "Small Mana Potion",
+      description: "A potion created with simple forest materials that heals your soul",
+      rarity: "common",
+      imagePath: "/assets/items/consumables/small_mana_potion.png",
+
+      stackable: true,
 
       type: "consumable"
     }
