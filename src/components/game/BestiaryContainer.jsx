@@ -18,6 +18,7 @@ import { useStore } from '@/stores';
 import styles from './BestiaryContainer.module.css';
 import '../../assets/css/scrollbar.css';
 import { Enemy } from "@/utils/entities";
+import Terminal from "./Terminal";
 
 function BestiaryContainer() {
   // Stores
@@ -27,6 +28,17 @@ function BestiaryContainer() {
   const [, setSettings] = useLocalStorage('settings');
 
   const discovered = bestiary.getCurrent() || {};
+  const [level, setLevel] = useState(1);
+
+  const GROWTH_RATE = 1.25;
+  const scaleStat = (base) =>
+  Math.floor(base * (1 + (level - 1) * (GROWTH_RATE - 1)));
+
+        // Stat = default * const(1.5) * level - 1
+        // Exemple:
+        // snake lv 1 => health = 8
+        // snake lv 2 => health = 12
+        //maxHealth: Math.floor(BASE_HEALTH * (1 + (level - 1) * (GROWTH_RATE - 1)))
 
   function closeBestiary() {
     setSettings(
@@ -38,6 +50,10 @@ function BestiaryContainer() {
 
   function selectBestiary(enemy) {
     setSelectedEnemy(enemy);
+  }
+
+  function checkLevel(e) {
+    setLevel(Number(e.target.value));
   }
 
   return (
@@ -52,12 +68,17 @@ function BestiaryContainer() {
         titleStyles={{ backgroundColor: 'black' }}
       >
         <div className={styles.bestiaryContainer}>
-          <button className={styles.close} onClick={closeBestiary}>
+          <div className={styles.bestiaryOptions}>
+            <button className={styles.close} onClick={closeBestiary}>
             <FontAwesomeIcon 
               id={styles["music-icon"]} 
               icon={faXmark}
             />
-          </button>
+            </button>
+            <div></div>
+            <input type="number" className={styles.input} min={1} max={99} value={level} onChange={checkLevel}></input>
+            <h1>LV:</h1>
+          </div>
         
           <div className={styles.innerBestiaryContainer}>
             <div className={`${styles.textContainer} scrollbar-black`}>
@@ -78,10 +99,10 @@ function BestiaryContainer() {
                 
                 <h1 style={{ color: selectedEnemy.isBoss === true ? "red" : "white"}}>{`${selectedEnemy.name}`}</h1>
                 <div className={`${styles.innerStatsContainer}`} style={selectedEnemy.name != '‎' ? { display: `flex` } : { display: 'none' }}>
-                  <h3> HP  </h3><span>{`${selectedEnemy.stats.maxHealth}`}</span>
-                  <h3> XP  </h3><span>{`${selectedEnemy.loot.xp}`.replace(","," ~ ")}</span>
-                  <h3> ATK </h3><span>{`${selectedEnemy.stats.minAttack} ~ ${selectedEnemy.stats.maxAttack}`}</span>
-                  <h3> DEF </h3><span>{`${selectedEnemy.stats.minDefense} ~ ${selectedEnemy.stats.maxDefense}`}</span>
+                  <h3> HP  </h3><span>{`${scaleStat(selectedEnemy.stats.maxHealth)}`}</span>
+                  <h3> XP  </h3><span>{`${scaleStat(selectedEnemy.loot.xp[0])} ~ ${scaleStat(selectedEnemy.loot.xp[1])}`}</span>
+                  <h3> ATK </h3><span>{`${scaleStat(selectedEnemy.stats.minAttack)} ~ ${scaleStat(selectedEnemy.stats.maxAttack)}`}</span>
+                  <h3> DEF </h3><span>{`${scaleStat(selectedEnemy.stats.minDefense)} ~ ${scaleStat(selectedEnemy.stats.maxDefense)}`}</span>
                   <h3> ACC </h3><span>{`${selectedEnemy.stats.accuracy}`}</span>
                   <h3> EVA </h3><span>{`${selectedEnemy.stats.evasion}`}</span>
                   <h3> CCH </h3><span>{`${selectedEnemy.stats.critChance}`}</span>

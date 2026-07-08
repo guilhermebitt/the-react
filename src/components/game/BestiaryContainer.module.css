@@ -74,7 +74,7 @@
   font-size: 1.60rem;
   height: 20%;
   text-align: left;
-  padding-left: 20px;
+  padding-left: 15px;
 }
 .textContainer > a  {
   color: rgb(107, 107, 107);
@@ -87,6 +87,35 @@
   display: flex;
   flex-direction: column;
   height: 500px;
+}
+
+.bestiaryOptions {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.bestiaryOptions > input {
+  background-color: transparent;
+  align-self: center;
+  color: white;
+  border: 1px solid white;
+  border-radius: 5px;
+  height: 70%;
+  width: 30%;
+  font-size: 1.2em;
+  padding-left: 10px;
+}
+
+.bestiaryOptions > h1 {
+  color: white;
+  height: 100%;
+  width: 10%;
+  font-size: 1.75em;
+}
+
+.bestiaryOptions > div {
+  height: 100%;
+  width: 80%;
 }
 
 .innerBestiaryContainer {

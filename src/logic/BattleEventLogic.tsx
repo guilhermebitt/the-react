@@ -194,9 +194,13 @@ export function BattleEventLogic() {
   const createEntityObj = useCallback((name: SpawnableEnemy, level = 1): EnemyData => {
     // Getting the base stats values
     const BASE_HEALTH = enemiesJson[name]["stats"]["health"];
-    const BASE_ATTACK = enemiesJson[name]["stats"]["attack"];
-    const BASE_DEFENSE = enemiesJson[name]["stats"]["defense"];
-    const GROWTH_RATE = 1.5;
+    const BASE_MN_ATTACK = enemiesJson[name]["stats"]["minAttack"];
+    const BASE_MX_ATTACK = enemiesJson[name]["stats"]["maxAttack"];
+    const BASE_MN_DEFENSE = enemiesJson[name]["stats"]["minDefense"];
+    const BASE_MX_DEFENSE = enemiesJson[name]["stats"]["maxDefense"];
+    const BASE_MN_XP = enemiesJson[name]["loot"]["xp"][0];
+    const BASE_MX_XP = enemiesJson[name]["loot"]["xp"][1];
+    const GROWTH_RATE = 1.25;
 
     const entity = new Object({
       ...enemiesJson["commonProperties"],
@@ -208,14 +212,19 @@ export function BattleEventLogic() {
       },
       stats: {
         ...enemiesJson[name]["stats"],
-        // Stat = default * const(1.5) * level - 1
+        // Stat = default * const(1.25) * level - 1
         // Exemple:
         // snake lv 1 => health = 8
-        // snake lv 2 => health = 12
+        // snake lv 2 => health = 10
         maxHealth: Math.floor(BASE_HEALTH * (1 + (level - 1) * (GROWTH_RATE - 1))),
         health: Math.floor(BASE_HEALTH * (1 + (level - 1) * (GROWTH_RATE - 1))),
-        attack: Math.floor(BASE_ATTACK * (1 + (level - 1) * (GROWTH_RATE - 1))),
-        defense: Math.floor(BASE_DEFENSE * (1 + (level - 1) * (GROWTH_RATE - 1))),
+        minAttack: Math.floor(BASE_MN_ATTACK * (1 + (level - 1) * (GROWTH_RATE - 1))),
+        maxAttack: Math.floor(BASE_MX_ATTACK * (1 + (level - 1) * (GROWTH_RATE - 1))),
+        minDefense: Math.floor(BASE_MN_DEFENSE * (1 + (level - 1) * (GROWTH_RATE - 1))),
+        maxDefense: Math.floor(BASE_MX_DEFENSE * (1 + (level - 1) * (GROWTH_RATE - 1))),
+      },
+      loot: {
+        xp: [Math.floor(BASE_MN_XP * (1 + (level - 1) * (GROWTH_RATE - 1))), Math.floor(BASE_MX_XP * (1 + (level - 1) * (GROWTH_RATE - 1)))],
       },
     }) as EnemyData;
 
