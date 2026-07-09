@@ -10,7 +10,7 @@ export const VALID_TURNS = ["player", "enemies", "onAction", null] as const;
 export const EVENTS_TYPES = ["battle", "bossBattle"] as const;
 
 // Items constants (DO NOT ALTER THE ORDER!)
-export const ITEM_TYPES = ["weapon", "armor", "consumable", "artifact"] as const;
+export const ITEM_TYPES = ["weapon", "armor", "consumable", "artifact", "shield"] as const;
 export const ARMOR_TYPES = ["helmet", "chestplate", "legging", "boots"] as const;
 
 export const ITEM_TYPES_SUBTYPES = {
@@ -18,6 +18,7 @@ export const ITEM_TYPES_SUBTYPES = {
   "armor": ARMOR_TYPES,
   "consumable": [],
   "artifact": [],
+  "shield": [],
 };
 
 export const SUB_TYPES = [...ARMOR_TYPES]
@@ -56,6 +57,10 @@ export const rarities = {
 export type WeaponIds = keyof typeof items.weapons;
 export const WEAPON_IDS = Object.keys(items.weapons) as WeaponIds[];
 
+// Shield Ids
+export type ShieldIds = keyof typeof items.shields;
+export const SHIELD_IDS = Object.keys(items.shields) as ShieldIds[];
+
 // Armor Ids
 export type ArmorIds = keyof typeof items.armors;
 export const ARMOR_IDS = Object.keys(items.armors) as ArmorIds[];
@@ -66,7 +71,7 @@ export const CONSUMABLE_IDS = Object.keys(items.consumables) as ConsumableIds[];
 
 // Item Ids
 export type ItemIds = WeaponIds | ArmorIds | ConsumableIds;
-export const ITEM_IDS = [...WEAPON_IDS, ...ARMOR_IDS, ...CONSUMABLE_IDS] as ItemIds[];
+export const ITEM_IDS = [...WEAPON_IDS, ...SHIELD_IDS, ...ARMOR_IDS, ...CONSUMABLE_IDS] as ItemIds[];
 
 // Items Registry
 export const ITEM_REGISTRY = Object.fromEntries(

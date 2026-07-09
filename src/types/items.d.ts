@@ -38,3 +38,9 @@ type Armor = Item & {
 type Consumable = Item & {
   type: typeof ITEM_TYPES[2]
 }
+
+// SHIELD
+type Shield = Item & {
+  type: typeof ITEM_TYPES[3]
+  defense: number
+} 

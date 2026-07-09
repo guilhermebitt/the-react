@@ -22,7 +22,7 @@ export const items = {
       name: "Gold Sword",
       description: "An expensive sword, forged with gold.",
       subDescription: "Damage: 12",
-      rarity: "rare",
+      rarity: "uncommon",
       imagePath: "/assets/items/weapons/gold_sword.png",
 
       stackable: false,
@@ -59,6 +59,20 @@ export const items = {
       damage: 6,
       multiplier: 1
     },
+    double_cleaver: {
+      id: "double_cleaver",
+      name: "Double Cleavers",
+      description: "Two cleavers, small enough to dual wield.",
+      subDescription: "Damage: 12",
+      rarity: "uncommon",
+      imagePath: "/assets/items/weapons/double_cleaver.png",
+
+      stackable: false,
+
+      type: "weapon",
+      damage: 12,
+      multiplier: 1
+    },
     cursed_cleaver: {
       id: "cursed_cleaver",
       name: "Cursed Cleaver",
@@ -72,7 +86,65 @@ export const items = {
       type: "weapon",
       damage: 10,
       multiplier: 1.5
+    },
+    mana_dagger: {
+      id: "mana_dagger",
+      name: "Mana Dagger",
+      description: "A hilt that manifests a sharp dagger when held by someone with magic.",
+      subDescription: "Damage: 16",
+      rarity: "rare",
+      imagePath: "/assets/items/weapons/mana_dagger.png",
+
+      stackable: false,
+
+      type: "weapon",
+      damage: 16,
+      multiplier: 1
+    },
+    moonBlade: {
+      id: "moonBlade",
+      name: "Moon Blade",
+      description: "A sharp blade that shines like the light of the moon, it was said to be created at midnight on a full moon.",
+      subDescription: "Damage: 24",
+      rarity: "epic",
+      imagePath: "/assets/items/weapons/moonblade.png",
+
+      stackable: false,
+
+      type: "weapon",
+      damage: 24,
+      multiplier: 1
     }
+  },
+
+  // SHIELDS
+  shields: {
+    makeshift_shield: {
+      id: "makeshift_shield",
+      name: "Makeshift Shield",
+      description: "A hastely made shield, of tree bark",
+      subDescription: "Defense: 3",
+      rarity: "common",
+      imagePath: "/assets/items/weapons/makeshift_shield.png",
+
+      stackable: false,
+
+      type: "shield",
+      defense: 3
+    },  
+    guard_shield: {
+      id: "guard_shield",
+      name: "Guard Shield",
+      description: "A good shield used by town guards",
+      subDescription: "Defense: 5",
+      rarity: "common",
+      imagePath: "/assets/items/weapons/guard_shield.png",
+
+      stackable: false,
+
+      type: "shield",
+      defense: 5
+    },  
   },
 
   // ARMORS
@@ -91,6 +163,20 @@ export const items = {
       type: "armor",
       subtype: "helmet",
       defense: 20
+    },
+    leather_cap: {
+      id: "leather_cap",
+      name: "Leather Cap",
+      description: 'A cheap cap made of leather, doesn`t offer much protection',
+      subDescription: "Defense: 3",
+      rarity: "common",
+      imagePath: "/assets/items/armors/leather_cap.png",
+
+      stackable: false,
+
+      type: "armor",
+      subtype: "helmet",
+      defense: 3
     },
     crusade_helmet: {
       id: "crusade_helmet",
@@ -111,7 +197,7 @@ export const items = {
       name: "Demonic Helmet",
       description: 'A helmet made of 100% demon materials! ... well technically 60%',
       subDescription: "Defense: 10",
-      rarity: "rare",
+      rarity: "uncommon",
       imagePath: "/assets/items/armors/demonic_helmet.png",
 
       stackable: false,
