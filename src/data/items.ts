@@ -114,6 +114,21 @@ export const items = {
       type: "weapon",
       damage: 24,
       multiplier: 1
+      // crit chance: 20 ?
+    },
+    gun: {
+      id: "gun",
+      name: "Strange Weapon",
+      description: "A strange weapon from unknown origins, seems to be quite strong, it has the word 'EAGLE' on it.",
+      subDescription: "Damage: 30",
+      rarity: "epic",
+      imagePath: "/assets/items/weapons/gun.png",
+
+      stackable: false,
+
+      type: "weapon",
+      damage: 30,
+      multiplier: 1
     }
   },
 
@@ -144,6 +159,19 @@ export const items = {
 
       type: "shield",
       defense: 5
+    },   
+    crusade_shield: {
+      id: "crusade_shield",
+      name: "Crusade Shield",
+      description: "A strong and heavy shield used by knights on crusades, with a symbol of the their home kingdom",
+      subDescription: "Defense: 10",
+      rarity: "uncommon",
+      imagePath: "/assets/items/weapons/crusade_shield.png",
+
+      stackable: false,
+
+      type: "shield",
+      defense: 10
     },  
   },
 
@@ -196,7 +224,7 @@ export const items = {
       id: "demonic_helmet",
       name: "Demonic Helmet",
       description: 'A helmet made of 100% demon materials! ... well technically 60%',
-      subDescription: "Defense: 10",
+      subDescription: "Defense: 7",
       rarity: "uncommon",
       imagePath: "/assets/items/armors/demonic_helmet.png",
 
@@ -204,7 +232,22 @@ export const items = {
 
       type: "armor",
       subtype: "helmet",
+      defense: 7
+    },
+    magician_hat: {
+      id: "magician_hat",
+      name: "Magician Hat",
+      description: 'A magic hat created by a magician, wearing it gives the user a protective barrier around them',
+      subDescription: "Defense: 10",
+      rarity: "epic",
+      imagePath: "/assets/items/armors/magician_hat.png",
+
+      stackable: false,
+
+      type: "armor",
+      subtype: "helmet",
       defense: 10
+      // mana: 10 ?
     },
   },
 
