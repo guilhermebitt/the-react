@@ -8,10 +8,7 @@ import LogContainer from "./components/game/LogContainer";
 import BestiaryContainer from "./components/game/BestiaryContainer";
 
 // Managers
-import { AudioManager, PlayerManager, EnemiesManager, InventoryManager, MapManager } from "@/managers";
-
-// Logics
-import { BattleEventLogic } from "@/logic";
+import { AudioManager, BattleManager, PlayerManager, MapManager } from "@/managers";
 
 // Screens
 import Menu from "./screens/Menu";
@@ -24,7 +21,7 @@ import Credits from "./screens/Credits";
 import TestingScreen from "./screens/TestingScreen";
 
 // Stylesheet
-import "./assets/css/App.css";
+import "@/assets/css/App.css";
 
 function App() {
   return (
@@ -94,8 +91,6 @@ function Managers() {
     <>
       <AudioManager />
       <PlayerManager />
-      <EnemiesManager />
-      <InventoryManager />
       <MapManager />
     </>
   );
@@ -105,7 +100,7 @@ function Managers() {
 function Logics() {
   return (
     <>
-      <BattleEventLogic />
+      <BattleManager />
     </>
   )
 }

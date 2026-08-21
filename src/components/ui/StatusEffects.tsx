@@ -1,6 +1,6 @@
 // Dependencies
 import { useState, useEffect } from "react";
-import { useStatusLogic } from "@/logic/statusLogic";
+import { useStatusLogic } from "@/hooks";
 
 // Components
 import StatusModal from "./StatusModal";

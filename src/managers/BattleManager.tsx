@@ -1,4 +1,4 @@
-// This manager will control all the logic of the game without causing a unnecessary re-render on any component
+// Coordinates battle side effects without rendering UI.
 
 // Data
 import settingsJson from "../data/settings.json";
@@ -12,10 +12,10 @@ import { useLogic } from "@/hooks";
 import enemiesJson from "@/data/enemies.json";
 import { Enemy } from "@/utils/entities";
 import { useLocalStorage } from "usehooks-ts";
-import { useStatusLogic } from "@/logic/statusLogic";
+import { useStatusLogic } from "@/hooks";
 
 // Logic manager
-export function BattleEventLogic() {
+export function BattleManager() {
   // Debugging
   // console.log("battle event logics reloaded...")
 
@@ -110,7 +110,6 @@ export function BattleEventLogic() {
       logic.switchTurn("enemies");
     }
 
-
     // Verifying if the last turn was onAction.
     // If the last turn was onAction, that means that
     // the entity is just going back to its turn, but
@@ -192,26 +191,28 @@ export function BattleEventLogic() {
   // FUNCTIONS
   // Creates a object (EnemyData) of the enemy to spawn
   const createEntityObj = useCallback((name: SpawnableEnemy, level = 1): EnemyData => {
+    const enemyData = enemiesJson[name] as unknown as EnemyData;
+
     // Getting the base stats values
-    const BASE_HEALTH = enemiesJson[name]["stats"]["health"];
-    const BASE_MN_ATTACK = enemiesJson[name]["stats"]["minAttack"];
-    const BASE_MX_ATTACK = enemiesJson[name]["stats"]["maxAttack"];
-    const BASE_MN_DEFENSE = enemiesJson[name]["stats"]["minDefense"];
-    const BASE_MX_DEFENSE = enemiesJson[name]["stats"]["maxDefense"];
-    const BASE_MN_XP = enemiesJson[name]["loot"]["xp"][0];
-    const BASE_MX_XP = enemiesJson[name]["loot"]["xp"][1];
+    const BASE_HEALTH = enemyData.stats.health;
+    const BASE_MN_ATTACK = enemyData.stats.minAttack;
+    const BASE_MX_ATTACK = enemyData.stats.maxAttack;
+    const BASE_MN_DEFENSE = enemyData.stats.minDefense;
+    const BASE_MX_DEFENSE = enemyData.stats.maxDefense;
+    const BASE_MN_XP = enemyData.loot.xp[0];
+    const BASE_MX_XP = enemyData.loot.xp[1];
     const GROWTH_RATE = 1.25;
 
     const entity = new Object({
       ...enemiesJson["commonProperties"],
-      ...enemiesJson[name],
+      ...enemyData,
       level: level,
       animations: {
-        ...enemiesJson[name]["animations"],
+        ...enemyData.animations,
         ...enemiesJson["deathAnimation"],
       },
       stats: {
-        ...enemiesJson[name]["stats"],
+        ...enemyData.stats,
         // Stat = default * const(1.25) * level - 1
         // Exemple:
         // snake lv 1 => health = 8

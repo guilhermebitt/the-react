@@ -1,6 +1,6 @@
 // Dependencies
 import { useState, useEffect } from "react";
-import { usePerkLogic } from "@/logic/usePerkLogic";
+import { usePerkLogic } from "@/hooks";
 
 // Components
 import PerkModal from "./PerkModal";

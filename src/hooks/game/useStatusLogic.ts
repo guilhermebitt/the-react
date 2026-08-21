@@ -1,15 +1,13 @@
-// Data
+// Game-domain hook
 import rawStatusData from "@/data/status.json";
-import * as funcs from "../utils/functions";
+import * as funcs from "@/utils/functions";
 
 // Dependencies
 import { useStore } from "@/stores";
 import { useEffect, useState, useMemo } from "react";
 
 // Types
-import { OnRoundEnd, Stats, Status, StatusKey, StatusUnion } from "@/types";
-import { Entity } from "@/utils/entities";
-import { stat } from "node:fs/promises";
+import { Stats, Status, StatusKey, StatusUnion } from "@/types";
 
 interface descKeys {
   [key: string]: any;
@@ -163,7 +161,7 @@ export function useStatusLogic() {
             if (typeof values === "number") {
               player.update({
                 [`stats.${StatKey}`]:
-                Math.max(0 ,player.getCurrent().stats[StatKey] - values),
+                Math.max(0, player.getCurrent().stats[StatKey]! - values),
               });
             }
 
@@ -189,10 +187,10 @@ export function useStatusLogic() {
           }
 
           if (onRoundEndPercentile.mana) {
-            value = Math.ceil(onRoundEndPercentile.mana/100 * player.getCurrent().stats.maxMana);
+            value = Math.ceil(onRoundEndPercentile.mana/100 * player.getCurrent().stats.maxMana!);
             player.update({
               [`stats.mana`]:
-              Math.max(0 ,player.getCurrent().stats.mana - value),
+              Math.max(0, player.getCurrent().stats.mana! - value),
             });
             
             funcs.phrase("Player took " + value + " " + status.category + " damage", "lightgreen");
@@ -220,7 +218,7 @@ export function useStatusLogic() {
             if (typeof values === "number") {
               player.update({
                 [`stats.${StatKey}`]:
-                Math.max(0 ,player.getCurrent().stats[StatKey] - values),
+                Math.max(0, player.getCurrent().stats[StatKey]! - values),
               });
             }
 

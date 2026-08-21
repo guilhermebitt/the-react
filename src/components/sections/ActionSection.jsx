@@ -11,7 +11,7 @@ import ConfirmDialog from "../common/ConfirmDialog";
 // Hooks
 import { useLogic } from "@/hooks";
 import { useStore } from "@/stores";
-import { usePerkLogic } from "@/logic/usePerkLogic";
+import { usePerkLogic } from "@/hooks";
 
 // Stylesheet
 import styles from "./sections.module.css";

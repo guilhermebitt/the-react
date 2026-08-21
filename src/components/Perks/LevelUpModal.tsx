@@ -1,5 +1,5 @@
 // Dependencies
-import { usePerkLogic } from "@/logic/usePerkLogic";
+import { usePerkLogic } from "@/hooks";
 import { memo, useEffect } from "react";
 import { useStore } from "@/stores";
 
@@ -9,7 +9,7 @@ import { Perk } from "@/types";
 import { rarities } from "@/types/constants";
 
 // Perks, just for testing
-let perks: any = []
+let perks: Perk[] = []
 
 // Level up Component
 function LevelUpModal() {

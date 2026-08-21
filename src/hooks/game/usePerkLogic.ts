@@ -1,4 +1,4 @@
-// Data
+// Game-domain hook
 import playerJson from "@/data/player.json";
 import rawPerksData from "@/data/perks.json";
 
